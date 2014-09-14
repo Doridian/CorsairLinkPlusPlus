@@ -1,4 +1,5 @@
 ﻿using CorsairLinkPlusPlus.Driver;
+using CorsairLinkPlusPlus.Driver.Link;
 using CorsairLinkPlusPlus.Driver.USB;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace CorsairLinkPlusPlus.CLI
 {
     class Program
     {
-        public static string ByteArrayToString(byte[] ba)
+        public static string ByteArrayToHexString(byte[] ba)
         {
             StringBuilder hex = new StringBuilder(ba.Length * 2);
             foreach (byte b in ba)
@@ -21,14 +22,14 @@ namespace CorsairLinkPlusPlus.CLI
         static void Main(string[] args)
         {
             CorsairLinkDeviceEnumerator enumerator = new CorsairLinkDeviceEnumerator();
-            List<CorsairLinkUSBDevice> devices = enumerator.GetDevices();
-            CorsairLinkUSBDevice device = devices[0];
+            List<CorsairLinkUSBDevice> usbDevices = enumerator.GetDevices();
+            CorsairLinkUSBDevice usbDevice = usbDevices[0];
 
-            //Console.Out.WriteLine(ByteArrayToString(device.MakeCommand(new byte[] {0x0A, 0x02, 0x08})));
-
-            Console.Out.WriteLine(ByteArrayToString(device.SendCommand(0x4F, 0x00, new byte[] { })));
-            //Console.Out.WriteLine(ByteArrayToString(device.SendCommand(new byte[] { 0x0B, 0x02, 0x08 })));
-            //Console.Out.WriteLine(ByteArrayToString(device.SendCommand(new byte[] { 0x07, 0x00 })));
+            List<CorsairLinkDevice> devices = usbDevice.GetSubDevices();
+            foreach (CorsairLinkDevice device in devices)
+            {
+                Console.Out.WriteLine("Found: " + device.GetDeviceName() + ", " + string.Format("{0:x2}", device.GetDeviceID()) + ", " + string.Format("{0:x4}", device.GetFirmwareVersion()) + ", " + device.GetFanCount());
+            }
 
             Console.In.ReadLine();
         }
