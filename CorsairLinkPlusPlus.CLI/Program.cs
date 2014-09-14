@@ -1,4 +1,5 @@
 ﻿using CorsairLinkPlusPlus.Driver;
+using CorsairLinkPlusPlus.Driver.USB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace CorsairLinkPlusPlus.CLI
 
         static void Main(string[] args)
         {
-            DeviceEnumerator enumerator = new DeviceEnumerator();
+            CorsairLinkDeviceEnumerator enumerator = new CorsairLinkDeviceEnumerator();
             List<CorsairLinkDevice> devices = enumerator.GetDevices();
             CorsairLinkDevice device = devices[0];
 
