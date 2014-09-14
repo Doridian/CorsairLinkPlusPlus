@@ -42,13 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="USB\CorsairLinkDevice.cs" />
+    <Compile Include="Link\CorsairLinkDevice.cs" />
+    <Compile Include="Link\CommanderMini.cs" />
+    <Compile Include="USB\CorsairLinkUSBDevice.cs" />
     <Compile Include="USB\CorsairLinkDeviceEnumerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
