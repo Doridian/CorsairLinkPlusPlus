@@ -42,8 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CorsairLinkDevice.cs" />
-    <Compile Include="CorsairLinkDriver.cs" />
+    <Compile Include="USB\CorsairLinkDevice.cs" />
+    <Compile Include="USB\CorsairLinkDeviceEnumerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

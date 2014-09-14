@@ -21,8 +21,8 @@ namespace CorsairLinkPlusPlus.CLI
         static void Main(string[] args)
         {
             CorsairLinkDeviceEnumerator enumerator = new CorsairLinkDeviceEnumerator();
-            List<CorsairLinkDevice> devices = enumerator.GetDevices();
-            CorsairLinkDevice device = devices[0];
+            List<CorsairLinkUSBDevice> devices = enumerator.GetDevices();
+            CorsairLinkUSBDevice device = devices[0];
 
             //Console.Out.WriteLine(ByteArrayToString(device.MakeCommand(new byte[] {0x0A, 0x02, 0x08})));
 

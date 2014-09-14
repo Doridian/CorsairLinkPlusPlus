@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace CorsairLinkPlusPlus.Driver.USB
 {
-    public class CorsairLinkDevice
+    public class CorsairLinkUSBDevice
     {
         private readonly HidDevice hidDevice;
         protected int commandNo = 20;
 
-        internal CorsairLinkDevice(HidDevice hidDevice)
+        internal CorsairLinkUSBDevice(HidDevice hidDevice)
         {
             this.hidDevice = hidDevice;
         }
@@ -49,23 +49,23 @@ namespace CorsairLinkPlusPlus.Driver.USB
             return ReadResponse();
         }
 
-        internal static CorsairLinkDevice CreateFromHIDDevice(HidDevice hidDevice)
+        internal static CorsairLinkUSBDevice CreateFromHIDDevice(HidDevice hidDevice)
         {
             switch (hidDevice.Attributes.ProductId)
             {
                 case 0x0C02: /* Commander PID */
-                    return CorsairLinkDeviceOldCommander.CreateFromOldHIDDevice(hidDevice);
+                    return CorsairLinkUSBDeviceOld.CreateFromOldHIDDevice(hidDevice);
                 case 0x0C04:
-                    return new CorsairLinkDevice(hidDevice);
+                    return new CorsairLinkUSBDevice(hidDevice);
                 default:
                     return null;
             }
         }
     }
 
-    public class CorsairLinkDeviceOldCommander : CorsairLinkDevice
+    public class CorsairLinkUSBDeviceOld : CorsairLinkUSBDevice
     {
-        internal CorsairLinkDeviceOldCommander(HidDevice hidDevice)
+        internal CorsairLinkUSBDeviceOld(HidDevice hidDevice)
             : base(hidDevice)
         {
 
@@ -90,9 +90,9 @@ namespace CorsairLinkPlusPlus.Driver.USB
             return _response;
         }
 
-        internal static CorsairLinkDeviceOldCommander CreateFromOldHIDDevice(HidDevice hidDevice)
+        internal static CorsairLinkUSBDeviceOld CreateFromOldHIDDevice(HidDevice hidDevice)
         {
-            return new CorsairLinkDeviceOldCommander(hidDevice);
+            return new CorsairLinkUSBDeviceOld(hidDevice);
         }
     }
 }

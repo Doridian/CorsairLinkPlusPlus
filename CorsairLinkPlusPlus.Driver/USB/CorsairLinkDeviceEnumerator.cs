@@ -9,14 +9,14 @@ namespace CorsairLinkPlusPlus.Driver.USB
 {
     public class CorsairLinkDeviceEnumerator
     {
-        public List<CorsairLinkDevice> GetDevices()
+        public List<CorsairLinkUSBDevice> GetDevices()
         {
             IEnumerable<HidDevice> hidDevices = HidDevices.Enumerate(0x1B1C /* Corsair VID */);
 
-            List<CorsairLinkDevice> devices = new List<CorsairLinkDevice>();
+            List<CorsairLinkUSBDevice> devices = new List<CorsairLinkUSBDevice>();
             foreach (HidDevice hidDevice in hidDevices)
             {
-                CorsairLinkDevice device = CorsairLinkDevice.CreateFromHIDDevice(hidDevice);
+                CorsairLinkUSBDevice device = CorsairLinkUSBDevice.CreateFromHIDDevice(hidDevice);
                 if(device != null)
                     devices.Add(device);
             }
