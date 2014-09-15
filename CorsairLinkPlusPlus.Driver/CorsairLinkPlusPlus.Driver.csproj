@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CorsairBaseDevice.cs" />
     <Compile Include="Node\CorsairLinkDevice.cs" />
     <Compile Include="Node\CorsairLinkDeviceAFP.cs" />
     <Compile Include="Node\CorsairLinkDevicePMBUS.cs" />

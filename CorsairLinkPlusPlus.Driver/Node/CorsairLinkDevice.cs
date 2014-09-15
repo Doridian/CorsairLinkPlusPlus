@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.Node
 {
-    public abstract class CorsairLinkDevice
+    public abstract class CorsairLinkDevice : CorsairBaseDevice
     {
         internal static CorsairLinkDevice CreateNew(CorsairLinkUSBDevice usbDevice, byte channel, byte deviceType)
         {
@@ -31,6 +31,11 @@ namespace CorsairLinkPlusPlus.Driver.Node
             this.channel = channel;
         }
 
+        public bool IsPresent()
+        {
+            return true;
+        }
+
         internal byte ReadSingleByteRegister(byte register)
         {
             return usbDevice.ReadSingleByteRegister(register, channel);
@@ -51,10 +56,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
             usbDevice.WriteRegister(register, channel, bytes);
         }
 
-        public virtual string GetDeviceName()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract string GetName();
+
         public virtual int GetCoolerCount()
         {
             return 0;
@@ -91,9 +94,9 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return new CorsairThermistor(this, id);
         }
 
-        public virtual List<CorsairLinkDevice> GetSubDevices()
+        public virtual List<CorsairBaseDevice> GetSubDevices()
         {
-            return new List<CorsairLinkDevice>();
+            return new List<CorsairBaseDevice>(GetSensors());
         }
 
         internal virtual double GetTemperatureDegC(int id)

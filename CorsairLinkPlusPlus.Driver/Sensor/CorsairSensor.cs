@@ -1,8 +1,9 @@
 ﻿using CorsairLinkPlusPlus.Driver.Node;
+using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.Sensor
 {
-    public abstract class CorsairSensor
+    public abstract class CorsairSensor : CorsairBaseDevice
     {
         protected readonly CorsairLinkDevice device;
         protected int id;
@@ -28,5 +29,10 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
         public abstract double GetValue();
 
         public abstract string GetUnit();
+
+        public List<CorsairBaseDevice> GetSubDevices()
+        {
+            return new List<CorsairBaseDevice>();
+        }
     }
 }

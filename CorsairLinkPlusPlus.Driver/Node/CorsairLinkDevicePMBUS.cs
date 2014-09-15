@@ -7,7 +7,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
     public class CorsairLinkDevicePMBUS : CorsairLinkDevice
     {
         internal CorsairLinkDevicePMBUS(CorsairLinkUSBDevice usbDevice, byte channel) : base(usbDevice, channel) { }
-        public override string GetDeviceName()
+        public override string GetName()
         {
             byte[] ret = ReadRegister(0x9A, 7);
             return System.Text.Encoding.UTF8.GetString(ret);

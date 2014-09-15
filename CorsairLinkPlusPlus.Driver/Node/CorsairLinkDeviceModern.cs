@@ -18,7 +18,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return BitConverter.ToInt16(ReadRegister(0x01, 2), 0);
         }
 
-        public override string GetDeviceName()
+        public override string GetName()
         {
             switch (GetDeviceID())
             {

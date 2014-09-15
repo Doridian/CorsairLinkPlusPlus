@@ -8,7 +8,7 @@ namespace CorsairLinkPlusPlus.Driver.USB
 
         public override string GetName()
         {
-            return GetDeviceOnChannel(0).GetDeviceName() + " USB";
+            return GetDeviceOnChannel(0).GetName() + " USB";
         }
     }
 }

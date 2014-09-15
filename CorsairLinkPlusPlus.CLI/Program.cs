@@ -12,18 +12,21 @@ namespace CorsairLinkPlusPlus.CLI
 {
     class Program
     {
-        static void PrintSensorsAndSubDevices(CorsairLinkDevice device, string prefix)
+        static void PrintSensorsAndSubDevices(CorsairBaseDevice device, string prefix)
         {
-            Console.Out.WriteLine(prefix + "+ " + device.GetDeviceName());
-
-            foreach (CorsairSensor sensor in device.GetSensors())
+            if (device is CorsairSensor)
             {
-                Console.Out.WriteLine(prefix + "\t- " + sensor.GetName() + " = " + sensor.GetValue() + " " + sensor.GetUnit());
+                CorsairSensor sensor = (CorsairSensor)device;
+                Console.Out.WriteLine(prefix + "- " + sensor.GetName() + " = " + sensor.GetValue() + " " + sensor.GetUnit());
             }
-
-            foreach(CorsairLinkDevice subDevice in device.GetSubDevices())
+            else
             {
-                PrintSensorsAndSubDevices(subDevice, prefix + "\t");
+                Console.Out.WriteLine(prefix + "+ " + device.GetName());
+
+                foreach (CorsairBaseDevice subDevice in device.GetSubDevices())
+                {
+                    PrintSensorsAndSubDevices(subDevice, prefix + "\t");
+                }
             }
         }
 
@@ -34,11 +37,7 @@ namespace CorsairLinkPlusPlus.CLI
 
             foreach (CorsairLinkUSBDevice usbDevice in usbDevices)
             {
-                Console.Out.WriteLine("+ " + usbDevice.GetName());
-                foreach (CorsairLinkDevice device in usbDevice.GetSubDevices())
-                {
-                    PrintSensorsAndSubDevices(device, "\t");
-                }
+                PrintSensorsAndSubDevices(usbDevice, "");
             }
 
             Console.In.ReadLine();

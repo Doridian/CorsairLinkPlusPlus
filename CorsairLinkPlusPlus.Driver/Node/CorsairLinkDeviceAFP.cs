@@ -7,13 +7,13 @@ namespace CorsairLinkPlusPlus.Driver.Node
     public class CorsairLinkDeviceAFP : CorsairLinkDevice
     {
         internal CorsairLinkDeviceAFP(CorsairLinkUSBDevice usbDevice, byte channel) : base(usbDevice, channel) { }
-        public override string GetDeviceName()
+        public override string GetName()
         {
             return "Corsair AirFlow Pro";
         }
-        public override List<CorsairLinkDevice> GetSubDevices()
+        public override List<CorsairBaseDevice> GetSubDevices()
         {
-            List<CorsairLinkDevice> ramSticks = new List<CorsairLinkDevice>();
+            List<CorsairBaseDevice> ramSticks = new List<CorsairBaseDevice>();
             for (int i = 0; i < 6; i++)
             {
                 CorsairLinkAFPRAMStick ramStick = new CorsairLinkAFPRAMStick(usbDevice, channel, i);
@@ -32,7 +32,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             this.id = id;
         }
 
-        public override string GetDeviceName()
+        public override string GetName()
         {
             return "Corsair AirFlow Pro RAM stick " + id;
         }
@@ -42,7 +42,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return ReadRegister((byte)(id << 4), 16);
         }
 
-        internal bool IsPresent()
+        public new bool IsPresent()
         {
             return GetReadings()[0] != 0;
         }

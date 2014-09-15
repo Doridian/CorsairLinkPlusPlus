@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.USB
 {
-    public abstract class CorsairLinkUSBDevice
+    public abstract class CorsairLinkUSBDevice : CorsairBaseDevice
     {
         private readonly HidDevice hidDevice;
         protected int commandNo = 20;
@@ -29,6 +29,11 @@ namespace CorsairLinkPlusPlus.Driver.USB
 
         public abstract string GetName();
 
+        public bool IsPresent()
+        {
+            return true;
+        }
+
         public Dictionary<byte, byte> GetUsedChannels()
         {
             byte[] cmdRes = SendCommand(0x4F, 0x00, null);
@@ -43,9 +48,9 @@ namespace CorsairLinkPlusPlus.Driver.USB
             return usedChannels;
         }
 
-        public List<CorsairLinkDevice> GetSubDevices()
+        public List<CorsairBaseDevice> GetSubDevices()
         {
-            List<CorsairLinkDevice> ret = new List<CorsairLinkDevice>();
+            List<CorsairBaseDevice> ret = new List<CorsairBaseDevice>();
 
             foreach (KeyValuePair<byte, byte> channel in GetUsedChannels())
             {
