@@ -38,15 +38,27 @@ namespace CorsairLinkPlusPlus.Driver.USB
             return _command;
         }
 
-        public List<byte> GetUsedChannels()
+        public struct ChannelData
+        {
+            internal readonly byte channel;
+            internal readonly byte deviceType;
+
+            public ChannelData(byte channel, byte deviceType)
+            {
+                this.channel = channel;
+                this.deviceType = deviceType;
+            }
+        }
+
+        public List<ChannelData> GetUsedChannels()
         {
             byte[] cmdRes = SendCommand(0x4F, 0x00, null);
-            List<byte> usedChannels = new List<byte>();
+            List<ChannelData> usedChannels = new List<ChannelData>();
             for (byte i = 0; i < 8; i++)
             {
                 if (cmdRes[i] != 0xFF)
                 {
-                    usedChannels.Add(i);
+                    usedChannels.Add(new ChannelData(i, cmdRes[i]));
                 }
             }
             return usedChannels;
@@ -56,7 +68,7 @@ namespace CorsairLinkPlusPlus.Driver.USB
         {
             List<CorsairLinkDevice> ret = new List<CorsairLinkDevice>();
 
-            foreach(byte channel in GetUsedChannels())
+            foreach (ChannelData channel in GetUsedChannels())
             {
                 ret.Add(GetDeviceOnChannel(channel));
             }
@@ -64,9 +76,9 @@ namespace CorsairLinkPlusPlus.Driver.USB
             return ret;
         }
 
-        public CorsairLinkDevice GetDeviceOnChannel(byte channel)
+        public CorsairLinkDevice GetDeviceOnChannel(ChannelData channelData)
         {
-            return CorsairLinkDevice.CreateNew(this, channel);
+            return CorsairLinkDevice.CreateNew(this, channelData.channel, channelData.deviceType);
         }
 
         protected virtual byte[] ParseResponse(byte[] response)

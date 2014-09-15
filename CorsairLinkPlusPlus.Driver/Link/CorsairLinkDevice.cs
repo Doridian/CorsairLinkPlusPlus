@@ -7,11 +7,21 @@ using System.Threading.Tasks;
 
 namespace CorsairLinkPlusPlus.Driver.Link
 {
-    public class CorsairLinkDevice
+    public abstract class CorsairLinkDevice
     {
-        internal static CorsairLinkDevice CreateNew(CorsairLinkUSBDevice usbDevice, byte channel)
+        internal static CorsairLinkDevice CreateNew(CorsairLinkUSBDevice usbDevice, byte channel, byte deviceType)
         {
-            return new CorsairLinkDevice(usbDevice, channel);
+            switch (deviceType << 8)
+            {
+                case 0x500:
+                    return new CorsairLinkDeviceModern(usbDevice, channel);
+                case 0x300:
+                    return new CorsairLinkDeviceAFP(usbDevice, channel);
+                case 0x100:
+                    return new CorsairLinkDeviceAXPSU(usbDevice, channel);
+                default:
+                    return null;
+            }
         }
 
         private readonly CorsairLinkUSBDevice usbDevice;
@@ -30,7 +40,8 @@ namespace CorsairLinkPlusPlus.Driver.Link
 
         protected byte[] ReadRegister(byte register, byte bytes)
         {
-            switch(bytes) {
+            switch (bytes)
+            {
                 case 1:
                     return new byte[] { ReadSingleByteRegister(register) };
                 case 2:
@@ -44,16 +55,6 @@ namespace CorsairLinkPlusPlus.Driver.Link
             }
         }
 
-        public int GetDeviceID()
-        {
-            return ReadSingleByteRegister(0x00);
-        }
-
-        public int GetFirmwareVersion()
-        {
-            return BitConverter.ToInt16(ReadRegister(0x01, 2), 0);
-        }
-
         public static string ByteArrayToHexString(byte[] ba)
         {
             StringBuilder hex = new StringBuilder(ba.Length * 2);
@@ -62,28 +63,23 @@ namespace CorsairLinkPlusPlus.Driver.Link
             return hex.ToString();
         }
 
-        public string GetDeviceName()
+        public virtual string GetDeviceName()
         {
-            byte[] reg = ReadRegister(0x02, 8);
-            string ret = System.Text.Encoding.ASCII.GetString(reg);
-            if (string.IsNullOrEmpty(ret))
-                return "N/A";
-            return ByteArrayToHexString(reg);
+            throw new NotImplementedException();
+        }
+        public virtual int GetFanCount()
+        {
+            return 0;
         }
 
-        public int GetFanCount()
+        public virtual int GetTemperatureCount()
         {
-            return ReadSingleByteRegister(0x11);
+            return 0;
         }
 
-        public int GetTemperatureCount()
+        public virtual int GetLEDCount()
         {
-            return ReadSingleByteRegister(0x0D);
-        }
-
-        public int GetLEDCount()
-        {
-            return ReadSingleByteRegister(0x05);
+            return 0;
         }
     }
 }

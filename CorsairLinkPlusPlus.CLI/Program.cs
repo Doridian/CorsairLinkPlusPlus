@@ -15,7 +15,7 @@ namespace CorsairLinkPlusPlus.CLI
         {
             StringBuilder hex = new StringBuilder(ba.Length * 2);
             foreach (byte b in ba)
-                hex.AppendFormat("{0:x2}", b);
+                hex.AppendFormat("{0:x2} ", b << 8);
             return hex.ToString();
         }
 
@@ -25,10 +25,22 @@ namespace CorsairLinkPlusPlus.CLI
             List<CorsairLinkUSBDevice> usbDevices = enumerator.GetDevices();
             CorsairLinkUSBDevice usbDevice = usbDevices[0];
 
+            /*Console.Out.WriteLine(ByteArrayToHexString(usbDevice.SendCommand(0x1F, 0, null)));
+            Console.Out.WriteLine(ByteArrayToHexString(usbDevice.SendCommand(0x2F, 0, null)));
+            Console.Out.WriteLine(ByteArrayToHexString(usbDevice.SendCommand(0x3F, 0, null)));
+            Console.Out.WriteLine(ByteArrayToHexString(usbDevice.SendCommand(0x4F, 0, null)));
+            Console.Out.WriteLine(ByteArrayToHexString(usbDevice.SendCommand(0x5F, 0, null)));
+            Console.Out.WriteLine(ByteArrayToHexString(usbDevice.SendCommand(0x6F, 0, null)));
+            Console.Out.WriteLine(ByteArrayToHexString(usbDevice.SendCommand(0x7F, 0, null)));
+            Console.Out.WriteLine(ByteArrayToHexString(usbDevice.SendCommand(0x8F, 0, null)));
+            Console.Out.WriteLine(ByteArrayToHexString(usbDevice.SendCommand(0x9F, 0, null)));
+            Console.Out.WriteLine(ByteArrayToHexString(usbDevice.SendCommand(0xAF, 0, null)));
+            Console.Out.WriteLine(ByteArrayToHexString(usbDevice.SendCommand(0xBF, 0, null)));*/
+
             List<CorsairLinkDevice> devices = usbDevice.GetSubDevices();
             foreach (CorsairLinkDevice device in devices)
             {
-                Console.Out.WriteLine("Found: " + device.GetDeviceName() + ", " + string.Format("{0:x2}", device.GetDeviceID()) + ", " + string.Format("{0:x4}", device.GetFirmwareVersion()) + ", " + device.GetFanCount());
+                Console.Out.WriteLine("Found: " + device.GetDeviceName() + ", " + device.GetFanCount());
             }
 
             Console.In.ReadLine();
