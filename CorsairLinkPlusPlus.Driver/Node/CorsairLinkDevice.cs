@@ -68,7 +68,14 @@ namespace CorsairLinkPlusPlus.Driver.Node
         {
             if (id < 0 || id >= GetCoolerCount())
                 return null;
-            return new CorsairCooler(this, id);
+            switch (GetCoolerType(id))
+            {
+                case "Fan":
+                    return new CorsairFan(this, id);
+                case "Pump":
+                    return new CorsairPump(this, id);
+            }
+            return null;
         }
 
         public virtual string GetCoolerType(int id)

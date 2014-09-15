@@ -47,6 +47,8 @@
     <Compile Include="Node\CorsairLinkDevicePMBUS.cs" />
     <Compile Include="Node\CorsairLinkDeviceModern.cs" />
     <Compile Include="Sensor\CorsairCooler.cs" />
+    <Compile Include="Sensor\CorsairPump.cs" />
+    <Compile Include="Sensor\CorsairFan.cs" />
     <Compile Include="Sensor\CorsairSensor.cs" />
     <Compile Include="USB\CorsairLinkUSBDevice.cs" />
     <Compile Include="USB\CorsairLinkDeviceEnumerator.cs" />
