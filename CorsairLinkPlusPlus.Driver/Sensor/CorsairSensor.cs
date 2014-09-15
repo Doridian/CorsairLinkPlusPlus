@@ -5,8 +5,8 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
 {
     public abstract class CorsairSensor : CorsairBaseDevice
     {
-        protected readonly CorsairLinkDevice device;
-        protected int id;
+        internal readonly CorsairLinkDevice device;
+        internal readonly int id;
         protected double cachedValue = double.NaN;
         protected bool? cachedPresence = null;
 
