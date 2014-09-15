@@ -51,6 +51,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
         class CorsairFanModern : CorsairFan
         {
             private readonly CorsairLinkDeviceModern modernDevice;
+            protected byte? cachedFanData = null;
 
             internal CorsairFanModern(CorsairLinkDeviceModern device, int id)
                 : base(device, id)
@@ -60,11 +61,22 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             private byte GetFanData()
             {
-                lock (modernDevice.usbDevice.usbLock)
+                if (cachedFanData == null)
                 {
-                    modernDevice.SetCurrentFan(id);
-                    return modernDevice.ReadSingleByteRegister(0x12);
+                    lock (modernDevice.usbDevice.usbLock)
+                    {
+                        modernDevice.SetCurrentFan(id);
+                        cachedFanData = modernDevice.ReadSingleByteRegister(0x12);
+                    }
                 }
+
+                return (byte)cachedFanData;
+            }
+
+            public override void Refresh()
+            {
+                base.Refresh();
+                cachedFanData = null;
             }
 
             private bool FanDataBitSet(int bit)
