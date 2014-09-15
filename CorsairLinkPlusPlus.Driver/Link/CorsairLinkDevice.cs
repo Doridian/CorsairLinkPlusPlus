@@ -7,13 +7,13 @@ namespace CorsairLinkPlusPlus.Driver.Link
     {
         internal static CorsairLinkDevice CreateNew(CorsairLinkUSBDevice usbDevice, byte channel, byte deviceType)
         {
-            switch (deviceType << 8)
+            switch (deviceType)
             {
-                case 0x500:
+                case 0x5:
                     return new CorsairLinkDeviceModern(usbDevice, channel);
-                case 0x300:
+                case 0x3:
                     return new CorsairLinkDeviceAFP(usbDevice, channel);
-                case 0x100:
+                case 0x1:
                     return new CorsairLinkDevicePMBUS(usbDevice, channel);
                 default:
                     return null;
