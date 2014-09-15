@@ -38,11 +38,12 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
             return GetSensorType() + " " + id;
         }
 
-        public virtual void Refresh()
+        public virtual void Refresh(bool volatileOnly)
         {
-            device.Refresh();
+            device.Refresh(volatileOnly);
             cachedValue = double.NaN;
-            cachedPresence = null;
+            if (!volatileOnly)
+                cachedPresence = null;
         }
 
         public double GetValue()

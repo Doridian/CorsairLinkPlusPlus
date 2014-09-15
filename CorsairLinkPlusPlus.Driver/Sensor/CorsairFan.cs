@@ -19,10 +19,11 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
             return (bool)cachedPWM;
         }
 
-        public override void Refresh()
+        public override void Refresh(bool volatileOnly)
         {
-            base.Refresh();
-            cachedPWM = null;
+            base.Refresh(volatileOnly);
+            if (!volatileOnly)
+                cachedPWM = null;
         }
 
         internal virtual bool IsPWMInternal()

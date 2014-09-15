@@ -73,10 +73,11 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 return (byte)cachedFanData;
             }
 
-            public override void Refresh()
+            public override void Refresh(bool volatileOnly)
             {
-                base.Refresh();
-                cachedFanData = null;
+                base.Refresh(volatileOnly);
+                if (!volatileOnly)
+                    cachedFanData = null;
             }
 
             private bool FanDataBitSet(int bit)

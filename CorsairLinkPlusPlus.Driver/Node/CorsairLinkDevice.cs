@@ -36,7 +36,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             this.channel = channel;
         }
 
-        public void Refresh()
+        public void Refresh(bool volatileOnly)
         {
 
         }

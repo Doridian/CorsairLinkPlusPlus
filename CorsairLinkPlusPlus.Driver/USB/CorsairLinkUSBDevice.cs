@@ -41,7 +41,7 @@ namespace CorsairLinkPlusPlus.Driver.USB
             return true;
         }
 
-        public void Refresh()
+        public void Refresh(bool volatileOnly)
         {
 
         }
