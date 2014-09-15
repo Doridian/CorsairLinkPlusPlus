@@ -1,6 +1,6 @@
 ﻿using CorsairLinkPlusPlus.Driver.USB;
 
-namespace CorsairLinkPlusPlus.Driver.Link
+namespace CorsairLinkPlusPlus.Driver.Node
 {
     public class CorsairLinkDeviceAFP : CorsairLinkDevice
     {

@@ -1,7 +1,7 @@
 ﻿using CorsairLinkPlusPlus.Driver.USB;
 using System;
 
-namespace CorsairLinkPlusPlus.Driver.Link
+namespace CorsairLinkPlusPlus.Driver.Node
 {
     public class CorsairLinkDeviceModern : CorsairLinkDevice
     {
@@ -47,9 +47,31 @@ namespace CorsairLinkPlusPlus.Driver.Link
             return "Unknown Modern Device (0x" + string.Format("{0:x2}", GetDeviceID()) + ")";
         }
 
-        public override int GetFanCount()
+        public override string GetCoolerType(int id)
+        {
+            int devID = GetDeviceID();
+            if (devID == 0x3B || devID == 0x3C || devID == 0x3E || devID == 0x40 || devID == 0x41)
+            {
+                if (id == GetCoolerCount() - 1)
+                    return "Pump";
+            }
+            return base.GetCoolerType(id);
+        }
+
+        public override int GetCoolerCount()
         {
             return ReadSingleByteRegister(0x11);
+        }
+
+        protected void SetCurrentFan(int id)
+        {
+            WriteSingleByteRegister(0x10, (byte)id);
+        }
+
+        internal override double GetCoolerRPM(int id)
+        {
+            SetCurrentFan(id);
+            return BitConverter.ToInt16(ReadRegister(0x16, 2), 0);
         }
 
         public override int GetTemperatureCount()

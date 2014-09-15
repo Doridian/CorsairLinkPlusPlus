@@ -1,7 +1,8 @@
-﻿using CorsairLinkPlusPlus.Driver.USB;
+﻿using CorsairLinkPlusPlus.Driver.Sensor;
+using CorsairLinkPlusPlus.Driver.USB;
 using System;
 
-namespace CorsairLinkPlusPlus.Driver.Link
+namespace CorsairLinkPlusPlus.Driver.Node
 {
     public abstract class CorsairLinkDevice
     {
@@ -53,9 +54,26 @@ namespace CorsairLinkPlusPlus.Driver.Link
         {
             throw new NotImplementedException();
         }
-        public virtual int GetFanCount()
+        public virtual int GetCoolerCount()
         {
             return 0;
+        }
+
+        internal virtual double GetCoolerRPM(int id)
+        {
+            return 0;
+        }
+
+        public virtual CorsairCooler GetCooler(int id)
+        {
+            if (id < 0 || id >= GetCoolerCount())
+                return null;
+            return new CorsairCooler(this, id);
+        }
+
+        public virtual string GetCoolerType(int id)
+        {
+            return "Fan";
         }
 
         public virtual int GetTemperatureCount()

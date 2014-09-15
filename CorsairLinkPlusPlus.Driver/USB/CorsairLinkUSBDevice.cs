@@ -1,4 +1,4 @@
-﻿using CorsairLinkPlusPlus.Driver.Link;
+﻿using CorsairLinkPlusPlus.Driver.Node;
 using HidLibrary;
 using System;
 using System.Collections.Generic;

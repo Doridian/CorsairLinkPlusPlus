@@ -42,10 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Link\CorsairLinkDevice.cs" />
-    <Compile Include="Link\CorsairLinkDeviceAFP.cs" />
-    <Compile Include="Link\CorsairLinkDevicePMBUS.cs" />
-    <Compile Include="Link\CorsairLinkDeviceModern.cs" />
+    <Compile Include="Node\CorsairLinkDevice.cs" />
+    <Compile Include="Node\CorsairLinkDeviceAFP.cs" />
+    <Compile Include="Node\CorsairLinkDevicePMBUS.cs" />
+    <Compile Include="Node\CorsairLinkDeviceModern.cs" />
+    <Compile Include="Sensor\CorsairCooler.cs" />
+    <Compile Include="Sensor\CorsairSensor.cs" />
     <Compile Include="USB\CorsairLinkUSBDevice.cs" />
     <Compile Include="USB\CorsairLinkDeviceEnumerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="USB\CorsairLinkUSBDeviceModern.cs" />
     <Compile Include="USB\CorsairLinkUSBDeviceNew.cs" />
     <Compile Include="USB\CorsairLinkUSBDeviceOld.cs" />
+    <Compile Include="CorsairBitCodec.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

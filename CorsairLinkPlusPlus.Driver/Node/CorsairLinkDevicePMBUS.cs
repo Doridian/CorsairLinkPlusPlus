@@ -1,6 +1,8 @@
-﻿using CorsairLinkPlusPlus.Driver.USB;
+﻿using CorsairLinkPlusPlus.Driver.Sensor;
+using CorsairLinkPlusPlus.Driver.USB;
+using System;
 
-namespace CorsairLinkPlusPlus.Driver.Link
+namespace CorsairLinkPlusPlus.Driver.Node
 {
     public class CorsairLinkDevicePMBUS : CorsairLinkDevice
     {
@@ -11,7 +13,14 @@ namespace CorsairLinkPlusPlus.Driver.Link
             return System.Text.Encoding.UTF8.GetString(ret);
         }
 
-        public override int GetFanCount()
+        internal override double GetCoolerRPM(int id)
+        {
+            if (id != 0)
+                return 0;
+            return CorsairBitCodec.ToFloat(ReadRegister(0x90, 2), 0);
+        }
+
+        public override int GetCoolerCount()
         {
             return 1;
         }

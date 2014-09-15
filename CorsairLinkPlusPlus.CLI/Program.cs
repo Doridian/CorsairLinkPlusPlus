@@ -1,5 +1,6 @@
 ﻿using CorsairLinkPlusPlus.Driver;
-using CorsairLinkPlusPlus.Driver.Link;
+using CorsairLinkPlusPlus.Driver.Node;
+using CorsairLinkPlusPlus.Driver.Sensor;
 using CorsairLinkPlusPlus.Driver.USB;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,11 @@ namespace CorsairLinkPlusPlus.CLI
                 foreach (CorsairLinkDevice device in devices)
                 {
                     Console.Out.WriteLine("\t" + device.GetDeviceName());
+                    for (int i = 0; i < device.GetCoolerCount(); i++)
+                    {
+                        CorsairCooler cooler = device.GetCooler(i);
+                        Console.Out.WriteLine("\t\t" + cooler.GetName() + " = " + cooler.GetValue() + " " + cooler.GetUnit());
+                    }
                 }
             }
 
