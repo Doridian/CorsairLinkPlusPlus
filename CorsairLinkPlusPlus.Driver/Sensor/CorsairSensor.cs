@@ -13,6 +13,11 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
             this.id = id;
         }
 
+        public virtual bool IsPresent()
+        {
+            return true;
+        }
+
         public virtual string GetName()
         {
             return GetSensorType() + " " + id;

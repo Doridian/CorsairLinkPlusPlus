@@ -1,4 +1,5 @@
-﻿using CorsairLinkPlusPlus.Driver.USB;
+﻿using CorsairLinkPlusPlus.Driver.Sensor;
+using CorsairLinkPlusPlus.Driver.USB;
 using System;
 
 namespace CorsairLinkPlusPlus.Driver.Node
@@ -47,6 +48,53 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return "Unknown Modern Device (0x" + string.Format("{0:x2}", GetDeviceID()) + ")";
         }
 
+        class CorsairFanModern : CorsairFan
+        {
+            private readonly CorsairLinkDeviceModern modernDevice;
+
+            internal CorsairFanModern(CorsairLinkDeviceModern device, int id)
+                : base(device, id)
+            {
+                modernDevice = device;
+            }
+
+            private byte GetFanData()
+            {
+                modernDevice.SetCurrentFan(id);
+                return modernDevice.ReadSingleByteRegister(0x12);
+            }
+
+            private bool FanDataBitSet(int bit)
+            {
+                bit = 1 << bit;
+                return (GetFanData() & bit) == bit;
+            }
+
+            public override bool IsPresent()
+            {
+                return FanDataBitSet(7);
+            }
+
+            public override bool IsPWM()
+            {
+                return FanDataBitSet(0);
+            }
+        }
+
+        public override CorsairCooler GetCooler(int id)
+        {
+            if (id < 0 || id >= GetCoolerCount())
+                return null;
+            switch (GetCoolerType(id))
+            {
+                case "Fan":
+                    return new CorsairFanModern(this, id);
+                case "Pump":
+                    return new CorsairPump(this, id);
+            }
+            return null;
+        }
+
         public override string GetCoolerType(int id)
         {
             int devID = GetDeviceID();
@@ -63,7 +111,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return ReadSingleByteRegister(0x11);
         }
 
-        protected void SetCurrentFan(int id)
+        internal void SetCurrentFan(int id)
         {
             WriteSingleByteRegister(0x10, (byte)id);
         }

@@ -12,14 +12,6 @@ namespace CorsairLinkPlusPlus.CLI
 {
     class Program
     {
-        public static string ByteArrayToHexString(byte[] ba)
-        {
-            StringBuilder hex = new StringBuilder(ba.Length * 2);
-            foreach (byte b in ba)
-                hex.AppendFormat("{0:x2} ", b << 8);
-            return hex.ToString();
-        }
-
         static void PrintSensorsAndSubDevices(CorsairLinkDevice device, string prefix)
         {
             Console.Out.WriteLine(prefix + "+ " + device.GetDeviceName());
