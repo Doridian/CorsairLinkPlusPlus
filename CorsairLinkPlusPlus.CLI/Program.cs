@@ -16,8 +16,16 @@ namespace CorsairLinkPlusPlus.CLI
         {
             if (device is CorsairSensor)
             {
-                CorsairSensor sensor = (CorsairSensor)device;
-                Console.Out.WriteLine(prefix + "- " + sensor.GetName() + " = " + sensor.GetValue() + " " + sensor.GetUnit());
+                if (device is CorsairLED)
+                {
+                    CorsairLED led = (CorsairLED)device;
+                    Console.Out.WriteLine(prefix + "- " + led.GetName() + " = " + led.GetColor().ToString());
+                }
+                else
+                {
+                    CorsairSensor sensor = (CorsairSensor)device;
+                    Console.Out.WriteLine(prefix + "- " + sensor.GetName() + " = " + sensor.GetValue() + " " + sensor.GetUnit());
+                }
             }
             else
             {

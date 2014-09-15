@@ -146,16 +146,13 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 modernDevice = device;
             }
 
-            internal override double GetValueInternal()
+            internal override byte[] GetRGBInternal()
             {
-                byte[] ret;
                 lock (modernDevice.usbDevice.usbLock)
                 {
                     modernDevice.SetCurrentLED(id);
-                    ret = modernDevice.ReadRegister(0x07, 3);
+                    return modernDevice.ReadRegister(0x07, 3);
                 }
-                ret = new byte[] { ret[0], ret[1], ret[2], 0 };
-                return BitConverter.ToUInt32(ret, 0);
             }
         }
 
