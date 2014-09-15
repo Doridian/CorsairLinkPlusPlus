@@ -26,19 +26,27 @@ namespace CorsairLinkPlusPlus.Driver.Link
             switch (GetDeviceID())
             {
                 case 0x37:
-                    return "H80";
+                    return "Corsair H80";
                 case 0x38:
-                    return "Cooling Node";
+                    return "Corsair Cooling Node";
                 case 0x39:
-                    return "Lighting Node";
+                    return "Corsair Lighting Node";
                 case 0x3A:
-                    return "H100";
+                    return "Corsair H100";
                 case 0x3B:
-                    return "H80i";
+                    return "Corsair H80i";
                 case 0x3C:
-                    return "H100i";
+                    return "Corsair H100i";
                 case 0x3D:
-                    return "Commander Mini";
+                    return "Corsair Commander Mini";
+                case 0x3E:
+                    return "Corsair H110i";
+                case 0x3F:
+                    return "Corsair Hub";
+                case 0x40:
+                    return "Corsair H100iGT";
+                case 0x41:
+                    return "Corsair H110iGT";
             }
             return "Unknown Modern Device (0x" + string.Format("{0:x2}", GetDeviceID()) + ")";
         }

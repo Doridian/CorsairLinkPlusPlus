@@ -35,24 +35,12 @@ namespace CorsairLinkPlusPlus.Driver.Link
 
         protected byte ReadSingleByteRegister(byte register)
         {
-            return usbDevice.SendCommand(0x07, channel, new byte[] { register })[0];
+            return usbDevice.ReadSingleByteRegister(register, channel);
         }
 
         protected byte[] ReadRegister(byte register, byte bytes)
         {
-            switch (bytes)
-            {
-                case 1:
-                    return new byte[] { ReadSingleByteRegister(register) };
-                case 2:
-                    byte[] rawRet2 = usbDevice.SendCommand(0x09, channel, new byte[] { register });
-                    return new byte[] { rawRet2[0], rawRet2[1] };
-                default:
-                    byte[] rawRet = usbDevice.SendCommand(0x0B, channel, new byte[] { register, bytes });
-                    byte[] ret = new byte[rawRet[0]];
-                    Buffer.BlockCopy(rawRet, 1, ret, 0, ret.Length);
-                    return ret;
-            }
+            return usbDevice.ReadRegister(register, channel, bytes);
         }
 
         public static string ByteArrayToHexString(byte[] ba)
