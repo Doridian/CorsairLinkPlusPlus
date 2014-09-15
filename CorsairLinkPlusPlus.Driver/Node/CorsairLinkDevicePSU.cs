@@ -178,7 +178,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             internal CorsairMainPowerDevice(CorsairLinkDevicePSU psuDevice, byte channel, int id, string name)
                 : base(psuDevice.usbDevice, channel)
             {
-                this.id = id + 1;
+                this.id = id;
                 this.name = name;
                 this.psuDevice = psuDevice;
             }
@@ -297,7 +297,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             string[] mainRailNames = GetMainRailNames();
             for (int i = 0; i < mainRailNames.Length; i++)
             {
-                CorsairMainPowerDevice psuSubSensor = new CorsairMainPowerDevice(this, channel, i, mainRailNames[i]);
+                CorsairMainPowerDevice psuSubSensor = new CorsairMainPowerDevice(this, channel, i + 1, mainRailNames[i]);
                 if (psuSubSensor.IsPresent())
                     ret.Add(psuSubSensor);
             }
