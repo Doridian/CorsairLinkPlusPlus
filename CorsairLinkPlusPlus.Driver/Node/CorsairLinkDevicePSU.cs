@@ -142,9 +142,14 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
         internal double GetSecondary12VCurrent(int page)
         {
-            SetMainPage(0);
-            SetSecondary12VPage(page);
-            return CorsairBitCodec.ToFloat(ReadRegister(0xE8, 2));
+            byte[] ret;
+            lock (usbDevice.usbLock)
+            {
+                SetMainPage(0);
+                SetSecondary12VPage(page);
+                ret = ReadRegister(0xE8, 2);
+            }
+            return CorsairBitCodec.ToFloat(ret);
         }
 
         class CorsairSecondary12VCurrentSensor : CorsairCurrentSensor
@@ -257,20 +262,35 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             internal double ReadVoltage()
             {
-                SetPage();
-                return CorsairBitCodec.ToFloat(ReadRegister(0x8B, 2));
+                byte[] ret;
+                lock (usbDevice.usbLock)
+                {
+                    SetPage();
+                    ret = ReadRegister(0x8B, 2);
+                }
+                return CorsairBitCodec.ToFloat(ret);
             }
 
             internal double ReadCurrent()
             {
-                SetPage();
-                return CorsairBitCodec.ToFloat(ReadRegister(0x8C, 2));
+                byte[] ret;
+                lock (usbDevice.usbLock)
+                {
+                    SetPage();
+                    ret = ReadRegister(0x8C, 2);
+                }
+                return CorsairBitCodec.ToFloat(ret);
             }
 
             internal double ReadPower()
             {
-                SetPage();
-                return CorsairBitCodec.ToFloat(ReadRegister(0x96, 2));
+                byte[] ret;
+                lock (usbDevice.usbLock)
+                {
+                    SetPage();
+                    ret = ReadRegister(0x96, 2);
+                }
+                return CorsairBitCodec.ToFloat(ret);
             }
         }
 

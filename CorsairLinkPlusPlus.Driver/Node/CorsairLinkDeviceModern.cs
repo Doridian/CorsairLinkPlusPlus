@@ -60,8 +60,11 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             private byte GetFanData()
             {
-                modernDevice.SetCurrentFan(id);
-                return modernDevice.ReadSingleByteRegister(0x12);
+                lock (modernDevice.usbDevice.usbLock)
+                {
+                    modernDevice.SetCurrentFan(id);
+                    return modernDevice.ReadSingleByteRegister(0x12);
+                }
             }
 
             private bool FanDataBitSet(int bit)
@@ -118,8 +121,13 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
         internal override double GetCoolerRPM(int id)
         {
-            SetCurrentFan(id);
-            return BitConverter.ToInt16(ReadRegister(0x16, 2), 0);
+            byte[] ret;
+            lock (usbDevice.usbLock)
+            {
+                SetCurrentFan(id);
+                ret = ReadRegister(0x16, 2);
+            }
+            return BitConverter.ToInt16(ret, 0);
         }
 
         protected void SetCurrentTemp(int id)
@@ -129,8 +137,13 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
         internal override double GetTemperatureDegC(int id)
         {
-            SetCurrentTemp(id);
-            return ((double)BitConverter.ToInt16(ReadRegister(0x0E, 2), 0)) / 256.0;
+            byte[] ret;
+            lock (usbDevice.usbLock)
+            {
+                SetCurrentTemp(id);
+                ret = ReadRegister(0x0E, 2);
+            }
+            return ((double)BitConverter.ToInt16(ret, 0)) / 256.0;
         }
 
         public override int GetTemperatureCount()

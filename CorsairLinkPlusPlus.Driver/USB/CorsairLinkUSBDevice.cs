@@ -10,6 +10,8 @@ namespace CorsairLinkPlusPlus.Driver.USB
         private readonly HidDevice hidDevice;
         protected int commandNo = 20;
 
+        internal readonly object usbLock = new object();
+
         internal CorsairLinkUSBDevice(HidDevice hidDevice)
         {
             this.hidDevice = hidDevice;
@@ -128,18 +130,19 @@ namespace CorsairLinkPlusPlus.Driver.USB
         }
 
         protected abstract byte[] ParseResponse(byte[] response);
-        protected abstract byte[] MakeCommand(byte opcode, byte channel, byte[] response);
 
-        protected byte[] ReadResponse()
-        {
-            HidDeviceData response = hidDevice.Read(500);
-            return ParseResponse(response.Data);
-        }
+        protected abstract byte[] MakeCommand(byte opcode, byte channel, byte[] response);
 
         public byte[] SendCommand(byte opcode, byte channel, byte[] command)
         {
-            hidDevice.Write(MakeCommand(opcode, channel, command), 500);
-            return ReadResponse();
+            HidDeviceData response;
+            command = MakeCommand(opcode, channel, command);
+            lock (usbLock)
+            {
+                hidDevice.Write(command, 500);
+                response = hidDevice.Read(500);
+            }
+            return ParseResponse(response.Data);
         }
     }
 }
