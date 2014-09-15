@@ -201,6 +201,12 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 this.psuDevice = psuDevice;
             }
 
+            public override void Refresh(bool volatileOnly)
+            {
+                base.Refresh(volatileOnly);
+                this.psuDevice.Refresh(volatileOnly);
+            }
+
             public override string GetUDID()
             {
                 return psuDevice.GetUDID() + "/Main" + id;

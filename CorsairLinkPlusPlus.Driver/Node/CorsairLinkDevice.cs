@@ -27,8 +27,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return usbDevice.GetUDID() + "/Channel" + channel;
         }
 
-        protected readonly CorsairLinkUSBDevice usbDevice;
-        protected readonly byte channel;
+        internal readonly CorsairLinkUSBDevice usbDevice;
+        internal readonly byte channel;
 
         internal CorsairLinkDevice(CorsairLinkUSBDevice usbDevice, byte channel)
         {

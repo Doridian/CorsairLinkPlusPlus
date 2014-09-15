@@ -17,7 +17,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             List<CorsairBaseDevice> ramSticks = base.GetSubDevices();
             for (int i = 0; i < 6; i++)
             {
-                CorsairLinkAFPRAMStick ramStick = new CorsairLinkAFPRAMStick(usbDevice, channel, i);
+                CorsairLinkAFPRAMStick ramStick = new CorsairLinkAFPRAMStick(this, channel, i);
                 if(ramStick.IsPresent())
                     ramSticks.Add(ramStick);
             }
@@ -27,10 +27,19 @@ namespace CorsairLinkPlusPlus.Driver.Node
     public class CorsairLinkAFPRAMStick : CorsairLinkDevice
     {
         protected readonly int id;
+        protected readonly CorsairLinkDeviceAFP afpDevice;
 
-        internal CorsairLinkAFPRAMStick(CorsairLinkUSBDevice usbDevice, byte channel, int id) : base(usbDevice, channel)
+        internal CorsairLinkAFPRAMStick(CorsairLinkDeviceAFP device, byte channel, int id)
+            : base(device.usbDevice, channel)
         {
             this.id = id;
+            this.afpDevice = device;
+        }
+
+        public override void Refresh(bool volatileOnly)
+        {
+            base.Refresh(volatileOnly);
+            this.afpDevice.Refresh(volatileOnly);
         }
 
         public override string GetUDID()
