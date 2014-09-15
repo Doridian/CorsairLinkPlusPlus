@@ -1,6 +1,7 @@
 ﻿using CorsairLinkPlusPlus.Driver.Sensor;
 using CorsairLinkPlusPlus.Driver.USB;
 using System;
+using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.Node
 {
@@ -21,8 +22,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
             }
         }
 
-        private readonly CorsairLinkUSBDevice usbDevice;
-        private readonly byte channel;
+        protected readonly CorsairLinkUSBDevice usbDevice;
+        protected readonly byte channel;
 
         internal CorsairLinkDevice(CorsairLinkUSBDevice usbDevice, byte channel)
         {
@@ -30,22 +31,22 @@ namespace CorsairLinkPlusPlus.Driver.Node
             this.channel = channel;
         }
 
-        protected byte ReadSingleByteRegister(byte register)
+        internal byte ReadSingleByteRegister(byte register)
         {
             return usbDevice.ReadSingleByteRegister(register, channel);
         }
 
-        protected byte[] ReadRegister(byte register, byte bytes)
+        internal byte[] ReadRegister(byte register, byte bytes)
         {
             return usbDevice.ReadRegister(register, channel, bytes);
         }
 
-        protected void WriteSingleByteRegister(byte register, byte value)
+        internal void WriteSingleByteRegister(byte register, byte value)
         {
             usbDevice.WriteSingleByteRegister(register, channel, value);
         }
 
-        protected void WriteRegister(byte register, byte[] bytes)
+        internal void WriteRegister(byte register, byte[] bytes)
         {
             usbDevice.WriteRegister(register, channel, bytes);
         }
@@ -60,6 +61,11 @@ namespace CorsairLinkPlusPlus.Driver.Node
         }
 
         internal virtual double GetCoolerRPM(int id)
+        {
+            return 0;
+        }
+
+        internal virtual double GetUsagePercent(int id)
         {
             return 0;
         }
@@ -85,6 +91,11 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return new CorsairThermistor(this, id);
         }
 
+        public virtual List<CorsairLinkDevice> GetSubDevices()
+        {
+            return new List<CorsairLinkDevice>();
+        }
+
         internal virtual double GetTemperatureDegC(int id)
         {
             return 0;
@@ -103,6 +114,27 @@ namespace CorsairLinkPlusPlus.Driver.Node
         public virtual int GetLEDCount()
         {
             return 0;
+        }
+
+        public virtual List<CorsairSensor> GetSensors()
+        {
+            List<CorsairSensor> ret = new List<CorsairSensor>();
+
+            for (int i = 0; i < GetCoolerCount(); i++)
+            {
+                CorsairSensor sensor = GetCooler(i);
+                if(sensor.IsPresent())
+                    ret.Add(sensor);
+            }
+
+            for (int i = 0; i < GetTemperatureCount(); i++)
+            {
+                CorsairSensor sensor = GetTemperature(i);
+                if (sensor.IsPresent())
+                    ret.Add(sensor);
+            }
+
+            return ret;
         }
     }
 }

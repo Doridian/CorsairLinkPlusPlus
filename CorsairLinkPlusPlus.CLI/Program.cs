@@ -20,6 +20,21 @@ namespace CorsairLinkPlusPlus.CLI
             return hex.ToString();
         }
 
+        static void PrintSensorsAndSubDevices(CorsairLinkDevice device, string prefix)
+        {
+            Console.Out.WriteLine(prefix + "+ " + device.GetDeviceName());
+
+            foreach (CorsairSensor sensor in device.GetSensors())
+            {
+                Console.Out.WriteLine(prefix + "\t- " + sensor.GetName() + " = " + sensor.GetValue() + " " + sensor.GetUnit());
+            }
+
+            foreach(CorsairLinkDevice subDevice in device.GetSubDevices())
+            {
+                PrintSensorsAndSubDevices(subDevice, prefix + "\t");
+            }
+        }
+
         static void Main(string[] args)
         {
             CorsairLinkDeviceEnumerator enumerator = new CorsairLinkDeviceEnumerator();
@@ -27,23 +42,10 @@ namespace CorsairLinkPlusPlus.CLI
 
             foreach (CorsairLinkUSBDevice usbDevice in usbDevices)
             {
-                Console.Out.WriteLine(usbDevice.GetName());
-                List<CorsairLinkDevice> devices = usbDevice.GetSubDevices();
-                foreach (CorsairLinkDevice device in devices)
+                Console.Out.WriteLine("+ " + usbDevice.GetName());
+                foreach (CorsairLinkDevice device in usbDevice.GetSubDevices())
                 {
-                    Console.Out.WriteLine("\t" + device.GetDeviceName());
-
-                    for (int i = 0; i < device.GetCoolerCount(); i++)
-                    {
-                        CorsairCooler cooler = device.GetCooler(i);
-                        Console.Out.WriteLine("\t\t" + cooler.GetName() + " = " + cooler.GetValue() + " " + cooler.GetUnit());
-                    }
-
-                    for (int i = 0; i < device.GetTemperatureCount(); i++)
-                    {
-                        CorsairThermistor cooler = device.GetTemperature(i);
-                        Console.Out.WriteLine("\t\t" + cooler.GetName() + " = " + cooler.GetValue() + " " + cooler.GetUnit());
-                    }
+                    PrintSensorsAndSubDevices(device, "\t");
                 }
             }
 
