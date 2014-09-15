@@ -43,7 +43,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return "Corsair AirFlow Pro RAM stick " + id;
         }
 
-        private byte[] GetReadings()
+        internal byte[] GetReadings()
         {
             return ReadRegister((byte)(id << 4), 16);
         }
@@ -53,30 +53,52 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return GetReadings()[0] != 0;
         }
 
-        internal override double GetTemperatureDegC(int _id)
-        {
-            if (_id != 0)
-                return 0;
-            return GetReadings()[2];
-        }
-
-        internal override double GetUsagePercent(int _id)
-        {
-            if (_id != 0)
-                return 0;
-            return 1;
-        }
-
-        public override int GetTemperatureCount()
-        {
-            return 1;
-        }
-
         public override List<CorsairSensor> GetSensors()
         {
             List<CorsairSensor> ret = base.GetSensors();
+            ret.Add(new CorsairAFPThermistor(this, 0));
             ret.Add(new CorsairAFPUsage(this, 0));
             return ret;
+        }
+
+        public class CorsairAFPThermistor : CorsairUsage
+        {
+            private readonly CorsairLinkAFPRAMStick afpDevice;
+            internal CorsairAFPThermistor(CorsairLinkAFPRAMStick device, int id)
+                : base(device, id)
+            {
+                this.afpDevice = device;
+            }
+
+            internal override double GetValueInternal()
+            {
+                return 1;
+            }
+
+            public override string GetSensorType()
+            {
+                return "Memory usage";
+            }
+        }
+
+        public class CorsairAFPUsage : CorsairUsage
+        {
+            private readonly CorsairLinkAFPRAMStick afpDevice;
+            internal CorsairAFPUsage(CorsairLinkAFPRAMStick device, int id)
+                : base(device, id)
+            {
+                this.afpDevice = device;
+            }
+
+            internal override double GetValueInternal()
+            {
+                return afpDevice.GetReadings()[2];
+            }
+
+            public override string GetSensorType()
+            {
+                return "Memory usage";
+            }
         }
     }
 }

@@ -47,6 +47,7 @@
     <Compile Include="Node\CorsairLinkDeviceAFP.cs" />
     <Compile Include="Node\CorsairLinkDevicePSU.cs" />
     <Compile Include="Node\CorsairLinkDeviceModern.cs" />
+    <Compile Include="Sensor\CorsairLED.cs" />
     <Compile Include="Sensor\CorsairPowerSensor.cs" />
     <Compile Include="Sensor\CorsairCooler.cs" />
     <Compile Include="Sensor\CorsairCurrentSensor.cs" />

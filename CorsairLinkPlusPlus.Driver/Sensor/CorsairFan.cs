@@ -2,7 +2,7 @@
 
 namespace CorsairLinkPlusPlus.Driver.Sensor
 {
-    public class CorsairFan : CorsairCooler
+    public abstract class CorsairFan : CorsairCooler
     {
         protected bool? cachedPWM = null;
 

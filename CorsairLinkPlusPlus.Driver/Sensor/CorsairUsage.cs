@@ -3,7 +3,7 @@ using System;
 
 namespace CorsairLinkPlusPlus.Driver.Sensor
 {
-    public class CorsairUsage : CorsairSensor
+    public abstract class CorsairUsage : CorsairSensor
     {
         internal CorsairUsage(CorsairLinkDevice device, int id)
             : base(device, id)
@@ -14,11 +14,6 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
         public override string GetSensorType()
         {
             return "Usage";
-        }
-
-        internal override double GetValueInternal()
-        {
-            return device.GetUsagePercent(id);
         }
 
         public override string GetUnit()

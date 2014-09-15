@@ -116,18 +116,31 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return "Corsair PSU " + GetInternalName();
         }
 
-        internal override double GetCoolerRPM(int id)
+        class CorsairThermistorPSU : CorsairThermistor
         {
-            if (id != 0)
-                return 0;
-            return CorsairBitCodec.ToFloat(ReadRegister(0x90, 2), 0);
-        }
+            internal CorsairThermistorPSU(CorsairLinkDevicePSU device, int id)
+                : base(device, id)
+            {
 
-        internal override double GetTemperatureDegC(int id)
+            }
+
+            internal override double GetValueInternal()
+            {
+                return CorsairBitCodec.ToFloat(device.ReadRegister(0x8E, 2), 0);
+            }
+        }
+        class CorsairFanPSU : CorsairFan
         {
-            if (id != 0)
-                return 0;
-            return CorsairBitCodec.ToFloat(ReadRegister(0x8E, 2), 0);
+            internal CorsairFanPSU(CorsairLinkDevicePSU device, int id)
+                : base(device, id)
+            {
+
+            }
+
+            internal override double GetValueInternal()
+            {
+                return CorsairBitCodec.ToFloat(device.ReadRegister(0x90, 2), 0);
+            }
         }
 
         internal void SetMainPage(int page)
@@ -297,6 +310,9 @@ namespace CorsairLinkPlusPlus.Driver.Node
         public override List<CorsairSensor> GetSensors()
         {
             List<CorsairSensor> ret = base.GetSensors();
+            ret.Add(new CorsairThermistorPSU(this, 0));
+            ret.Add(new CorsairFanPSU(this, 0));
+
             string[] secondary12VRails = GetSecondary12VRailNames();
             if (secondary12VRails.Length > 0)
             {
@@ -322,16 +338,6 @@ namespace CorsairLinkPlusPlus.Driver.Node
                     ret.Add(psuSubSensor);
             }
             return ret;
-        }
-
-        public override int GetCoolerCount()
-        {
-            return 1;
-        }
-
-        public override int GetTemperatureCount()
-        {
-            return 1;
         }
     }
 }

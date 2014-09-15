@@ -36,7 +36,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             this.channel = channel;
         }
 
-        public void Refresh(bool volatileOnly)
+        public virtual void Refresh(bool volatileOnly)
         {
 
         }
@@ -68,86 +68,14 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
         public abstract string GetName();
 
-        public virtual int GetCoolerCount()
-        {
-            return 0;
-        }
-
-        internal virtual double GetCoolerRPM(int id)
-        {
-            return 0;
-        }
-
-        internal virtual double GetUsagePercent(int id)
-        {
-            return 0;
-        }
-
-        public virtual CorsairCooler GetCooler(int id)
-        {
-            if (id < 0 || id >= GetCoolerCount())
-                return null;
-            switch (GetCoolerType(id))
-            {
-                case "Fan":
-                    return new CorsairFan(this, id);
-                case "Pump":
-                    return new CorsairPump(this, id);
-            }
-            return null;
-        }
-
-        public virtual CorsairThermistor GetTemperature(int id)
-        {
-            if (id < 0 || id >= GetTemperatureCount())
-                return null;
-            return new CorsairThermistor(this, id);
-        }
-
         public virtual List<CorsairBaseDevice> GetSubDevices()
         {
             return new List<CorsairBaseDevice>(GetSensors());
         }
 
-        internal virtual double GetTemperatureDegC(int id)
-        {
-            return 0;
-        }
-
-        public virtual string GetCoolerType(int id)
-        {
-            return "Fan";
-        }
-
-        public virtual int GetTemperatureCount()
-        {
-            return 0;
-        }
-
-        public virtual int GetLEDCount()
-        {
-            return 0;
-        }
-
         public virtual List<CorsairSensor> GetSensors()
         {
-            List<CorsairSensor> ret = new List<CorsairSensor>();
-
-            for (int i = 0; i < GetCoolerCount(); i++)
-            {
-                CorsairSensor sensor = GetCooler(i);
-                if(sensor.IsPresent())
-                    ret.Add(sensor);
-            }
-
-            for (int i = 0; i < GetTemperatureCount(); i++)
-            {
-                CorsairSensor sensor = GetTemperature(i);
-                if (sensor.IsPresent())
-                    ret.Add(sensor);
-            }
-
-            return ret;
+            return new List<CorsairSensor>();
         }
     }
 }

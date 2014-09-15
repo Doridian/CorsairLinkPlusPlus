@@ -1,22 +1,13 @@
 ﻿using CorsairLinkPlusPlus.Driver.Sensor;
 using CorsairLinkPlusPlus.Driver.USB;
 using System;
+using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.Node
 {
     public class CorsairLinkDeviceModern : CorsairLinkDevice
     {
         internal CorsairLinkDeviceModern(CorsairLinkUSBDevice usbDevice, byte channel) : base(usbDevice, channel) { }
-
-        public byte GetDeviceID()
-        {
-            return ReadSingleByteRegister(0x00);
-        }
-
-        public int GetFirmwareVersion()
-        {
-            return BitConverter.ToInt16(ReadRegister(0x01, 2), 0);
-        }
 
         public override string GetName()
         {
@@ -46,6 +37,27 @@ namespace CorsairLinkPlusPlus.Driver.Node
                     return "Corsair H110iGT";
             }
             return "Unknown Modern Device (0x" + string.Format("{0:x2}", GetDeviceID()) + ")";
+        }
+
+        class CorsairPumpModern : CorsairPump
+        {
+            private readonly CorsairLinkDeviceModern modernDevice;
+
+            internal CorsairPumpModern(CorsairLinkDeviceModern device, int id)
+                : base(device, id)
+            {
+                modernDevice = device;
+            }
+
+            internal override double GetValueInternal()
+            {
+                return modernDevice.GetCoolerRPM(id);
+            }
+
+            internal override bool IsPresentInternal()
+            {
+                return true;
+            }
         }
 
         class CorsairFanModern : CorsairFan
@@ -80,6 +92,11 @@ namespace CorsairLinkPlusPlus.Driver.Node
                     cachedFanData = null;
             }
 
+            internal override double GetValueInternal()
+            {
+                return modernDevice.GetCoolerRPM(id);
+            }
+
             private bool FanDataBitSet(int bit)
             {
                 bit = 1 << bit;
@@ -97,7 +114,79 @@ namespace CorsairLinkPlusPlus.Driver.Node
             }
         }
 
-        public override CorsairCooler GetCooler(int id)
+        class CorsairThermistorModern : CorsairThermistor
+        {
+            private readonly CorsairLinkDeviceModern modernDevice;
+
+            internal CorsairThermistorModern(CorsairLinkDeviceModern device, int id)
+                : base(device, id)
+            {
+                modernDevice = device;
+            }
+
+            internal override double GetValueInternal()
+            {
+                byte[] ret;
+                lock (modernDevice.usbDevice.usbLock)
+                {
+                    modernDevice.SetCurrentTemp(id);
+                    ret = modernDevice.ReadRegister(0x0E, 2);
+                }
+                return ((double)BitConverter.ToInt16(ret, 0)) / 256.0;
+            }
+        }
+
+        class CorsairLEDModern : CorsairLED
+        {
+            private readonly CorsairLinkDeviceModern modernDevice;
+
+            internal CorsairLEDModern(CorsairLinkDeviceModern device, int id)
+                : base(device, id)
+            {
+                modernDevice = device;
+            }
+
+            internal override double GetValueInternal()
+            {
+                byte[] ret;
+                lock (modernDevice.usbDevice.usbLock)
+                {
+                    modernDevice.SetCurrentLED(id);
+                    ret = modernDevice.ReadRegister(0x07, 3);
+                }
+                ret = new byte[] { ret[0], ret[1], ret[2], 0 };
+                return BitConverter.ToUInt32(ret, 0);
+            }
+        }
+
+        public override List<CorsairSensor> GetSensors()
+        {
+            List<CorsairSensor> ret = base.GetSensors();
+            int imax = GetCoolerCount();
+            for (int i = 0; i < imax; i++)
+            {
+                CorsairSensor sensor = GetCooler(i);
+                if(sensor.IsPresent())
+                    ret.Add(sensor);
+            }
+            imax = GetTemperatureCount();
+            for (int i = 0; i < imax; i++)
+            {
+                CorsairSensor sensor = new CorsairThermistorModern(this, i);
+                if(sensor.IsPresent())
+                    ret.Add(sensor);
+            }
+            imax = GetLEDCount();
+            for (int i = 0; i < imax; i++)
+            {
+                CorsairSensor sensor = new CorsairLEDModern(this, i);
+                if (sensor.IsPresent())
+                    ret.Add(sensor);
+            }
+            return ret;
+        }
+
+        internal CorsairCooler GetCooler(int id)
         {
             if (id < 0 || id >= GetCoolerCount())
                 return null;
@@ -106,12 +195,12 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 case "Fan":
                     return new CorsairFanModern(this, id);
                 case "Pump":
-                    return new CorsairPump(this, id);
+                    return new CorsairPumpModern(this, id);
             }
             return null;
         }
 
-        public override string GetCoolerType(int id)
+        internal string GetCoolerType(int id)
         {
             int devID = GetDeviceID();
             if (devID == 0x3B || devID == 0x3C || devID == 0x3E || devID == 0x40 || devID == 0x41)
@@ -119,12 +208,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 if (id == GetCoolerCount() - 1)
                     return "Pump";
             }
-            return base.GetCoolerType(id);
-        }
-
-        public override int GetCoolerCount()
-        {
-            return ReadSingleByteRegister(0x11);
+            return "Fan";
         }
 
         internal void SetCurrentFan(int id)
@@ -132,7 +216,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             WriteSingleByteRegister(0x10, (byte)id);
         }
 
-        internal override double GetCoolerRPM(int id)
+        internal double GetCoolerRPM(int id)
         {
             byte[] ret;
             lock (usbDevice.usbLock)
@@ -143,30 +227,63 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return BitConverter.ToInt16(ret, 0);
         }
 
-        protected void SetCurrentTemp(int id)
+        internal void SetCurrentTemp(int id)
         {
             WriteSingleByteRegister(0x0C, (byte)id);
         }
 
-        internal override double GetTemperatureDegC(int id)
+        internal void SetCurrentLED(int id)
         {
-            byte[] ret;
-            lock (usbDevice.usbLock)
+            WriteSingleByteRegister(0x04, (byte)id);
+        }
+
+        public override void Refresh(bool volatileOnly)
+        {
+            if (!volatileOnly)
             {
-                SetCurrentTemp(id);
-                ret = ReadRegister(0x0E, 2);
+                temperatureCount = -1;
+                coolerCount = -1;
+                ledCount = -1;
+                deviceID = 0xFF;
             }
-            return ((double)BitConverter.ToInt16(ret, 0)) / 256.0;
         }
 
-        public override int GetTemperatureCount()
+        int temperatureCount = -1;
+        int coolerCount = -1;
+        int ledCount = -1;
+        byte deviceID = 0xFF;
+
+        internal int GetCoolerCount()
         {
-            return ReadSingleByteRegister(0x0D);
+            if (coolerCount < 0)
+                coolerCount = ReadSingleByteRegister(0x11);
+            return coolerCount;
         }
 
-        public override int GetLEDCount()
+        internal int GetTemperatureCount()
         {
-            return ReadSingleByteRegister(0x05);
+            if (temperatureCount < 0)
+                temperatureCount = ReadSingleByteRegister(0x0D);
+            return temperatureCount;
+        }
+
+        internal int GetLEDCount()
+        {
+            if (ledCount < 0)
+                ledCount = ReadSingleByteRegister(0x05);
+            return ledCount;
+        }
+
+        public byte GetDeviceID()
+        {
+            if (deviceID == 0xFF)
+                deviceID = ReadSingleByteRegister(0x00);
+            return deviceID;
+        }
+
+        public int GetFirmwareVersion()
+        {
+            return BitConverter.ToInt16(ReadRegister(0x01, 2), 0);
         }
     }
 }

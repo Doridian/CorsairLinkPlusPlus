@@ -2,7 +2,7 @@
 
 namespace CorsairLinkPlusPlus.Driver.Sensor
 {
-    public class CorsairPump : CorsairCooler
+    public abstract class CorsairPump : CorsairCooler
     {
         internal CorsairPump(CorsairLinkDevice device, int id)
             : base(device, id)

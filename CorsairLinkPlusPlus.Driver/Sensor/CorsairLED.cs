@@ -1,11 +1,10 @@
 ﻿using CorsairLinkPlusPlus.Driver.Node;
-using System;
 
 namespace CorsairLinkPlusPlus.Driver.Sensor
 {
-    public abstract class CorsairThermistor : CorsairSensor
+    public abstract class CorsairLED : CorsairSensor
     {
-        internal CorsairThermistor(CorsairLinkDevice device, int id)
+        internal CorsairLED(CorsairLinkDevice device, int id)
             : base(device, id)
         {
 
@@ -13,12 +12,12 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
 
         public override string GetSensorType()
         {
-            return "Temp";
+            return "LED";
         }
 
         public override string GetUnit()
         {
-            return "°C";
+            return "RGB";
         }
     }
 }
