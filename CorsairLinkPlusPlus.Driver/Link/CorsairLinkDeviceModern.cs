@@ -46,6 +46,7 @@ namespace CorsairLinkPlusPlus.Driver.Link
             }
             return "Unknown Modern Device (0x" + string.Format("{0:x2}", GetDeviceID()) + ")";
         }
+
         public override int GetFanCount()
         {
             return ReadSingleByteRegister(0x11);

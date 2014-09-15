@@ -39,6 +39,16 @@ namespace CorsairLinkPlusPlus.Driver.Link
             return usbDevice.ReadRegister(register, channel, bytes);
         }
 
+        protected void WriteSingleByteRegister(byte register, byte value)
+        {
+            usbDevice.WriteSingleByteRegister(register, channel, value);
+        }
+
+        protected void WriteRegister(byte register, byte[] bytes)
+        {
+            usbDevice.WriteRegister(register, channel, bytes);
+        }
+
         public virtual string GetDeviceName()
         {
             throw new NotImplementedException();

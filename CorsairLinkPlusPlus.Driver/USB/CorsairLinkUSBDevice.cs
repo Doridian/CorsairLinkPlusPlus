@@ -65,12 +65,12 @@ namespace CorsairLinkPlusPlus.Driver.USB
             return CorsairLinkDevice.CreateNew(this, channel, deviceType);
         }
 
-        internal byte ReadSingleByteRegister(byte register, byte channel)
+        internal virtual byte ReadSingleByteRegister(byte register, byte channel)
         {
             return SendCommand(0x07, channel, new byte[] { register })[0];
         }
 
-        internal byte[] ReadRegister(byte register, byte channel, byte bytes)
+        internal virtual byte[] ReadRegister(byte register, byte channel, byte bytes)
         {
             switch (bytes)
             {
@@ -84,6 +84,31 @@ namespace CorsairLinkPlusPlus.Driver.USB
                     byte[] ret = new byte[rawRet[0]];
                     Buffer.BlockCopy(rawRet, 1, ret, 0, ret.Length);
                     return ret;
+            }
+        }
+
+        internal virtual void WriteSingleByteRegister(byte register, byte channel, byte value)
+        {
+            SendCommand(0x06, channel, new byte[] { register, value });
+        }
+
+        internal virtual void WriteRegister(byte register, byte channel, byte[] bytes)
+        {
+            switch (bytes.Length)
+            {
+                case 1:
+                    WriteSingleByteRegister(register, channel, bytes[0]);
+                    break;
+                case 2:
+                    SendCommand(0x08, channel, new byte[] { register, bytes[0], bytes[1] });
+                    break;
+                default:
+                    byte[] rawBytes = new byte[bytes.Length + 2];
+                    rawBytes[0] = register;
+                    rawBytes[1] = (byte)bytes.Length;
+                    Buffer.BlockCopy(bytes, 0, rawBytes, 2, bytes.Length);
+                    SendCommand(0x0A, channel, rawBytes);
+                    break;
             }
         }
 
