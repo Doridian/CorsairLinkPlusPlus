@@ -60,7 +60,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             }
         }
 
-        class CorsairFanModern : CorsairFan
+        class CorsairFanModern : CorsairFan, CorsairTemperatureControllableSensor
         {
             private readonly CorsairLinkDeviceModern modernDevice;
             protected byte? cachedFanData = null;
@@ -112,6 +112,21 @@ namespace CorsairLinkPlusPlus.Driver.Node
             {
                 return FanDataBitSet(0);
             }
+
+            public void SetTemperatureSensor(int idx)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void SetTemperature(double temperature)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void SetController(Controller.CorsairControllerBase controller)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         class CorsairThermistorModern : CorsairThermistor
@@ -136,7 +151,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             }
         }
 
-        class CorsairLEDModern : CorsairLED
+        class CorsairLEDModern : CorsairLED, CorsairTemperatureControllableSensor
         {
             private readonly CorsairLinkDeviceModern modernDevice;
 
@@ -165,6 +180,21 @@ namespace CorsairLinkPlusPlus.Driver.Node
                     modernDevice.WriteRegister(0x0B, reg);
                 }
                 Refresh(true);
+            }
+
+            public void SetTemperatureSensor(int idx)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void SetTemperature(double temperature)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void SetController(Controller.CorsairControllerBase controller)
+            {
+                throw new NotImplementedException();
             }
         }
 

@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\CorsairControllerBase.cs" />
+    <Compile Include="Controller\CorsairTemperatureDependantControllerBase.cs" />
     <Compile Include="CorsairBaseDevice.cs" />
     <Compile Include="CorsairUtility.cs" />
     <Compile Include="Node\CorsairLinkDevice.cs" />
@@ -52,6 +54,8 @@
     <Compile Include="Sensor\CorsairPowerSensor.cs" />
     <Compile Include="Sensor\CorsairCooler.cs" />
     <Compile Include="Sensor\CorsairCurrentSensor.cs" />
+    <Compile Include="Sensor\CorsairControllableSensor.cs" />
+    <Compile Include="Sensor\CorsairTemperatureControllableSensor.cs" />
     <Compile Include="Sensor\CorsairVoltageSensor.cs" />
     <Compile Include="Sensor\CorsairPump.cs" />
     <Compile Include="Sensor\CorsairFan.cs" />
@@ -73,7 +77,10 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controller\Fan\" />
+    <Folder Include="Controller\LED\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
