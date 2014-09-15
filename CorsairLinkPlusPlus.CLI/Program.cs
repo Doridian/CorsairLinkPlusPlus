@@ -32,9 +32,16 @@ namespace CorsairLinkPlusPlus.CLI
                 foreach (CorsairLinkDevice device in devices)
                 {
                     Console.Out.WriteLine("\t" + device.GetDeviceName());
+
                     for (int i = 0; i < device.GetCoolerCount(); i++)
                     {
                         CorsairCooler cooler = device.GetCooler(i);
+                        Console.Out.WriteLine("\t\t" + cooler.GetName() + " = " + cooler.GetValue() + " " + cooler.GetUnit());
+                    }
+
+                    for (int i = 0; i < device.GetTemperatureCount(); i++)
+                    {
+                        CorsairThermistor cooler = device.GetTemperature(i);
                         Console.Out.WriteLine("\t\t" + cooler.GetName() + " = " + cooler.GetValue() + " " + cooler.GetUnit());
                     }
                 }

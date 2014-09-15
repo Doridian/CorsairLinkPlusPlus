@@ -50,6 +50,7 @@
     <Compile Include="Sensor\CorsairPump.cs" />
     <Compile Include="Sensor\CorsairFan.cs" />
     <Compile Include="Sensor\CorsairSensor.cs" />
+    <Compile Include="Sensor\CorsairThermistor.cs" />
     <Compile Include="USB\CorsairLinkUSBDevice.cs" />
     <Compile Include="USB\CorsairLinkDeviceEnumerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

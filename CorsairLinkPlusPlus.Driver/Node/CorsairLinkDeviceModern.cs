@@ -74,6 +74,17 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return BitConverter.ToInt16(ReadRegister(0x16, 2), 0);
         }
 
+        protected void SetCurrentTemp(int id)
+        {
+            WriteSingleByteRegister(0x0C, (byte)id);
+        }
+
+        internal override double GetTemperatureDegC(int id)
+        {
+            SetCurrentTemp(id);
+            return ((double)BitConverter.ToInt16(ReadRegister(0x0E, 2), 0)) / 256.0;
+        }
+
         public override int GetTemperatureCount()
         {
             return ReadSingleByteRegister(0x0D);

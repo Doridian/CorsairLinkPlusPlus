@@ -78,6 +78,18 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return null;
         }
 
+        public virtual CorsairThermistor GetTemperature(int id)
+        {
+            if (id < 0 || id >= GetTemperatureCount())
+                return null;
+            return new CorsairThermistor(this, id);
+        }
+
+        internal virtual double GetTemperatureDegC(int id)
+        {
+            return 0;
+        }
+
         public virtual string GetCoolerType(int id)
         {
             return "Fan";

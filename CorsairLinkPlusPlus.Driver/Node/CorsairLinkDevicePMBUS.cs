@@ -20,7 +20,19 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return CorsairBitCodec.ToFloat(ReadRegister(0x90, 2), 0);
         }
 
+        internal override double GetTemperatureDegC(int id)
+        {
+            if (id != 0)
+                return 0;
+            return CorsairBitCodec.ToFloat(ReadRegister(0x8E, 2), 0);
+        }
+
         public override int GetCoolerCount()
+        {
+            return 1;
+        }
+
+        public override int GetTemperatureCount()
         {
             return 1;
         }
