@@ -19,6 +19,7 @@ namespace CorsairLinkPlusPlus.CLI
                 if (device is CorsairLED)
                 {
                     CorsairLED led = (CorsairLED)device;
+                    led.SetRGB(new byte[] { 255, 1, 1 });
                     Console.Out.WriteLine(prefix + "- " + led.GetName() + " = " + led.GetColor().ToString());
                 }
                 else

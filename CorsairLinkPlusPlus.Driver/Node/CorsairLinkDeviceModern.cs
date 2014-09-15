@@ -154,6 +154,18 @@ namespace CorsairLinkPlusPlus.Driver.Node
                     return modernDevice.ReadRegister(0x07, 3);
                 }
             }
+
+            public override void SetRGB(byte[] rgb)
+            {
+                byte[] reg = new byte[12];
+                Buffer.BlockCopy(rgb, 0, reg, 0, rgb.Length);
+                lock (modernDevice.usbDevice.usbLock)
+                {
+                    modernDevice.SetCurrentLED(id);
+                    modernDevice.WriteRegister(0x0B, reg);
+                }
+                Refresh(true);
+            }
         }
 
         public override List<CorsairSensor> GetSensors()
