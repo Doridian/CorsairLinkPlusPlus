@@ -13,7 +13,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
         }
         public override List<CorsairBaseDevice> GetSubDevices()
         {
-            List<CorsairBaseDevice> ramSticks = new List<CorsairBaseDevice>();
+            List<CorsairBaseDevice> ramSticks = base.GetSubDevices();
             for (int i = 0; i < 6; i++)
             {
                 CorsairLinkAFPRAMStick ramStick = new CorsairLinkAFPRAMStick(usbDevice, channel, i);

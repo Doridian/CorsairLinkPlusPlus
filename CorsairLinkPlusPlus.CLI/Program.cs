@@ -40,6 +40,8 @@ namespace CorsairLinkPlusPlus.CLI
                 PrintSensorsAndSubDevices(usbDevice, "");
             }
 
+            Console.Out.WriteLine();
+            Console.Out.WriteLine("---DONE---");
             Console.In.ReadLine();
         }
     }
