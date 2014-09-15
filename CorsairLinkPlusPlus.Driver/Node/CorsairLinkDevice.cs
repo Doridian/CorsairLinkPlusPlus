@@ -16,7 +16,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 case 0x3:
                     return new CorsairLinkDeviceAFP(usbDevice, channel);
                 case 0x1:
-                    return new CorsairLinkDevicePMBUS(usbDevice, channel);
+                    return new CorsairLinkDevicePSUAX1200i(usbDevice, channel);
                 default:
                     return null;
             }
