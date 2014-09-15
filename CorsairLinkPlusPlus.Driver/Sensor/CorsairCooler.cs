@@ -15,7 +15,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
             return device.GetCoolerType(id);
         }
 
-        public override double GetValue()
+        internal override double GetValueInternal()
         {
             return device.GetCoolerRPM(id);
         }

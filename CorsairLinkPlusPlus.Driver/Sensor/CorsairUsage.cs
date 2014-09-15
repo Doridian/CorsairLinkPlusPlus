@@ -16,7 +16,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
             return "Usage";
         }
 
-        public override double GetValue()
+        internal override double GetValueInternal()
         {
             return device.GetUsagePercent(id);
         }

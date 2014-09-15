@@ -6,6 +6,8 @@ namespace CorsairLinkPlusPlus.Driver
     {
         bool IsPresent();
         string GetName();
+        void Refresh();
         List<CorsairBaseDevice> GetSubDevices();
+        string GetUDID();
     }
 }

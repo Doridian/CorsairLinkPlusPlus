@@ -15,6 +15,11 @@ namespace CorsairLinkPlusPlus.Driver.USB
             this.hidDevice = hidDevice;
         }
 
+        public string GetUDID()
+        {
+            return hidDevice.DevicePath.Replace('\\', '/');
+        }
+
         public struct ChannelData
         {
             internal readonly byte channel;
@@ -32,6 +37,11 @@ namespace CorsairLinkPlusPlus.Driver.USB
         public bool IsPresent()
         {
             return true;
+        }
+
+        public void Refresh()
+        {
+
         }
 
         public Dictionary<byte, byte> GetUsedChannels()

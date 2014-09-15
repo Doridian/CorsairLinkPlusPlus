@@ -70,12 +70,12 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 return (GetFanData() & bit) == bit;
             }
 
-            public override bool IsPresent()
+            internal override bool IsPresentInternal()
             {
                 return FanDataBitSet(7);
             }
 
-            public override bool IsPWM()
+            internal override bool IsPWMInternal()
             {
                 return FanDataBitSet(0);
             }

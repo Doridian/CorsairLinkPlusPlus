@@ -11,6 +11,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
         {
             return "Corsair AirFlow Pro";
         }
+
         public override List<CorsairBaseDevice> GetSubDevices()
         {
             List<CorsairBaseDevice> ramSticks = base.GetSubDevices();
@@ -30,6 +31,11 @@ namespace CorsairLinkPlusPlus.Driver.Node
         internal CorsairLinkAFPRAMStick(CorsairLinkUSBDevice usbDevice, byte channel, int id) : base(usbDevice, channel)
         {
             this.id = id;
+        }
+
+        public override string GetUDID()
+        {
+            return base.GetUDID() + "/DIMM" + id;
         }
 
         public override string GetName()

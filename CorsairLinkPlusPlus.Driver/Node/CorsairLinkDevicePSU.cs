@@ -159,7 +159,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 this.psuDevice = device;
             }
 
-            public override double GetValue()
+            internal override double GetValueInternal()
             {
                 return psuDevice.GetSecondary12VCurrent(id);
             }
@@ -183,6 +183,11 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 this.psuDevice = psuDevice;
             }
 
+            public override string GetUDID()
+            {
+                return psuDevice.GetUDID() + "/Main" + id;
+            }
+
             class CorsairMainPowerSensor : CorsairPowerSensor
             {
                 private readonly CorsairMainPowerDevice powerDevice;
@@ -193,7 +198,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
                     this.powerDevice = device;
                 }
 
-                public override double GetValue()
+                internal override double GetValueInternal()
                 {
                     return powerDevice.ReadPower();
                 }
@@ -209,7 +214,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
                     this.powerDevice = device;
                 }
 
-                public override double GetValue()
+                internal override double GetValueInternal()
                 {
                     return powerDevice.ReadCurrent();
                 }
@@ -225,7 +230,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
                     this.powerDevice = device;
                 }
 
-                public override double GetValue()
+                internal override double GetValueInternal()
                 {
                     return powerDevice.ReadVoltage();
                 }

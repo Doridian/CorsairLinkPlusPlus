@@ -22,6 +22,11 @@ namespace CorsairLinkPlusPlus.Driver.Node
             }
         }
 
+        public virtual string GetUDID()
+        {
+            return usbDevice.GetUDID() + "/Channel" + channel;
+        }
+
         protected readonly CorsairLinkUSBDevice usbDevice;
         protected readonly byte channel;
 
@@ -29,6 +34,11 @@ namespace CorsairLinkPlusPlus.Driver.Node
         {
             this.usbDevice = usbDevice;
             this.channel = channel;
+        }
+
+        public void Refresh()
+        {
+
         }
 
         public bool IsPresent()
