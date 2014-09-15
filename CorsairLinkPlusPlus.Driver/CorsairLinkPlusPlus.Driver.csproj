@@ -43,9 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Link\CorsairLinkDevice.cs" />
-    <Compile Include="Link\CommanderMini.cs" />
     <Compile Include="Link\CorsairLinkDeviceAFP.cs" />
-    <Compile Include="Link\CorsairLinkDeviceAXPSU.cs" />
+    <Compile Include="Link\CorsairLinkDevicePMBUS.cs" />
     <Compile Include="Link\CorsairLinkDeviceModern.cs" />
     <Compile Include="USB\CorsairLinkUSBDevice.cs" />
     <Compile Include="USB\CorsairLinkDeviceEnumerator.cs" />
