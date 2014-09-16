@@ -53,12 +53,9 @@ namespace CorsairLinkPlusPlus.Driver.USB
             byte[] cmdRes = SendCommand(0x4F, 0x00, null);
             Dictionary<byte, byte> usedChannels = new Dictionary<byte, byte>();
             for (byte i = 0; i < 8; i++)
-            {
                 if (cmdRes[i] != 0xFF)
-                {
                     usedChannels.Add(i, cmdRes[i]);
-                }
-            }
+
             return usedChannels;
         }
 
@@ -70,9 +67,7 @@ namespace CorsairLinkPlusPlus.Driver.USB
             {
                 subDevices = new Dictionary<byte, CorsairLinkDevice>();
                 foreach (KeyValuePair<byte, byte> channel in GetUsedChannels())
-                {
                     subDevices.Add(channel.Key, GetDeviceOnChannel(channel.Key, channel.Value));
-                }
             }
 
             ret.AddRange(subDevices.Values);

@@ -161,13 +161,9 @@ namespace CorsairLinkPlusPlus.Driver.Node
             public void SetController(CorsairControllerBase controller)
             {
                 if (controller is CorsairFanDefaultController)
-                {
                     device.WriteSingleByteRegister(0xF0, 0);
-                }
                 else if (controller is CorsairFanFixedPercentController)
-                {
                     device.WriteSingleByteRegister(0xF0, 1);
-                }
 
                 SaveControllerData(controller);
             }
@@ -180,7 +176,6 @@ namespace CorsairLinkPlusPlus.Driver.Node
             public CorsairControllerBase GetController()
             {
                 if (controller == null)
-                {
                     switch(device.ReadSingleByteRegister(0xF0))
                     {
                         case 0:
@@ -192,9 +187,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
                             controller = newController;
                             break;
                     }
-
                     
-                }
                 return controller;
             }
 

@@ -28,9 +28,7 @@ namespace CorsairLinkPlusPlus.Driver.USB
                 Buffer.BlockCopy(payload, 0, _command, 4, payload.Length);
             }
             else
-            {
                 _command[1] = 2;
-            }
             return _command;
         }
     }

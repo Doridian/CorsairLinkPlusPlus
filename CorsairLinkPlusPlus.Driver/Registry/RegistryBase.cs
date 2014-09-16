@@ -18,12 +18,9 @@ namespace CorsairLinkPlusPlus.Driver.Registry
             List<Type> types = new List<Type>();
             Assembly asm = Assembly.GetCallingAssembly();
             foreach(Type type in asm.GetExportedTypes())
-            {
                 if (!type.IsInterface && !type.IsAbstract && type.Namespace == namespaceName && typeof(T).IsAssignableFrom(type))
-                {
                     types.Add(type);
-                }
-            }
+
             return types;
         }
     }

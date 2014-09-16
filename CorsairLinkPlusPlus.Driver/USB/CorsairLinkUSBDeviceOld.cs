@@ -16,9 +16,7 @@ namespace CorsairLinkPlusPlus.Driver.USB
                 commandNo = 20;
             _command[2] = (byte)(opcode | (channel << 4));
             if (payload != null)
-            {
                 Buffer.BlockCopy(payload, 0, _command, 3, payload.Length);
-            }
             return _command;
         }
 

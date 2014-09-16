@@ -54,10 +54,8 @@ namespace CorsairLinkPlusPlus.Driver.Utility
         public int CalculateY(int x)
         {
             for (int i = 0; i < points.Count - 1; ++i)
-            {
                 if (BetweenPoints(points[i], points[i + 1], x))
                     return CalcYBetweenPoints(points[i], points[i + 1], x);
-            }
             return -1;
         }
 
@@ -68,12 +66,10 @@ namespace CorsairLinkPlusPlus.Driver.Utility
 
         public override string ToString()
         {
-            string ret = "";
+            StringBuilder builder = new StringBuilder();
             foreach(CurvePoint point in points)
-            {
-                ret += point + ", ";
-            }
-            return ret;
+                builder.Append(point).Append(", ");
+            return builder.ToString();
         }
     }
 }

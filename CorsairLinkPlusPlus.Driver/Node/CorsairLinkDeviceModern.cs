@@ -236,9 +236,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 List<CurvePoint> points = new List<CurvePoint>();
 
                 for (int i = 0; i < 10; i += 2)
-                {
                     points.Add(new CurvePoint(BitConverter.ToInt16(tempTable, i) / 256, BitConverter.ToInt16(rpmTable, i)));
-                }
 
                 return new ControlCurve(points);
             }
@@ -445,9 +443,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 coolerSensors = new Dictionary<int, CorsairCooler>();
                 int imax = GetCoolerCount();
                 for (int i = 0; i < imax; i++)
-                {
                     coolerSensors.Add(i, GetCooler(i));
-                }
             }
 
             foreach (CorsairCooler sensor in coolerSensors.Values)
@@ -462,9 +458,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 tempSensors = new Dictionary<int, CorsairThermistor>();
                 int imax = GetTemperatureCount();
                 for (int i = 0; i < imax; i++)
-                {
                     tempSensors.Add(i, new CorsairThermistorModern(this, i));
-                }
             }
 
             foreach (CorsairThermistor sensor in tempSensors.Values)
@@ -479,9 +473,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 ledSensors = new Dictionary<int, CorsairLED>();
                 int imax = GetLEDCount();
                 for (int i = 0; i < imax; i++)
-                {
                     ledSensors.Add(i, new CorsairLEDModern(this, i));
-                }
             }
 
             foreach (CorsairLED sensor in ledSensors.Values)
@@ -499,10 +491,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 return null;
             int devID = GetDeviceID();
             if (devID == 0x3B || devID == 0x3C || devID == 0x3E || devID == 0x40 || devID == 0x41)
-            {
                 if (id == GetCoolerCount() - 1)
                     return new CorsairPumpModern(this, id);
-            }
             return new CorsairFanModern(this, id);
         }
 
