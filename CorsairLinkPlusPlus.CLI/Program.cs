@@ -24,12 +24,13 @@ namespace CorsairLinkPlusPlus.CLI
                     CorsairFan fan = (CorsairFan)device;
                     CorsairControllableSensor controllableFan = (CorsairControllableSensor)device;
                     CorsairControllerBase fanController = controllableFan.GetController();
-                    Console.Out.Write(prefix + "- " + fan.GetName() + " = " + fan.GetValue() + " " + fan.GetUnit() + " " + ((fanController == null) ? "N/A" : fanController.GetType().Name));
+                    Console.Out.WriteLine(prefix + "- " + fan.GetName() + " = " + fan.GetValue() + " " + fan.GetUnit());
+                    if (fanController != null)
+                        Console.Out.WriteLine(prefix + "\t" + ((fanController == null) ? "N/A" : fanController.GetType().Name));
                     if(fanController is CorsairFanCurveController)
                     {
-                        Console.Out.Write(((CorsairFanCurveController)fanController).GetCurve());
+                        Console.Out.WriteLine(prefix + "\t\t" + ((CorsairFanCurveController)fanController).GetCurve().ToString().Replace("}, {", "}\r\n" + prefix + "\t\t{"));
                     }
-                    Console.Out.WriteLine();
                 }
                 else
                 {
