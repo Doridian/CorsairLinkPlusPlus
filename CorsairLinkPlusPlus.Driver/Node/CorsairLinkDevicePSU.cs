@@ -1,4 +1,6 @@
-﻿using CorsairLinkPlusPlus.Driver.Sensor;
+﻿using CorsairLinkPlusPlus.Driver.Controller;
+using CorsairLinkPlusPlus.Driver.Controller.Fan;
+using CorsairLinkPlusPlus.Driver.Sensor;
 using CorsairLinkPlusPlus.Driver.USB;
 using System;
 using System.Collections.Generic;
@@ -129,8 +131,10 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 return CorsairBitCodec.ToFloat(device.ReadRegister(0x8E, 2), 0);
             }
         }
-        class CorsairFanPSU : CorsairFan
+        class CorsairFanPSU : CorsairFan, CorsairControllableSensor
         {
+            private CorsairControllerBase controller = null;
+
             internal CorsairFanPSU(CorsairLinkDevicePSU device, int id)
                 : base(device, id)
             {
@@ -144,20 +148,62 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public override void SetFixedPercent(int percent)
             {
- 	            throw new NotImplementedException();
-            }
-
-            public override void SetFixedRPM(int rpm)
-            {
-                throw new NotImplementedException();
+                if (percent < 0 || percent > 100)
+                    throw new ArgumentException();
+                device.WriteSingleByteRegister(0x3B, (byte)percent);
             }
 
             public override int GetFixedPercent()
             {
-                throw new NotImplementedException();
+                return device.ReadSingleByteRegister(0x3B);
+            }
+
+            public void SetController(CorsairControllerBase controller)
+            {
+                if (controller is CorsairFanDefaultController)
+                {
+                    device.WriteSingleByteRegister(0xF0, 0);
+                }
+                else if (controller is CorsairFanFixedPercentController)
+                {
+                    device.WriteSingleByteRegister(0xF0, 1);
+                }
+
+                SaveControllerData(controller);
+            }
+
+            public void SaveControllerData(CorsairControllerBase controller)
+            {
+                controller.Apply(this);
+            }
+
+            public CorsairControllerBase GetController()
+            {
+                if (controller == null)
+                {
+                    switch(device.ReadSingleByteRegister(0xF0))
+                    {
+                        case 0:
+                            controller = new CorsairFanDefaultController();
+                            break;
+                        case 1:
+                            CorsairFanFixedPercentController newController = new CorsairFanFixedPercentController();
+                            newController.AssignFrom(this);
+                            controller = newController;
+                            break;
+                    }
+
+                    
+                }
+                return controller;
             }
 
             public override int GetFixedRPM()
+            {
+                throw new NotImplementedException();
+            }
+
+            public override void SetFixedRPM(int rpm)
             {
                 throw new NotImplementedException();
             }

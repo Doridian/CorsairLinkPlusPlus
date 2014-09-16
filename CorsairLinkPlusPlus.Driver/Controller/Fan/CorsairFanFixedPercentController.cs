@@ -22,6 +22,11 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
             this.percent = percent;
         }
 
+        public int GetPercent()
+        {
+            return percent;
+        }
+
         internal override void Apply(CorsairSensor sensor)
         {
             if (!(sensor is CorsairFan))

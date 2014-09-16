@@ -21,6 +21,10 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
         {
             this.rpm = rpm;
         }
+        public int GetRPM()
+        {
+            return rpm;
+        }
 
         internal override void Apply(CorsairSensor sensor)
         {

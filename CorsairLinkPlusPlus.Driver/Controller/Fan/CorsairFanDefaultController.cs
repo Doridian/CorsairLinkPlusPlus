@@ -15,6 +15,18 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
 
         }
 
+        internal override void Apply(CorsairSensor sensor)
+        {
+            if(sensor is CorsairTemperatureControllableSensor)
+                base.Apply(sensor);
+        }
+
+        internal override void Refresh(CorsairSensor sensor)
+        {
+            if (sensor is CorsairTemperatureControllableSensor)
+                base.Refresh(sensor);
+        }
+
         public byte GetFanModernControllerID()
         {
             return 0x06;
@@ -22,7 +34,8 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
 
         public virtual void AssignFrom(CorsairFan fan)
         {
-            SetThermistor(((CorsairTemperatureControllableSensor)fan).GetTemperatureSensor());
+            if (fan is CorsairTemperatureControllableSensor)
+                SetThermistor(((CorsairTemperatureControllableSensor)fan).GetTemperatureSensor());
         }
     }
 }
