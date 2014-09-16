@@ -19,12 +19,12 @@ namespace CorsairLinkPlusPlus.CLI
                     CorsairLED led = (CorsairLED)device;
                     Console.Out.WriteLine(prefix + "- " + led.GetName() + " = " + led.GetColor().ToString());
                 }
-                else if(device is CorsairFan && device is CorsairTemperatureControllableSensor)
+                else if(device is CorsairFan && device is CorsairControllableSensor)
                 {
                     CorsairFan fan = (CorsairFan)device;
-                    CorsairTemperatureControllableSensor controllableFan = (CorsairTemperatureControllableSensor)device;
+                    CorsairControllableSensor controllableFan = (CorsairControllableSensor)device;
                     CorsairControllerBase fanController = controllableFan.GetController();
-                    Console.Out.Write(prefix + "- " + fan.GetName() + " = " + fan.GetValue() + " " + fan.GetUnit() + ((fanController == null) ? "N/A" : fanController.GetType().Name));
+                    Console.Out.Write(prefix + "- " + fan.GetName() + " = " + fan.GetValue() + " " + fan.GetUnit() + " " + ((fanController == null) ? "N/A" : fanController.GetType().Name));
                     if(fanController is CorsairFanCurveController)
                     {
                         Console.Out.Write(((CorsairFanCurveController)fanController).GetCurve());
