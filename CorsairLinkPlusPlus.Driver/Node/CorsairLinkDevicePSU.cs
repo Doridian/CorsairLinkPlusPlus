@@ -345,12 +345,22 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 return name;
             }
 
+            private CorsairMainCurrentSensor current;
+            private CorsairMainPowerSensor power;
+            private CorsairMainVoltageSensor voltage;
+
             public override List<CorsairSensor> GetSensors()
             {
                 List<CorsairSensor> sensors = base.GetSensors();
-                sensors.Add(new CorsairMainPowerSensor(this));
-                sensors.Add(new CorsairMainCurrentSensor(this));
-                sensors.Add(new CorsairMainVoltageSensor(this));
+                if (current == null)
+                    current = new CorsairMainCurrentSensor(this);
+                if (power == null)
+                    power = new CorsairMainPowerSensor(this);
+                if (voltage == null)
+                    voltage = new CorsairMainVoltageSensor(this);
+                sensors.Add(current);
+                sensors.Add(power);
+                sensors.Add(voltage);
                 return sensors;
             }
 
@@ -393,36 +403,56 @@ namespace CorsairLinkPlusPlus.Driver.Node
             }
         }
 
+        private List<CorsairSensor> sensors = null;
+
         public override List<CorsairSensor> GetSensors()
         {
             List<CorsairSensor> ret = base.GetSensors();
-            ret.Add(new CorsairThermistorPSU(this, 0));
-            ret.Add(new CorsairFanPSU(this, 0));
 
-            string[] secondary12VRails = GetSecondary12VRailNames();
-            if (secondary12VRails.Length > 0)
+            if (sensors == null)
             {
-                for (int i = 0; i < GetPCIeRailCount(); i++)
-                {
-                    ret.Add(new CorsairSecondary12VCurrentSensor(this, i, secondary12VRails[i]));
-                }
+                sensors = new List<CorsairSensor>();
 
-                ret.Add(new CorsairSecondary12VCurrentSensor(this, secondary12VRails.Length - 2, secondary12VRails[secondary12VRails.Length - 2]));
-                ret.Add(new CorsairSecondary12VCurrentSensor(this, secondary12VRails.Length - 1, secondary12VRails[secondary12VRails.Length - 1]));
+                sensors.Add(new CorsairThermistorPSU(this, 0));
+                sensors.Add(new CorsairFanPSU(this, 0));
+
+                string[] secondary12VRails = GetSecondary12VRailNames();
+                if (secondary12VRails.Length > 0)
+                {
+                    for (int i = 0; i < GetPCIeRailCount(); i++)
+                    {
+                        sensors.Add(new CorsairSecondary12VCurrentSensor(this, i, secondary12VRails[i]));
+                    }
+
+                    sensors.Add(new CorsairSecondary12VCurrentSensor(this, secondary12VRails.Length - 2, secondary12VRails[secondary12VRails.Length - 2]));
+                    sensors.Add(new CorsairSecondary12VCurrentSensor(this, secondary12VRails.Length - 1, secondary12VRails[secondary12VRails.Length - 1]));
+                }
             }
+
+            ret.AddRange(sensors);
+
             return ret;
         }
+
+        private List<CorsairMainPowerDevice> psuSubSensors = null;
 
         public override List<CorsairBaseDevice> GetSubDevices()
         {
             List<CorsairBaseDevice> ret = base.GetSubDevices();
-            string[] mainRailNames = GetMainRailNames();
-            for (int i = 0; i < mainRailNames.Length; i++)
+
+            if (psuSubSensors == null)
             {
-                CorsairMainPowerDevice psuSubSensor = new CorsairMainPowerDevice(this, channel, i + 1, mainRailNames[i]);
+                psuSubSensors = new List<CorsairMainPowerDevice>();
+
+                string[] mainRailNames = GetMainRailNames();
+                for (int i = 0; i < mainRailNames.Length; i++)
+                    psuSubSensors.Add(new CorsairMainPowerDevice(this, channel, i + 1, mainRailNames[i]));
+            }
+
+            foreach(CorsairMainPowerDevice psuSubSensor in psuSubSensors)
                 if (psuSubSensor.IsPresent())
                     ret.Add(psuSubSensor);
-            }
+
             return ret;
         }
     }

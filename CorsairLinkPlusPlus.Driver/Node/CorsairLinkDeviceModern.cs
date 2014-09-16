@@ -424,42 +424,76 @@ namespace CorsairLinkPlusPlus.Driver.Node
             }
         }
 
+        private Dictionary<int, CorsairCooler> coolerSensors = null;
+        private Dictionary<int, CorsairThermistor> tempSensors = null;
+        private Dictionary<int, CorsairLED> ledSensors = null;
+
+        internal CorsairThermistor GetThermistor(int idx)
+        {
+            if (tempSensors == null)
+                GetSensors();
+            return tempSensors[idx];
+        }
+
         public override List<CorsairSensor> GetSensors()
         {
             List<CorsairSensor> ret = base.GetSensors();
-            int imax = GetCoolerCount();
-            for (int i = 0; i < imax; i++)
+
+            // COOLERS
+            if (coolerSensors == null)
             {
-                CorsairSensor sensor = GetCooler(i);
-                if(sensor.IsPresent())
-                    ret.Add(sensor);
+                coolerSensors = new Dictionary<int, CorsairCooler>();
+                int imax = GetCoolerCount();
+                for (int i = 0; i < imax; i++)
+                {
+                    coolerSensors.Add(i, GetCooler(i));
+                }
             }
-            imax = GetTemperatureCount();
-            for (int i = 0; i < imax; i++)
+
+            foreach (CorsairCooler sensor in coolerSensors.Values)
             {
-                CorsairSensor sensor = GetThermistor(i);
-                if(sensor != null && sensor.IsPresent())
-                    ret.Add(sensor);
-            }
-            imax = GetLEDCount();
-            for (int i = 0; i < imax; i++)
-            {
-                CorsairSensor sensor = new CorsairLEDModern(this, i);
                 if (sensor.IsPresent())
                     ret.Add(sensor);
             }
+
+            // THERMISTORS
+            if (tempSensors == null)
+            {
+                tempSensors = new Dictionary<int, CorsairThermistor>();
+                int imax = GetTemperatureCount();
+                for (int i = 0; i < imax; i++)
+                {
+                    tempSensors.Add(i, new CorsairThermistorModern(this, i));
+                }
+            }
+
+            foreach (CorsairThermistor sensor in tempSensors.Values)
+            {
+                if (sensor.IsPresent())
+                    ret.Add(sensor);
+            }
+
+            // LEDs
+            if (ledSensors == null)
+            {
+                ledSensors = new Dictionary<int, CorsairLED>();
+                int imax = GetLEDCount();
+                for (int i = 0; i < imax; i++)
+                {
+                    ledSensors.Add(i, new CorsairLEDModern(this, i));
+                }
+            }
+
+            foreach (CorsairLED sensor in ledSensors.Values)
+            {
+                if (sensor.IsPresent())
+                    ret.Add(sensor);
+            }
+
             return ret;
         }
 
-        internal CorsairThermistor GetThermistor(int id)
-        {
-            CorsairThermistor sensor = new CorsairThermistorModern(this, id);
-            if (sensor.IsPresent())
-                return sensor;
-            return null;
-        }
-
-        internal CorsairCooler GetCooler(int id)
+        private CorsairCooler GetCooler(int id)
         {
             if (id < 0 || id >= GetCoolerCount())
                 return null;

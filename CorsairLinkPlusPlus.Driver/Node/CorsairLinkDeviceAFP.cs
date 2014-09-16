@@ -12,16 +12,23 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return "Corsair AirFlow Pro";
         }
 
+        private List<CorsairLinkAFPRAMStick> ramSticks = null;
+
         public override List<CorsairBaseDevice> GetSubDevices()
         {
-            List<CorsairBaseDevice> ramSticks = base.GetSubDevices();
-            for (int i = 0; i < 6; i++)
+            List<CorsairBaseDevice> ret = base.GetSubDevices();
+            if (ramSticks == null)
             {
-                CorsairLinkAFPRAMStick ramStick = new CorsairLinkAFPRAMStick(this, channel, i);
-                if(ramStick.IsPresent())
-                    ramSticks.Add(ramStick);
+                ramSticks = new List<CorsairLinkAFPRAMStick>();
+                for (int i = 0; i < 6; i++)
+                    ramSticks.Add(new CorsairLinkAFPRAMStick(this, channel, i));
             }
-            return ramSticks;
+
+            foreach (CorsairLinkAFPRAMStick ramStick in ramSticks)
+                if (ramStick.IsPresent())
+                    ret.Add(ramStick);
+
+            return ret;
         }
     }
     public class CorsairLinkAFPRAMStick : CorsairLinkDevice
@@ -67,11 +74,18 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return GetReadings()[0] != 0;
         }
 
+        private CorsairAFPThermistor thermistor;
+        private CorsairAFPUsage usage;
+
         public override List<CorsairSensor> GetSensors()
         {
             List<CorsairSensor> ret = base.GetSensors();
-            ret.Add(new CorsairAFPThermistor(this, 0));
-            ret.Add(new CorsairAFPUsage(this, 0));
+            if (thermistor == null)
+                thermistor = new CorsairAFPThermistor(this, 0);
+            if (usage == null)
+                usage = new CorsairAFPUsage(this, 0);
+            ret.Add(thermistor);
+            ret.Add(usage);
             return ret;
         }
 

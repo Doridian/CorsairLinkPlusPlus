@@ -46,6 +46,8 @@ namespace CorsairLinkPlusPlus.Driver.USB
 
         }
 
+        private Dictionary<byte, CorsairLinkDevice> subDevices = null;
+
         public Dictionary<byte, byte> GetUsedChannels()
         {
             byte[] cmdRes = SendCommand(0x4F, 0x00, null);
@@ -64,20 +66,28 @@ namespace CorsairLinkPlusPlus.Driver.USB
         {
             List<CorsairBaseDevice> ret = new List<CorsairBaseDevice>();
 
-            foreach (KeyValuePair<byte, byte> channel in GetUsedChannels())
+            if (subDevices == null)
             {
-                ret.Add(GetDeviceOnChannel(channel.Key, channel.Value));
+                subDevices = new Dictionary<byte, CorsairLinkDevice>();
+                foreach (KeyValuePair<byte, byte> channel in GetUsedChannels())
+                {
+                    subDevices.Add(channel.Key, GetDeviceOnChannel(channel.Key, channel.Value));
+                }
             }
+
+            ret.AddRange(subDevices.Values);
 
             return ret;
         }
 
         internal CorsairLinkDevice GetDeviceOnChannel(byte channel)
         {
-            return GetDeviceOnChannel(channel, GetUsedChannels()[channel]);
+            if (subDevices == null)
+                GetSubDevices();
+            return subDevices[channel];
         }
 
-        internal CorsairLinkDevice GetDeviceOnChannel(byte channel, byte deviceType)
+        private CorsairLinkDevice GetDeviceOnChannel(byte channel, byte deviceType)
         {
             return CorsairLinkDevice.CreateNew(this, channel, deviceType);
         }
