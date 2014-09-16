@@ -193,7 +193,6 @@ namespace CorsairLinkPlusPlus.Driver.Node
             public override void SetFixedPercent(int percent)
             {
                 byte percentB = (byte)(percent * 2.55);
-                Console.Out.WriteLine(percentB);
                 lock (modernDevice.usbDevice.usbLock)
                 {
                     modernDevice.SetCurrentFan(id);
