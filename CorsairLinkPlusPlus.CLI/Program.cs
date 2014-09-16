@@ -1,13 +1,10 @@
 ﻿using CorsairLinkPlusPlus.Driver;
+using CorsairLinkPlusPlus.Driver.Controller;
 using CorsairLinkPlusPlus.Driver.Controller.Fan;
-using CorsairLinkPlusPlus.Driver.Node;
 using CorsairLinkPlusPlus.Driver.Sensor;
 using CorsairLinkPlusPlus.Driver.USB;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CorsairLinkPlusPlus.CLI
 {
@@ -26,12 +23,13 @@ namespace CorsairLinkPlusPlus.CLI
                 {
                     CorsairFan fan = (CorsairFan)device;
                     CorsairTemperatureControllableSensor controllableFan = (CorsairTemperatureControllableSensor)device;
-                    if (fan.GetUDID().EndsWith("5"))
+                    CorsairControllerBase fanController = controllableFan.GetController();
+                    Console.Out.Write(prefix + "- " + fan.GetName() + " = " + fan.GetValue() + " " + fan.GetUnit() + ((fanController == null) ? "N/A" : fanController.GetType().Name));
+                    if(fanController is CorsairFanCurveController)
                     {
-                        //controllableFan.SetController(new CorsairFanFixedRPMController(2000));
-                        //controllableFan.SetController(new CorsairFanFixedPercentController(40));
+                        Console.Out.Write(((CorsairFanCurveController)fanController).GetCurve());
                     }
-                    Console.Out.WriteLine(prefix + "- " + fan.GetName() + " = " + fan.GetValue() + " " + fan.GetUnit());
+                    Console.Out.WriteLine();
                 }
                 else
                 {

@@ -45,7 +45,9 @@
     <Compile Include="Controller\CorsairControllerBase.cs" />
     <Compile Include="Controller\CorsairTemperatureDependantControllerBase.cs" />
     <Compile Include="Controller\Fan\CorsairFanController.cs" />
+    <Compile Include="Controller\Fan\CorsairFanCurveController.cs" />
     <Compile Include="Controller\Fan\CorsairFanFixedPercentController.cs" />
+    <Compile Include="Controller\Fan\CorsairFanDefaultController.cs" />
     <Compile Include="Controller\Fan\CorsairFanFixedRPMController.cs" />
     <Compile Include="CorsairBaseDevice.cs" />
     <Compile Include="CorsairUtility.cs" />
@@ -53,6 +55,8 @@
     <Compile Include="Node\CorsairLinkDeviceAFP.cs" />
     <Compile Include="Node\CorsairLinkDevicePSU.cs" />
     <Compile Include="Node\CorsairLinkDeviceModern.cs" />
+    <Compile Include="Registry\CorsairFanControllerRegistry.cs" />
+    <Compile Include="Registry\RegistryBase.cs" />
     <Compile Include="Sensor\CorsairLED.cs" />
     <Compile Include="Sensor\CorsairPowerSensor.cs" />
     <Compile Include="Sensor\CorsairCooler.cs" />
@@ -76,6 +80,7 @@
     <Compile Include="USB\CorsairLinkUSBDeviceNew.cs" />
     <Compile Include="USB\CorsairLinkUSBDeviceOld.cs" />
     <Compile Include="CorsairBitCodec.cs" />
+    <Compile Include="Utility\ControlCurve.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

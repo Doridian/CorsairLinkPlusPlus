@@ -36,6 +36,11 @@ namespace CorsairLinkPlusPlus.Driver.Node
             this.channel = channel;
         }
 
+        public virtual CorsairBaseDevice GetParent()
+        {
+            return usbDevice;
+        }
+
         public virtual void Refresh(bool volatileOnly)
         {
 

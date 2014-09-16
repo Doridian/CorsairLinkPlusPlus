@@ -4,7 +4,8 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
 {
     public interface CorsairTemperatureControllableSensor : CorsairControllableSensor
     {
-        void SetTemperatureSensor(int idx);
+        void SetTemperatureSensor(CorsairThermistor thermistor);
         void SetTemperature(double temperature);
+        CorsairThermistor GetTemperatureSensor();
     }
 }

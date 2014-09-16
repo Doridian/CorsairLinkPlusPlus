@@ -1,11 +1,16 @@
-﻿using System;
-using CorsairLinkPlusPlus.Driver.Sensor;
+﻿using CorsairLinkPlusPlus.Driver.Sensor;
+using System;
 
 namespace CorsairLinkPlusPlus.Driver.Controller
 {
     public class CorsairTemperatureDependantControllerBase : CorsairControllerBase
     {
         private CorsairThermistor thermistor;
+
+        public CorsairTemperatureDependantControllerBase()
+        {
+
+        }
 
         public CorsairTemperatureDependantControllerBase(CorsairThermistor thermistor)
         {
@@ -27,7 +32,7 @@ namespace CorsairLinkPlusPlus.Driver.Controller
         {
             if (!(sensor is CorsairTemperatureControllableSensor))
                 throw new ArgumentException();
-            ((CorsairTemperatureControllableSensor)sensor).SetTemperatureSensor(CorsairUtility.GetRelativeThermistorByte(sensor, thermistor));
+            ((CorsairTemperatureControllableSensor)sensor).SetTemperatureSensor(thermistor);
             Refresh(sensor);
         }
 

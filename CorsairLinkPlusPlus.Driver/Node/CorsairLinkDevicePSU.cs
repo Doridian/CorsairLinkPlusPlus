@@ -142,12 +142,31 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 return CorsairBitCodec.ToFloat(device.ReadRegister(0x90, 2), 0);
             }
 
-            public override void SetPercent(int percent)
+            public override void SetFixedPercent(int percent)
             {
  	            throw new NotImplementedException();
             }
 
-            public override void SetRPM(int rpm)
+            public override void SetFixedRPM(int rpm)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override int GetFixedPercent()
+            {
+                throw new NotImplementedException();
+            }
+
+            public override int GetFixedRPM()
+            {
+                throw new NotImplementedException();
+            }
+
+            public override Utility.ControlCurve GetControlCurve()
+            {
+                throw new NotImplementedException();
+            }
+            public override void SetControlCurve(Utility.ControlCurve curve)
             {
                 throw new NotImplementedException();
             }
@@ -209,6 +228,11 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 this.id = id;
                 this.name = name;
                 this.psuDevice = psuDevice;
+            }
+
+            public override CorsairBaseDevice GetParent()
+            {
+                return psuDevice;
             }
 
             public override void Refresh(bool volatileOnly)

@@ -144,5 +144,10 @@ namespace CorsairLinkPlusPlus.Driver.USB
             }
             return ParseResponse(response.Data);
         }
+
+        public CorsairBaseDevice GetParent()
+        {
+            return null;
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace CorsairLinkPlusPlus.Driver
         void Refresh(bool volatileOnly);
         List<CorsairBaseDevice> GetSubDevices();
         string GetUDID();
+        CorsairBaseDevice GetParent();
     }
 }

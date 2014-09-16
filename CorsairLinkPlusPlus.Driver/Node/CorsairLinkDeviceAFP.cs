@@ -36,6 +36,11 @@ namespace CorsairLinkPlusPlus.Driver.Node
             this.afpDevice = device;
         }
 
+        public override CorsairBaseDevice GetParent()
+        {
+            return afpDevice;
+        }
+
         public override void Refresh(bool volatileOnly)
         {
             base.Refresh(volatileOnly);

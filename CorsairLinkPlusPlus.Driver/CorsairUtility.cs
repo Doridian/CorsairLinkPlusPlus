@@ -15,6 +15,8 @@ namespace CorsairLinkPlusPlus.Driver
 
         internal static byte GetRelativeThermistorByte(CorsairSensor sensor, CorsairThermistor thermistor)
         {
+            if (thermistor == null)
+                return 0;
             return (byte)((sensor.device == thermistor.device) ? thermistor.id : 7);
         }
 

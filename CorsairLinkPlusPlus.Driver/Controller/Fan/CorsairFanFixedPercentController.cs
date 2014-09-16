@@ -1,9 +1,5 @@
 ﻿using CorsairLinkPlusPlus.Driver.Sensor;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CorsairLinkPlusPlus.Driver.Controller.Fan
 {
@@ -11,6 +7,11 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
     {
         private int percent;
 
+        public CorsairFanFixedPercentController()
+        {
+
+        }
+        
         public CorsairFanFixedPercentController(int percent)
         {
             SetPercent(percent);
@@ -25,7 +26,7 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
         {
             if (!(sensor is CorsairFan))
                 throw new ArgumentException();
-            ((CorsairFan)sensor).SetPercent(percent);
+            ((CorsairFan)sensor).SetFixedPercent(percent);
         }
 
         internal override void Refresh(CorsairSensor sensor)
@@ -36,6 +37,11 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
         public byte GetFanModernControllerID()
         {
             return 0x02;
+        }
+
+        public void AssignFrom(CorsairFan fan)
+        {
+            SetPercent(fan.GetFixedPercent());
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿
-using CorsairLinkPlusPlus.Driver.Sensor;
+﻿using CorsairLinkPlusPlus.Driver.Sensor;
+
 namespace CorsairLinkPlusPlus.Driver.Controller
 {
     public class CorsairControllerBase

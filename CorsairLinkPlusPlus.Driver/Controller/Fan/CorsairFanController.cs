@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CorsairLinkPlusPlus.Driver.Sensor;
 
 namespace CorsairLinkPlusPlus.Driver.Controller.Fan
 {
     public interface CorsairFanController
     {
+        void AssignFrom(CorsairFan fan);
         byte GetFanModernControllerID();
     }
 }

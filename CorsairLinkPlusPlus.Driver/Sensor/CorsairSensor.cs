@@ -63,5 +63,10 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
         {
             return new List<CorsairBaseDevice>();
         }
+
+        public CorsairBaseDevice GetParent()
+        {
+            return device;
+        }
     }
 }
