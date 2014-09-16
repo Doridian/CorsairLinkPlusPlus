@@ -1,4 +1,6 @@
-﻿using CorsairLinkPlusPlus.Driver.Sensor;
+﻿using CorsairLinkPlusPlus.Driver.Controller;
+using CorsairLinkPlusPlus.Driver.Controller.Fan;
+using CorsairLinkPlusPlus.Driver.Sensor;
 using CorsairLinkPlusPlus.Driver.USB;
 using System;
 using System.Collections.Generic;
@@ -84,6 +86,15 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
                 return (byte)cachedFanData;
             }
+            private void SetFanData(byte fanData)
+            {
+                lock (modernDevice.usbDevice.usbLock)
+                {
+                    modernDevice.SetCurrentFan(id);
+                    modernDevice.WriteSingleByteRegister(0x12, fanData);
+                    cachedFanData = null;
+                }
+            }
 
             public override void Refresh(bool volatileOnly)
             {
@@ -115,17 +126,72 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public void SetTemperatureSensor(int idx)
             {
-                throw new NotImplementedException();
+                if (idx < 0 || idx > 7)
+                    throw new ArgumentException();
+                byte fanData = GetFanData();
+                fanData &= 0x8F; //10001111
+                fanData |= (byte)(idx << 4);
+                SetFanData(fanData);
             }
 
             public void SetTemperature(double temperature)
             {
+                lock (modernDevice.usbDevice.usbLock)
+                {
+                    modernDevice.SetCurrentFan(id);
+                    modernDevice.WriteRegister(0x15, BitConverter.GetBytes((short)(temperature * 256.0)));
+                }
+            }
+
+            public void SetController(CorsairControllerBase controller)
+            {
+                if (!(controller is CorsairFanController))
+                    throw new ArgumentException();
+
+                CorsairFanController fanController = (CorsairFanController)controller;
+
+                byte fanControllerID = fanController.GetFanModernControllerID();
+                if ((fanControllerID & 0xF1) != 0)
+                    throw new ArgumentException();
+
+                byte fanData = GetFanData();
+                fanData &= 0xF1; //11110001
+                fanData |= (byte)fanControllerID;
+                SetFanData(fanData);
+
+                SaveControllerData(controller);
+            }
+
+            public void SaveControllerData(CorsairControllerBase controller)
+            {
+                if (!(controller is CorsairFanController))
+                    throw new ArgumentException();
+                controller.Apply(this);
+            }
+
+            public CorsairControllerBase GetController()
+            {
                 throw new NotImplementedException();
             }
 
-            public void SetController(Controller.CorsairControllerBase controller)
+            public override void SetRPM(int fixedRPM)
             {
-                throw new NotImplementedException();
+                lock (modernDevice.usbDevice.usbLock)
+                {
+                    modernDevice.SetCurrentFan(id);
+                    modernDevice.WriteRegister(0x14, BitConverter.GetBytes((short)fixedRPM));
+                }
+            }
+
+            public override void SetPercent(int percent)
+            {
+                byte percentB = (byte)(percent * 2.55);
+                Console.Out.WriteLine(percentB);
+                lock (modernDevice.usbDevice.usbLock)
+                {
+                    modernDevice.SetCurrentFan(id);
+                    modernDevice.WriteSingleByteRegister(0x13, percentB);
+                }
             }
         }
 
@@ -192,7 +258,17 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 throw new NotImplementedException();
             }
 
-            public void SetController(Controller.CorsairControllerBase controller)
+            public void SetController(CorsairControllerBase controller)
+            {
+                throw new NotImplementedException();
+            }
+
+            public CorsairControllerBase GetController()
+            {
+                throw new NotImplementedException();
+            }
+
+            public void SaveControllerData(CorsairControllerBase controller)
             {
                 throw new NotImplementedException();
             }

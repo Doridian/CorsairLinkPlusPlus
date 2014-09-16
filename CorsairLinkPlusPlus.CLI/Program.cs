@@ -1,4 +1,5 @@
 ﻿using CorsairLinkPlusPlus.Driver;
+using CorsairLinkPlusPlus.Driver.Controller.Fan;
 using CorsairLinkPlusPlus.Driver.Node;
 using CorsairLinkPlusPlus.Driver.Sensor;
 using CorsairLinkPlusPlus.Driver.USB;
@@ -20,6 +21,17 @@ namespace CorsairLinkPlusPlus.CLI
                 {
                     CorsairLED led = (CorsairLED)device;
                     Console.Out.WriteLine(prefix + "- " + led.GetName() + " = " + led.GetColor().ToString());
+                }
+                else if(device is CorsairFan && device is CorsairTemperatureControllableSensor)
+                {
+                    CorsairFan fan = (CorsairFan)device;
+                    CorsairTemperatureControllableSensor controllableFan = (CorsairTemperatureControllableSensor)device;
+                    if (fan.GetUDID().EndsWith("5"))
+                    {
+                        //controllableFan.SetController(new CorsairFanFixedRPMController(2000));
+                        //controllableFan.SetController(new CorsairFanFixedPercentController(40));
+                    }
+                    Console.Out.WriteLine(prefix + "- " + fan.GetName() + " = " + fan.GetValue() + " " + fan.GetUnit());
                 }
                 else
                 {

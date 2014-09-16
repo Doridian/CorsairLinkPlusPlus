@@ -1,4 +1,5 @@
 ﻿using CorsairLinkPlusPlus.Driver.Node;
+using System;
 
 namespace CorsairLinkPlusPlus.Driver.Sensor
 {
@@ -25,6 +26,10 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
             if (!volatileOnly)
                 cachedPWM = null;
         }
+
+        public abstract void SetRPM(int fixedRPM);
+
+        public abstract void SetPercent(int percent);
 
         internal virtual bool IsPWMInternal()
         {

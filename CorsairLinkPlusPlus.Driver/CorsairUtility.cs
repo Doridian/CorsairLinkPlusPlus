@@ -13,12 +13,12 @@ namespace CorsairLinkPlusPlus.Driver
             return hex.ToString();
         }
 
-        internal static byte GetRelativeThermistorByte(CorsairTemperatureControllableSensor sensor, CorsairThermistor thermistor)
+        internal static byte GetRelativeThermistorByte(CorsairSensor sensor, CorsairThermistor thermistor)
         {
-            return (byte)((((CorsairSensor)sensor).device == thermistor.device) ? thermistor.id : 7);
+            return (byte)((sensor.device == thermistor.device) ? thermistor.id : 7);
         }
 
-        internal static bool DoesThermistorNeedManualPush(CorsairTemperatureControllableSensor sensor, CorsairThermistor thermistor)
+        internal static bool DoesThermistorNeedManualPush(CorsairSensor sensor, CorsairThermistor thermistor)
         {
             return GetRelativeThermistorByte(sensor, thermistor) == 7;
         }

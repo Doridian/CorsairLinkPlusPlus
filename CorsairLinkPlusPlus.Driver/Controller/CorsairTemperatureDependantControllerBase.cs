@@ -1,4 +1,5 @@
-﻿using CorsairLinkPlusPlus.Driver.Sensor;
+﻿using System;
+using CorsairLinkPlusPlus.Driver.Sensor;
 
 namespace CorsairLinkPlusPlus.Driver.Controller
 {
@@ -16,22 +17,26 @@ namespace CorsairLinkPlusPlus.Driver.Controller
             this.thermistor = thermistor;
         }
 
-        public virtual double GetTemperature()
+        internal virtual double GetTemperature()
         {
             thermistor.Refresh(true);
             return thermistor.GetValue();
         }
 
-        public void Apply(CorsairTemperatureControllableSensor sensor)
+        internal override void Apply(CorsairSensor sensor)
         {
-            sensor.SetTemperatureSensor(CorsairUtility.GetRelativeThermistorByte(sensor, thermistor));
+            if (!(sensor is CorsairTemperatureControllableSensor))
+                throw new ArgumentException();
+            ((CorsairTemperatureControllableSensor)sensor).SetTemperatureSensor(CorsairUtility.GetRelativeThermistorByte(sensor, thermistor));
             Refresh(sensor);
         }
 
-        internal void Refresh(CorsairTemperatureControllableSensor sensor)
+        internal override void Refresh(CorsairSensor sensor)
         {
+            if (!(sensor is CorsairTemperatureControllableSensor))
+                throw new ArgumentException();
             if (CorsairUtility.DoesThermistorNeedManualPush(sensor, thermistor))
-                sensor.SetTemperature(GetTemperature());
+                ((CorsairTemperatureControllableSensor)sensor).SetTemperature(GetTemperature());
         }
     }
 }

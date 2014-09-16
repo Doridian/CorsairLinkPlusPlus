@@ -6,5 +6,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
     public interface CorsairControllableSensor
     {
         void SetController(CorsairControllerBase controller);
+        void SaveControllerData(CorsairControllerBase controller);
+        CorsairControllerBase GetController();
     }
 }

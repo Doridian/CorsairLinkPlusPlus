@@ -141,6 +141,16 @@ namespace CorsairLinkPlusPlus.Driver.Node
             {
                 return CorsairBitCodec.ToFloat(device.ReadRegister(0x90, 2), 0);
             }
+
+            public override void SetPercent(int percent)
+            {
+ 	            throw new NotImplementedException();
+            }
+
+            public override void SetRPM(int rpm)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         internal void SetMainPage(int page)

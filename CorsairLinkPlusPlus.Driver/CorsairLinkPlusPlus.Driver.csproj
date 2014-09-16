@@ -44,6 +44,9 @@
   <ItemGroup>
     <Compile Include="Controller\CorsairControllerBase.cs" />
     <Compile Include="Controller\CorsairTemperatureDependantControllerBase.cs" />
+    <Compile Include="Controller\Fan\CorsairFanController.cs" />
+    <Compile Include="Controller\Fan\CorsairFanFixedPercentController.cs" />
+    <Compile Include="Controller\Fan\CorsairFanFixedRPMController.cs" />
     <Compile Include="CorsairBaseDevice.cs" />
     <Compile Include="CorsairUtility.cs" />
     <Compile Include="Node\CorsairLinkDevice.cs" />
@@ -78,7 +81,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controller\Fan\" />
     <Folder Include="Controller\LED\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
