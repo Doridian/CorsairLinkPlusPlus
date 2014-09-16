@@ -49,12 +49,14 @@
     <Compile Include="Controller\Fan\CorsairFanFixedPercentController.cs" />
     <Compile Include="Controller\Fan\CorsairFanDefaultController.cs" />
     <Compile Include="Controller\Fan\CorsairFanFixedRPMController.cs" />
+    <Compile Include="Controller\LED\CorsairLEDController.cs" />
     <Compile Include="CorsairBaseDevice.cs" />
     <Compile Include="CorsairUtility.cs" />
     <Compile Include="Node\CorsairLinkDevice.cs" />
     <Compile Include="Node\CorsairLinkDeviceAFP.cs" />
     <Compile Include="Node\CorsairLinkDevicePSU.cs" />
     <Compile Include="Node\CorsairLinkDeviceModern.cs" />
+    <Compile Include="Registry\CorsairLEDControllerRegistry.cs" />
     <Compile Include="Registry\CorsairFanControllerRegistry.cs" />
     <Compile Include="Registry\RegistryBase.cs" />
     <Compile Include="Sensor\CorsairLED.cs" />
@@ -85,9 +87,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controller\LED\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

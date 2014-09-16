@@ -1,5 +1,6 @@
 ﻿using CorsairLinkPlusPlus.Driver.Controller;
 using CorsairLinkPlusPlus.Driver.Controller.Fan;
+using CorsairLinkPlusPlus.Driver.Controller.LED;
 using CorsairLinkPlusPlus.Driver.Registry;
 using CorsairLinkPlusPlus.Driver.Sensor;
 using CorsairLinkPlusPlus.Driver.USB;
@@ -300,6 +301,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
         class CorsairLEDModern : CorsairLED, CorsairTemperatureControllableSensor
         {
             private readonly CorsairLinkDeviceModern modernDevice;
+            private byte? cachedLEDData;
+            private CorsairLEDController controller;
 
             internal CorsairLEDModern(CorsairLinkDeviceModern device, int id)
                 : base(device, id)
@@ -310,6 +313,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
             public override void Refresh(bool volatileOnly)
             {
                 base.Refresh(volatileOnly);
+                if (!volatileOnly)
+                    cachedLEDData = null;
                 GetController().Refresh(this);
             }
 
@@ -336,32 +341,86 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public void SetTemperatureSensor(CorsairThermistor thermistor)
             {
-                throw new NotImplementedException();
+                int idx = CorsairUtility.GetRelativeThermistorByte(this, thermistor);
+                byte ledData = GetLEDData();
+                ledData &= 0xF8; //11111000
+                ledData |= (byte)idx;
+                SetLEDData(ledData);
             }
 
             public void SetTemperature(double temperature)
             {
-                throw new NotImplementedException();
+                lock (modernDevice.usbDevice.usbLock)
+                {
+                    modernDevice.SetCurrentLED(id);
+                    modernDevice.WriteRegister(0x08, BitConverter.GetBytes((short)(temperature * 256.0)));
+                }
             }
 
             public void SetController(CorsairControllerBase controller)
             {
-                throw new NotImplementedException();
+                if (!(controller is CorsairLEDController))
+                    throw new ArgumentException();
+
+                CorsairLEDController ledController = (CorsairLEDController)controller;
+
+                byte ledControllerID = ledController.GetLEDModernControllerID();
+                if ((ledControllerID & 0xF8 /* 11111000 */) != 0)
+                    throw new ArgumentException();
+
+                byte ledData = GetLEDData();
+                ledData &= 0xF8; //11111000
+                ledData |= (byte)ledControllerID;
+                SetLEDData(ledData);
+
+                SaveControllerData(controller);
             }
 
             public CorsairControllerBase GetController()
             {
-                throw new NotImplementedException();
+                if (controller == null)
+                {
+                    controller = CorsairLEDControllerRegistry.GetLEDController(this, (byte)(GetLEDData() & 0x07 /* 00000111 */));
+                }
+                return (CorsairControllerBase)controller;
             }
 
             public void SaveControllerData(CorsairControllerBase controller)
             {
-                throw new NotImplementedException();
+                if (!(controller is CorsairLEDController))
+                    throw new ArgumentException();
+                controller.Apply(this);
+            }
+
+            private void SetLEDData(byte ledData)
+            {
+                lock (modernDevice.usbDevice.usbLock)
+                {
+                    cachedLEDData = null;
+                    modernDevice.SetCurrentLED(id);
+                    modernDevice.WriteSingleByteRegister(0x06, ledData);
+                }
+            }
+
+            private byte GetLEDData()
+            {
+                if (cachedLEDData == null)
+                {
+                    lock(modernDevice.usbDevice.usbLock)
+                    {
+                        modernDevice.SetCurrentLED(id);
+                        cachedLEDData = modernDevice.ReadSingleByteRegister(0x06);
+                    }
+                }
+                return (byte)cachedLEDData;
             }
 
             public CorsairThermistor GetTemperatureSensor()
             {
-                throw new NotImplementedException();
+                int idx = (GetLEDData() & 0x07 /* 00000111 */);
+                if (idx == 7)
+                    return null;
+                return modernDevice.GetThermistor(idx);
             }
         }
 

@@ -1,4 +1,5 @@
 - Mains power/voltage/current sensors (Mains ID 0)
 
-- PSU control
-- LED control
+- PSU Fan control
+- PSU OCP control
+- LED controllers
