@@ -7,26 +7,18 @@ namespace CorsairLinkPlusPlus.Driver.Node
     public class LinkDeviceAFP : BaseLinkDevice
     {
         internal LinkDeviceAFP(USB.BaseUSBDevice usbDevice, byte channel) : base(usbDevice, channel) { }
+
         public override string GetName()
         {
             return "Corsair AirFlow Pro";
         }
 
-        private List<LinkAFPRAMStick> ramSticks = null;
-
-        public override List<BaseDevice> GetSubDevices()
+        internal override List<BaseDevice> GetSubDevicesInternal()
         {
-            List<BaseDevice> ret = base.GetSubDevices();
-            if (ramSticks == null)
-            {
-                ramSticks = new List<LinkAFPRAMStick>();
-                for (int i = 0; i < 6; i++)
-                    ramSticks.Add(new LinkAFPRAMStick(this, channel, i));
-            }
+            List<BaseDevice> ret = base.GetSubDevicesInternal();
 
-            foreach (LinkAFPRAMStick ramStick in ramSticks)
-                if (ramStick.IsPresent())
-                    ret.Add(ramStick);
+            for (int i = 0; i < 6; i++)
+                ret.Add(new LinkAFPRAMStick(this, channel, i));
 
             return ret;
         }
@@ -61,30 +53,24 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
         internal byte[] GetReadings()
         {
+            DisabledCheck();
             return ReadRegister((byte)(id << 4), 16);
         }
 
-        public new bool IsPresent()
+        public override bool IsPresent()
         {
             return GetReadings()[0] != 0;
         }
 
-        private AFPThermistor thermistor;
-        private AFPUsage usage;
-
-        public override List<Sensor.BaseSensorDevice> GetSensors()
+        internal override List<BaseDevice> GetSubDevicesInternal()
         {
-            List<Sensor.BaseSensorDevice> ret = base.GetSensors();
-            if (thermistor == null)
-                thermistor = new AFPThermistor(this, 0);
-            if (usage == null)
-                usage = new AFPUsage(this, 0);
-            ret.Add(thermistor);
-            ret.Add(usage);
+            List<BaseDevice> ret = base.GetSubDevicesInternal();
+            ret.Add(new AFPThermistor(this, 0));
+            ret.Add(new AFPUsage(this, 0));
             return ret;
         }
 
-        public class AFPThermistor : Usage
+        public class AFPThermistor : Thermistor
         {
             private readonly LinkAFPRAMStick afpDevice;
             internal AFPThermistor(LinkAFPRAMStick device, int id)
@@ -95,12 +81,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             internal override double GetValueInternal()
             {
+                DisabledCheck();
                 return 1;
-            }
-
-            public override string GetSensorType()
-            {
-                return "Memory usage";
             }
         }
 
@@ -115,6 +97,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             internal override double GetValueInternal()
             {
+                DisabledCheck();
                 return afpDevice.GetReadings()[2];
             }
 

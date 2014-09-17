@@ -17,13 +17,17 @@ namespace CorsairLinkPlusPlus.Driver.USB
 
         }
 
-        private static RootDevice instance = null;
+        private static readonly object instanceLock = new object();
+        private volatile static RootDevice instance = null;
 
         public static RootDevice GetInstance()
         {
-            if (instance == null)
-                instance = new RootDevice();
-            return instance;
+            lock (instanceLock)
+            {
+                if (instance == null)
+                    instance = new RootDevice();
+                return instance;
+            }
         }
 
         public override string GetName()
@@ -33,65 +37,46 @@ namespace CorsairLinkPlusPlus.Driver.USB
 
         public override void Refresh(bool volatileOnly)
         {
+            base.Refresh(volatileOnly);
+
             if (volatileOnly)
                 return;
-
-            lock (instance)
-            {
-                foreach (BaseUSBDevice usbDevice in devices)
-                {
-                    usbDevice.disabled = true;
-                }
-
-                devices = null;
-            }
         }
 
-        private List<USB.BaseUSBDevice> devices = null;
-
-        public override List<Driver.BaseDevice> GetSubDevices()
+        internal override List<Driver.BaseDevice> GetSubDevicesInternal()
         {
-            List<Driver.BaseDevice> ret = new List<Driver.BaseDevice>();
+            List<Driver.BaseDevice> ret = base.GetSubDevicesInternal();
 
-            lock (instance)
+            IEnumerable<HidDevice> hidDevices = HidDevices.Enumerate(VID_CORSAIR_LINK, new int[] {
+                        PID_CORSAIR_COMMANDER_LINK_A,
+                        PID_CORSAIR_COMMANDER_LINK_B,
+                        PID_CORSAIR_BOOTLOADER,
+                        PID_CORSAIR_MODERN
+                    });
+
+            foreach (HidDevice hidDevice in hidDevices)
             {
-                if (devices == null)
+                USB.BaseUSBDevice device;
+                switch (hidDevice.Attributes.ProductId)
                 {
-                    IEnumerable<HidDevice> hidDevices = HidDevices.Enumerate(VID_CORSAIR_LINK, new int[] {
-                    PID_CORSAIR_COMMANDER_LINK_A,
-                    PID_CORSAIR_COMMANDER_LINK_B,
-                    PID_CORSAIR_BOOTLOADER,
-                    PID_CORSAIR_MODERN
-                });
-
-                    devices = new List<USB.BaseUSBDevice>();
-                    foreach (HidDevice hidDevice in hidDevices)
-                    {
-                        USB.BaseUSBDevice device;
-                        switch (hidDevice.Attributes.ProductId)
-                        {
-                            case PID_CORSAIR_COMMANDER_LINK_A:
-                                device = new DeviceCommanderA(this, hidDevice);
-                                break;
-                            case PID_CORSAIR_COMMANDER_LINK_B:
-                                device = new DeviceCommanderB(this, hidDevice);
-                                break;
-                            case PID_CORSAIR_BOOTLOADER:
-                                device = new DeviceBootloader(this, hidDevice);
-                                break;
-                            case PID_CORSAIR_MODERN:
-                                device = new DeviceModern(this, hidDevice);
-                                break;
-                            default:
-                                device = null;
-                                break;
-                        }
-                        if (device != null)
-                            devices.Add(device);
-                    }
+                    case PID_CORSAIR_COMMANDER_LINK_A:
+                        device = new DeviceCommanderA(this, hidDevice);
+                        break;
+                    case PID_CORSAIR_COMMANDER_LINK_B:
+                        device = new DeviceCommanderB(this, hidDevice);
+                        break;
+                    case PID_CORSAIR_BOOTLOADER:
+                        device = new DeviceBootloader(this, hidDevice);
+                        break;
+                    case PID_CORSAIR_MODERN:
+                        device = new DeviceModern(this, hidDevice);
+                        break;
+                    default:
+                        device = null;
+                        break;
                 }
-
-                ret.AddRange(devices);
+                if (device != null)
+                    ret.Add(device);
             }
 
             return ret;

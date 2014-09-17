@@ -40,6 +40,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
 
         public override void Refresh(bool volatileOnly)
         {
+            base.Refresh(volatileOnly);
             device.Refresh(volatileOnly);
             cachedValue = double.NaN;
             if (!volatileOnly)
@@ -58,10 +59,5 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
         internal abstract double GetValueInternal();
 
         public abstract string GetUnit();
-
-        public override List<Driver.BaseDevice> GetSubDevices()
-        {
-            return new List<Driver.BaseDevice>();
-        }
     }
 }

@@ -56,11 +56,15 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             internal override double GetValueInternal()
             {
+                DisabledCheck();
+
                 return modernDevice.GetCoolerRPM(id);
             }
 
             internal override bool IsPresentInternal()
             {
+                DisabledCheck();
+
                 return true;
             }
         }
@@ -79,6 +83,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             private byte GetFanData()
             {
+                DisabledCheck();
+
                 if (cachedFanData == null)
                 {
                     lock (modernDevice.usbDevice.usbLock)
@@ -92,6 +98,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
             }
             private void SetFanData(byte fanData)
             {
+                DisabledCheck();
+
                 lock (modernDevice.usbDevice.usbLock)
                 {
                     modernDevice.SetCurrentFan(id);
@@ -110,6 +118,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             internal override double GetValueInternal()
             {
+                DisabledCheck();
+
                 return modernDevice.GetCoolerRPM(id);
             }
 
@@ -131,6 +141,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public void SetTemperatureSensor(Thermistor thermistor)
             {
+                DisabledCheck();
+
                 int idx = Core.GetRelativeThermistorByte(this, thermistor);
                 byte fanData = GetFanData();
                 fanData &= 0x8F; //10001111
@@ -140,6 +152,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public void SetTemperature(double temperature)
             {
+                DisabledCheck();
+
                 lock (modernDevice.usbDevice.usbLock)
                 {
                     modernDevice.SetCurrentFan(id);
@@ -149,6 +163,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public void SetController(ControllerBase controller)
             {
+                DisabledCheck();
+
                 if (!(controller is FanController))
                     throw new ArgumentException();
 
@@ -168,6 +184,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public void SaveControllerData(ControllerBase controller)
             {
+                DisabledCheck();
+
                 if (!(controller is FanController))
                     throw new ArgumentException();
                 controller.Apply(this);
@@ -175,6 +193,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public ControllerBase GetController()
             {
+                DisabledCheck();
+
                 if(controller == null)
                 {
                     controller = FanControllerRegistry.GetFanController(this, (byte)(GetFanData() & 0x0E /*00001110*/)); 
@@ -184,6 +204,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public override void SetFixedRPM(int fixedRPM)
             {
+                DisabledCheck();
+
                 lock (modernDevice.usbDevice.usbLock)
                 {
                     modernDevice.SetCurrentFan(id);
@@ -193,6 +215,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public override void SetFixedPercent(int percent)
             {
+                DisabledCheck();
+
                 byte percentB = (byte)(percent * 2.55);
                 lock (modernDevice.usbDevice.usbLock)
                 {
@@ -203,6 +227,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public override int GetFixedPercent()
             {
+                DisabledCheck();
+
                 byte percentB;
                 lock (modernDevice.usbDevice.usbLock)
                 {
@@ -214,6 +240,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public override int GetFixedRPM()
             {
+                DisabledCheck();
+
                 byte[] rpmB;
                 lock (modernDevice.usbDevice.usbLock)
                 {
@@ -225,6 +253,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public override ControlCurve GetControlCurve()
             {
+                DisabledCheck();
+
                 byte[] tempTable, rpmTable;
                 lock(modernDevice.usbDevice.usbLock)
                 {
@@ -243,6 +273,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public override void SetControlCurve(ControlCurve curve)
             {
+                DisabledCheck();
+
                 List<CurvePoint> points = curve.GetPoints();
                 if (points.Count != 5)
                     throw new ArgumentException();
@@ -267,6 +299,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public Thermistor GetTemperatureSensor()
             {
+                DisabledCheck();
+
                 int idx = (GetFanData() & 0x70 /* 01110000 */) >> 4;
                 if (idx == 7)
                     return null;
@@ -275,6 +309,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public override void SetMinimalRPM(int rpm)
             {
+                DisabledCheck();
+
                 lock (modernDevice.usbDevice.usbLock)
                 {
                     modernDevice.SetCurrentFan(id);
@@ -284,6 +320,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public override int GetMinimalRPM()
             {
+                DisabledCheck();
+
                 lock(modernDevice.usbDevice.usbLock)
                 {
                     modernDevice.SetCurrentFan(id);
@@ -304,6 +342,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             internal override double GetValueInternal()
             {
+                DisabledCheck();
+
                 byte[] ret;
                 lock (modernDevice.usbDevice.usbLock)
                 {
@@ -336,6 +376,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             internal override byte[] GetRGBInternal()
             {
+                DisabledCheck();
+
                 lock (modernDevice.usbDevice.usbLock)
                 {
                     modernDevice.SetCurrentLED(id);
@@ -345,6 +387,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public override void SetRGB(byte[] rgb)
             {
+                DisabledCheck();
+
                 byte[] reg = new byte[12];
                 Buffer.BlockCopy(rgb, 0, reg, 0, rgb.Length);
                 lock (modernDevice.usbDevice.usbLock)
@@ -357,6 +401,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public void SetTemperatureSensor(Thermistor thermistor)
             {
+                DisabledCheck();
+
                 int idx = Core.GetRelativeThermistorByte(this, thermistor);
                 byte ledData = GetLEDData();
                 ledData &= 0xF8; //11111000
@@ -366,6 +412,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public void SetTemperature(double temperature)
             {
+                DisabledCheck();
+
                 lock (modernDevice.usbDevice.usbLock)
                 {
                     modernDevice.SetCurrentLED(id);
@@ -375,6 +423,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public void SetController(ControllerBase controller)
             {
+                DisabledCheck();
+
                 if (!(controller is LEDController))
                     throw new ArgumentException();
 
@@ -394,6 +444,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public ControllerBase GetController()
             {
+                DisabledCheck();
+
                 if (controller == null)
                 {
                     controller = LEDControllerRegistry.GetLEDController(this, (byte)(GetLEDData() & 0x07 /* 00000111 */));
@@ -403,6 +455,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public void SaveControllerData(ControllerBase controller)
             {
+                DisabledCheck();
+
                 if (!(controller is LEDController))
                     throw new ArgumentException();
                 controller.Apply(this);
@@ -410,6 +464,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             private void SetLEDData(byte ledData)
             {
+                DisabledCheck();
+
                 lock (modernDevice.usbDevice.usbLock)
                 {
                     cachedLEDData = null;
@@ -420,6 +476,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             private byte GetLEDData()
             {
+                DisabledCheck();
+
                 if (cachedLEDData == null)
                 {
                     lock(modernDevice.usbDevice.usbLock)
@@ -433,6 +491,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public Thermistor GetTemperatureSensor()
             {
+                DisabledCheck();
+
                 int idx = (GetLEDData() & 0x07 /* 00000111 */);
                 if (idx == 7)
                     return null;
@@ -440,64 +500,62 @@ namespace CorsairLinkPlusPlus.Driver.Node
             }
         }
 
-        private Dictionary<int, Cooler> coolerSensors = null;
-        private Dictionary<int, Thermistor> tempSensors = null;
-        private Dictionary<int, LED> ledSensors = null;
+        private volatile Dictionary<int, Cooler> coolerSensors = null;
+        private volatile Dictionary<int, Thermistor> tempSensors = null;
+        private volatile Dictionary<int, LED> ledSensors = null;
+
+        private volatile int temperatureCount = -1;
+        private volatile int coolerCount = -1;
+        private volatile int ledCount = -1;
+        private volatile byte deviceID = 0xFF;
 
         internal Thermistor GetThermistor(int idx)
         {
+            DisabledCheck();
+
             if (tempSensors == null)
-                GetSensors();
+                GetSubDevicesInternal();
             return tempSensors[idx];
         }
 
-        public override List<Sensor.BaseSensorDevice> GetSensors()
+        internal override List<BaseDevice> GetSubDevicesInternal()
         {
-            List<Sensor.BaseSensorDevice> ret = base.GetSensors();
+            List<BaseDevice> ret = base.GetSubDevicesInternal();
 
-            // COOLERS
-            if (coolerSensors == null)
+            lock (subDeviceLock)
             {
-                coolerSensors = new Dictionary<int, Cooler>();
-                int imax = GetCoolerCount();
-                for (int i = 0; i < imax; i++)
-                    coolerSensors.Add(i, GetCooler(i));
-            }
+                // COOLERS
+                if (coolerSensors == null)
+                {
+                    coolerSensors = new Dictionary<int, Cooler>();
+                    int imax = GetCoolerCount();
+                    for (int i = 0; i < imax; i++)
+                        coolerSensors.Add(i, GetCooler(i));
+                }
 
-            foreach (Cooler sensor in coolerSensors.Values)
-            {
-                if (sensor.IsPresent())
-                    ret.Add(sensor);
-            }
+                ret.AddRange(coolerSensors.Values);
 
-            // THERMISTORS
-            if (tempSensors == null)
-            {
-                tempSensors = new Dictionary<int, Thermistor>();
-                int imax = GetTemperatureCount();
-                for (int i = 0; i < imax; i++)
-                    tempSensors.Add(i, new ThermistorModern(this, i));
-            }
+                // THERMISTORS
+                if (tempSensors == null)
+                {
+                    tempSensors = new Dictionary<int, Thermistor>();
+                    int imax = GetTemperatureCount();
+                    for (int i = 0; i < imax; i++)
+                        tempSensors.Add(i, new ThermistorModern(this, i));
+                }
 
-            foreach (Thermistor sensor in tempSensors.Values)
-            {
-                if (sensor.IsPresent())
-                    ret.Add(sensor);
-            }
+                ret.AddRange(tempSensors.Values);
 
-            // LEDs
-            if (ledSensors == null)
-            {
-                ledSensors = new Dictionary<int, LED>();
-                int imax = GetLEDCount();
-                for (int i = 0; i < imax; i++)
-                    ledSensors.Add(i, new LEDModern(this, i));
-            }
+                // LEDs
+                if (ledSensors == null)
+                {
+                    ledSensors = new Dictionary<int, LED>();
+                    int imax = GetLEDCount();
+                    for (int i = 0; i < imax; i++)
+                        ledSensors.Add(i, new LEDModern(this, i));
+                }
 
-            foreach (LED sensor in ledSensors.Values)
-            {
-                if (sensor.IsPresent())
-                    ret.Add(sensor);
+                ret.AddRange(ledSensors.Values);
             }
 
             return ret;
@@ -505,6 +563,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
         private Cooler GetCooler(int id)
         {
+            DisabledCheck();
+
             if (id < 0 || id >= GetCoolerCount())
                 return null;
             int devID = GetDeviceID();
@@ -514,13 +574,15 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return new FanModern(this, id);
         }
 
-        internal void SetCurrentFan(int id)
+        private void SetCurrentFan(int id)
         {
             WriteSingleByteRegister(0x10, (byte)id);
         }
 
         internal double GetCoolerRPM(int id)
         {
+            DisabledCheck();
+
             byte[] ret;
             lock (usbDevice.usbLock)
             {
@@ -532,32 +594,40 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
         internal void SetCurrentTemp(int id)
         {
+            DisabledCheck();
+
             WriteSingleByteRegister(0x0C, (byte)id);
         }
 
         internal void SetCurrentLED(int id)
         {
+            DisabledCheck();
+
             WriteSingleByteRegister(0x04, (byte)id);
         }
 
         public override void Refresh(bool volatileOnly)
         {
+            base.Refresh(volatileOnly);
             if (!volatileOnly)
             {
-                temperatureCount = -1;
-                coolerCount = -1;
-                ledCount = -1;
-                deviceID = 0xFF;
+                lock (subDeviceLock)
+                {
+                    temperatureCount = -1;
+                    coolerCount = -1;
+                    ledCount = -1;
+                    tempSensors = null;
+                    ledSensors = null;
+                    coolerSensors = null;
+                    deviceID = 0xFF;
+                }
             }
         }
 
-        int temperatureCount = -1;
-        int coolerCount = -1;
-        int ledCount = -1;
-        byte deviceID = 0xFF;
-
         internal int GetCoolerCount()
         {
+            DisabledCheck();
+
             if (coolerCount < 0)
                 coolerCount = ReadSingleByteRegister(0x11);
             return coolerCount;
@@ -565,6 +635,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
         internal int GetTemperatureCount()
         {
+            DisabledCheck();
+
             if (temperatureCount < 0)
                 temperatureCount = ReadSingleByteRegister(0x0D);
             return temperatureCount;
@@ -572,6 +644,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
         internal int GetLEDCount()
         {
+            DisabledCheck();
+
             if (ledCount < 0)
                 ledCount = ReadSingleByteRegister(0x05);
             return ledCount;
@@ -579,6 +653,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
         public byte GetDeviceID()
         {
+            DisabledCheck();
+
             if (deviceID == 0xFF)
                 deviceID = ReadSingleByteRegister(0x00);
             return deviceID;
@@ -586,6 +662,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
         public int GetFirmwareVersion()
         {
+            DisabledCheck();
+
             return BitConverter.ToInt16(ReadRegister(0x01, 2), 0);
         }
     }

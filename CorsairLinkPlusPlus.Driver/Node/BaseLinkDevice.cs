@@ -38,32 +38,26 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
         internal byte ReadSingleByteRegister(byte register)
         {
+            DisabledCheck();
             return usbDevice.ReadSingleByteRegister(register, channel);
         }
 
         internal byte[] ReadRegister(byte register, byte bytes)
         {
+            DisabledCheck();
             return usbDevice.ReadRegister(register, channel, bytes);
         }
 
         internal void WriteSingleByteRegister(byte register, byte value)
         {
+            DisabledCheck();
             usbDevice.WriteSingleByteRegister(register, channel, value);
         }
 
         internal void WriteRegister(byte register, byte[] bytes)
         {
+            DisabledCheck();
             usbDevice.WriteRegister(register, channel, bytes);
-        }
-
-        public override List<BaseDevice> GetSubDevices()
-        {
-            return new List<BaseDevice>(GetSensors());
-        }
-
-        public virtual List<Sensor.BaseSensorDevice> GetSensors()
-        {
-            return new List<Sensor.BaseSensorDevice>();
         }
     }
 }

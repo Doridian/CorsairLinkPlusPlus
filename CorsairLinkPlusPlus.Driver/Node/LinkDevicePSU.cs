@@ -144,11 +144,15 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             internal override double GetValueInternal()
             {
+                DisabledCheck();
+
                 return BitCodec.ToFloat(device.ReadRegister(0x90, 2), 0);
             }
 
             public override void SetFixedPercent(int percent)
             {
+                DisabledCheck();
+
                 if (percent < 0 || percent > 100)
                     throw new ArgumentException();
                 device.WriteSingleByteRegister(0x3B, (byte)percent);
@@ -156,11 +160,15 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public override int GetFixedPercent()
             {
+                DisabledCheck();
+
                 return device.ReadSingleByteRegister(0x3B);
             }
 
             public void SetController(ControllerBase controller)
             {
+                DisabledCheck();
+
                 if (controller is FanDefaultController)
                     device.WriteSingleByteRegister(0xF0, 0);
                 else if (controller is FanFixedPercentController)
@@ -171,11 +179,15 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public void SaveControllerData(ControllerBase controller)
             {
+                DisabledCheck();
+
                 controller.Apply(this);
             }
 
             public ControllerBase GetController()
             {
+                DisabledCheck();
+
                 if (controller == null)
                     switch(device.ReadSingleByteRegister(0xF0))
                     {
@@ -219,22 +231,26 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             public override int GetMinimalRPM()
             {
+                DisabledCheck();
+
                 return 0;
             }
         }
 
-        internal void SetMainPage(int page)
+        private void SetMainPage(int page)
         {
             WriteSingleByteRegister(0x00, (byte)page);
         }
 
-        internal void SetSecondary12VPage(int page)
+        private void SetSecondary12VPage(int page)
         {
             WriteSingleByteRegister(0xE7, (byte)page);
         }
 
         internal double GetSecondary12VCurrent(int page)
         {
+            DisabledCheck();
+
             byte[] ret;
             lock (usbDevice.usbLock)
             {
@@ -259,6 +275,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             internal override double GetValueInternal()
             {
+                DisabledCheck();
                 return psuDevice.GetSecondary12VCurrent(id);
             }
 
@@ -304,6 +321,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
                 internal override double GetValueInternal()
                 {
+                    DisabledCheck();
                     return powerDevice.ReadPower();
                 }
             }
@@ -320,6 +338,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
                 internal override double GetValueInternal()
                 {
+                    DisabledCheck();
                     return powerDevice.ReadCurrent();
                 }
             }
@@ -336,6 +355,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
                 internal override double GetValueInternal()
                 {
+                    DisabledCheck();
                     return powerDevice.ReadVoltage();
                 }
             }
@@ -345,32 +365,23 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 return name;
             }
 
-            private MainCurrentSensor current;
-            private MainPowerSensor power;
-            private MainVoltageSensor voltage;
-
-            public override List<Sensor.BaseSensorDevice> GetSensors()
+            internal override List<BaseDevice> GetSubDevicesInternal()
             {
-                List<Sensor.BaseSensorDevice> sensors = base.GetSensors();
-                if (current == null)
-                    current = new MainCurrentSensor(this);
-                if (power == null)
-                    power = new MainPowerSensor(this);
-                if (voltage == null)
-                    voltage = new MainVoltageSensor(this);
-                sensors.Add(current);
-                sensors.Add(power);
-                sensors.Add(voltage);
+                List<BaseDevice> sensors = base.GetSubDevicesInternal();
+                sensors.Add(new MainCurrentSensor(this));
+                sensors.Add(new MainPowerSensor(this));
+                sensors.Add(new MainVoltageSensor(this));
                 return sensors;
             }
 
-            internal void SetPage()
+            private void SetPage()
             {
                 psuDevice.SetMainPage(id);
             }
 
             internal double ReadVoltage()
             {
+                DisabledCheck();
                 byte[] ret;
                 lock (usbDevice.usbLock)
                 {
@@ -382,6 +393,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             internal double ReadCurrent()
             {
+                DisabledCheck();
                 byte[] ret;
                 lock (usbDevice.usbLock)
                 {
@@ -393,6 +405,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             internal double ReadPower()
             {
+                DisabledCheck();
                 byte[] ret;
                 lock (usbDevice.usbLock)
                 {
@@ -403,55 +416,28 @@ namespace CorsairLinkPlusPlus.Driver.Node
             }
         }
 
-        private List<Sensor.BaseSensorDevice> sensors = null;
-
-        public override List<Sensor.BaseSensorDevice> GetSensors()
+        internal override List<BaseDevice> GetSubDevicesInternal()
         {
-            List<Sensor.BaseSensorDevice> ret = base.GetSensors();
+            List<BaseDevice> ret = base.GetSubDevicesInternal();
 
-            if (sensors == null)
+            ret.Add(new ThermistorPSU(this, 0));
+            ret.Add(new FanPSU(this, 0));
+
+            string[] mainRailNames = GetMainRailNames();
+            for (int i = 0; i < mainRailNames.Length; i++)
+                ret.Add(new MainPowerDevice(this, channel, i + 1, mainRailNames[i]));
+
+            string[] secondary12VRails = GetSecondary12VRailNames();
+            if (secondary12VRails.Length > 0)
             {
-                sensors = new List<Sensor.BaseSensorDevice>();
-
-                sensors.Add(new ThermistorPSU(this, 0));
-                sensors.Add(new FanPSU(this, 0));
-
-                string[] secondary12VRails = GetSecondary12VRailNames();
-                if (secondary12VRails.Length > 0)
+                for (int i = 0; i < GetPCIeRailCount(); i++)
                 {
-                    for (int i = 0; i < GetPCIeRailCount(); i++)
-                    {
-                        sensors.Add(new Secondary12VCurrentSensor(this, i, secondary12VRails[i]));
-                    }
-
-                    sensors.Add(new Secondary12VCurrentSensor(this, secondary12VRails.Length - 2, secondary12VRails[secondary12VRails.Length - 2]));
-                    sensors.Add(new Secondary12VCurrentSensor(this, secondary12VRails.Length - 1, secondary12VRails[secondary12VRails.Length - 1]));
+                    ret.Add(new Secondary12VCurrentSensor(this, i, secondary12VRails[i]));
                 }
+
+                ret.Add(new Secondary12VCurrentSensor(this, secondary12VRails.Length - 2, secondary12VRails[secondary12VRails.Length - 2]));
+                ret.Add(new Secondary12VCurrentSensor(this, secondary12VRails.Length - 1, secondary12VRails[secondary12VRails.Length - 1]));
             }
-
-            ret.AddRange(sensors);
-
-            return ret;
-        }
-
-        private List<MainPowerDevice> psuSubSensors = null;
-
-        public override List<BaseDevice> GetSubDevices()
-        {
-            List<BaseDevice> ret = base.GetSubDevices();
-
-            if (psuSubSensors == null)
-            {
-                psuSubSensors = new List<MainPowerDevice>();
-
-                string[] mainRailNames = GetMainRailNames();
-                for (int i = 0; i < mainRailNames.Length; i++)
-                    psuSubSensors.Add(new MainPowerDevice(this, channel, i + 1, mainRailNames[i]));
-            }
-
-            foreach(MainPowerDevice psuSubSensor in psuSubSensors)
-                if (psuSubSensor.IsPresent())
-                    ret.Add(psuSubSensor);
 
             return ret;
         }

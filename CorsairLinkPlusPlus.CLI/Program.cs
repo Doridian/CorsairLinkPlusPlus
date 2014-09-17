@@ -12,6 +12,9 @@ namespace CorsairLinkPlusPlus.CLI
     {
         static void PrintSensorsAndSubDevices(BaseDevice device, string prefix)
         {
+            if (!device.IsValid() || !device.IsPresent())
+                return;
+
             if (device is BaseSensorDevice)
             {
                 if (device is LED)

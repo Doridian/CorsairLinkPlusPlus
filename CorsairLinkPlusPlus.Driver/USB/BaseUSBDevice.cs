@@ -9,7 +9,6 @@ namespace CorsairLinkPlusPlus.Driver.USB
     {
         private readonly HidDevice hidDevice;
         protected int commandNo = 20;
-        internal bool disabled = false;
 
         internal readonly object usbLock = new object();
 
@@ -35,7 +34,7 @@ namespace CorsairLinkPlusPlus.Driver.USB
             }
         }
 
-        private Dictionary<byte, BaseLinkDevice> subDevices = null;
+        private volatile Dictionary<byte, BaseLinkDevice> subDevicesByChannel = null;
 
         public Dictionary<byte, byte> GetUsedChannels()
         {
@@ -48,27 +47,40 @@ namespace CorsairLinkPlusPlus.Driver.USB
             return usedChannels;
         }
 
-        public override List<Driver.BaseDevice> GetSubDevices()
+        internal override List<Driver.BaseDevice> GetSubDevicesInternal()
         {
-            List<Driver.BaseDevice> ret = new List<Driver.BaseDevice>();
+            List<Driver.BaseDevice> ret = base.GetSubDevicesInternal();
 
-            if (subDevices == null)
+            lock (subDeviceLock)
             {
-                subDevices = new Dictionary<byte, BaseLinkDevice>();
-                foreach (KeyValuePair<byte, byte> channel in GetUsedChannels())
-                    subDevices.Add(channel.Key, GetDeviceOnChannel(channel.Key, channel.Value));
-            }
+                if (subDevicesByChannel == null)
+                {
+                    subDevicesByChannel = new Dictionary<byte, BaseLinkDevice>();
+                    foreach (KeyValuePair<byte, byte> channel in GetUsedChannels())
+                        subDevicesByChannel.Add(channel.Key, GetDeviceOnChannel(channel.Key, channel.Value));
+                }
 
-            ret.AddRange(subDevices.Values);
+                ret.AddRange(subDevicesByChannel.Values);
+            }
 
             return ret;
         }
 
+        public override void Refresh(bool volatileOnly)
+        {
+            base.Refresh(volatileOnly);
+
+            lock (subDeviceLock)
+            {
+                subDevicesByChannel = null;
+            }
+        }
+
         internal BaseLinkDevice GetDeviceOnChannel(byte channel)
         {
-            if (subDevices == null)
-                GetSubDevices();
-            return subDevices[channel];
+            if (subDevicesByChannel == null)
+                GetSubDevicesInternal();
+            return subDevicesByChannel[channel];
         }
 
         private BaseLinkDevice GetDeviceOnChannel(byte channel, byte deviceType)
@@ -129,8 +141,7 @@ namespace CorsairLinkPlusPlus.Driver.USB
 
         public byte[] SendCommand(byte opcode, byte channel, byte[] command)
         {
-            if (disabled)
-                throw new InvalidOperationException();
+            DisabledCheck();
 
             HidDeviceData response;
             command = MakeCommand(opcode, channel, command);
