@@ -1,11 +1,6 @@
-﻿using CorsairLinkPlusPlus.Driver.Sensor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CorsairLinkPlusPlus.Driver.Node;
 
-namespace CorsairLinkPlusPlus.Driver.Node
+namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 {
     class PumpModern : Pump
     {

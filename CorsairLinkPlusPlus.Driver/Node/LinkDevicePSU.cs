@@ -1,6 +1,8 @@
 ﻿using CorsairLinkPlusPlus.Driver.Controller;
 using CorsairLinkPlusPlus.Driver.Controller.Fan;
+using CorsairLinkPlusPlus.Driver.Node.Internal;
 using CorsairLinkPlusPlus.Driver.Sensor;
+using CorsairLinkPlusPlus.Driver.Sensor.Internal;
 using CorsairLinkPlusPlus.Driver.USB;
 using CorsairLinkPlusPlus.Driver.Utility;
 using System;
@@ -67,126 +69,10 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return "Corsair PSU " + GetInternalName();
         }
 
-        class ThermistorPSU : Thermistor
+        internal void SetMainPage(int page)
         {
-            internal ThermistorPSU(LinkDevicePSU device, int id)
-                : base(device, id)
-            {
+            DisabledCheck();
 
-            }
-
-            internal override double GetValueInternal()
-            {
-                return BitCodec.ToFloat(device.ReadRegister(0x8E, 2), 0);
-            }
-        }
-        class FanPSU : Fan, ControllableSensor
-        {
-            private ControllerBase controller = null;
-
-            internal FanPSU(LinkDevicePSU device, int id)
-                : base(device, id)
-            {
-
-            }
-
-            internal override double GetValueInternal()
-            {
-                DisabledCheck();
-
-                return BitCodec.ToFloat(device.ReadRegister(0x90, 2), 0);
-            }
-
-            internal override void SetFixedPercent(int percent)
-            {
-                DisabledCheck();
-
-                if (percent < 0 || percent > 100)
-                    throw new ArgumentException();
-                device.WriteSingleByteRegister(0x3B, (byte)percent);
-            }
-
-            internal override int GetFixedPercent()
-            {
-                DisabledCheck();
-
-                return device.ReadSingleByteRegister(0x3B);
-            }
-
-            public void SetController(ControllerBase controller)
-            {
-                DisabledCheck();
-
-                if (controller is FanDefaultController)
-                    device.WriteSingleByteRegister(0xF0, 0);
-                else if (controller is FanFixedPercentController)
-                    device.WriteSingleByteRegister(0xF0, 1);
-
-                SaveControllerData(controller);
-            }
-
-            public void SaveControllerData(ControllerBase controller)
-            {
-                DisabledCheck();
-
-                controller.Apply(this);
-            }
-
-            public ControllerBase GetController()
-            {
-                DisabledCheck();
-
-                if (controller == null)
-                    switch(device.ReadSingleByteRegister(0xF0))
-                    {
-                        case 0:
-                            controller = new FanDefaultController();
-                            break;
-                        case 1:
-                            FanFixedPercentController newController = new FanFixedPercentController();
-                            newController.AssignFrom(this);
-                            controller = newController;
-                            break;
-                    }
-                    
-                return controller;
-            }
-
-            internal override int GetFixedRPM()
-            {
-                throw new NotImplementedException();
-            }
-
-            internal override void SetFixedRPM(int rpm)
-            {
-                throw new NotImplementedException();
-            }
-
-            internal override ControlCurve GetControlCurve()
-            {
-                throw new NotImplementedException();
-            }
-
-            internal override void SetControlCurve(ControlCurve curve)
-            {
-                throw new NotImplementedException();
-            }
-
-            internal override void SetMinimalRPM(int rpm)
-            {
-                throw new NotImplementedException();
-            }
-
-            internal override int GetMinimalRPM()
-            {
-                DisabledCheck();
-
-                return 0;
-            }
-        }
-
-        private void SetMainPage(int page)
-        {
             WriteSingleByteRegister(0x00, (byte)page);
         }
 
@@ -233,137 +119,6 @@ namespace CorsairLinkPlusPlus.Driver.Node
             }
         }
 
-        class MainPowerDevice : BaseLinkDevice
-        {
-            protected readonly int id;
-            protected readonly string name;
-            protected readonly LinkDevicePSU psuDevice;
-            internal MainPowerDevice(LinkDevicePSU psuDevice, byte channel, int id, string name)
-                : base(psuDevice.usbDevice, channel)
-            {
-                this.id = id;
-                this.name = name;
-                this.psuDevice = psuDevice;
-            }
-
-            public override void Refresh(bool volatileOnly)
-            {
-                base.Refresh(volatileOnly);
-                this.psuDevice.Refresh(volatileOnly);
-            }
-
-            public override string GetLocalDeviceID()
-            {
-                return "PowerMain" + id;
-            }
-
-            class MainPowerSensor : PowerSensor
-            {
-                private readonly MainPowerDevice powerDevice;
-
-                internal MainPowerSensor(MainPowerDevice device)
-                    : base(device, 0)
-                {
-                    this.powerDevice = device;
-                }
-
-                internal override double GetValueInternal()
-                {
-                    DisabledCheck();
-                    return powerDevice.ReadPower();
-                }
-            }
-
-            class MainCurrentSensor : CurrentSensor
-            {
-                private readonly MainPowerDevice powerDevice;
-
-                internal MainCurrentSensor(MainPowerDevice device)
-                    : base(device, 0)
-                {
-                    this.powerDevice = device;
-                }
-
-                internal override double GetValueInternal()
-                {
-                    DisabledCheck();
-                    return powerDevice.ReadCurrent();
-                }
-            }
-
-            class MainVoltageSensor : VoltageSensor
-            {
-                private readonly MainPowerDevice powerDevice;
-
-                internal MainVoltageSensor(MainPowerDevice device)
-                    : base(device, 0)
-                {
-                    this.powerDevice = device;
-                }
-
-                internal override double GetValueInternal()
-                {
-                    DisabledCheck();
-                    return powerDevice.ReadVoltage();
-                }
-            }
-
-            public override string GetName()
-            {
-                return name;
-            }
-
-            internal override List<BaseDevice> GetSubDevicesInternal()
-            {
-                List<BaseDevice> sensors = base.GetSubDevicesInternal();
-                sensors.Add(new MainCurrentSensor(this));
-                sensors.Add(new MainPowerSensor(this));
-                sensors.Add(new MainVoltageSensor(this));
-                return sensors;
-            }
-
-            private void SetPage()
-            {
-                psuDevice.SetMainPage(id);
-            }
-
-            internal double ReadVoltage()
-            {
-                DisabledCheck();
-                byte[] ret;
-                lock (usbDevice.usbLock)
-                {
-                    SetPage();
-                    ret = ReadRegister(0x8B, 2);
-                }
-                return BitCodec.ToFloat(ret);
-            }
-
-            internal double ReadCurrent()
-            {
-                DisabledCheck();
-                byte[] ret;
-                lock (usbDevice.usbLock)
-                {
-                    SetPage();
-                    ret = ReadRegister(0x8C, 2);
-                }
-                return BitCodec.ToFloat(ret);
-            }
-
-            internal double ReadPower()
-            {
-                DisabledCheck();
-                byte[] ret;
-                lock (usbDevice.usbLock)
-                {
-                    SetPage();
-                    ret = ReadRegister(0x96, 2);
-                }
-                return BitCodec.ToFloat(ret);
-            }
-        }
-
         internal override List<BaseDevice> GetSubDevicesInternal()
         {
             List<BaseDevice> ret = base.GetSubDevicesInternal();
@@ -373,7 +128,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             string[] mainRailNames = GetMainRailNames();
             for (int i = 0; i < mainRailNames.Length; i++)
-                ret.Add(new MainPowerDevice(this, channel, i + 1, mainRailNames[i]));
+                ret.Add(new PSUMainPowerDevice(this, channel, i + 1, mainRailNames[i]));
 
             string[] secondary12VRails = GetSecondary12VRailNames();
             if (secondary12VRails.Length > 0)

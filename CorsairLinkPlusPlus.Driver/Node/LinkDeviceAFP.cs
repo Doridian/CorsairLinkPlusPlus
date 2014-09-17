@@ -1,4 +1,5 @@
-﻿using CorsairLinkPlusPlus.Driver.Sensor;
+﻿using CorsairLinkPlusPlus.Driver.Node.Internal;
+using CorsairLinkPlusPlus.Driver.Sensor;
 using CorsairLinkPlusPlus.Driver.USB;
 using System.Collections.Generic;
 

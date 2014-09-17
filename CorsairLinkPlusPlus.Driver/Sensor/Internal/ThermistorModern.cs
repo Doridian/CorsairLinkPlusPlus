@@ -1,11 +1,7 @@
-﻿using CorsairLinkPlusPlus.Driver.Sensor;
+﻿using CorsairLinkPlusPlus.Driver.Node;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CorsairLinkPlusPlus.Driver.Node
+namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 {
     class ThermistorModern : Thermistor
     {

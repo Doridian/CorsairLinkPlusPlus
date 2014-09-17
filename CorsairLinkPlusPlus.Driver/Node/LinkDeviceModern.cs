@@ -7,6 +7,7 @@ using CorsairLinkPlusPlus.Driver.USB;
 using System;
 using System.Collections.Generic;
 using CorsairLinkPlusPlus.Driver.Utility;
+using CorsairLinkPlusPlus.Driver.Sensor.Internal;
 
 namespace CorsairLinkPlusPlus.Driver.Node
 {
@@ -121,6 +122,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
         internal void SetCurrentFan(int id)
         {
+            DisabledCheck();
+
             WriteSingleByteRegister(0x10, (byte)id);
         }
 

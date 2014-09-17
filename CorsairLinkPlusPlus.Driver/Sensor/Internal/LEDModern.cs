@@ -1,14 +1,10 @@
 ﻿using CorsairLinkPlusPlus.Driver.Controller;
 using CorsairLinkPlusPlus.Driver.Controller.LED;
+using CorsairLinkPlusPlus.Driver.Node;
 using CorsairLinkPlusPlus.Driver.Registry;
-using CorsairLinkPlusPlus.Driver.Sensor;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CorsairLinkPlusPlus.Driver.Node
+namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 {
     class LEDModern : LED, TemperatureControllableSensor
     {
