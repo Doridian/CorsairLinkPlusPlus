@@ -81,7 +81,7 @@
     <Compile Include="USB\DeviceModern.cs" />
     <Compile Include="USB\DeviceNew.cs" />
     <Compile Include="USB\DeviceOld.cs" />
-    <Compile Include="BitCodec.cs" />
+    <Compile Include="Utility\BitCodec.cs" />
     <Compile Include="Utility\ControlCurve.cs" />
   </ItemGroup>
   <ItemGroup>

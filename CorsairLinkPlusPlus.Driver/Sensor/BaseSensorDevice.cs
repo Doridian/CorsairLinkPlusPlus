@@ -10,18 +10,18 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
         protected double cachedValue = double.NaN;
         protected bool? cachedPresence = null;
 
-        internal BaseSensorDevice(BaseLinkDevice device, int id)
+        internal BaseSensorDevice(BaseLinkDevice device, int id) : base(device)
         {
             this.device = device;
             this.id = id;
         }
 
-        public string GetUDID()
+        public override string GetUDID()
         {
             return device.GetUDID() + "/" + GetSensorType() + id;
         }
 
-        public bool IsPresent()
+        public override bool IsPresent()
         {
             if(cachedPresence == null)
                 cachedPresence = IsPresentInternal();
@@ -33,12 +33,12 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
             return true;
         }
 
-        public virtual string GetName()
+        public override string GetName()
         {
             return GetSensorType() + " " + id;
         }
 
-        public virtual void Refresh(bool volatileOnly)
+        public override void Refresh(bool volatileOnly)
         {
             device.Refresh(volatileOnly);
             cachedValue = double.NaN;
@@ -59,14 +59,9 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
 
         public abstract string GetUnit();
 
-        public List<Driver.BaseDevice> GetSubDevices()
+        public override List<Driver.BaseDevice> GetSubDevices()
         {
             return new List<Driver.BaseDevice>();
-        }
-
-        public Driver.BaseDevice GetParent()
-        {
-            return device;
         }
     }
 }

@@ -281,11 +281,6 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 this.psuDevice = psuDevice;
             }
 
-            public override BaseDevice GetParent()
-            {
-                return psuDevice;
-            }
-
             public override void Refresh(bool volatileOnly)
             {
                 base.Refresh(volatileOnly);

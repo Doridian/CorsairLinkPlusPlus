@@ -9,18 +9,16 @@ namespace CorsairLinkPlusPlus.Driver.USB
     {
         private readonly HidDevice hidDevice;
         protected int commandNo = 20;
-        private readonly RootDevice root;
         internal bool disabled = false;
 
         internal readonly object usbLock = new object();
 
-        internal BaseUSBDevice(RootDevice root, HidDevice hidDevice)
+        internal BaseUSBDevice(RootDevice root, HidDevice hidDevice) : base(root)
         {
             this.hidDevice = hidDevice;
-            this.root = root;
         }
 
-        public string GetUDID()
+        public override string GetUDID()
         {
             return hidDevice.DevicePath.Replace('\\', '/');
         }
@@ -37,18 +35,6 @@ namespace CorsairLinkPlusPlus.Driver.USB
             }
         }
 
-        public abstract string GetName();
-
-        public bool IsPresent()
-        {
-            return true;
-        }
-
-        public void Refresh(bool volatileOnly)
-        {
-
-        }
-
         private Dictionary<byte, BaseLinkDevice> subDevices = null;
 
         public Dictionary<byte, byte> GetUsedChannels()
@@ -62,7 +48,7 @@ namespace CorsairLinkPlusPlus.Driver.USB
             return usedChannels;
         }
 
-        public List<Driver.BaseDevice> GetSubDevices()
+        public override List<Driver.BaseDevice> GetSubDevices()
         {
             List<Driver.BaseDevice> ret = new List<Driver.BaseDevice>();
 
@@ -154,11 +140,6 @@ namespace CorsairLinkPlusPlus.Driver.USB
                 response = hidDevice.Read(500);
             }
             return ParseResponse(response.Data);
-        }
-
-        public Driver.BaseDevice GetParent()
-        {
-            return root;
         }
     }
 }

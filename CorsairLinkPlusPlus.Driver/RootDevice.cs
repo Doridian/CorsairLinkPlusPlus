@@ -12,7 +12,7 @@ namespace CorsairLinkPlusPlus.Driver.USB
         const int PID_CORSAIR_BOOTLOADER = 0x0C01;
         const int PID_CORSAIR_MODERN = 0x0C04;
 
-        private RootDevice()
+        private RootDevice() : base(null)
         {
 
         }
@@ -26,17 +26,12 @@ namespace CorsairLinkPlusPlus.Driver.USB
             return instance;
         }
 
-        public bool IsPresent()
-        {
-            return true;
-        }
-
-        public string GetName()
+        public override string GetName()
         {
             return "Corsair Root Device";
         }
 
-        public void Refresh(bool volatileOnly)
+        public override void Refresh(bool volatileOnly)
         {
             if (volatileOnly)
                 return;
@@ -54,7 +49,7 @@ namespace CorsairLinkPlusPlus.Driver.USB
 
         private List<USB.BaseUSBDevice> devices = null;
 
-        public List<Driver.BaseDevice> GetSubDevices()
+        public override List<Driver.BaseDevice> GetSubDevices()
         {
             List<Driver.BaseDevice> ret = new List<Driver.BaseDevice>();
 
@@ -102,14 +97,9 @@ namespace CorsairLinkPlusPlus.Driver.USB
             return ret;
         }
 
-        public string GetUDID()
+        public override string GetUDID()
         {
             return "/";
-        }
-
-        public Driver.BaseDevice GetParent()
-        {
-            return null;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             }
         }
 
-        public virtual string GetUDID()
+        public override string GetUDID()
         {
             return usbDevice.GetUDID() + "/Channel" + channel;
         }
@@ -30,25 +30,10 @@ namespace CorsairLinkPlusPlus.Driver.Node
         internal readonly USB.BaseUSBDevice usbDevice;
         internal readonly byte channel;
 
-        internal BaseLinkDevice(USB.BaseUSBDevice usbDevice, byte channel)
+        internal BaseLinkDevice(USB.BaseUSBDevice usbDevice, byte channel) : base(usbDevice)
         {
             this.usbDevice = usbDevice;
             this.channel = channel;
-        }
-
-        public virtual BaseDevice GetParent()
-        {
-            return usbDevice;
-        }
-
-        public virtual void Refresh(bool volatileOnly)
-        {
-
-        }
-
-        public bool IsPresent()
-        {
-            return true;
         }
 
         internal byte ReadSingleByteRegister(byte register)
@@ -71,9 +56,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             usbDevice.WriteRegister(register, channel, bytes);
         }
 
-        public abstract string GetName();
-
-        public virtual List<BaseDevice> GetSubDevices()
+        public override List<BaseDevice> GetSubDevices()
         {
             return new List<BaseDevice>(GetSensors());
         }
