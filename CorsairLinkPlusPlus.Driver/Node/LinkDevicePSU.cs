@@ -206,9 +206,20 @@ namespace CorsairLinkPlusPlus.Driver.Node
             {
                 throw new NotImplementedException();
             }
+
             public override void SetControlCurve(ControlCurve curve)
             {
                 throw new NotImplementedException();
+            }
+
+            public override void SetMinimalRPM(int rpm)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override int GetMinimalRPM()
+            {
+                return 0;
             }
         }
 

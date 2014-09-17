@@ -272,6 +272,24 @@ namespace CorsairLinkPlusPlus.Driver.Node
                     return null;
                 return modernDevice.GetThermistor(idx);
             }
+
+            public override void SetMinimalRPM(int rpm)
+            {
+                lock (modernDevice.usbDevice.usbLock)
+                {
+                    modernDevice.SetCurrentFan(id);
+                    modernDevice.WriteRegister(0x18, BitConverter.GetBytes((short)rpm));
+                }
+            }
+
+            public override int GetMinimalRPM()
+            {
+                lock(modernDevice.usbDevice.usbLock)
+                {
+                    modernDevice.SetCurrentFan(id);
+                    return BitConverter.ToInt16(modernDevice.ReadRegister(0x18, 2), 0);
+                }
+            }
         }
 
         class ThermistorModern : Thermistor
