@@ -10,31 +10,31 @@ namespace CorsairLinkPlusPlus.CLI
 {
     class Program
     {
-        static void PrintSensorsAndSubDevices(CorsairBaseDevice device, string prefix)
+        static void PrintSensorsAndSubDevices(BaseDevice device, string prefix)
         {
-            if (device is CorsairSensor)
+            if (device is BaseSensorDevice)
             {
-                if (device is CorsairLED)
+                if (device is LED)
                 {
-                    CorsairLED led = (CorsairLED)device;
+                    LED led = (LED)device;
                     Console.Out.WriteLine(prefix + "- " + led.GetName() + " = " + led.GetColor().ToString());
                 }
-                else if(device is CorsairFan && device is CorsairControllableSensor)
+                else if(device is Fan && device is ControllableSensor)
                 {
-                    CorsairFan fan = (CorsairFan)device;
-                    CorsairControllableSensor controllableFan = (CorsairControllableSensor)device;
-                    CorsairControllerBase fanController = controllableFan.GetController();
+                    Fan fan = (Fan)device;
+                    ControllableSensor controllableFan = (ControllableSensor)device;
+                    ControllerBase fanController = controllableFan.GetController();
                     Console.Out.WriteLine(prefix + "- " + fan.GetName() + " = " + fan.GetValue() + " " + fan.GetUnit());
                     if (fanController != null)
                         Console.Out.WriteLine(prefix + "\t" + ((fanController == null) ? "N/A" : fanController.GetType().Name));
-                    if(fanController is CorsairFanCurveController)
+                    if(fanController is FanCurveController)
                     {
-                        Console.Out.WriteLine(prefix + "\t\t" + ((CorsairFanCurveController)fanController).GetCurve().ToString().Replace("}, {", "}\r\n" + prefix + "\t\t{"));
+                        Console.Out.WriteLine(prefix + "\t\t" + ((FanCurveController)fanController).GetCurve().ToString().Replace("}, {", "}\r\n" + prefix + "\t\t{"));
                     }
                 }
                 else
                 {
-                    CorsairSensor sensor = (CorsairSensor)device;
+                    BaseSensorDevice sensor = (BaseSensorDevice)device;
                     Console.Out.WriteLine(prefix + "- " + sensor.GetName() + " = " + sensor.GetValue() + " " + sensor.GetUnit());
                 }
             }
@@ -42,7 +42,7 @@ namespace CorsairLinkPlusPlus.CLI
             {
                 Console.Out.WriteLine(prefix + "+ " + device.GetName());
 
-                foreach (CorsairBaseDevice subDevice in device.GetSubDevices())
+                foreach (BaseDevice subDevice in device.GetSubDevices())
                 {
                     PrintSensorsAndSubDevices(subDevice, prefix + "\t");
                 }
@@ -51,7 +51,7 @@ namespace CorsairLinkPlusPlus.CLI
 
         static void Main(string[] args)
         {
-            PrintSensorsAndSubDevices(CorsairRootDevice.GetInstance(), "");
+            PrintSensorsAndSubDevices(RootDevice.GetInstance(), "");
 
             Console.Out.WriteLine();
             Console.Out.WriteLine("---DONE---");
