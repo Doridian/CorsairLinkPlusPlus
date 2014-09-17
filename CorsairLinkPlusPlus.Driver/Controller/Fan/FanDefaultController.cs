@@ -4,10 +4,7 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
 {
     public class FanDefaultController : TemperatureDependantControllerBase, FanController
     {
-        public FanDefaultController()
-        {
-
-        }
+        public FanDefaultController() { }
 
         public FanDefaultController(Thermistor thermistor)
             : base(thermistor)

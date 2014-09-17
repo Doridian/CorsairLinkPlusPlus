@@ -28,14 +28,14 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
                 cachedPWM = null;
         }
 
-        public abstract void SetFixedRPM(int fixedRPM);
-        public abstract void SetFixedPercent(int percent);
-        public abstract int GetFixedRPM();
-        public abstract int GetFixedPercent();
-        public abstract ControlCurve GetControlCurve();
-        public abstract void SetControlCurve(ControlCurve curve);
-        public abstract void SetMinimalRPM(int rpm);
-        public abstract int GetMinimalRPM();
+        internal abstract void SetFixedRPM(int fixedRPM);
+        internal abstract void SetFixedPercent(int percent);
+        internal abstract int GetFixedRPM();
+        internal abstract int GetFixedPercent();
+        internal abstract ControlCurve GetControlCurve();
+        internal abstract void SetControlCurve(ControlCurve curve);
+        internal abstract void SetMinimalRPM(int rpm);
+        internal abstract int GetMinimalRPM();
 
         internal virtual bool IsPWMInternal()
         {

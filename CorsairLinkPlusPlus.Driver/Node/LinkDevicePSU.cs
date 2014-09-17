@@ -8,58 +8,6 @@ using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.Node
 {
-    public class LinkDevicePSUHXiNoRail : LinkDevicePSU
-    {
-        internal LinkDevicePSUHXiNoRail(USB.BaseUSBDevice usbDevice, byte channel) : base(usbDevice, channel) { }
-        internal override string[] GetSecondary12VRailNames()
-        {
-            return new string[0];
-        }
-
-        internal override int GetPCIeRailCount()
-        {
-            return 0;
-        }
-    }
-
-    public class LinkDevicePSUAX1500i : LinkDevicePSU
-    {
-        internal LinkDevicePSUAX1500i(USB.BaseUSBDevice usbDevice, byte channel) : base(usbDevice, channel) { }
-
-        internal override string[] GetSecondary12VRailNames()
-        {
-            return new string[]
-            {
-			    "PCIe 1",
-			    "PCIe 2",
-			    "PCIe 3",
-			    "PCIe 4",
-			    "PCIe 5",
-			    "PCIe 6",
-			    "PCIe 7",
-			    "PCIe 8",
-                "PCIe 9",
-			    "PCIe 10",
-			    "PSU 12V",
-			    "PERIPHERAL 12V"
-		    };
-        }
-
-        internal override int GetPCIeRailCount()
-        {
-            return 10;
-        }
-    }
-    public class LinkDevicePSUAX1200i : LinkDevicePSU
-    {
-        internal LinkDevicePSUAX1200i(USB.BaseUSBDevice usbDevice, byte channel) : base(usbDevice, channel) { }
-
-        internal override int GetPCIeRailCount()
-        {
-            return 8;
-        }
-    }
-
     public class LinkDevicePSU : BaseLinkDevice
     {
         internal static LinkDevicePSU CreateNew(USB.BaseUSBDevice usbDevice, byte channel)
@@ -149,7 +97,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 return BitCodec.ToFloat(device.ReadRegister(0x90, 2), 0);
             }
 
-            public override void SetFixedPercent(int percent)
+            internal override void SetFixedPercent(int percent)
             {
                 DisabledCheck();
 
@@ -158,7 +106,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 device.WriteSingleByteRegister(0x3B, (byte)percent);
             }
 
-            public override int GetFixedPercent()
+            internal override int GetFixedPercent()
             {
                 DisabledCheck();
 
@@ -204,32 +152,32 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 return controller;
             }
 
-            public override int GetFixedRPM()
+            internal override int GetFixedRPM()
             {
                 throw new NotImplementedException();
             }
 
-            public override void SetFixedRPM(int rpm)
+            internal override void SetFixedRPM(int rpm)
             {
                 throw new NotImplementedException();
             }
 
-            public override ControlCurve GetControlCurve()
+            internal override ControlCurve GetControlCurve()
             {
                 throw new NotImplementedException();
             }
 
-            public override void SetControlCurve(ControlCurve curve)
+            internal override void SetControlCurve(ControlCurve curve)
             {
                 throw new NotImplementedException();
             }
 
-            public override void SetMinimalRPM(int rpm)
+            internal override void SetMinimalRPM(int rpm)
             {
                 throw new NotImplementedException();
             }
 
-            public override int GetMinimalRPM()
+            internal override int GetMinimalRPM()
             {
                 DisabledCheck();
 

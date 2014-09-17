@@ -2,7 +2,7 @@
 
 namespace CorsairLinkPlusPlus.Driver.Controller
 {
-    public class ControllerBase
+    public abstract class ControllerBase
     {
         internal virtual void Apply(Sensor.BaseSensorDevice sensor)
         {

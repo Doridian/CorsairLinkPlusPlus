@@ -7,10 +7,7 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
     {
         private int percent;
 
-        public FanFixedPercentController()
-        {
-
-        }
+        public FanFixedPercentController() { }
         
         public FanFixedPercentController(int percent)
         {

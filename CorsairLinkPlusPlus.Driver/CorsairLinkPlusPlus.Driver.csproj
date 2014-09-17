@@ -43,6 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\ControllerBase.cs" />
+    <Compile Include="Controller\Fan\FanBalancedModeController.cs" />
+    <Compile Include="Controller\Fan\FanCustomCurveController.cs" />
+    <Compile Include="Controller\Fan\FanPerformanceModeController.cs" />
+    <Compile Include="Controller\Fan\FanQuiteModeController.cs" />
     <Compile Include="Controller\TemperatureDependantControllerBase.cs" />
     <Compile Include="Controller\Fan\FanController.cs" />
     <Compile Include="Controller\Fan\FanCurveController.cs" />
@@ -51,6 +55,14 @@
     <Compile Include="Controller\Fan\FanFixedRPMController.cs" />
     <Compile Include="Controller\LED\LEDController.cs" />
     <Compile Include="BaseDevice.cs" />
+    <Compile Include="Node\FanModern.cs" />
+    <Compile Include="Node\LEDModern.cs" />
+    <Compile Include="Node\LinkAFPRAMStick.cs" />
+    <Compile Include="Node\LinkDevicePSUAX1200i.cs" />
+    <Compile Include="Node\LinkDevicePSUAX1500i.cs" />
+    <Compile Include="Node\LinkDevicePSUHXiNoRail.cs" />
+    <Compile Include="Node\PumpModern.cs" />
+    <Compile Include="Node\ThermistorModern.cs" />
     <Compile Include="Utility\CoreUtil.cs" />
     <Compile Include="Node\BaseLinkDevice.cs" />
     <Compile Include="Node\LinkDeviceAFP.cs" />
@@ -83,6 +95,7 @@
     <Compile Include="USB\DeviceOld.cs" />
     <Compile Include="Utility\BitCodec.cs" />
     <Compile Include="Utility\ControlCurve.cs" />
+    <Compile Include="Utility\CurvePoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

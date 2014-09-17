@@ -7,10 +7,7 @@ namespace CorsairLinkPlusPlus.Driver.Controller
     {
         private Thermistor thermistor;
 
-        public TemperatureDependantControllerBase()
-        {
-
-        }
+        public TemperatureDependantControllerBase() { }
 
         public TemperatureDependantControllerBase(Thermistor thermistor)
         {

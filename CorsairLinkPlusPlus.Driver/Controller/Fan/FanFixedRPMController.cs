@@ -7,10 +7,7 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
     {
         private int rpm;
 
-        public FanFixedRPMController()
-        {
-
-        }
+        public FanFixedRPMController() { }
 
         public FanFixedRPMController(int rpm)
         {
