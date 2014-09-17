@@ -73,7 +73,7 @@
     <Compile Include="Sensor\CorsairThermistor.cs" />
     <Compile Include="Sensor\CorsairBasePowerSensor.cs" />
     <Compile Include="USB\CorsairLinkUSBDevice.cs" />
-    <Compile Include="USB\CorsairLinkDeviceEnumerator.cs" />
+    <Compile Include="CorsairRootDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="USB\CorsairLinkUSBDeviceBootloader.cs" />
     <Compile Include="USB\CorsairLinkUSBDeviceCommanderA.cs" />

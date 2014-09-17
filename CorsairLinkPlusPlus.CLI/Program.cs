@@ -51,13 +51,7 @@ namespace CorsairLinkPlusPlus.CLI
 
         static void Main(string[] args)
         {
-            CorsairLinkDeviceEnumerator enumerator = new CorsairLinkDeviceEnumerator();
-            List<CorsairLinkUSBDevice> usbDevices = enumerator.GetDevices();
-
-            foreach (CorsairLinkUSBDevice usbDevice in usbDevices)
-            {
-                PrintSensorsAndSubDevices(usbDevice, "");
-            }
+            PrintSensorsAndSubDevices(CorsairRootDevice.GetInstance(), "");
 
             Console.Out.WriteLine();
             Console.Out.WriteLine("---DONE---");

@@ -9,12 +9,15 @@ namespace CorsairLinkPlusPlus.Driver.USB
     {
         private readonly HidDevice hidDevice;
         protected int commandNo = 20;
+        private readonly CorsairRootDevice root;
+        internal bool disabled = false;
 
         internal readonly object usbLock = new object();
 
-        internal CorsairLinkUSBDevice(HidDevice hidDevice)
+        internal CorsairLinkUSBDevice(CorsairRootDevice root, HidDevice hidDevice)
         {
             this.hidDevice = hidDevice;
+            this.root = root;
         }
 
         public string GetUDID()
@@ -140,6 +143,9 @@ namespace CorsairLinkPlusPlus.Driver.USB
 
         public byte[] SendCommand(byte opcode, byte channel, byte[] command)
         {
+            if (disabled)
+                throw new InvalidOperationException();
+
             HidDeviceData response;
             command = MakeCommand(opcode, channel, command);
             lock (usbLock)
@@ -152,7 +158,7 @@ namespace CorsairLinkPlusPlus.Driver.USB
 
         public CorsairBaseDevice GetParent()
         {
-            return null;
+            return root;
         }
     }
 }

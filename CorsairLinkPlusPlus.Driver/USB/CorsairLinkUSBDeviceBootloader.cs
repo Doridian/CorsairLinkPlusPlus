@@ -4,7 +4,7 @@ namespace CorsairLinkPlusPlus.Driver.USB
 {
     public class CorsairLinkUSBDeviceBootloader : CorsairLinkUSBDeviceOld
     {
-        internal CorsairLinkUSBDeviceBootloader(HidDevice hidDevice) : base(hidDevice) { }
+        internal CorsairLinkUSBDeviceBootloader(CorsairRootDevice root, HidDevice hidDevice) : base(root, hidDevice) { }
 
         public override string GetName()
         {
