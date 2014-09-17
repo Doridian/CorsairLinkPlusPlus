@@ -16,9 +16,9 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
             this.id = id;
         }
 
-        public override string GetUDID()
+        public override string GetLocalDeviceID()
         {
-            return device.GetUDID() + "/" + GetSensorType() + id;
+            return "Sensor" + GetSensorType() + id;
         }
 
         public override bool IsPresent()

@@ -25,7 +25,15 @@ namespace CorsairLinkPlusPlus.Driver
 
         public abstract List<BaseDevice> GetSubDevices();
 
-        public abstract string GetUDID();
+        public abstract string GetLocalDeviceID();
+
+        public string GetUDID()
+        {
+            BaseDevice device = GetParent();
+            if (device == null)
+                return "/" + GetLocalDeviceID();
+            return device.GetLocalDeviceID() + "/" + GetLocalDeviceID();
+        }
 
         public BaseDevice GetParent()
         {

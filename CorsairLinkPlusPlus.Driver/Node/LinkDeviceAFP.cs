@@ -49,9 +49,9 @@ namespace CorsairLinkPlusPlus.Driver.Node
             this.afpDevice.Refresh(volatileOnly);
         }
 
-        public override string GetUDID()
+        public override string GetLocalDeviceID()
         {
-            return base.GetUDID() + "/DIMM" + id;
+            return "DIMM" + id;
         }
 
         public override string GetName()

@@ -287,9 +287,9 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 this.psuDevice.Refresh(volatileOnly);
             }
 
-            public override string GetUDID()
+            public override string GetLocalDeviceID()
             {
-                return psuDevice.GetUDID() + "/Main" + id;
+                return "PowerMain" + id;
             }
 
             class MainPowerSensor : PowerSensor

@@ -22,9 +22,9 @@ namespace CorsairLinkPlusPlus.Driver.Node
             }
         }
 
-        public override string GetUDID()
+        public override string GetLocalDeviceID()
         {
-            return usbDevice.GetUDID() + "/Channel" + channel;
+            return "Channel" + channel;
         }
 
         internal readonly USB.BaseUSBDevice usbDevice;

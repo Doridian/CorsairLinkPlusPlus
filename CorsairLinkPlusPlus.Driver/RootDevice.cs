@@ -97,9 +97,9 @@ namespace CorsairLinkPlusPlus.Driver.USB
             return ret;
         }
 
-        public override string GetUDID()
+        public override string GetLocalDeviceID()
         {
-            return "/";
+            return "CorsairRoot";
         }
     }
 }
