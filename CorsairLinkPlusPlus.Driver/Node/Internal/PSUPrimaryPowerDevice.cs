@@ -5,12 +5,13 @@ using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.Node.Internal
 {
-    class PSUMainPowerDevice : BaseLinkDevice
+    class PSUPrimaryPowerDevice : BaseLinkDevice
     {
         protected readonly int id;
         protected readonly string name;
         protected readonly LinkDevicePSU psuDevice;
-        internal PSUMainPowerDevice(LinkDevicePSU psuDevice, byte channel, int id, string name)
+
+        internal PSUPrimaryPowerDevice(LinkDevicePSU psuDevice, byte channel, int id, string name)
             : base(psuDevice.usbDevice, channel)
         {
             this.id = id;
@@ -37,18 +38,18 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
         protected override List<BaseDevice> GetSubDevicesInternal()
         {
             List<BaseDevice> sensors = base.GetSubDevicesInternal();
-            sensors.Add(new PSUMainCurrentSensor(this));
-            sensors.Add(new PSUMainPowerSensor(this));
-            sensors.Add(new PSUMainVoltageSensor(this));
+            sensors.Add(new PSUPrimaryCurrentSensor(this));
+            sensors.Add(new PSUPrimaryPowerSensor(this));
+            sensors.Add(new PSUPrimaryVoltageSensor(this));
             return sensors;
         }
 
-        private void SetPage()
+        protected void SetPage()
         {
             psuDevice.SetMainPage(id);
         }
 
-        internal double ReadVoltage()
+        internal virtual double ReadVoltage()
         {
             DisabledCheck();
 
@@ -62,7 +63,7 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
             return BitCodec.ToFloat(ret);
         }
 
-        internal double ReadCurrent()
+        internal virtual double ReadCurrent()
         {
             DisabledCheck();
 
@@ -76,7 +77,7 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
             return BitCodec.ToFloat(ret);
         }
 
-        internal double ReadPower()
+        internal virtual double ReadPower()
         {
             DisabledCheck();
 

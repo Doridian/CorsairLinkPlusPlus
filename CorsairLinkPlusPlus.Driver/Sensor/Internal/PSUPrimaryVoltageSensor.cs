@@ -2,11 +2,11 @@
 
 namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 {
-    class PSUMainPowerSensor : PowerSensor
+    class PSUPrimaryVoltageSensor : VoltageSensor
     {
-        private readonly PSUMainPowerDevice powerDevice;
+        private readonly PSUPrimaryPowerDevice powerDevice;
 
-        internal PSUMainPowerSensor(PSUMainPowerDevice device)
+        internal PSUPrimaryVoltageSensor(PSUPrimaryPowerDevice device)
             : base(device, 0)
         {
             this.powerDevice = device;
@@ -16,7 +16,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
         {
             DisabledCheck();
 
-            return powerDevice.ReadPower();
+            return powerDevice.ReadVoltage();
         }
     }
 }

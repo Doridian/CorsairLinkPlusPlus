@@ -59,7 +59,9 @@
     <Compile Include="Controller\Fan\FanDefaultController.cs" />
     <Compile Include="Controller\Fan\FanFixedRPMController.cs" />
     <Compile Include="Controller\LED\LEDController.cs" />
-    <Compile Include="Node\Internal\PSUMainPowerDevice.cs" />
+    <Compile Include="Node\Internal\LinkDevicePSUHX.cs" />
+    <Compile Include="Node\Internal\PSUPrimaryPowerDevice.cs" />
+    <Compile Include="Node\Internal\PSUMainsPowerDevice.cs" />
     <Compile Include="Sensor\BasePowerSensor.cs" />
     <Compile Include="Sensor\BaseSensorDevice.cs" />
     <Compile Include="Sensor\Internal\FanPSU.cs" />
@@ -69,9 +71,10 @@
     <Compile Include="Node\Internal\LinkDevicePSUAX1200i.cs" />
     <Compile Include="Node\Internal\LinkDevicePSUAX1500i.cs" />
     <Compile Include="Node\Internal\LinkDevicePSUHXiNoRail.cs" />
-    <Compile Include="Sensor\Internal\PSUMainCurrentSensor.cs" />
-    <Compile Include="Sensor\Internal\PSUMainPowerSensor.cs" />
-    <Compile Include="Sensor\Internal\PSUMainVoltageSensor.cs" />
+    <Compile Include="Sensor\Internal\PSUPrimaryCurrentSensor.cs" />
+    <Compile Include="Sensor\Internal\PSUMainsPowerInSensor.cs" />
+    <Compile Include="Sensor\Internal\PSUPrimaryPowerSensor.cs" />
+    <Compile Include="Sensor\Internal\PSUPrimaryVoltageSensor.cs" />
     <Compile Include="Sensor\Internal\PumpModern.cs" />
     <Compile Include="Sensor\Internal\Secondary12VCurrentSensor.cs" />
     <Compile Include="Sensor\Internal\ThermistorModern.cs" />
@@ -105,6 +108,7 @@
     <Compile Include="USB\DeviceNew.cs" />
     <Compile Include="USB\DeviceOld.cs" />
     <Compile Include="Utility\BitCodec.cs" />
+    <Compile Include="Utility\PowerCurves.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

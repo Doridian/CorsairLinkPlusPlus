@@ -23,6 +23,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 return new LinkDevicePSUAX1500i(usbDevice, channel);
             if (psuName.StartsWith("HX") && psuName != "HX1200i" && psuName != "HX1000i")
                 return new LinkDevicePSUHXiNoRail(usbDevice, channel);
+            if (psuName.StartsWith("HX"))
+                return new LinkDevicePSUHX(usbDevice, channel);
             return genericPSU;
         }
 
@@ -106,7 +108,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
 
             string[] mainRailNames = GetMainRailNames();
             for (int i = 0; i < mainRailNames.Length; i++)
-                ret.Add(new PSUMainPowerDevice(this, channel, i + 1, mainRailNames[i]));
+                ret.Add(new PSUPrimaryPowerDevice(this, channel, i + 1, mainRailNames[i]));
 
             string[] secondary12VRails = GetSecondary12VRailNames();
             if (secondary12VRails.Length > 0)
@@ -119,6 +121,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 ret.Add(new Secondary12VCurrentSensor(this, secondary12VRails.Length - 2, secondary12VRails[secondary12VRails.Length - 2]));
                 ret.Add(new Secondary12VCurrentSensor(this, secondary12VRails.Length - 1, secondary12VRails[secondary12VRails.Length - 1]));
             }
+
+            ret.Add(new PSUMainsPowerDevice(this, channel, "Mains"));
 
             return ret;
         }
