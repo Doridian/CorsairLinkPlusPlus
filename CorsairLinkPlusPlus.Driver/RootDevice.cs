@@ -47,9 +47,9 @@ namespace CorsairLinkPlusPlus.Driver.USB
                 return;
         }
 
-        protected override List<BaseDevice> GetSubDevicesInternal()
+        protected override List<IDevice> GetSubDevicesInternal()
         {
-            List<BaseDevice> ret = base.GetSubDevicesInternal();
+            List<IDevice> ret = base.GetSubDevicesInternal();
 
             IEnumerable<HidDevice> hidDevices = HidDevices.Enumerate(VID_CORSAIR_LINK, new int[] {
                         PID_CORSAIR_COMMANDER_LINK_A,

@@ -1,4 +1,5 @@
-﻿using CorsairLinkPlusPlus.Driver.Controller;
+﻿using CorsairLinkPlusPlus.Common.Controller;
+using CorsairLinkPlusPlus.Driver.Controller;
 using CorsairLinkPlusPlus.Driver.Controller.LED;
 using CorsairLinkPlusPlus.Driver.Node;
 using CorsairLinkPlusPlus.Driver.Registry;
@@ -26,7 +27,8 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             base.Refresh(volatileOnly);
             if (!volatileOnly)
                 cachedLEDData = null;
-            GetController().Refresh(this);
+
+            ((ControllerBase)GetController()).Refresh(this);
         }
 
         internal override byte[] GetRGBInternal()
@@ -77,7 +79,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             RootDevice.usbGlobalMutex.ReleaseMutex();
         }
 
-        public void SetController(ControllerBase controller)
+        public void SetController(IController controller)
         {
             DisabledCheck();
 
@@ -106,23 +108,24 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             SaveControllerData(controller);
         }
 
-        public ControllerBase GetController()
+        public IController GetController()
         {
             DisabledCheck();
 
             if (controller == null)
                 controller = LEDControllerRegistry.Get(this, (byte)(GetLEDData() & 0xC0 /* 11000000 */));
 
-            return (ControllerBase)controller;
+            return controller;
         }
 
-        public void SaveControllerData(ControllerBase controller)
+        public void SaveControllerData(IController controller)
         {
             DisabledCheck();
 
             if (!(controller is LEDController))
                 throw new ArgumentException();
-            controller.Apply(this);
+
+            ((ControllerBase)GetController()).Apply(this);
         }
 
         private void SetLEDData(byte ledData)

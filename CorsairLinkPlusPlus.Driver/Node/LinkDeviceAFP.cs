@@ -15,9 +15,9 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return "Corsair AirFlow Pro";
         }
 
-        protected override List<BaseDevice> GetSubDevicesInternal()
+        protected override List<IDevice> GetSubDevicesInternal()
         {
-            List<BaseDevice> ret = base.GetSubDevicesInternal();
+            List<IDevice> ret = base.GetSubDevicesInternal();
 
             for (int i = 0; i < 6; i++)
                 ret.Add(new LinkAFPRAMStick(this, channel, i));

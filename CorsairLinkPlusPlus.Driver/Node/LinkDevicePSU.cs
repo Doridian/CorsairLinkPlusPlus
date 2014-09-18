@@ -113,9 +113,9 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return BitCodec.ToFloat(ret);
         }
 
-        protected override List<BaseDevice> GetSubDevicesInternal()
+        protected override List<IDevice> GetSubDevicesInternal()
         {
-            List<BaseDevice> ret = base.GetSubDevicesInternal();
+            List<IDevice> ret = base.GetSubDevicesInternal();
 
             ret.Add(new ThermistorPSU(this, 0));
             ret.Add(new FanPSU(this, 0));

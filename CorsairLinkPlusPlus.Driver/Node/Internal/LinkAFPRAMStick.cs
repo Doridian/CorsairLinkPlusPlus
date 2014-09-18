@@ -43,9 +43,9 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
             return GetReadings()[0] != 0;
         }
 
-        protected override List<BaseDevice> GetSubDevicesInternal()
+        protected override List<IDevice> GetSubDevicesInternal()
         {
-            List<BaseDevice> ret = base.GetSubDevicesInternal();
+            List<IDevice> ret = base.GetSubDevicesInternal();
             ret.Add(new AFPThermistor(this, 0));
             ret.Add(new AFPUsage(this, 0));
             return ret;

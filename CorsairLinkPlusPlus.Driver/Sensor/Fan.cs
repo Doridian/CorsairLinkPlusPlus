@@ -1,10 +1,10 @@
-﻿using CorsairLinkPlusPlus.Driver.Node;
-using System;
+﻿using CorsairLinkPlusPlus.Common.Sensor;
+using CorsairLinkPlusPlus.Driver.Node;
 using CorsairLinkPlusPlus.Driver.Utility;
 
 namespace CorsairLinkPlusPlus.Driver.Sensor
 {
-    public abstract class Fan : Cooler
+    public abstract class Fan : Cooler, IFan
     {
         protected bool? cachedPWM = null;
 

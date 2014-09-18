@@ -1,11 +1,11 @@
-﻿using CorsairLinkPlusPlus.Driver.Node;
+﻿using CorsairLinkPlusPlus.Common.Sensor;
+using CorsairLinkPlusPlus.Driver.Node;
 using CorsairLinkPlusPlus.Driver.Utility;
 using System;
-using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.Sensor
 {
-    public abstract class LED : BaseSensorDevice
+    public abstract class LED : BaseSensorDevice, ILED
     {
         byte[] rgbCache = null;
 

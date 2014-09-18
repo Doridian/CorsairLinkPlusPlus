@@ -92,7 +92,6 @@
     <Compile Include="Sensor\PowerSensor.cs" />
     <Compile Include="Sensor\Cooler.cs" />
     <Compile Include="Sensor\CurrentSensor.cs" />
-    <Compile Include="Sensor\ControllableSensor.cs" />
     <Compile Include="Sensor\TemperatureControllableSensor.cs" />
     <Compile Include="Sensor\VoltageSensor.cs" />
     <Compile Include="Sensor\Pump.cs" />

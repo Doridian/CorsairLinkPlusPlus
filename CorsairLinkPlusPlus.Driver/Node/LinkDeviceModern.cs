@@ -65,9 +65,9 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return tempSensors[idx];
         }
 
-        protected override List<BaseDevice> GetSubDevicesInternal()
+        protected override List<IDevice> GetSubDevicesInternal()
         {
-            List<BaseDevice> ret = base.GetSubDevicesInternal();
+            List<IDevice> ret = base.GetSubDevicesInternal();
 
             lock (subDeviceLock)
             {

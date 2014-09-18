@@ -46,9 +46,9 @@ namespace CorsairLinkPlusPlus.Driver.USB
             return usedChannels;
         }
 
-        protected override List<BaseDevice> GetSubDevicesInternal()
+        protected override List<IDevice> GetSubDevicesInternal()
         {
-            List<BaseDevice> ret = base.GetSubDevicesInternal();
+            List<IDevice> ret = base.GetSubDevicesInternal();
 
             lock (subDeviceLock)
             {

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Common.Sensor
 {
-    public abstract class BaseSensorDevice : BaseDevice
+    public abstract class BaseSensorDevice : BaseDevice, ISensor
     {
         protected double cachedValue = double.NaN;
         protected bool? cachedPresence = null;
 
-        protected BaseSensorDevice(BaseDevice parent) : base(parent) { }
+        protected BaseSensorDevice(IDevice parent) : base(parent) { }
 
         public override bool IsPresent()
         {

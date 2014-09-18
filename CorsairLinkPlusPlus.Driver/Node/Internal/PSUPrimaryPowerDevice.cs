@@ -41,9 +41,9 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
             return name;
         }
 
-        protected override List<BaseDevice> GetSubDevicesInternal()
+        protected override List<IDevice> GetSubDevicesInternal()
         {
-            List<BaseDevice> sensors = base.GetSubDevicesInternal();
+            List<IDevice> sensors = base.GetSubDevicesInternal();
             sensors.Add(new PSUPrimaryCurrentSensor(this));
             sensors.Add(new PSUPrimaryPowerSensor(this));
             sensors.Add(new PSUPrimaryVoltageSensor(this));

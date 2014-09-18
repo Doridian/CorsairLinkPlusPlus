@@ -28,9 +28,9 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
             cachedEfficiency = double.NaN;
         }
 
-        protected override List<BaseDevice> GetSubDevicesInternal()
+        protected override List<IDevice> GetSubDevicesInternal()
         {
-            List<BaseDevice> ret = base.GetSubDevicesInternal();
+            List<IDevice> ret = base.GetSubDevicesInternal();
             if (!(psuDevice is LinkDevicePSUHX))
                 ret.Add(new PSUMainsPowerInSensor(this));
             ret.Add(new PSUMainsEfficiencySensor(this));

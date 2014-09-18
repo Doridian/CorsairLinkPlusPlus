@@ -1,4 +1,6 @@
-﻿using CorsairLinkPlusPlus.Driver.Controller;
+﻿using CorsairLinkPlusPlus.Common.Controller;
+using CorsairLinkPlusPlus.Common.Sensor;
+using CorsairLinkPlusPlus.Driver.Controller;
 using CorsairLinkPlusPlus.Driver.Controller.Fan;
 using CorsairLinkPlusPlus.Driver.Node;
 using CorsairLinkPlusPlus.Driver.Utility;
@@ -6,7 +8,7 @@ using System;
 
 namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 {
-    class FanPSU : Fan, ControllableSensor
+    class FanPSU : Fan, IControllableSensor
     {
         private ControllerBase controller = null;
 
@@ -39,7 +41,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             return device.ReadSingleByteRegister(0x3B);
         }
 
-        public void SetController(ControllerBase controller)
+        public void SetController(IController controller)
         {
             DisabledCheck();
 
@@ -51,18 +53,19 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             SaveControllerData(controller);
         }
 
-        public void SaveControllerData(ControllerBase controller)
+        public void SaveControllerData(IController controller)
         {
             DisabledCheck();
 
-            controller.Apply(this);
+            ((ControllerBase)controller).Apply(this);
         }
 
-        public ControllerBase GetController()
+        public IController GetController()
         {
             DisabledCheck();
 
             if (controller == null)
+            {
                 switch (device.ReadSingleByteRegister(0xF0))
                 {
                     case 0:
@@ -74,6 +77,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
                         controller = newController;
                         break;
                 }
+            }
 
             return controller;
         }

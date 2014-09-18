@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Common
 {
-    public abstract class BaseDevice
+    public abstract class BaseDevice : IDevice
     {
-        protected readonly BaseDevice parent;
+        protected readonly IDevice parent;
         protected readonly object subDeviceLock = new object();
-        private volatile List<BaseDevice> subDevices = null;
+        private volatile List<IDevice> subDevices = null;
         protected volatile bool disabled = false;
 
-        protected BaseDevice(BaseDevice parent)
+        protected BaseDevice(IDevice parent)
         {
             this.parent = parent;
         }
@@ -63,7 +63,7 @@ namespace CorsairLinkPlusPlus.Common
             }
         }
 
-        public List<BaseDevice> GetSubDevices()
+        public List<IDevice> GetSubDevices()
         {
             lock (subDeviceLock)
             {
@@ -73,31 +73,31 @@ namespace CorsairLinkPlusPlus.Common
             }
         }
 
-        protected virtual List<BaseDevice> GetSubDevicesInternal()
+        protected virtual List<IDevice> GetSubDevicesInternal()
         {
-            return new List<BaseDevice>();
+            return new List<IDevice>();
         }
 
         public abstract string GetLocalDeviceID();
 
         public string GetUDID()
         {
-            BaseDevice device = GetParent();
+            IDevice device = GetParent();
             if (device == null)
                 return "/" + GetLocalDeviceID();
             return device.GetLocalDeviceID() + "/" + GetLocalDeviceID();
         }
 
-        public BaseDevice GetParent()
+        public IDevice GetParent()
         {
             return parent;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null || !(obj is BaseDevice))
+            if (obj == null || !(obj is IDevice))
                 return false;
-            return GetUDID().Equals(((BaseDevice)obj).GetUDID());
+            return GetUDID().Equals(((IDevice)obj).GetUDID());
         }
 
         public override int GetHashCode()

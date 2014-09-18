@@ -1,9 +1,9 @@
-﻿using CorsairLinkPlusPlus.Driver.Node;
-using System;
+﻿using CorsairLinkPlusPlus.Common.Sensor;
+using CorsairLinkPlusPlus.Driver.Node;
 
 namespace CorsairLinkPlusPlus.Driver.Sensor
 {
-    public abstract class Thermistor : BaseSensorDevice
+    public abstract class Thermistor : BaseSensorDevice, IThermistor
     {
         internal Thermistor(BaseLinkDevice device, int id)
             : base(device, id)

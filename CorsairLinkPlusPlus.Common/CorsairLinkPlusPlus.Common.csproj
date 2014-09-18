@@ -39,9 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\IController.cs" />
+    <Compile Include="IDevice.cs" />
     <Compile Include="BaseDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sensor\IControllableSensor.cs" />
+    <Compile Include="Sensor\IPump.cs" />
+    <Compile Include="Sensor\IFan.cs" />
+    <Compile Include="Sensor\ICooler.cs" />
+    <Compile Include="Sensor\ISensor.cs" />
     <Compile Include="Sensor\BaseSensorDevice.cs" />
+    <Compile Include="Sensor\IThermistor.cs" />
+    <Compile Include="Sensor\ILED.cs" />
     <Compile Include="Utility\Color.cs" />
     <Compile Include="Utility\ControlCurve.cs" />
     <Compile Include="Utility\CurvePoint.cs" />
