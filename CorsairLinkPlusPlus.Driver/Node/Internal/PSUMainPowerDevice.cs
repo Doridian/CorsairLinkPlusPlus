@@ -1,8 +1,8 @@
-﻿
-using CorsairLinkPlusPlus.Common;
+﻿using CorsairLinkPlusPlus.Common;
 using CorsairLinkPlusPlus.Driver.Sensor.Internal;
 using CorsairLinkPlusPlus.Driver.USB;
 using System.Collections.Generic;
+
 namespace CorsairLinkPlusPlus.Driver.Node.Internal
 {
     class PSUMainPowerDevice : BaseLinkDevice
