@@ -1,3 +1,4 @@
 - PSU Mains power/voltage/current sensors (Mains ID 0)
 - PSU OCP control
-- Thermical LED controller (0xC0)
+
+- More refactoring
