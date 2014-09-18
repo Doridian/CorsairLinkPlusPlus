@@ -1,10 +1,4 @@
-﻿using CorsairLinkPlusPlus.Driver.Node;
-using CorsairLinkPlusPlus.Driver.Node.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CorsairLinkPlusPlus.Driver.Node.Internal;
 
 namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 {
@@ -16,6 +10,12 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             : base(device, 0)
         {
             powerDevice = device;
+        }
+
+        public override void Refresh(bool volatileOnly)
+        {
+            base.Refresh(volatileOnly);
+            powerDevice.Refresh(true);
         }
 
         public override string GetSensorType()
