@@ -1,4 +1,3 @@
-- Mains power/voltage/current sensors (Mains ID 0)
-
+- PSU Mains power/voltage/current sensors (Mains ID 0)
 - PSU OCP control
-- LED controllers
+- Thermical LED controller (0xC0)
