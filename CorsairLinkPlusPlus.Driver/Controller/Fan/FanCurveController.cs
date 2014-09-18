@@ -1,5 +1,4 @@
 ﻿using CorsairLinkPlusPlus.Driver.Sensor;
-using System.Linq;
 using CorsairLinkPlusPlus.Driver.Utility;
 
 namespace CorsairLinkPlusPlus.Driver.Controller.Fan

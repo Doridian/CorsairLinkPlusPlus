@@ -73,6 +73,7 @@
     <Compile Include="Sensor\Internal\PSUMainPowerSensor.cs" />
     <Compile Include="Sensor\Internal\PSUMainVoltageSensor.cs" />
     <Compile Include="Sensor\Internal\PumpModern.cs" />
+    <Compile Include="Sensor\Internal\Secondary12VCurrentSensor.cs" />
     <Compile Include="Sensor\Internal\ThermistorModern.cs" />
     <Compile Include="Sensor\Internal\ThermistorPSU.cs" />
     <Compile Include="Utility\CoreUtil.cs" />
