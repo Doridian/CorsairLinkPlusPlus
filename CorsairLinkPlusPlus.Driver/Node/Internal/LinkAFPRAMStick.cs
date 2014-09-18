@@ -1,4 +1,5 @@
-﻿using CorsairLinkPlusPlus.Driver.Sensor;
+﻿using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.Driver.Sensor;
 using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.Node.Internal
@@ -42,7 +43,7 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
             return GetReadings()[0] != 0;
         }
 
-        internal override List<BaseDevice> GetSubDevicesInternal()
+        protected override List<BaseDevice> GetSubDevicesInternal()
         {
             List<BaseDevice> ret = base.GetSubDevicesInternal();
             ret.Add(new AFPThermistor(this, 0));

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using CorsairLinkPlusPlus.Driver.Utility;
 using CorsairLinkPlusPlus.Driver.Sensor.Internal;
+using CorsairLinkPlusPlus.Common;
 
 namespace CorsairLinkPlusPlus.Driver.Node
 {
@@ -64,7 +65,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return tempSensors[idx];
         }
 
-        internal override List<BaseDevice> GetSubDevicesInternal()
+        protected override List<BaseDevice> GetSubDevicesInternal()
         {
             List<BaseDevice> ret = base.GetSubDevicesInternal();
 

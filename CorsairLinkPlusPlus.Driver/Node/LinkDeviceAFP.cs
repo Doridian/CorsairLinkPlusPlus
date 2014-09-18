@@ -1,4 +1,5 @@
-﻿using CorsairLinkPlusPlus.Driver.Node.Internal;
+﻿using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.Driver.Node.Internal;
 using CorsairLinkPlusPlus.Driver.Sensor;
 using CorsairLinkPlusPlus.Driver.USB;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return "Corsair AirFlow Pro";
         }
 
-        internal override List<BaseDevice> GetSubDevicesInternal()
+        protected override List<BaseDevice> GetSubDevicesInternal()
         {
             List<BaseDevice> ret = base.GetSubDevicesInternal();
 

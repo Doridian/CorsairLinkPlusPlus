@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorsairLinkPlusPlus.CLI", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorsairLinkPlusPlus.Driver", "CorsairLinkPlusPlus.Driver\CorsairLinkPlusPlus.Driver.csproj", "{32629BC9-7F51-45D7-B756-379E626A5180}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorsairLinkPlusPlus.Common", "CorsairLinkPlusPlus.Common\CorsairLinkPlusPlus.Common.csproj", "{367B36E3-FE8A-4673-A5D7-AE03DA33CCE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{32629BC9-7F51-45D7-B756-379E626A5180}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32629BC9-7F51-45D7-B756-379E626A5180}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32629BC9-7F51-45D7-B756-379E626A5180}.Release|Any CPU.Build.0 = Release|Any CPU
+		{367B36E3-FE8A-4673-A5D7-AE03DA33CCE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{367B36E3-FE8A-4673-A5D7-AE03DA33CCE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{367B36E3-FE8A-4673-A5D7-AE03DA33CCE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{367B36E3-FE8A-4673-A5D7-AE03DA33CCE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

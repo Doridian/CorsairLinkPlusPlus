@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{462BC3F6-1189-4106-ABFD-01E817DEC544}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{367B36E3-FE8A-4673-A5D7-AE03DA33CCE7}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CorsairLinkPlusPlus.CLI</RootNamespace>
-    <AssemblyName>CorsairLinkPlusPlus.CLI</AssemblyName>
+    <RootNamespace>CorsairLinkPlusPlus.Common</RootNamespace>
+    <AssemblyName>CorsairLinkPlusPlus.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,21 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="BaseDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CorsairLinkPlusPlus.Common\CorsairLinkPlusPlus.Common.csproj">
-      <Project>{367b36e3-fe8a-4673-a5d7-ae03da33cce7}</Project>
-      <Name>CorsairLinkPlusPlus.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CorsairLinkPlusPlus.Driver\CorsairLinkPlusPlus.Driver.csproj">
-      <Project>{32629bc9-7f51-45d7-b756-379e626a5180}</Project>
-      <Name>CorsairLinkPlusPlus.Driver</Name>
-    </ProjectReference>
+    <Compile Include="Utility\Color.cs" />
+    <Compile Include="Utility\ControlCurve.cs" />
+    <Compile Include="Utility\CurvePoint.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

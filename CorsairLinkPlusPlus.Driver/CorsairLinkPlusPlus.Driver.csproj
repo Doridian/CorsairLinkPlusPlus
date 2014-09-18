@@ -59,7 +59,6 @@
     <Compile Include="Controller\Fan\FanDefaultController.cs" />
     <Compile Include="Controller\Fan\FanFixedRPMController.cs" />
     <Compile Include="Controller\LED\LEDController.cs" />
-    <Compile Include="BaseDevice.cs" />
     <Compile Include="Node\Internal\PSUMainPowerDevice.cs" />
     <Compile Include="Sensor\Internal\FanPSU.cs" />
     <Compile Include="Sensor\Internal\FanModern.cs" />
@@ -74,7 +73,6 @@
     <Compile Include="Sensor\Internal\PumpModern.cs" />
     <Compile Include="Sensor\Internal\ThermistorModern.cs" />
     <Compile Include="Sensor\Internal\ThermistorPSU.cs" />
-    <Compile Include="Utility\Color.cs" />
     <Compile Include="Utility\CoreUtil.cs" />
     <Compile Include="Node\BaseLinkDevice.cs" />
     <Compile Include="Node\LinkDeviceAFP.cs" />
@@ -106,13 +104,16 @@
     <Compile Include="USB\DeviceNew.cs" />
     <Compile Include="USB\DeviceOld.cs" />
     <Compile Include="Utility\BitCodec.cs" />
-    <Compile Include="Utility\ControlCurve.cs" />
-    <Compile Include="Utility\CurvePoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CorsairLinkPlusPlus.Common\CorsairLinkPlusPlus.Common.csproj">
+      <Project>{367b36e3-fe8a-4673-a5d7-ae03da33cce7}</Project>
+      <Name>CorsairLinkPlusPlus.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

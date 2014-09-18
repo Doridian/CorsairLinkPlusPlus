@@ -1,9 +1,10 @@
-﻿using CorsairLinkPlusPlus.Driver.Node;
+﻿using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.Driver.Node;
 using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.Sensor
 {
-    public abstract class BaseSensorDevice : Driver.BaseDevice
+    public abstract class BaseSensorDevice : BaseDevice
     {
         internal readonly BaseLinkDevice device;
         internal readonly int id;

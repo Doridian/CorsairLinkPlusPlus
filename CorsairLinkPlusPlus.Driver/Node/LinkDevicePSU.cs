@@ -1,4 +1,5 @@
-﻿using CorsairLinkPlusPlus.Driver.Controller;
+﻿using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.Driver.Controller;
 using CorsairLinkPlusPlus.Driver.Controller.Fan;
 using CorsairLinkPlusPlus.Driver.Node.Internal;
 using CorsairLinkPlusPlus.Driver.Sensor;
@@ -120,7 +121,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             }
         }
 
-        internal override List<BaseDevice> GetSubDevicesInternal()
+        protected override List<BaseDevice> GetSubDevicesInternal()
         {
             List<BaseDevice> ret = base.GetSubDevicesInternal();
 

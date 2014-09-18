@@ -1,10 +1,11 @@
-﻿using HidLibrary;
+﻿using CorsairLinkPlusPlus.Common;
+using HidLibrary;
 using System.Collections.Generic;
 using System.Threading;
 
 namespace CorsairLinkPlusPlus.Driver.USB
 {
-    public class RootDevice : Driver.BaseDevice
+    public class RootDevice : BaseDevice
     {
         const int VID_CORSAIR_LINK = 0x1B1C;
 
@@ -46,9 +47,9 @@ namespace CorsairLinkPlusPlus.Driver.USB
                 return;
         }
 
-        internal override List<Driver.BaseDevice> GetSubDevicesInternal()
+        protected override List<BaseDevice> GetSubDevicesInternal()
         {
-            List<Driver.BaseDevice> ret = base.GetSubDevicesInternal();
+            List<BaseDevice> ret = base.GetSubDevicesInternal();
 
             IEnumerable<HidDevice> hidDevices = HidDevices.Enumerate(VID_CORSAIR_LINK, new int[] {
                         PID_CORSAIR_COMMANDER_LINK_A,

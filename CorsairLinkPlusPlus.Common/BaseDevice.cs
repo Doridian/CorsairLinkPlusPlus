@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace CorsairLinkPlusPlus.Driver
+namespace CorsairLinkPlusPlus.Common
 {
     public abstract class BaseDevice
     {
@@ -10,7 +13,7 @@ namespace CorsairLinkPlusPlus.Driver
         private volatile List<BaseDevice> subDevices = null;
         protected volatile bool disabled = false;
 
-        internal BaseDevice(BaseDevice parent)
+        protected BaseDevice(BaseDevice parent)
         {
             this.parent = parent;
         }
@@ -26,12 +29,12 @@ namespace CorsairLinkPlusPlus.Driver
                 throw new InvalidOperationException();
         }
 
-        internal void Disable()
+        public void Disable()
         {
             lock (subDeviceLock)
             {
                 disabled = true;
-                foreach(BaseDevice device in GetSubDevices())
+                foreach (BaseDevice device in GetSubDevices())
                 {
                     device.Disable();
                 }
@@ -65,15 +68,15 @@ namespace CorsairLinkPlusPlus.Driver
 
         public List<BaseDevice> GetSubDevices()
         {
-            lock(subDeviceLock)
+            lock (subDeviceLock)
             {
-                if(subDevices == null)
+                if (subDevices == null)
                     subDevices = GetSubDevicesInternal();
                 return subDevices;
             }
         }
 
-        internal virtual List<BaseDevice> GetSubDevicesInternal()
+        protected virtual List<BaseDevice> GetSubDevicesInternal()
         {
             return new List<BaseDevice>();
         }

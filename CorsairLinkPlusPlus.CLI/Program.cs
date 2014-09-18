@@ -1,10 +1,10 @@
-﻿using CorsairLinkPlusPlus.Driver;
+﻿using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.Driver;
 using CorsairLinkPlusPlus.Driver.Controller;
 using CorsairLinkPlusPlus.Driver.Controller.Fan;
 using CorsairLinkPlusPlus.Driver.Controller.LED;
 using CorsairLinkPlusPlus.Driver.Sensor;
 using CorsairLinkPlusPlus.Driver.USB;
-using CorsairLinkPlusPlus.Driver.Utility;
 using System;
 using System.Collections.Generic;
 

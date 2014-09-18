@@ -1,11 +1,12 @@
-﻿using CorsairLinkPlusPlus.Driver.Node;
+﻿using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.Driver.Node;
 using HidLibrary;
 using System;
 using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.USB
 {
-    public abstract class BaseUSBDevice : CorsairLinkPlusPlus.Driver.BaseDevice
+    public abstract class BaseUSBDevice : BaseDevice
     {
         private readonly HidDevice hidDevice;
         protected int commandNo = 20;
@@ -45,9 +46,9 @@ namespace CorsairLinkPlusPlus.Driver.USB
             return usedChannels;
         }
 
-        internal override List<Driver.BaseDevice> GetSubDevicesInternal()
+        protected override List<BaseDevice> GetSubDevicesInternal()
         {
-            List<Driver.BaseDevice> ret = base.GetSubDevicesInternal();
+            List<BaseDevice> ret = base.GetSubDevicesInternal();
 
             lock (subDeviceLock)
             {

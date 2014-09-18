@@ -1,4 +1,5 @@
 ﻿
+using CorsairLinkPlusPlus.Common;
 using CorsairLinkPlusPlus.Driver.Sensor.Internal;
 using CorsairLinkPlusPlus.Driver.USB;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
             return name;
         }
 
-        internal override List<BaseDevice> GetSubDevicesInternal()
+        protected override List<BaseDevice> GetSubDevicesInternal()
         {
             List<BaseDevice> sensors = base.GetSubDevicesInternal();
             sensors.Add(new PSUMainCurrentSensor(this));
