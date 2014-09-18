@@ -21,11 +21,11 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
         public override ControlCurve<int> GetDefaultPoints()
         {
             return new ControlCurve<int>(
-                new CurvePoint<int>(0, 0),
-                new CurvePoint<int>(0, 0),
-                new CurvePoint<int>(0, 0),
-                new CurvePoint<int>(0, 0),
-                new CurvePoint<int>(0, 0)
+                new CurvePoint<int>(28, 900),
+                new CurvePoint<int>(31, 1000),
+                new CurvePoint<int>(34, 1100),
+                new CurvePoint<int>(37, 1200),
+                new CurvePoint<int>(40, 1300)
             );
         }
 
