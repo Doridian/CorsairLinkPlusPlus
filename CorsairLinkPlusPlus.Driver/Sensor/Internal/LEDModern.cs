@@ -85,13 +85,21 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             LEDController ledController = (LEDController)controller;
 
             byte ledControllerID = ledController.GetLEDModernControllerID();
+
             if ((ledControllerID & 0x3F /* 00111111 */) != 0)
                 throw new ArgumentException();
 
-            byte ledData = GetLEDData();
-            ledData &= 0x3F; //00111111
-            ledData |= (byte)ledControllerID;
-            SetLEDData(ledData);
+            if (ledController is TemperatureDependantControllerBase)
+            {
+                byte ledData = GetLEDData();
+                ledData &= 0x3F; //00111111
+                ledData |= (byte)ledControllerID;
+                SetLEDData(ledData);
+            }
+            else
+            {
+                SetLEDData((byte)(ledControllerID | 0x0B));
+            }
 
             SaveControllerData(controller);
         }
