@@ -18,10 +18,10 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
 
         public void LoadDefaultCurve()
         {
-            curve = new ControlCurve<int>(GetDefaultPoints().ToList());
+            curve = GetDefaultPoints().Copy();
         }
 
-        public abstract CurvePoint<int>[] GetDefaultPoints();
+        public abstract ControlCurve<int> GetDefaultPoints();
 
         protected ControlCurve<int> curve;
 

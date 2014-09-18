@@ -6,27 +6,14 @@ using System.Threading.Tasks;
 
 namespace CorsairLinkPlusPlus.Driver.Utility
 {
-    public class ControlCurveInt : ControlCurve<int>
-    {
-        public ControlCurveInt(List<CurvePoint<int>> points) : base(points) { }
-
-        private int CalcYBetweenPoints(CurvePoint<int> curvePoint1, CurvePoint<int> curvePoint2, int x)
-        {
-            return (int)(curvePoint1.y + Map((float)x, (float)curvePoint1.x, (float)curvePoint2.x, 0.0f, 1.0f) * (curvePoint2.y - curvePoint1.y));
-        }
-
-        public int CalculateY(int x)
-        {
-            for (int i = 0; i < points.Count - 1; ++i)
-                if (BetweenPoints(points[i], points[i + 1], x))
-                    return CalcYBetweenPoints(points[i], points[i + 1], x);
-            return -1;
-        }
-    }
-
     public class ControlCurve<T>
     {
         protected List<CurvePoint<T>> points;
+
+        public ControlCurve(params CurvePoint<T>[] points)
+        {
+            this.points = points.ToList<CurvePoint<T>>();
+        }
 
         public ControlCurve(List<CurvePoint<T>> points)
         {
