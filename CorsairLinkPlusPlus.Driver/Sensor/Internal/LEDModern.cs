@@ -85,11 +85,11 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             LEDController ledController = (LEDController)controller;
 
             byte ledControllerID = ledController.GetLEDModernControllerID();
-            if ((ledControllerID & 0xF8 /* 11111000 */) != 0)
+            if ((ledControllerID & 0x3F /* 00111111 */) != 0)
                 throw new ArgumentException();
 
             byte ledData = GetLEDData();
-            ledData &= 0xF8; //11111000
+            ledData &= 0x3F; //00111111
             ledData |= (byte)ledControllerID;
             SetLEDData(ledData);
 
@@ -101,7 +101,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             DisabledCheck();
 
             if (controller == null)
-                controller = LEDControllerRegistry.Get(this, (byte)(GetLEDData() & 0x07 /* 00000111 */));
+                controller = LEDControllerRegistry.Get(this, (byte)(GetLEDData() & 0xC0 /* 11000000 */));
 
             return (ControllerBase)controller;
         }
@@ -148,6 +148,38 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             if (idx == 7)
                 return null;
             return modernDevice.GetThermistor(idx);
+        }
+
+        internal override byte[] GetFixedRGBCycleColors()
+        {
+            DisabledCheck();
+
+            RootDevice.usbGlobalMutex.WaitOne();
+            modernDevice.SetCurrentLED(id);
+            byte[] colors = modernDevice.ReadRegister(0x0B, 12);
+            RootDevice.usbGlobalMutex.ReleaseMutex();
+
+            return colors;
+        }
+
+        internal override void SetFixedRGBCycleColors(byte[] colors)
+        {
+            if(colors.Length > 12)
+                throw new ArgumentException();
+
+            if (colors.Length < 12)
+            {
+                byte[] newColors = new byte[12];
+                Buffer.BlockCopy(colors, 0, newColors, 0, colors.Length);
+                colors = newColors;
+            }
+
+            DisabledCheck();
+
+            RootDevice.usbGlobalMutex.WaitOne();
+            modernDevice.SetCurrentLED(id);
+            modernDevice.WriteRegister(0x0B, colors);
+            RootDevice.usbGlobalMutex.ReleaseMutex();
         }
     }
 }

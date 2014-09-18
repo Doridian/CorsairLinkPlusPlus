@@ -10,6 +10,13 @@ namespace CorsairLinkPlusPlus.Driver.Utility
     {
         public byte r, g, b;
 
+        public Color(Color color)
+        {
+            this.r = color.r;
+            this.g = color.g;
+            this.b = color.b;
+        }
+
         public Color(byte r, byte g, byte b)
         {
             this.r = r;
@@ -22,7 +29,7 @@ namespace CorsairLinkPlusPlus.Driver.Utility
             return r.ToString() + ", " + g.ToString() + ", " + b.ToString();
         }
 
-        public byte[] toArray()
+        public byte[] ToArray()
         {
             return new byte[] { r, g, b };
         }

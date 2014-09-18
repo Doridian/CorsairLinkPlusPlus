@@ -1,8 +1,10 @@
 ﻿using CorsairLinkPlusPlus.Driver;
 using CorsairLinkPlusPlus.Driver.Controller;
 using CorsairLinkPlusPlus.Driver.Controller.Fan;
+using CorsairLinkPlusPlus.Driver.Controller.LED;
 using CorsairLinkPlusPlus.Driver.Sensor;
 using CorsairLinkPlusPlus.Driver.USB;
+using CorsairLinkPlusPlus.Driver.Utility;
 using System;
 using System.Collections.Generic;
 
@@ -20,7 +22,18 @@ namespace CorsairLinkPlusPlus.CLI
                 if (device is LED)
                 {
                     LED led = (LED)device;
-                    Console.Out.WriteLine(prefix + "- " + led.GetName() + " = " + led.GetColor().ToString());
+                    ControllableSensor controllableLED = (ControllableSensor)device;
+
+                    ControllerBase ledController = controllableLED.GetController();
+                    Console.Out.WriteLine(prefix + "- " + led.GetName() + " = " + led.GetValue() + " " + led.GetUnit());
+                    if (ledController != null)
+                        Console.Out.WriteLine(prefix + "\t" + ((ledController == null) ? "N/A" : ledController.GetType().Name));
+                    if (ledController is LEDColorCycleController)
+                    {
+                        //ledController = new LEDSingleColorController(new Color(255, 1, 1));
+                        //controllableLED.SetController(ledController);
+                        Console.Out.WriteLine(prefix + "\t\t" + ((LEDColorCycleController)ledController).GetColors()[0].ToString());
+                    }
                 }
                 else if(device is Fan && device is ControllableSensor)
                 {

@@ -26,6 +26,10 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
             return BitConverter.ToUInt32(new byte[] { res[0], res[1], res[2], 0 }, 0);
         }
 
+        internal abstract byte[] GetFixedRGBCycleColors();
+
+        internal abstract void SetFixedRGBCycleColors(byte[] colors);
+
         public byte[] GetRGB()
         {
             if (rgbCache == null)

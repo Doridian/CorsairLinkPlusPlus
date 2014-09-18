@@ -47,6 +47,9 @@
     <Compile Include="Controller\Fan\FanCustomCurveController.cs" />
     <Compile Include="Controller\Fan\FanPerformanceModeController.cs" />
     <Compile Include="Controller\Fan\FanQuiteModeController.cs" />
+    <Compile Include="Controller\LED\LEDFourColorController.cs" />
+    <Compile Include="Controller\LED\LEDTwoColorController.cs" />
+    <Compile Include="Controller\LED\LEDSingleColorController.cs" />
     <Compile Include="Controller\LED\LEDColorCycleController.cs" />
     <Compile Include="Controller\TemperatureDependantControllerBase.cs" />
     <Compile Include="Controller\Fan\FanController.cs" />
