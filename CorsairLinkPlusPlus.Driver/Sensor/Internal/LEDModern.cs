@@ -49,7 +49,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             RootDevice.usbGlobalMutex.WaitOne();
             modernDevice.SetCurrentLED(id);
             modernDevice.WriteRegister(0x0B, reg);
-            RootDevice.usbGlobalMutex.WaitOne();
+            RootDevice.usbGlobalMutex.ReleaseMutex();
 
             Refresh(true);
         }
