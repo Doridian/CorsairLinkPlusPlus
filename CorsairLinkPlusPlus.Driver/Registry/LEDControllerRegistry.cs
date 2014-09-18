@@ -20,7 +20,7 @@ namespace CorsairLinkPlusPlus.Driver.Registry
             }
         }
 
-        public static LEDController GetLEDController(LED led, byte modernTypeID)
+        public static LEDController Get(LED led, byte modernTypeID)
         {
             if (!ledControllers.ContainsKey(modernTypeID))
                 return null;

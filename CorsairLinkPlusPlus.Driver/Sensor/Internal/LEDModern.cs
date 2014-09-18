@@ -37,7 +37,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             }
         }
 
-        public override void SetRGB(byte[] rgb)
+        internal override void SetRGB(byte[] rgb)
         {
             DisabledCheck();
 
@@ -99,7 +99,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             DisabledCheck();
 
             if (controller == null)
-                controller = LEDControllerRegistry.GetLEDController(this, (byte)(GetLEDData() & 0x07 /* 00000111 */));
+                controller = LEDControllerRegistry.Get(this, (byte)(GetLEDData() & 0x07 /* 00000111 */));
 
             return (ControllerBase)controller;
         }

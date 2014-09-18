@@ -49,12 +49,12 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
             return rgbCache;
         }
 
-        public void SetColor(Color color)
+        internal void SetColor(Color color)
         {
             SetRGB(new byte[] { color.r, color.g, color.b });
         }
 
-        public abstract void SetRGB(byte[] rgb);
+        internal abstract void SetRGB(byte[] rgb);
 
         public override void Refresh(bool volatileOnly)
         {

@@ -20,7 +20,7 @@ namespace CorsairLinkPlusPlus.Driver.Registry
             }
         }
 
-        public static FanController GetFanController(Fan fan, byte modernTypeID)
+        public static FanController Get(Fan fan, byte modernTypeID)
         {
             if (!fanControllers.ContainsKey(modernTypeID))
                 return null;

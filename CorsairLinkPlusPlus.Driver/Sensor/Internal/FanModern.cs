@@ -35,6 +35,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 
             return (byte)cachedFanData;
         }
+
         private void SetFanData(byte fanData)
         {
             DisabledCheck();
@@ -136,7 +137,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 
             if (controller == null)
             {
-                controller = FanControllerRegistry.GetFanController(this, (byte)(GetFanData() & 0x0E /*00001110*/));
+                controller = FanControllerRegistry.Get(this, (byte)(GetFanData() & 0x0E /*00001110*/));
             }
             return (ControllerBase)controller;
         }
