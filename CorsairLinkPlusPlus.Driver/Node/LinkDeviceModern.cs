@@ -132,11 +132,10 @@ namespace CorsairLinkPlusPlus.Driver.Node
             DisabledCheck();
 
             byte[] ret;
-            lock (usbDevice.usbLock)
-            {
-                SetCurrentFan(id);
-                ret = ReadRegister(0x16, 2);
-            }
+            RootDevice.usbGlobalMutex.WaitOne();
+            SetCurrentFan(id);
+            ret = ReadRegister(0x16, 2);
+            RootDevice.usbGlobalMutex.ReleaseMutex();
             return BitConverter.ToInt16(ret, 0);
         }
 

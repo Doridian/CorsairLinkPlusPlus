@@ -2,6 +2,7 @@
 using CorsairLinkPlusPlus.Driver.Controller.LED;
 using CorsairLinkPlusPlus.Driver.Node;
 using CorsairLinkPlusPlus.Driver.Registry;
+using CorsairLinkPlusPlus.Driver.USB;
 using System;
 
 namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
@@ -30,11 +31,12 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
         {
             DisabledCheck();
 
-            lock (modernDevice.usbDevice.usbLock)
-            {
-                modernDevice.SetCurrentLED(id);
-                return modernDevice.ReadRegister(0x07, 3);
-            }
+            RootDevice.usbGlobalMutex.WaitOne();
+            modernDevice.SetCurrentLED(id);
+            byte[] rgbInt = modernDevice.ReadRegister(0x07, 3);
+            RootDevice.usbGlobalMutex.ReleaseMutex();
+
+            return rgbInt;
         }
 
         internal override void SetRGB(byte[] rgb)
@@ -43,11 +45,12 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 
             byte[] reg = new byte[12];
             Buffer.BlockCopy(rgb, 0, reg, 0, rgb.Length);
-            lock (modernDevice.usbDevice.usbLock)
-            {
-                modernDevice.SetCurrentLED(id);
-                modernDevice.WriteRegister(0x0B, reg);
-            }
+
+            RootDevice.usbGlobalMutex.WaitOne();
+            modernDevice.SetCurrentLED(id);
+            modernDevice.WriteRegister(0x0B, reg);
+            RootDevice.usbGlobalMutex.WaitOne();
+
             Refresh(true);
         }
 
@@ -66,11 +69,10 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
         {
             DisabledCheck();
 
-            lock (modernDevice.usbDevice.usbLock)
-            {
-                modernDevice.SetCurrentLED(id);
-                modernDevice.WriteRegister(0x08, BitConverter.GetBytes((short)(temperature * 256.0)));
-            }
+            RootDevice.usbGlobalMutex.WaitOne();
+            modernDevice.SetCurrentLED(id);
+            modernDevice.WriteRegister(0x08, BitConverter.GetBytes((short)(temperature * 256.0)));
+            RootDevice.usbGlobalMutex.ReleaseMutex();
         }
 
         public void SetController(ControllerBase controller)
@@ -117,12 +119,11 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
         {
             DisabledCheck();
 
-            lock (modernDevice.usbDevice.usbLock)
-            {
-                cachedLEDData = null;
-                modernDevice.SetCurrentLED(id);
-                modernDevice.WriteSingleByteRegister(0x06, ledData);
-            }
+            RootDevice.usbGlobalMutex.WaitOne();
+            modernDevice.SetCurrentLED(id);
+            modernDevice.WriteSingleByteRegister(0x06, ledData);
+            cachedLEDData = null;
+            RootDevice.usbGlobalMutex.ReleaseMutex();
         }
 
         private byte GetLEDData()
@@ -131,11 +132,10 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 
             if (cachedLEDData == null)
             {
-                lock (modernDevice.usbDevice.usbLock)
-                {
-                    modernDevice.SetCurrentLED(id);
-                    cachedLEDData = modernDevice.ReadSingleByteRegister(0x06);
-                }
+                RootDevice.usbGlobalMutex.WaitOne();
+                modernDevice.SetCurrentLED(id);
+                cachedLEDData = modernDevice.ReadSingleByteRegister(0x06);
+                RootDevice.usbGlobalMutex.ReleaseMutex();
             }
             return (byte)cachedLEDData;
         }

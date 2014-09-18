@@ -1,5 +1,6 @@
 ﻿
 using CorsairLinkPlusPlus.Driver.Sensor.Internal;
+using CorsairLinkPlusPlus.Driver.USB;
 using System.Collections.Generic;
 namespace CorsairLinkPlusPlus.Driver.Node.Internal
 {
@@ -51,11 +52,12 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
             DisabledCheck();
 
             byte[] ret;
-            lock (usbDevice.usbLock)
-            {
-                SetPage();
-                ret = ReadRegister(0x8B, 2);
-            }
+
+            RootDevice.usbGlobalMutex.WaitOne();
+            SetPage();
+            ret = ReadRegister(0x8B, 2);
+            RootDevice.usbGlobalMutex.ReleaseMutex();
+
             return BitCodec.ToFloat(ret);
         }
 
@@ -64,11 +66,12 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
             DisabledCheck();
 
             byte[] ret;
-            lock (usbDevice.usbLock)
-            {
-                SetPage();
-                ret = ReadRegister(0x8C, 2);
-            }
+            
+            RootDevice.usbGlobalMutex.WaitOne();
+            SetPage();
+            ret = ReadRegister(0x8C, 2);
+            RootDevice.usbGlobalMutex.ReleaseMutex();
+
             return BitCodec.ToFloat(ret);
         }
 
@@ -77,11 +80,12 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
             DisabledCheck();
 
             byte[] ret;
-            lock (usbDevice.usbLock)
-            {
-                SetPage();
-                ret = ReadRegister(0x96, 2);
-            }
+
+            RootDevice.usbGlobalMutex.WaitOne();
+            SetPage();
+            ret = ReadRegister(0x96, 2);
+            RootDevice.usbGlobalMutex.ReleaseMutex();
+
             return BitCodec.ToFloat(ret);
         }
     }

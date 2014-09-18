@@ -47,6 +47,7 @@
     <Compile Include="Controller\Fan\FanCustomCurveController.cs" />
     <Compile Include="Controller\Fan\FanPerformanceModeController.cs" />
     <Compile Include="Controller\Fan\FanQuiteModeController.cs" />
+    <Compile Include="Controller\LED\LEDColorCycleController.cs" />
     <Compile Include="Controller\TemperatureDependantControllerBase.cs" />
     <Compile Include="Controller\Fan\FanController.cs" />
     <Compile Include="Controller\Fan\FanCurveController.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Sensor\Internal\PumpModern.cs" />
     <Compile Include="Sensor\Internal\ThermistorModern.cs" />
     <Compile Include="Sensor\Internal\ThermistorPSU.cs" />
+    <Compile Include="Utility\Color.cs" />
     <Compile Include="Utility\CoreUtil.cs" />
     <Compile Include="Node\BaseLinkDevice.cs" />
     <Compile Include="Node\LinkDeviceAFP.cs" />

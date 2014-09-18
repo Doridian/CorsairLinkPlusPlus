@@ -86,12 +86,13 @@ namespace CorsairLinkPlusPlus.Driver.Node
             DisabledCheck();
 
             byte[] ret;
-            lock (usbDevice.usbLock)
-            {
-                SetMainPage(0);
-                SetSecondary12VPage(page);
-                ret = ReadRegister(0xE8, 2);
-            }
+            
+            RootDevice.usbGlobalMutex.WaitOne();
+            SetMainPage(0);
+            SetSecondary12VPage(page);
+            ret = ReadRegister(0xE8, 2);
+            RootDevice.usbGlobalMutex.ReleaseMutex();
+
             return BitCodec.ToFloat(ret);
         }
 

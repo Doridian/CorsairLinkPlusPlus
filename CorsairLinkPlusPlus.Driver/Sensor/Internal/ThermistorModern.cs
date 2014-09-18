@@ -1,4 +1,5 @@
 ﻿using CorsairLinkPlusPlus.Driver.Node;
+using CorsairLinkPlusPlus.Driver.USB;
 using System;
 
 namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
@@ -18,11 +19,10 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             DisabledCheck();
 
             byte[] ret;
-            lock (modernDevice.usbDevice.usbLock)
-            {
-                modernDevice.SetCurrentTemp(id);
-                ret = modernDevice.ReadRegister(0x0E, 2);
-            }
+            RootDevice.usbGlobalMutex.WaitOne();
+            modernDevice.SetCurrentTemp(id);
+            ret = modernDevice.ReadRegister(0x0E, 2);
+            RootDevice.usbGlobalMutex.ReleaseMutex();
             return ((double)BitConverter.ToInt16(ret, 0)) / 256.0;
         }
     }

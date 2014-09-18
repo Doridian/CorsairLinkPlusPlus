@@ -1,5 +1,6 @@
 ﻿using HidLibrary;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace CorsairLinkPlusPlus.Driver.USB
 {
@@ -11,6 +12,8 @@ namespace CorsairLinkPlusPlus.Driver.USB
         const int PID_CORSAIR_COMMANDER_LINK_B = 0x0C02;
         const int PID_CORSAIR_BOOTLOADER = 0x0C01;
         const int PID_CORSAIR_MODERN = 0x0C04;
+
+        internal static readonly Mutex usbGlobalMutex = new Mutex(true, "Access_CorsairLink");
 
         private RootDevice() : base(null)
         {
