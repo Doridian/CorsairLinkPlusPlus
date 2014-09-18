@@ -10,7 +10,7 @@ namespace CorsairLinkPlusPlus.Common
         bool IsValid();
         string GetName();
         void Refresh(bool volatileOnly);
-        List<IDevice> GetSubDevices();
+        IEnumerable<IDevice> GetSubDevices();
         string GetLocalDeviceID();
         string GetUDID();
         IDevice GetParent();
