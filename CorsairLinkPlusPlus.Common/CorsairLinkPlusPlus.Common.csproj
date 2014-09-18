@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="BaseDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sensor\BaseSensorDevice.cs" />
     <Compile Include="Utility\Color.cs" />
     <Compile Include="Utility\ControlCurve.cs" />
     <Compile Include="Utility\CurvePoint.cs" />

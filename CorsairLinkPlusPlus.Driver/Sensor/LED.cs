@@ -21,7 +21,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
             return new Color(rgb[0], rgb[1], rgb[2]);
         }
 
-        internal override double GetValueInternal()
+        protected override double GetValueInternal()
         {
             byte[] res = GetRGB();
             return BitConverter.ToUInt32(new byte[] { res[0], res[1], res[2], 0 }, 0);

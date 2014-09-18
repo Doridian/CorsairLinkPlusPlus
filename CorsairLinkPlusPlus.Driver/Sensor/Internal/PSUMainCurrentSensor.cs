@@ -12,7 +12,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             this.powerDevice = device;
         }
 
-        internal override double GetValueInternal()
+        protected override double GetValueInternal()
         {
             DisabledCheck();
 

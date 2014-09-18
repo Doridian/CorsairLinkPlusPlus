@@ -14,7 +14,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             modernDevice = device;
         }
 
-        internal override double GetValueInternal()
+        protected override double GetValueInternal()
         {
             DisabledCheck();
 

@@ -60,6 +60,8 @@
     <Compile Include="Controller\Fan\FanFixedRPMController.cs" />
     <Compile Include="Controller\LED\LEDController.cs" />
     <Compile Include="Node\Internal\PSUMainPowerDevice.cs" />
+    <Compile Include="Sensor\BasePowerSensor.cs" />
+    <Compile Include="Sensor\BaseSensorDevice.cs" />
     <Compile Include="Sensor\Internal\FanPSU.cs" />
     <Compile Include="Sensor\Internal\FanModern.cs" />
     <Compile Include="Sensor\Internal\LEDModern.cs" />
@@ -91,9 +93,7 @@
     <Compile Include="Sensor\Pump.cs" />
     <Compile Include="Sensor\Fan.cs" />
     <Compile Include="Sensor\Usage.cs" />
-    <Compile Include="Sensor\BaseSensorDevice.cs" />
     <Compile Include="Sensor\Thermistor.cs" />
-    <Compile Include="Sensor\BasePowerSensor.cs" />
     <Compile Include="USB\BaseUSBDevice.cs" />
     <Compile Include="RootDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

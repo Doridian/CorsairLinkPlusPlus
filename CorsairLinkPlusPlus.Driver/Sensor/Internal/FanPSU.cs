@@ -16,7 +16,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 
         }
 
-        internal override double GetValueInternal()
+        protected override double GetValueInternal()
         {
             DisabledCheck();
 

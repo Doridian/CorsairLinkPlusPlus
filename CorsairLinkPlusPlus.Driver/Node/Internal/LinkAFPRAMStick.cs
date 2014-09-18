@@ -60,7 +60,7 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
                 this.afpDevice = device;
             }
 
-            internal override double GetValueInternal()
+            protected override double GetValueInternal()
             {
                 DisabledCheck();
                 return 1;
@@ -76,7 +76,7 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
                 this.afpDevice = device;
             }
 
-            internal override double GetValueInternal()
+            protected override double GetValueInternal()
             {
                 DisabledCheck();
                 return afpDevice.GetReadings()[2];

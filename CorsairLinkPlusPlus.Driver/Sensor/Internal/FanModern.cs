@@ -55,7 +55,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             GetController().Refresh(this);
         }
 
-        internal override double GetValueInternal()
+        protected override double GetValueInternal()
         {
             DisabledCheck();
 
@@ -68,7 +68,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             return (GetFanData() & bit) == bit;
         }
 
-        internal override bool IsPresentInternal()
+        protected override bool IsPresentInternal()
         {
             return FanDataBitSet(7);
         }

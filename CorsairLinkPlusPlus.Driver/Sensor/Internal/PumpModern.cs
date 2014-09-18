@@ -12,18 +12,11 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             modernDevice = device;
         }
 
-        internal override double GetValueInternal()
+        protected override double GetValueInternal()
         {
             DisabledCheck();
 
             return modernDevice.GetCoolerRPM(id);
-        }
-
-        internal override bool IsPresentInternal()
-        {
-            DisabledCheck();
-
-            return true;
         }
     }
 }

@@ -109,7 +109,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
                 this.psuDevice = device;
             }
 
-            internal override double GetValueInternal()
+            protected override double GetValueInternal()
             {
                 DisabledCheck();
                 return psuDevice.GetSecondary12VCurrent(id);
