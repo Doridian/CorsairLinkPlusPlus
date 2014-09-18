@@ -12,10 +12,20 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
 {
     class PSUMainsPowerDevice : PSUPrimaryPowerDevice
     {
+        protected double cachedPowerIn = double.NaN;
+        protected double cachedEfficiency = double.NaN;
+
         internal PSUMainsPowerDevice(LinkDevicePSU psuDevice, byte channel, string name)
             : base(psuDevice, channel, 0, name)
         {
 
+        }
+
+        public override void Refresh(bool volatileOnly)
+        {
+            base.Refresh(volatileOnly);
+            cachedPowerIn = double.NaN;
+            cachedEfficiency = double.NaN;
         }
 
         protected override List<BaseDevice> GetSubDevicesInternal()
@@ -23,44 +33,56 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
             List<BaseDevice> ret = base.GetSubDevicesInternal();
             if (!(psuDevice is LinkDevicePSUHX))
                 ret.Add(new PSUMainsPowerInSensor(this));
+            ret.Add(new PSUMainsEfficiencySensor(this));
             return ret;
         }
 
         internal double ReadPowerIn()
         {
-            if (psuDevice is LinkDevicePSUHX)
-                return 0;
-            return (ReadFloatInRegister(0x97) + (ReadCurrent() * ReadVoltage())) / 2.0;
+            if (double.IsNaN(cachedPowerIn))
+                ReadValues();
+            return cachedPowerIn;
         }
 
-        internal override double ReadCurrent()
+        internal double ReadEfficiency()
         {
-            if (psuDevice is LinkDevicePSUHX)
-                return ReadPower() / ReadVoltage();
-            return ReadFloatInRegister(0x89);
+            if (double.IsNaN(cachedEfficiency))
+                ReadValues();
+            return cachedEfficiency;
         }
 
-        internal override double ReadVoltage()
+        protected override void ReadValues()
         {
-            return ReadFloatInRegister(0x88);
-        }
+            byte[] retVoltage, retCurrent, retPower, retPowerIn;
 
-        internal override double ReadPower()
-        {
-            return ReadFloatInRegister(0xEE);
-        }
-
-        private double ReadFloatInRegister(byte register)
-        {
-            DisabledCheck();
-
-            byte[] data;
             RootDevice.usbGlobalMutex.WaitOne();
             SetPage();
-            data = psuDevice.ReadRegister(register, 2);
+            retVoltage = ReadRegister(0x88, 2);
+            if (psuDevice is LinkDevicePSUHX)
+            {
+                retCurrent = null;
+                retPowerIn = null;
+            }
+            else
+            {
+                retCurrent = ReadRegister(0x89, 2);
+                retPowerIn = ReadRegister(0x97, 2);
+            }
+            retPower = ReadRegister(0xEE, 2);
             RootDevice.usbGlobalMutex.ReleaseMutex();
 
-            return BitCodec.ToFloat(BitConverter.ToUInt16(data, 0));
+            cachedVoltage = BitCodec.ToFloat(retVoltage);
+            cachedPower = BitCodec.ToFloat(retPower);
+            if (retCurrent == null)
+                cachedCurrent = cachedPower / cachedVoltage;
+            else
+                cachedCurrent = BitCodec.ToFloat(retCurrent);
+            if (retPowerIn == null)
+                cachedPowerIn = 0;
+            else
+                cachedPowerIn = (BitCodec.ToFloat(retPowerIn) + (cachedCurrent * cachedVoltage)) / 2.0;
+
+            cachedEfficiency = PowerCurves.Interpolate(ref cachedPower, ref cachedPowerIn, cachedVoltage, psuDevice);
         }
     }
 }

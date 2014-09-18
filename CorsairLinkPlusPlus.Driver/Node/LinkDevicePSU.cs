@@ -28,6 +28,8 @@ namespace CorsairLinkPlusPlus.Driver.Node
             return genericPSU;
         }
 
+        internal string internalNameCache = null;
+
         internal virtual string[] GetSecondary12VRailNames()
         {
             return new string[]
@@ -59,12 +61,24 @@ namespace CorsairLinkPlusPlus.Driver.Node
 		    };
         }
 
+        public override void Refresh(bool volatileOnly)
+        {
+            base.Refresh(volatileOnly);
+            if (!volatileOnly)
+                internalNameCache = null;
+        }
+
         internal LinkDevicePSU(USB.BaseUSBDevice usbDevice, byte channel) : base(usbDevice, channel) { }
 
         internal string GetInternalName()
         {
-            byte[] ret = ReadRegister(0x9A, 7);
-            return System.Text.Encoding.UTF8.GetString(ret);
+            if(internalNameCache == null)
+            {
+                byte[] ret = ReadRegister(0x9A, 7);
+                internalNameCache = System.Text.Encoding.UTF8.GetString(ret);
+            }
+
+            return internalNameCache;
         }
 
         public override string GetName()

@@ -12,6 +12,12 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             powerDevice = device;
         }
 
+        public override void Refresh(bool volatileOnly)
+        {
+            base.Refresh(volatileOnly);
+            powerDevice.Refresh(true);
+        }
+
         protected override double GetValueInternal()
         {
             DisabledCheck();

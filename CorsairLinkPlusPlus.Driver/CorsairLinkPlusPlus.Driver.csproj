@@ -71,6 +71,7 @@
     <Compile Include="Node\Internal\LinkDevicePSUAX1200i.cs" />
     <Compile Include="Node\Internal\LinkDevicePSUAX1500i.cs" />
     <Compile Include="Node\Internal\LinkDevicePSUHXiNoRail.cs" />
+    <Compile Include="Sensor\Internal\PSUMainsEfficiencySensor.cs" />
     <Compile Include="Sensor\Internal\PSUPrimaryCurrentSensor.cs" />
     <Compile Include="Sensor\Internal\PSUMainsPowerInSensor.cs" />
     <Compile Include="Sensor\Internal\PSUPrimaryPowerSensor.cs" />

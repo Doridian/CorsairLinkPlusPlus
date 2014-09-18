@@ -10,6 +10,9 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
         protected readonly int id;
         protected readonly string name;
         protected readonly LinkDevicePSU psuDevice;
+        protected double cachedVoltage = double.NaN;
+        protected double cachedCurrent = double.NaN;
+        protected double cachedPower = double.NaN;
 
         internal PSUPrimaryPowerDevice(LinkDevicePSU psuDevice, byte channel, int id, string name)
             : base(psuDevice.usbDevice, channel)
@@ -22,7 +25,10 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
         public override void Refresh(bool volatileOnly)
         {
             base.Refresh(volatileOnly);
-            this.psuDevice.Refresh(volatileOnly);
+            this.psuDevice.Refresh(true);
+            cachedCurrent = double.NaN;
+            cachedVoltage = double.NaN;
+            cachedPower = double.NaN;
         }
 
         public override string GetLocalDeviceID()
@@ -49,46 +55,50 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
             psuDevice.SetMainPage(id);
         }
 
+        protected virtual void ReadValues()
+        {
+            byte[] retVoltage, retCurrent, retPower;
+
+            RootDevice.usbGlobalMutex.WaitOne();
+            SetPage();
+            retVoltage = ReadRegister(0x8B, 2);
+            retCurrent = ReadRegister(0x8C, 2);
+            retPower = ReadRegister(0x96, 2);
+            RootDevice.usbGlobalMutex.ReleaseMutex();
+
+            cachedVoltage = BitCodec.ToFloat(retVoltage);
+            cachedCurrent = BitCodec.ToFloat(retCurrent);
+            cachedPower = BitCodec.ToFloat(retPower);
+        }
+
         internal virtual double ReadVoltage()
         {
             DisabledCheck();
 
-            byte[] ret;
+            if (double.IsNaN(cachedVoltage))
+                ReadValues();
 
-            RootDevice.usbGlobalMutex.WaitOne();
-            SetPage();
-            ret = ReadRegister(0x8B, 2);
-            RootDevice.usbGlobalMutex.ReleaseMutex();
-
-            return BitCodec.ToFloat(ret);
+            return cachedVoltage;
         }
 
         internal virtual double ReadCurrent()
         {
             DisabledCheck();
 
-            byte[] ret;
-            
-            RootDevice.usbGlobalMutex.WaitOne();
-            SetPage();
-            ret = ReadRegister(0x8C, 2);
-            RootDevice.usbGlobalMutex.ReleaseMutex();
+            if (double.IsNaN(cachedCurrent))
+                ReadValues();
 
-            return BitCodec.ToFloat(ret);
+            return cachedCurrent;
         }
 
         internal virtual double ReadPower()
         {
             DisabledCheck();
 
-            byte[] ret;
+            if (double.IsNaN(cachedPower))
+                ReadValues();
 
-            RootDevice.usbGlobalMutex.WaitOne();
-            SetPage();
-            ret = ReadRegister(0x96, 2);
-            RootDevice.usbGlobalMutex.ReleaseMutex();
-
-            return BitCodec.ToFloat(ret);
+            return cachedPower;
         }
     }
 }

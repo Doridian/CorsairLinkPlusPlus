@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CorsairLinkPlusPlus.Driver.Node;
+using CorsairLinkPlusPlus.Driver.Node.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,78 +10,81 @@ namespace CorsairLinkPlusPlus.Driver.Utility
 {
     class PowerCurves
     {
-        internal static double Interpolate(ref double powerOut, ref double powerIn, double voltage, string psuName)
+        internal static double Interpolate(ref double powerOut, ref double powerIn, double voltage, LinkDevicePSU psu)
         {
-            bool flag = psuName.StartsWith("HX");
-            double num = 0.0;
-            double num2 = 0.0;
-            double num3 = 0.0;
-            double num4 = 0.0;
-            if (flag)
+            bool psuIsHX = psu is LinkDevicePSUHX;
+            double _powerOut = 0.0;
+            double _powerOutSquare = 0.0;
+            double _powerIn = 0.0;
+            double _powerInSquare = 0.0;
+            if (psuIsHX)
             {
-                num = powerOut;
-                num2 = num * num;
+                _powerOut = powerOut;
+                _powerOutSquare = _powerOut * _powerOut;
             }
             else
             {
-                num3 = powerIn;
-                num4 = num3 * num3;
+                _powerIn = powerIn;
+                _powerInSquare = _powerIn * _powerIn;
             }
-            switch (psuName)
+
+            switch (psu.GetInternalName())
             {
                 case "AX1200i":
-                    num = ((voltage < 180.0) ? (-5.398236E-05 * num4 + 0.9791846 * num3 - 14.75333) : (-3.724072E-05 * num4 + 0.9792162 * num3 - 13.2167));
-                    goto IL_3B1;
+                    _powerOut = ((voltage < 180.0) ? (-5.398236E-05 * _powerInSquare + 0.9791846 * _powerIn - 14.75333) : (-3.724072E-05 * _powerInSquare + 0.9792162 * _powerIn - 13.2167));
+                    break;
                 case "AX860i":
-                    num = ((voltage < 180.0) ? (-7.803814E-05 * num4 + 0.9856293 * num3 - 12.32274) : (-6.501415E-05 * num4 + 0.9914832 * num3 - 11.86228));
-                    goto IL_3B1;
+                    _powerOut = ((voltage < 180.0) ? (-7.803814E-05 * _powerInSquare + 0.9856293 * _powerIn - 12.32274) : (-6.501415E-05 * _powerInSquare + 0.9914832 * _powerIn - 11.86228));
+                    break;
                 case "AX760i":
-                    num = ((voltage < 180.0) ? (-8.497113E-05 * num4 + 0.9882959 * num3 - 12.28865) : (-6.94856E-05 * num4 + 0.9947551 * num3 - 12.14068));
-                    goto IL_3B1;
+                    _powerOut = ((voltage < 180.0) ? (-8.497113E-05 * _powerInSquare + 0.9882959 * _powerIn - 12.28865) : (-6.94856E-05 * _powerInSquare + 0.9947551 * _powerIn - 12.14068));
+                    break;
                 case "HX1000i":
-                    num3 = ((voltage < 180.0) ? (8.614363E-05 * num2 + 1.013681 * num + 12.57297) : (6.625963E-05 * num2 + 1.013373 * num + 11.67543));
-                    goto IL_3B1;
+                    _powerIn = ((voltage < 180.0) ? (8.614363E-05 * _powerOutSquare + 1.013681 * _powerOut + 12.57297) : (6.625963E-05 * _powerOutSquare + 1.013373 * _powerOut + 11.67543));
+                    break;
                 case "HX850i":
-                    num3 = ((voltage < 180.0) ? (9.402802E-05 * num2 + 1.01568 * num + 12.40252) : (6.333025E-05 * num2 + 1.023295 * num + 9.813914));
-                    goto IL_3B1;
+                    _powerIn = ((voltage < 180.0) ? (9.402802E-05 * _powerOutSquare + 1.01568 * _powerOut + 12.40252) : (6.333025E-05 * _powerOutSquare + 1.023295 * _powerOut + 9.813914));
+                    break;
                 case "HX750i":
-                    num3 = ((voltage < 180.0) ? (0.0001011842 * num2 + 1.015511 * num + 12.08922) : (7.757325E-05 * num2 + 1.015346 * num + 10.91073));
-                    goto IL_3B1;
+                    _powerIn = ((voltage < 180.0) ? (0.0001011842 * _powerOutSquare + 1.015511 * _powerOut + 12.08922) : (7.757325E-05 * _powerOutSquare + 1.015346 * _powerOut + 10.91073));
+                    break;
                 case "HX650i":
-                    num3 = ((voltage < 180.0) ? (0.0001215054 * num2 + 1.015551 * num + 9.62592) : (8.296032E-05 * num2 + 1.018958 * num + 8.411756));
-                    goto IL_3B1;
+                    _powerIn = ((voltage < 180.0) ? (0.0001215054 * _powerOutSquare + 1.015551 * _powerOut + 9.62592) : (8.296032E-05 * _powerOutSquare + 1.018958 * _powerOut + 8.411756));
+                    break;
+                default:
+                    _powerOut = ((voltage < 180.0) ? (-4.537257E-05 * _powerInSquare + 0.9955244 * _powerIn - 17.04104) : (-4.024153E-05 * _powerInSquare + 1.002732 * _powerIn - 19.12843));
+                    break;
             }
-            num = ((voltage < 180.0) ? (-4.537257E-05 * num4 + 0.9955244 * num3 - 17.04104) : (-4.024153E-05 * num4 + 1.002732 * num3 - 19.12843));
-        IL_3B1:
-            double num6 = num / num3;
-            bool flag2 = false;
-            if (num6 > 0.99)
+            
+            double _efficiency = _powerOut / _powerIn;
+            
+            bool _efficiencyOutOfRange = false;
+            if (_efficiency > 0.99)
             {
-                num6 = 0.99;
-                flag2 = true;
+                _efficiency = 0.99;
+                _efficiencyOutOfRange = true;
             }
-            else
+            else if (_efficiency < 0.4)
             {
-                if (num6 < 0.4)
+                _efficiency = 0.4;
+                _efficiencyOutOfRange = true;
+            }
+
+            if (_efficiencyOutOfRange)
+            {
+                if (psuIsHX)
                 {
-                    num6 = 0.4;
-                    flag2 = true;
-                }
-            }
-            if (flag2)
-            {
-                if (flag)
-                {
-                    num3 = num / num6;
+                    _powerIn = _powerOut / _efficiency;
                 }
                 else
                 {
-                    num = num3 * num6;
+                    _powerOut = _powerIn * _efficiency;
                 }
             }
-            powerOut = num;
-            powerIn = num3;
-            return num6 * 100.0;
+
+            powerOut = _powerOut;
+            powerIn = _powerIn;
+            return _efficiency * 100.0;
         }
     }
 }
