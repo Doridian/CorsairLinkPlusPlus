@@ -18,19 +18,19 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
 
         }
 
-        public void SetCurve(ControlCurve curve)
+        public void SetCurve(ControlCurve<int> curve)
         {
             this.curve = curve;
         }
 
-        public override CurvePoint[] GetDefaultPoints()
+        public override CurvePoint<int>[] GetDefaultPoints()
         {
-            return new CurvePoint[] {
-                new CurvePoint(0, 0),
-                new CurvePoint(0, 0),
-                new CurvePoint(0, 0),
-                new CurvePoint(0, 0),
-                new CurvePoint(0, 0)
+            return new CurvePoint<int>[] {
+                new CurvePoint<int>(0, 0),
+                new CurvePoint<int>(0, 0),
+                new CurvePoint<int>(0, 0),
+                new CurvePoint<int>(0, 0),
+                new CurvePoint<int>(0, 0)
             };
         }
 

@@ -3,7 +3,9 @@ using CorsairLinkPlusPlus.Driver.Controller.LED;
 using CorsairLinkPlusPlus.Driver.Node;
 using CorsairLinkPlusPlus.Driver.Registry;
 using CorsairLinkPlusPlus.Driver.USB;
+using CorsairLinkPlusPlus.Driver.Utility;
 using System;
+using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 {
@@ -172,6 +174,8 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 
         internal override void SetFixedRGBCycleColors(byte[] colors)
         {
+            DisabledCheck();
+
             if(colors.Length > 12)
                 throw new ArgumentException();
 
@@ -182,11 +186,53 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
                 colors = newColors;
             }
 
-            DisabledCheck();
-
             RootDevice.usbGlobalMutex.WaitOne();
             modernDevice.SetCurrentLED(id);
             modernDevice.WriteRegister(0x0B, colors);
+            RootDevice.usbGlobalMutex.ReleaseMutex();
+        }
+
+        internal override ControlCurve<Color> GetControlCurve()
+        {
+            byte[] tempTable, colorTable;
+
+            RootDevice.usbGlobalMutex.WaitOne();
+            modernDevice.SetCurrentLED(id);
+            tempTable = modernDevice.ReadRegister(0x09, 6);
+            colorTable = modernDevice.ReadRegister(0x0A, 9);
+            RootDevice.usbGlobalMutex.ReleaseMutex();
+
+            List<CurvePoint<Color>> points = new List<CurvePoint<Color>>();
+
+            for (int i = 0; i < 3; i++)
+            {
+                int j = i * 3;
+                points.Add(new CurvePoint<Color>(BitConverter.ToInt16(tempTable, i * 2) / 256, new Color(colorTable[j], colorTable[j + 1], colorTable[j + 2])));
+            }
+
+            return new ControlCurve<Color>(points);
+        }
+
+        internal override void SetControlCurve(ControlCurve<Color> curve)
+        {
+            List<CurvePoint<Color>> points = curve.GetPoints();
+            if (points.Count != 3)
+                throw new ArgumentException();
+
+            byte[] tempTable = new byte[6];
+            byte[] colorTable = new byte[9];
+
+            for(int i = 0; i < 3; i++)
+            {
+                CurvePoint<Color> point = points[i];
+                Buffer.BlockCopy(BitConverter.GetBytes((short)(point.x * 256)), 0, tempTable, i, 2);
+                Buffer.BlockCopy(point.y.ToArray(), 0, colorTable, i, 2);
+            }
+
+            RootDevice.usbGlobalMutex.WaitOne();
+            modernDevice.SetCurrentLED(id);
+            modernDevice.WriteRegister(0x09, tempTable);
+            modernDevice.WriteRegister(0x0A, colorTable);
             RootDevice.usbGlobalMutex.ReleaseMutex();
         }
     }

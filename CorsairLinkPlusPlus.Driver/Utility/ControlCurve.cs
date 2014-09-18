@@ -6,31 +6,11 @@ using System.Threading.Tasks;
 
 namespace CorsairLinkPlusPlus.Driver.Utility
 {
-    public class ControlCurve
+    public class ControlCurveInt : ControlCurve<int>
     {
-        List<CurvePoint> points;
+        public ControlCurveInt(List<CurvePoint<int>> points) : base(points) { }
 
-        public ControlCurve(List<CurvePoint> points)
-        {
-            this.points = points.ToList();
-        }
-
-        public List<CurvePoint> GetPoints()
-        {
-            return points.ToList();
-        }
-
-        private bool BetweenPoints(CurvePoint a, CurvePoint b, int x)
-        {
-            return x >= a.x && x <= b.x;
-        }
-
-        private float Map(float val, float min, float max, float newMin, float newMax)
-        {
-            return (val - min) / (max - min) * (newMax - newMin) + newMin;
-        }
-
-        private int CalcYBetweenPoints(CurvePoint curvePoint1, CurvePoint curvePoint2, int x)
+        private int CalcYBetweenPoints(CurvePoint<int> curvePoint1, CurvePoint<int> curvePoint2, int x)
         {
             return (int)(curvePoint1.y + Map((float)x, (float)curvePoint1.x, (float)curvePoint2.x, 0.0f, 1.0f) * (curvePoint2.y - curvePoint1.y));
         }
@@ -42,16 +22,41 @@ namespace CorsairLinkPlusPlus.Driver.Utility
                     return CalcYBetweenPoints(points[i], points[i + 1], x);
             return -1;
         }
+    }
 
-        public ControlCurve Copy()
+    public class ControlCurve<T>
+    {
+        protected List<CurvePoint<T>> points;
+
+        public ControlCurve(List<CurvePoint<T>> points)
         {
-            return new ControlCurve(points);
+            this.points = points.ToList();
+        }
+
+        public List<CurvePoint<T>> GetPoints()
+        {
+            return points.ToList();
+        }
+
+        protected bool BetweenPoints(CurvePoint<T> a, CurvePoint<T> b, int x)
+        {
+            return x >= a.x && x <= b.x;
+        }
+
+        protected float Map(float val, float min, float max, float newMin, float newMax)
+        {
+            return (val - min) / (max - min) * (newMax - newMin) + newMin;
+        }
+
+        public ControlCurve<T> Copy()
+        {
+            return new ControlCurve<T>(points);
         }
 
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            foreach(CurvePoint point in points)
+            foreach (CurvePoint<T> point in points)
                 builder.Append(point).Append(", ");
             return builder.ToString();
         }

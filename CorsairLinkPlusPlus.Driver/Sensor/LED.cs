@@ -1,6 +1,7 @@
 ﻿using CorsairLinkPlusPlus.Driver.Node;
 using CorsairLinkPlusPlus.Driver.Utility;
 using System;
+using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.Sensor
 {
@@ -29,6 +30,10 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
         internal abstract byte[] GetFixedRGBCycleColors();
 
         internal abstract void SetFixedRGBCycleColors(byte[] colors);
+
+        internal abstract ControlCurve<Color> GetControlCurve();
+
+        internal abstract void SetControlCurve(ControlCurve<Color> colors);
 
         public byte[] GetRGB()
         {

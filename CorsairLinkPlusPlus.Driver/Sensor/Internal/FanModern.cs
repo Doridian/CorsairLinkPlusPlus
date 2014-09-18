@@ -190,7 +190,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             return BitConverter.ToInt16(rpmB, 0);
         }
 
-        internal override ControlCurve GetControlCurve()
+        internal override ControlCurve<int> GetControlCurve()
         {
             DisabledCheck();
 
@@ -202,19 +202,19 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             rpmTable = modernDevice.ReadRegister(0x19, 10);
             RootDevice.usbGlobalMutex.ReleaseMutex();
 
-            List<CurvePoint> points = new List<CurvePoint>();
+            List<CurvePoint<int>> points = new List<CurvePoint<int>>();
 
             for (int i = 0; i < 10; i += 2)
-                points.Add(new CurvePoint(BitConverter.ToInt16(tempTable, i) / 256, BitConverter.ToInt16(rpmTable, i)));
+                points.Add(new CurvePoint<int>(BitConverter.ToInt16(tempTable, i) / 256, BitConverter.ToInt16(rpmTable, i)));
 
-            return new ControlCurve(points);
+            return new ControlCurve<int>(points);
         }
 
-        internal override void SetControlCurve(ControlCurve curve)
+        internal override void SetControlCurve(ControlCurve<int> curve)
         {
             DisabledCheck();
 
-            List<CurvePoint> points = curve.GetPoints();
+            List<CurvePoint<int>> points = curve.GetPoints();
             if (points.Count != 5)
                 throw new ArgumentException();
 
@@ -223,7 +223,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 
             for (int i = 0; i < 10; i += 2)
             {
-                CurvePoint point = points[i / 2];
+                CurvePoint<int> point = points[i / 2];
                 Buffer.BlockCopy(BitConverter.GetBytes((short)(point.x * 256)), 0, tempTable, i, 2);
                 Buffer.BlockCopy(BitConverter.GetBytes((short)point.y), 0, rpmTable, i, 2);
             }

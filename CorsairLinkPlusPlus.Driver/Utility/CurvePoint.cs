@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace CorsairLinkPlusPlus.Driver.Utility
 {
-    public class CurvePoint
+    public class CurvePoint<T>
     {
-        public CurvePoint(int x, int y)
+        public CurvePoint(int x, T y)
         {
             this.x = x;
             this.y = y;
         }
 
-        public int x, y;
+        public int x;
+        public T y;
 
         public override string ToString()
         {

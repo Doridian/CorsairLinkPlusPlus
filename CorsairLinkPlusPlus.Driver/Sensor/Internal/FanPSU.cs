@@ -88,12 +88,12 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             throw new NotImplementedException();
         }
 
-        internal override ControlCurve GetControlCurve()
+        internal override ControlCurve<int> GetControlCurve()
         {
             throw new NotImplementedException();
         }
 
-        internal override void SetControlCurve(ControlCurve curve)
+        internal override void SetControlCurve(ControlCurve<int> curve)
         {
             throw new NotImplementedException();
         }

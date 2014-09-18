@@ -32,8 +32,8 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
         internal abstract void SetFixedPercent(int percent);
         internal abstract int GetFixedRPM();
         internal abstract int GetFixedPercent();
-        internal abstract ControlCurve GetControlCurve();
-        internal abstract void SetControlCurve(ControlCurve curve);
+        internal abstract ControlCurve<int> GetControlCurve();
+        internal abstract void SetControlCurve(ControlCurve<int> curve);
         internal abstract void SetMinimalRPM(int rpm);
         internal abstract int GetMinimalRPM();
 
