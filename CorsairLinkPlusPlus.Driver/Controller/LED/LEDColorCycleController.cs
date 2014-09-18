@@ -11,12 +11,10 @@ namespace CorsairLinkPlusPlus.Driver.Controller.LED
 
         public LEDColorCycleController()
         {
-            this.colors = new Color[GetNumColors()];
             int numColors = GetNumColors();
+            this.colors = new Color[numColors];
             for (int i = 0; i < numColors; i++)
-            {
                 this.colors[i] = new Color();
-            }
         }
 
         public LEDColorCycleController(Color[] _colors) : this()
@@ -38,9 +36,7 @@ namespace CorsairLinkPlusPlus.Driver.Controller.LED
             MemoryStream stream = new MemoryStream();
 
             foreach(Color color in colors)
-            {
                 stream.Write(color.ToArray(), 0, 3);
-            }
 
             ((Sensor.LED)sensor).SetFixedRGBCycleColors(stream.ToArray());
         }
@@ -73,9 +69,8 @@ namespace CorsairLinkPlusPlus.Driver.Controller.LED
                 throw new ArgumentException();
 
             for (int i = 0; i < numColors; i++)
-            {
                 dst[i] = new Color(src[i]);
-            }
+
             return dst;
         }
 
