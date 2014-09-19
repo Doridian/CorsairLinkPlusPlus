@@ -104,11 +104,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
 
             byte[] ret;
 
-            CorsairRootDevice.usbGlobalMutex.WaitOne();
-            SetMainPage(0);
-            SetSecondary12VPage(page);
-            ret = ReadRegister(0xE8, 2);
-            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
+            lock (CorsairRootDevice.usbGlobalMutex)
+            {
+                SetMainPage(0);
+                SetSecondary12VPage(page);
+                ret = ReadRegister(0xE8, 2);
+            }
 
             return BitCodec.ToFloat(ret);
         }

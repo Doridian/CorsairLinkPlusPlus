@@ -20,8 +20,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
         public CorsairRootDevice()
             : base(RootDevice.GetInstance())
         {
+            usbGlobalMutex.WaitOne();
             FanControllerRegistry.Initialize();
             LEDControllerRegistry.Initialize();
+        }
+
+        ~CorsairRootDevice()
+        {
+            usbGlobalMutex.ReleaseMutex();
         }
 
         public override string GetName()

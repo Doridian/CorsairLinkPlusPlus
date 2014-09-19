@@ -146,10 +146,11 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
             HidDeviceData response;
             command = MakeCommand(opcode, channel, command);
 
-            CorsairRootDevice.usbGlobalMutex.WaitOne();
-            hidDevice.Write(command, 500);
-            response = hidDevice.Read(500);
-            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
+            lock (CorsairRootDevice.usbGlobalMutex)
+            {
+                hidDevice.Write(command, 500);
+                response = hidDevice.Read(500);
+            }
 
             return ParseResponse(response.Data);
         }

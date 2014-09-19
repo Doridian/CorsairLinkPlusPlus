@@ -19,10 +19,11 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             DisabledCheck();
 
             byte[] ret;
-            CorsairRootDevice.usbGlobalMutex.WaitOne();
-            modernDevice.SetCurrentTemp(id);
-            ret = modernDevice.ReadRegister(0x0E, 2);
-            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
+            lock (CorsairRootDevice.usbGlobalMutex)
+            {
+                modernDevice.SetCurrentTemp(id);
+                ret = modernDevice.ReadRegister(0x0E, 2);
+            }
             return ((double)BitConverter.ToInt16(ret, 0)) / 256.0;
         }
     }

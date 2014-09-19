@@ -31,10 +31,11 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             if (cachedFanData == null)
             {
-                CorsairRootDevice.usbGlobalMutex.WaitOne();
-                modernDevice.SetCurrentFan(id);
-                cachedFanData = modernDevice.ReadSingleByteRegister(0x12);
-                CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
+                lock (CorsairRootDevice.usbGlobalMutex)
+                {
+                    modernDevice.SetCurrentFan(id);
+                    cachedFanData = modernDevice.ReadSingleByteRegister(0x12);
+                }
             }
 
             return (byte)cachedFanData;
@@ -44,11 +45,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
         {
             DisabledCheck();
 
-            CorsairRootDevice.usbGlobalMutex.WaitOne();
-            modernDevice.SetCurrentFan(id);
-            modernDevice.WriteSingleByteRegister(0x12, fanData);
-            cachedFanData = null;
-            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
+            lock (CorsairRootDevice.usbGlobalMutex)
+            {
+                modernDevice.SetCurrentFan(id);
+                modernDevice.WriteSingleByteRegister(0x12, fanData);
+                cachedFanData = null;
+            }
         }
 
         public override void Refresh(bool volatileOnly)
@@ -97,10 +99,11 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
         {
             DisabledCheck();
 
-            CorsairRootDevice.usbGlobalMutex.WaitOne();
-            modernDevice.SetCurrentFan(id);
-            modernDevice.WriteRegister(0x15, BitConverter.GetBytes((short)(temperature * 256.0)));
-            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
+            lock (CorsairRootDevice.usbGlobalMutex)
+            {
+                modernDevice.SetCurrentFan(id);
+                modernDevice.WriteRegister(0x15, BitConverter.GetBytes((short)(temperature * 256.0)));
+            }
         }
 
         public void SetController(IController controller)
@@ -148,10 +151,11 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
         {
             DisabledCheck();
 
-            CorsairRootDevice.usbGlobalMutex.WaitOne();
-            modernDevice.SetCurrentFan(id);
-            modernDevice.WriteRegister(0x14, BitConverter.GetBytes((short)fixedRPM));
-            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
+            lock (CorsairRootDevice.usbGlobalMutex)
+            {
+                modernDevice.SetCurrentFan(id);
+                modernDevice.WriteRegister(0x14, BitConverter.GetBytes((short)fixedRPM));
+            }
         }
 
         internal override void SetFixedPercent(double percent)
@@ -160,10 +164,11 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             byte percentB = (byte)(percent * 2.55);
 
-            CorsairRootDevice.usbGlobalMutex.WaitOne();
-            modernDevice.SetCurrentFan(id);
-            modernDevice.WriteSingleByteRegister(0x13, percentB);
-            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
+            lock (CorsairRootDevice.usbGlobalMutex)
+            {
+                modernDevice.SetCurrentFan(id);
+                modernDevice.WriteSingleByteRegister(0x13, percentB);
+            }
         }
 
         internal override double GetFixedPercent()
@@ -172,10 +177,11 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             byte percentB;
 
-            CorsairRootDevice.usbGlobalMutex.WaitOne();
-            modernDevice.SetCurrentFan(id);
-            percentB = modernDevice.ReadSingleByteRegister(0x13);
-            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
+            lock (CorsairRootDevice.usbGlobalMutex)
+            {
+                modernDevice.SetCurrentFan(id);
+                percentB = modernDevice.ReadSingleByteRegister(0x13);
+            }
 
             return (short)(percentB / 2.55);
         }
@@ -186,10 +192,11 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             byte[] rpmB;
 
-            CorsairRootDevice.usbGlobalMutex.WaitOne();
-            modernDevice.SetCurrentFan(id);
-            rpmB = modernDevice.ReadRegister(0x14, 2);
-            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
+            lock (CorsairRootDevice.usbGlobalMutex)
+            {
+                modernDevice.SetCurrentFan(id);
+                rpmB = modernDevice.ReadRegister(0x14, 2);
+            }
 
             return BitConverter.ToInt16(rpmB, 0);
         }
@@ -200,11 +207,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             byte[] tempTable, rpmTable;
 
-            CorsairRootDevice.usbGlobalMutex.WaitOne();
-            modernDevice.SetCurrentFan(id);
-            tempTable = modernDevice.ReadRegister(0x1A, 10);
-            rpmTable = modernDevice.ReadRegister(0x19, 10);
-            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
+            lock (CorsairRootDevice.usbGlobalMutex)
+            {
+                modernDevice.SetCurrentFan(id);
+                tempTable = modernDevice.ReadRegister(0x1A, 10);
+                rpmTable = modernDevice.ReadRegister(0x19, 10);
+            }
 
             List<CurvePoint<double, double>> points = new List<CurvePoint<double, double>>();
 
@@ -232,11 +240,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
                 Buffer.BlockCopy(BitConverter.GetBytes((short)point.y), 0, rpmTable, i, 2);
             }
 
-            CorsairRootDevice.usbGlobalMutex.WaitOne();
-            modernDevice.SetCurrentFan(id);
-            modernDevice.WriteRegister(0x1A, tempTable);
-            modernDevice.WriteRegister(0x19, rpmTable);
-            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
+            lock (CorsairRootDevice.usbGlobalMutex)
+            {
+                modernDevice.SetCurrentFan(id);
+                modernDevice.WriteRegister(0x1A, tempTable);
+                modernDevice.WriteRegister(0x19, rpmTable);
+            }
         }
 
         public IThermistor GetTemperatureSensor()
@@ -253,20 +262,25 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
         {
             DisabledCheck();
 
-            CorsairRootDevice.usbGlobalMutex.WaitOne();
-            modernDevice.SetCurrentFan(id);
-            modernDevice.WriteRegister(0x18, BitConverter.GetBytes((short)rpm));
-            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
+            lock (CorsairRootDevice.usbGlobalMutex)
+            {
+                modernDevice.SetCurrentFan(id);
+                modernDevice.WriteRegister(0x18, BitConverter.GetBytes((short)rpm));
+            }
         }
 
         internal override double GetMinimalRPM()
         {
             DisabledCheck();
 
-            CorsairRootDevice.usbGlobalMutex.WaitOne();
-            modernDevice.SetCurrentFan(id);
-            short minRPM = BitConverter.ToInt16(modernDevice.ReadRegister(0x18, 2), 0);
-            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
+            short minRPM;
+
+            lock (CorsairRootDevice.usbGlobalMutex)
+            {
+                modernDevice.SetCurrentFan(id);
+                minRPM = BitConverter.ToInt16(modernDevice.ReadRegister(0x18, 2), 0);
+            }
+
             return minRPM;
         }
 
