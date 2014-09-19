@@ -22,6 +22,11 @@ namespace CorsairLinkPlusPlus.Common.Registry
             return type.GetInterfaces();
         }
 
+        public bool IsImplemented(Type _interface)
+        {
+            return _interface.IsAssignableFrom(type);
+        }
+
         public IController New()
         {
             return (IController)ctor.Invoke(null);
