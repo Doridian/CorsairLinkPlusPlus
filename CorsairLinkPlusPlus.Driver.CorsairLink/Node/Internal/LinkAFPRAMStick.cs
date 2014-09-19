@@ -11,7 +11,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
         protected readonly LinkDeviceAFP afpDevice;
 
         internal LinkAFPRAMStick(LinkDeviceAFP device, byte channel, int id)
-            : base(device.usbDevice, channel)
+            : base(device, channel)
         {
             this.id = id;
             this.afpDevice = device;
@@ -28,9 +28,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
             return "DIMM" + id;
         }
 
-        public override string GetName()
+        public override string Name
         {
-            return "Corsair AirFlow Pro RAM stick " + id;
+            get
+            {
+                return "Corsair AirFlow Pro RAM stick " + id;
+            }
         }
 
         internal byte[] GetReadings()
@@ -39,9 +42,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
             return ReadRegister((byte)(id << 4), 16);
         }
 
-        public override bool IsPresent()
+        public override bool Present
         {
-            return GetReadings()[0] != 0;
+            get
+            {
+                return GetReadings()[0] != 0;
+            }
         }
 
         protected override List<IDevice> GetSubDevicesInternal()
@@ -66,6 +72,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
                 DisabledCheck();
                 return 1;
             }
+
+            public override bool Present
+            {
+                get
+                {
+                    return afpDevice.Present;
+                }
+            }
         }
 
         public class AFPUsage : Usage
@@ -86,6 +100,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
             public override SensorType GetSensorType()
             {
                 return SensorType.Usage;
+            }
+
+            public override bool Present
+            {
+                get
+                {
+                    return afpDevice.Present;
+                }
             }
         }
     }

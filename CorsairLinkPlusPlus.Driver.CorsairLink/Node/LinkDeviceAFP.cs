@@ -10,9 +10,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
     {
         internal LinkDeviceAFP(USB.BaseUSBDevice usbDevice, byte channel) : base(usbDevice, channel) { }
 
-        public override string GetName()
+        public override string Name
         {
-            return "Corsair AirFlow Pro";
+            get
+            {
+                return "Corsair AirFlow Pro";
+            }
         }
 
         protected override List<IDevice> GetSubDevicesInternal()

@@ -6,9 +6,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
     {
         internal DeviceModern(CorsairRootDevice root, HidDevice hidDevice) : base(root, hidDevice) { }
 
-        public override string GetName()
+        public override string Name
         {
-            return GetDeviceOnChannel(0).GetName() + " USB";
+            get
+            {
+                return GetDeviceOnChannel(0).Name + " USB";
+            }
         }
     }
 }

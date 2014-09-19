@@ -6,9 +6,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
     {
         internal DeviceBootloader(CorsairRootDevice root, HidDevice hidDevice) : base(root, hidDevice) { }
 
-        public override string GetName()
+        public override string Name
         {
-            return "Corsair Bootloader";
+            get
+            {
+                return "Corsair Bootloader";
+            }
         }
     }
 }

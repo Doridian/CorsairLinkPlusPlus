@@ -5,15 +5,17 @@ namespace CorsairLinkPlusPlus.Common
 {
     public interface IDevice
     {
-        bool IsPresent();
+        bool Present { get; }
         void Disable();
-        bool IsValid();
-        string GetName();
+        bool Valid { get; }
+        string Name { get; }
         void Refresh(bool volatileOnly);
         IEnumerable<IDevice> GetSubDevices();
+        IEnumerable<string> ChildrenPaths { get; }
         string GetLocalDeviceID();
-        string GetUDID();
+        string AbsolutePath { get; }
         IDevice GetParent();
+        string ParentPath { get; }
         IDevice FindBySubPath(string subPath);
     }
 }

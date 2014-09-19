@@ -81,9 +81,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
             return internalNameCache;
         }
 
-        public override string GetName()
+        public override string Name
         {
-            return "Corsair PSU " + GetInternalName();
+            get
+            {
+                return "Corsair PSU " + GetInternalName();
+            }
         }
 
         internal void SetMainPage(int page)

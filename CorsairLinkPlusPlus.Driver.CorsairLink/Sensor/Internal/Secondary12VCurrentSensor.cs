@@ -26,9 +26,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             return psuDevice.GetSecondary12VCurrent(id);
         }
 
-        public override string GetName()
+        public override string Name
         {
-            return name + " Current";
+            get
+            {
+                return name + " Current";
+            }
         }
     }
 }

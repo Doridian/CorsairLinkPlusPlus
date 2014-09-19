@@ -6,9 +6,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
     {
         internal DeviceCommanderB(CorsairRootDevice root, HidDevice hidDevice) : base(root, hidDevice) { }
 
-        public override string GetName()
+        public override string Name
         {
-            return "Corsair Commander (B)";
+            get
+            {
+                return "Corsair Commander (B)";
+            }
         }
     }
 }

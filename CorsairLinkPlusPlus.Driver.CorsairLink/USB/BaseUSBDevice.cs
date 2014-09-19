@@ -17,9 +17,30 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
             this.hidDevice = hidDevice;
         }
 
+        private static string FixUpDeviceID(string id)
+        {
+            char[] ret = id.ToCharArray();
+            for (int i = 0; i < id.Length; i++ )
+            {
+                switch (ret[i])
+                {
+                    case '#':
+                    case '?':
+                    case '/':
+                    case '\\':
+                    case '{':
+                    case '}':
+                    case '&':
+                        ret[i] = '_';
+                        break;
+                }
+            }
+            return new string(ret);
+        }
+
         public override string GetLocalDeviceID()
         {
-            return hidDevice.DevicePath.Replace('\\', '_').Replace('/', '_');
+            return FixUpDeviceID(hidDevice.DevicePath);
         }
 
         public struct ChannelData

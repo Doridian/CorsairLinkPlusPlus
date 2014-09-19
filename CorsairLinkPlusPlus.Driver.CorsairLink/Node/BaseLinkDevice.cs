@@ -31,6 +31,13 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
         internal readonly USB.BaseUSBDevice usbDevice;
         internal readonly byte channel;
 
+        internal BaseLinkDevice(BaseLinkDevice linkDevice, byte channel)
+            : base(linkDevice)
+        {
+            this.usbDevice = linkDevice.usbDevice;
+            this.channel = channel;
+        }
+
         internal BaseLinkDevice(USB.BaseUSBDevice usbDevice, byte channel) : base(usbDevice)
         {
             this.usbDevice = usbDevice;

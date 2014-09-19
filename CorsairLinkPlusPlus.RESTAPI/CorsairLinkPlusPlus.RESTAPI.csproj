@@ -35,6 +35,9 @@
     <Reference Include="Griffin.Core">
       <HintPath>..\packages\Griffin.Framework.1.0.15\lib\net45\Griffin.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

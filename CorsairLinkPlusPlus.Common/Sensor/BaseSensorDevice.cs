@@ -11,11 +11,14 @@ namespace CorsairLinkPlusPlus.Common.Sensor
 
         protected BaseSensorDevice(IDevice parent) : base(parent) { }
 
-        public override bool IsPresent()
+        public override bool Present
         {
-            if (cachedPresence == null)
-                cachedPresence = IsPresentInternal();
-            return (bool)cachedPresence;
+            get
+            {
+                if (cachedPresence == null)
+                    cachedPresence = IsPresentInternal();
+                return (bool)cachedPresence;
+            }
         }
 
         protected virtual bool IsPresentInternal()

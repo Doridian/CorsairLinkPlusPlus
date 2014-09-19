@@ -2,6 +2,7 @@
 using Griffin.Net.Channels;
 using Griffin.Net.Protocols.Http;
 using Griffin.Net.Protocols.Serializers;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
@@ -28,14 +29,28 @@ namespace CorsairLinkPlusPlus.RESTAPI
             
         }
 
-        private static void OnMessage(ITcpChannel channel, object message)
+        private static void RespondWithDevice(ITcpChannel channel, HttpRequestBase request, IDevice device)
         {
-            HttpRequestBase request = (HttpRequestBase)message;
+            RespondWith(channel, request, device, true);
+        }
+
+        private class ResponseResult
+        {
+            public bool success;
+            public object result;
+
+            internal ResponseResult(object result, bool success)
+            {
+                this.success = success;
+                this.result = result;
+            }
+        }
+
+        private static void RespondWith(ITcpChannel channel, HttpRequestBase request, object result, bool success = true)
+        {
             IHttpResponse response = request.CreateResponse();
 
-            IDevice device = RootDevice.FindDeviceByPath(request.Uri.AbsolutePath);
-
-            string responseStr = (device != null) ? device.GetType().FullName : "N/A";
+            string responseStr = JsonConvert.SerializeObject(new ResponseResult(result, success));
             byte[] responseBytes = System.Text.Encoding.UTF8.GetBytes(responseStr);
             MemoryStream output = new MemoryStream();
             output.Write(responseBytes, 0, responseBytes.Length);
@@ -44,6 +59,21 @@ namespace CorsairLinkPlusPlus.RESTAPI
             response.ContentLength = responseBytes.Length;
 
             channel.Send(response);
+        }
+
+        private static void OnMessage(ITcpChannel channel, object message)
+        {
+            HttpRequestBase request = (HttpRequestBase)message;
+
+            IDevice device = RootDevice.FindDeviceByPath(request.Uri.AbsolutePath);
+
+            if(device == null)
+            {
+                RespondWith(channel, request, "Not found", false);
+                return;
+            }
+
+            RespondWithDevice(channel, request, device);
         }
     }
 }

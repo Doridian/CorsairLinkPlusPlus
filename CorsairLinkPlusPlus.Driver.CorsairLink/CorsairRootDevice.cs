@@ -31,9 +31,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
             usbGlobalMutex.ReleaseMutex();
         }
 
-        public override string GetName()
+        public override string Name
         {
-            return "Corsair Link";
+            get
+            {
+                return "Corsair Link";
+            }
         }
 
         public override void Refresh(bool volatileOnly)
@@ -49,11 +52,11 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
             List<IDevice> ret = base.GetSubDevicesInternal();
 
             IEnumerable<HidDevice> hidDevices = HidDevices.Enumerate(VID_CORSAIR_LINK, new int[] {
-                        PID_CORSAIR_COMMANDER_LINK_A,
-                        PID_CORSAIR_COMMANDER_LINK_B,
-                        PID_CORSAIR_BOOTLOADER,
-                        PID_CORSAIR_MODERN
-                    });
+                PID_CORSAIR_COMMANDER_LINK_A,
+                PID_CORSAIR_COMMANDER_LINK_B,
+                PID_CORSAIR_BOOTLOADER,
+                PID_CORSAIR_MODERN
+            });
 
             foreach (HidDevice hidDevice in hidDevices)
             {

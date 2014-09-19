@@ -15,7 +15,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
         protected double cachedPower = double.NaN;
 
         internal PSUPrimaryPowerDevice(LinkDevicePSU psuDevice, byte channel, int id, string name)
-            : base(psuDevice.usbDevice, channel)
+            : base(psuDevice, channel)
         {
             this.id = id;
             this.name = name;
@@ -36,9 +36,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
             return "PowerMain" + id;
         }
 
-        public override string GetName()
+        public override string Name
         {
-            return name;
+            get
+            {
+                return name;
+            }
         }
 
         protected override List<IDevice> GetSubDevicesInternal()

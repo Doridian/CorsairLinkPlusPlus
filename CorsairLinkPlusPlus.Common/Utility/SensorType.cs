@@ -38,9 +38,9 @@ namespace CorsairLinkPlusPlus.Common.Utility
                 case SensorType.Fan:
                     return longFormat ? "Fan" : "Fan";
                 case SensorType.Current:
-                    return longFormat ? "Current" : "PWMFan";
+                    return longFormat ? "Current" : "Current";
                 case SensorType.Efficiency:
-                    return longFormat ? "Efficiency" : "Eff.";
+                    return longFormat ? "Efficiency" : "Efficiency";
                 case SensorType.Power:
                     return longFormat ? "Power" : "Power";
 

@@ -15,9 +15,12 @@ namespace CorsairLinkPlusPlus.Common
             this.parent = parent;
         }
 
-        public virtual bool IsPresent()
+        public virtual bool Present
         {
-            return true;
+            get
+            {
+                return true;
+            }
         }
 
         public IDevice FindBySubPath(string subPath)
@@ -65,12 +68,15 @@ namespace CorsairLinkPlusPlus.Common
             }
         }
 
-        public bool IsValid()
+        public virtual bool Valid
         {
-            return !disabled;
+            get
+            {
+                return !disabled;
+            }
         }
 
-        public abstract string GetName();
+        public abstract string Name { get; }
 
         public virtual void Refresh(bool volatileOnly)
         {
@@ -105,12 +111,17 @@ namespace CorsairLinkPlusPlus.Common
 
         public abstract string GetLocalDeviceID();
 
-        public string GetUDID()
+        public string AbsolutePath
         {
-            IDevice device = GetParent();
-            if (device == null)
-                return "/" + GetLocalDeviceID();
-            return device.GetLocalDeviceID() + "/" + GetLocalDeviceID();
+            get
+            {
+                if (parent == null)
+                    return "/" + GetLocalDeviceID();
+                string path = parent.AbsolutePath;
+                if (path.LastIndexOf('/') == path.Length - 1)
+                    return path + GetLocalDeviceID();
+                return path + '/' + GetLocalDeviceID();
+            }
         }
 
         public IDevice GetParent()
@@ -118,21 +129,42 @@ namespace CorsairLinkPlusPlus.Common
             return parent;
         }
 
+        public string ParentPath
+        {
+            get
+            {
+                return (parent == null) ? null : parent.AbsolutePath;
+            }
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null || !(obj is IDevice))
                 return false;
-            return GetUDID().Equals(((IDevice)obj).GetUDID());
+            return AbsolutePath.Equals(((IDevice)obj).AbsolutePath);
         }
 
         public override int GetHashCode()
         {
-            return GetUDID().GetHashCode();
+            return AbsolutePath.GetHashCode();
         }
 
         public override string ToString()
         {
-            return GetName() + " [" + GetUDID() + "]";
+            return Name + " [" + AbsolutePath + "]";
+        }
+
+        public IEnumerable<string> ChildrenPaths
+        {
+            get
+            {
+                List<string> ret = new List<string>();
+                foreach(IDevice device in GetSubDevices())
+                {
+                    ret.Add(device.AbsolutePath);
+                }
+                return ret;
+            }
         }
     }
 }

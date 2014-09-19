@@ -73,9 +73,12 @@ namespace CorsairLinkPlusPlus.Common
             }
         }
 
-        public override string GetName()
+        public override string Name
         {
-            return "Root Device";
+            get
+            {
+                return "Root Device";
+            }
         }
 
         public override string GetLocalDeviceID()
