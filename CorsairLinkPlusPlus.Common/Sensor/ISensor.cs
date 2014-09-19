@@ -1,4 +1,5 @@
 ﻿using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.Common.Utility;
 using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Common.Sensor
@@ -6,7 +7,7 @@ namespace CorsairLinkPlusPlus.Common.Sensor
     public interface ISensor : IDevice
     {
         double GetValue();
-        string GetSensorType();
-        string GetUnit();
+        SensorType GetSensorType();
+        Unit GetUnit();
     }
 }

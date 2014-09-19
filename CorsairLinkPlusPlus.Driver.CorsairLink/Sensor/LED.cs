@@ -58,14 +58,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
 
         internal abstract byte[] GetRGBInternal();
 
-        public override string GetSensorType()
+        public override SensorType GetSensorType()
         {
-            return "LED";
+            return SensorType.LED;
         }
 
-        public override string GetUnit()
+        public override Unit GetUnit()
         {
-            return "RGB";
+            return Unit.Color;
         }
     }
 }

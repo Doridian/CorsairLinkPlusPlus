@@ -1,4 +1,5 @@
-﻿using CorsairLinkPlusPlus.Driver.CorsairLink.Node;
+﻿using CorsairLinkPlusPlus.Common.Utility;
+using CorsairLinkPlusPlus.Driver.CorsairLink.Node;
 using System;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
@@ -11,14 +12,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
 
         }
 
-        public override string GetSensorType()
+        public override SensorType GetSensorType()
         {
-            return "Usage";
+            return SensorType.Usage;
         }
 
-        public override string GetUnit()
+        public override Unit GetUnit()
         {
-            return "%";
+            return Unit.Percent;
         }
     }
 }

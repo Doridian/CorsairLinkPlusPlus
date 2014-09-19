@@ -1,4 +1,5 @@
 ﻿using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.Common.Utility;
 using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Common.Sensor
@@ -37,10 +38,10 @@ namespace CorsairLinkPlusPlus.Common.Sensor
             return cachedValue;
         }
 
-        public abstract string GetSensorType();
+        public abstract SensorType GetSensorType();
 
         protected abstract double GetValueInternal();
 
-        public abstract string GetUnit();
+        public abstract Unit GetUnit();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CorsairLinkPlusPlus.Common;
 using CorsairLinkPlusPlus.Common.Sensor;
+using CorsairLinkPlusPlus.Common.Utility;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Node;
 using System.Collections.Generic;
 
@@ -19,12 +20,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
 
         public override string GetLocalDeviceID()
         {
-            return "Sensor" + GetSensorType() + id;
+            return "Sensor" + GetSensorType().GetName() + id;
         }
 
         public override string GetName()
         {
-            return GetSensorType() + " " + id;
+            return GetSensorType().GetName() + " " + id;
         }
     }
 }

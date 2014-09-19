@@ -1,4 +1,5 @@
 ﻿using CorsairLinkPlusPlus.Common.Sensor;
+using CorsairLinkPlusPlus.Common.Utility;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Node;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
@@ -11,14 +12,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
 
         }
 
-        public override string GetSensorType()
+        public override SensorType GetSensorType()
         {
-            return "Temp";
+            return SensorType.Temperature;
         }
 
-        public override string GetUnit()
+        public override Unit GetUnit()
         {
-            return "°C";
+            return Unit.DegreeCelsius;
         }
     }
 }

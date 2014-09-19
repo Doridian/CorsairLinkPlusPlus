@@ -1,6 +1,7 @@
 ﻿using CorsairLinkPlusPlus.Common;
 using CorsairLinkPlusPlus.Common.Controller;
 using CorsairLinkPlusPlus.Common.Sensor;
+using CorsairLinkPlusPlus.Common.Utility;
 using System;
 using System.Collections.Generic;
 
@@ -21,7 +22,7 @@ namespace CorsairLinkPlusPlus.CLI
                     IControllableSensor controllableLED = (IControllableSensor)device;
 
                     IController ledController = controllableLED.GetController();
-                    Console.Out.WriteLine(prefix + "- " + led.GetName() + " = " + led.GetValue() + " " + led.GetUnit());
+                    Console.Out.WriteLine(prefix + "- " + led.GetName() + " = " + led.GetValue() + " " + led.GetUnit().GetPostfix());
                     if (ledController != null)
                         Console.Out.WriteLine(prefix + "\t" + ((ledController == null) ? "N/A" : ledController.GetType().Name));
                     if (ledController is IFixedColorCycleController)
@@ -43,7 +44,7 @@ namespace CorsairLinkPlusPlus.CLI
                     }
 
                     IController fanController = controllableFan.GetController();
-                    Console.Out.WriteLine(prefix + "- " + fan.GetName() + " = " + fan.GetValue() + " " + fan.GetUnit());
+                    Console.Out.WriteLine(prefix + "- " + fan.GetName() + " = " + fan.GetValue() + " " + fan.GetUnit().GetPostfix());
                     if (fanController != null)
                         Console.Out.WriteLine(prefix + "\t" + ((fanController == null) ? "N/A" : fanController.GetType().Name));
                     if(fanController is ICurveNumberController)
@@ -54,7 +55,7 @@ namespace CorsairLinkPlusPlus.CLI
                 else
                 {
                     ISensor sensor = (ISensor)device;
-                    Console.Out.WriteLine(prefix + "- " + sensor.GetName() + " = " + sensor.GetValue() + " " + sensor.GetUnit());
+                    Console.Out.WriteLine(prefix + "- " + sensor.GetName() + " = " + sensor.GetValue() + " " + sensor.GetUnit().GetPostfix());
                 }
             }
             else

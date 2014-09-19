@@ -1,4 +1,5 @@
-﻿using CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal;
+﻿using CorsairLinkPlusPlus.Common.Utility;
+using CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 {
@@ -18,9 +19,9 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             powerDevice.Refresh(true);
         }
 
-        public override string GetSensorType()
+        public override SensorType GetSensorType()
         {
-            return "Efficiency";
+            return SensorType.Efficiency;
         }
 
         protected override double GetValueInternal()
@@ -28,9 +29,9 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             return powerDevice.ReadEfficiency();
         }
 
-        public override string GetUnit()
+        public override Unit GetUnit()
         {
-            return "%";
+            return Unit.Percent;
         }
     }
 }

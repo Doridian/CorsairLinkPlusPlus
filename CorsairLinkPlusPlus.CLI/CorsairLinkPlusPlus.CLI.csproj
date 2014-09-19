@@ -52,6 +52,10 @@
       <Project>{367b36e3-fe8a-4673-a5d7-ae03da33cce7}</Project>
       <Name>CorsairLinkPlusPlus.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CorsairLinkPlusPlus.Driver.CorsairLink\CorsairLinkPlusPlus.Driver.CorsairLink.csproj">
+      <Project>{32629bc9-7f51-45d7-b756-379e626a5180}</Project>
+      <Name>CorsairLinkPlusPlus.Driver.CorsairLink</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

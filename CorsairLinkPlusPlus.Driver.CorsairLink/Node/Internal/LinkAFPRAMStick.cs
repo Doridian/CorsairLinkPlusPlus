@@ -1,4 +1,5 @@
 ﻿using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.Common.Utility;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Sensor;
 using System.Collections.Generic;
 
@@ -82,9 +83,9 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
                 return afpDevice.GetReadings()[2];
             }
 
-            public override string GetSensorType()
+            public override SensorType GetSensorType()
             {
-                return "Memory usage";
+                return SensorType.Usage;
             }
         }
     }

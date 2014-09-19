@@ -63,6 +63,8 @@
     <Compile Include="Utility\Color.cs" />
     <Compile Include="Utility\ControlCurve.cs" />
     <Compile Include="Utility\CurvePoint.cs" />
+    <Compile Include="Utility\SensorType.cs" />
+    <Compile Include="Utility\Units.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

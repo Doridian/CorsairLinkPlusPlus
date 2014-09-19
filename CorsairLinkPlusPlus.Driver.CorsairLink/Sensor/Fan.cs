@@ -43,9 +43,9 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
             return false;
         }
 
-        public override string GetSensorType()
+        public override SensorType GetSensorType()
         {
-            return IsPWM() ? "PWM Fan" : "Fan";
+            return SensorType.Fan;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal;
+﻿using CorsairLinkPlusPlus.Common.Utility;
+using CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 {
@@ -25,9 +26,9 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             return powerDevice.ReadPowerIn();
         }
 
-        public override string GetSensorType()
+        public override SensorType GetSensorType()
         {
-            return "Power In";
+            return SensorType.Power;
         }
     }
 }
