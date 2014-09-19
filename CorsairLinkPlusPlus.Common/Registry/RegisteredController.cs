@@ -1,4 +1,5 @@
 ﻿using CorsairLinkPlusPlus.Common.Controller;
+using System;
 using System.Reflection;
 
 namespace CorsairLinkPlusPlus.Common.Registry
@@ -7,11 +8,18 @@ namespace CorsairLinkPlusPlus.Common.Registry
     {
         private string controllerName;
         private ConstructorInfo ctor;
+        private Type type;
 
-        internal RegisteredController(ConstructorInfo ctor, string name)
+        internal RegisteredController(Type type, string name)
         {
             this.controllerName = name;
-            this.ctor = ctor;
+            this.ctor = type.GetConstructor(new Type[0]);
+            this.type = type;
+        }
+
+        public Type GetControllerType()
+        {
+            return type;
         }
 
         public IController New()

@@ -13,7 +13,7 @@ namespace CorsairLinkPlusPlus.Common.Registry
                 return controllers[name];
             if (type == null)
                 throw new KeyNotFoundException();
-            RegisteredController controller = new RegisteredController(type.GetConstructor(new Type[0]), name);
+            RegisteredController controller = new RegisteredController(type, name);
             controllers.Add(name, controller);
             return controller;
         }
