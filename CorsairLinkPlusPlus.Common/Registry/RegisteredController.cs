@@ -17,9 +17,9 @@ namespace CorsairLinkPlusPlus.Common.Registry
             this.type = type;
         }
 
-        public Type GetControllerType()
+        public Type[] GetImplementedInterfaces()
         {
-            return type;
+            return type.GetInterfaces();
         }
 
         public IController New()
