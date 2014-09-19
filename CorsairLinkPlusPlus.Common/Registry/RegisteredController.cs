@@ -6,9 +6,9 @@ namespace CorsairLinkPlusPlus.Common.Registry
 {
     public class RegisteredController
     {
-        private string controllerName;
-        private ConstructorInfo ctor;
-        private Type type;
+        private readonly string controllerName;
+        private readonly ConstructorInfo ctor;
+        private readonly Type type;
 
         internal RegisteredController(Type type, string name)
         {
