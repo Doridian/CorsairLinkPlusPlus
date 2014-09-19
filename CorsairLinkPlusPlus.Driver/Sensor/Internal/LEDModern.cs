@@ -102,9 +102,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
                 SetLEDData(ledData);
             }
             else
-            {
                 SetLEDData((byte)(ledControllerID | 0x0B));
-            }
 
             SaveControllerData(controller);
         }

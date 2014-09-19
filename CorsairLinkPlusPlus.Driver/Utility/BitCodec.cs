@@ -5,29 +5,29 @@ namespace CorsairLinkPlusPlus.Driver
 {
     public static class BitCodec
     {
-        private static double ToFloat(ushort input_val)
+        private static double ToFloat(ushort inputValue)
         {
-            int _exponent = input_val >> 11;
-            int _fraction = (int)(input_val & 2047);
-            if (_exponent > 15)
-                _exponent = -(32 - _exponent);
+            int exponent = inputValue >> 11;
+            int fraction = (int)(inputValue & 2047);
+            if (exponent > 15)
+                exponent = -(32 - exponent);
 
-            if (_fraction > 1023)
-                _fraction = -(2048 - _fraction);
+            if (fraction > 1023)
+                fraction = -(2048 - fraction);
 
-            if ((_fraction & 1) == 1)
-                _fraction++;
+            if ((fraction & 1) == 1)
+                fraction++;
 
-            double _rawNumber = (double)_fraction * Math.Pow(2.0, (double)_exponent);
+            double rawNumber = (double)fraction * Math.Pow(2.0, (double)exponent);
 
-            return (double)((int)(_rawNumber * 10.0 + 0.5)) / 10.0;
+            return (double)((int)(rawNumber * 10.0 + 0.5)) / 10.0;
         }
 
-        public static double ToFloat(byte[] data, int start_index = 0)
+        public static double ToFloat(byte[] data, int startIndex = 0)
         {
             if (data == null)
                 return 0.0;
-            return ToFloat(BitConverter.ToUInt16(data, start_index));
+            return ToFloat(BitConverter.ToUInt16(data, startIndex));
         }
 
         public static byte[] FromFloat(double value, int exponent)

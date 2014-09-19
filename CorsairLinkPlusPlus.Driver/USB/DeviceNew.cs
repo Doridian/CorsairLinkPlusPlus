@@ -9,9 +9,9 @@ namespace CorsairLinkPlusPlus.Driver.USB
 
         protected override byte[] ParseResponse(byte[] response)
         {
-            byte[] _response = new byte[60];
-            Buffer.BlockCopy(response, 3, _response, 0, _response.Length);
-            return _response;
+            byte[] newResponse = new byte[60];
+            Buffer.BlockCopy(response, 3, newResponse, 0, newResponse.Length);
+            return newResponse;
         }
 
         protected override byte[] MakeCommand(byte opcode, byte channel, byte[] payload)

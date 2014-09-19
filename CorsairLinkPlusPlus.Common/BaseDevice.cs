@@ -32,9 +32,7 @@ namespace CorsairLinkPlusPlus.Common
             {
                 disabled = true;
                 foreach (BaseDevice device in GetSubDevices())
-                {
                     device.Disable();
-                }
             }
         }
 
@@ -55,9 +53,7 @@ namespace CorsairLinkPlusPlus.Common
             lock (subDeviceLock)
             {
                 foreach (BaseDevice subDevice in subDevices)
-                {
                     subDevice.Disable();
-                }
 
                 subDevices = null;
             }

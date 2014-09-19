@@ -19,14 +19,14 @@ namespace CorsairLinkPlusPlus.Driver.Controller.LED
                 this.colors[i] = new Color();
         }
 
-        public LEDColorCycleController(Color[] _colors) : this()
+        public LEDColorCycleController(Color[] colors) : this()
         {
-            CopyNumColorArray(_colors, this.colors);
+            CopyNumColorArray(colors, this.colors);
         }
 
-        public void SetCycle(Color[] _colors)
+        public void SetCycle(Color[] colors)
         {
-            CopyNumColorArray(_colors, this.colors);
+            CopyNumColorArray(colors, this.colors);
         }
 
         internal override void Apply(Sensor.BaseSensorDevice sensor)

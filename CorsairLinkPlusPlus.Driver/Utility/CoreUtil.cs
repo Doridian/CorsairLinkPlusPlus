@@ -20,8 +20,8 @@ namespace CorsairLinkPlusPlus.Driver
                 return 0;
             if (!(thermistor is Thermistor))
                 return 7;
-            Thermistor _thermistor = (Thermistor)thermistor;
-            return (byte)((sensor.device == _thermistor.device) ? _thermistor.id : 7);
+            Thermistor thermistorCast = (Thermistor)thermistor;
+            return (byte)((sensor.device == thermistorCast.device) ? thermistorCast.id : 7);
         }
 
         internal static bool DoesThermistorNeedManualPush(Sensor.BaseSensorDevice sensor, IThermistor thermistor)

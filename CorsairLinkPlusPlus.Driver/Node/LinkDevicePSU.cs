@@ -128,9 +128,7 @@ namespace CorsairLinkPlusPlus.Driver.Node
             if (secondary12VRails.Length > 0)
             {
                 for (int i = 0; i < GetPCIeRailCount(); i++)
-                {
                     ret.Add(new Secondary12VCurrentSensor(this, i, secondary12VRails[i]));
-                }
 
                 ret.Add(new Secondary12VCurrentSensor(this, secondary12VRails.Length - 2, secondary12VRails[secondary12VRails.Length - 2]));
                 ret.Add(new Secondary12VCurrentSensor(this, secondary12VRails.Length - 1, secondary12VRails[secondary12VRails.Length - 1]));

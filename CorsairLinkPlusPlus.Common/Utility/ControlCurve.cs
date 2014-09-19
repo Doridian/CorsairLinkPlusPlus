@@ -23,11 +23,6 @@ namespace CorsairLinkPlusPlus.Driver.Utility
             return points.ToList();
         }
 
-        protected float Map(float val, float min, float max, float newMin, float newMax)
-        {
-            return (val - min) / (max - min) * (newMax - newMin) + newMin;
-        }
-
         public ControlCurve<K, V> Copy()
         {
             return new ControlCurve<K, V>(points);

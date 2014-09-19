@@ -82,7 +82,11 @@ namespace CorsairLinkPlusPlus.Driver.Node.Internal
             else
                 cachedPowerIn = (BitCodec.ToFloat(retPowerIn) + (cachedCurrent * cachedVoltage)) / 2.0;
 
-            cachedEfficiency = PowerCurves.Interpolate(ref cachedPower, ref cachedPowerIn, cachedVoltage, psuDevice);
+            PowerData adjustedData = PowerCurves.Interpolate(new PowerData(cachedPowerIn, cachedPower), cachedVoltage, psuDevice);
+
+            cachedEfficiency = adjustedData.efficiency;
+            cachedPowerIn = adjustedData.powerIn;
+            cachedPower = adjustedData.powerOut;
         }
     }
 }
