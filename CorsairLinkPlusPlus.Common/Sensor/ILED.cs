@@ -1,4 +1,4 @@
-﻿using CorsairLinkPlusPlus.Driver.Utility;
+﻿using CorsairLinkPlusPlus.Common.Utility;
 
 namespace CorsairLinkPlusPlus.Common.Sensor
 {

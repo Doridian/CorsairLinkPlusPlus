@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace CorsairLinkPlusPlus.Driver.Utility
+namespace CorsairLinkPlusPlus.Common.Utility
 {
     public class ControlCurve<K, V>
     {

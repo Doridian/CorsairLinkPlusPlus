@@ -14,5 +14,6 @@ namespace CorsairLinkPlusPlus.Common
         string GetLocalDeviceID();
         string GetUDID();
         IDevice GetParent();
+        IDevice FindBySubPath(string subPath);
     }
 }

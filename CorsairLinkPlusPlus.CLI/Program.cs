@@ -1,8 +1,6 @@
 ﻿using CorsairLinkPlusPlus.Common;
 using CorsairLinkPlusPlus.Common.Controller;
 using CorsairLinkPlusPlus.Common.Sensor;
-using CorsairLinkPlusPlus.Driver.Controller.Fan;
-using CorsairLinkPlusPlus.Driver.Controller.LED;
 using System;
 using System.Collections.Generic;
 
@@ -26,12 +24,12 @@ namespace CorsairLinkPlusPlus.CLI
                     Console.Out.WriteLine(prefix + "- " + led.GetName() + " = " + led.GetValue() + " " + led.GetUnit());
                     if (ledController != null)
                         Console.Out.WriteLine(prefix + "\t" + ((ledController == null) ? "N/A" : ledController.GetType().Name));
-                    if (ledController is LEDColorCycleController)
+                    if (ledController is IFixedColorCycleController)
                     {
                         //ledController = new LEDFourColorController(new Color(255, 1, 1), new Color(1, 1, 255), new Color(255, 1, 255), new Color(255, 255, 1));
                         //ledController = new LEDSingleColorController(new Color(255, 1, 1));
                         //controllableLED.SetController(ledController);
-                        Console.Out.WriteLine(prefix + "\t\t" + ((LEDColorCycleController)ledController).GetCycle()[0].ToString());
+                        Console.Out.WriteLine(prefix + "\t\t" + ((IFixedColorCycleController)ledController).GetCycle()[0].ToString());
                     }
                 }
                 else if(device is IFan && device is IControllableSensor)
@@ -41,16 +39,16 @@ namespace CorsairLinkPlusPlus.CLI
 
                     if (fan.GetParent().GetName().Contains("Commander Mini"))
                     {
-                        controllableFan.SetController(new FanFixedPercentController(40));
+                        controllableFan.SetController(new CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan.FanFixedPercentController(40));
                     }
 
                     IController fanController = controllableFan.GetController();
                     Console.Out.WriteLine(prefix + "- " + fan.GetName() + " = " + fan.GetValue() + " " + fan.GetUnit());
                     if (fanController != null)
                         Console.Out.WriteLine(prefix + "\t" + ((fanController == null) ? "N/A" : fanController.GetType().Name));
-                    if(fanController is FanCurveController)
+                    if(fanController is ICurveNumberController)
                     {
-                        Console.Out.WriteLine(prefix + "\t\t" + ((FanCurveController)fanController).GetCurve().ToString().Replace("}, {", "}\r\n" + prefix + "\t\t{"));
+                        Console.Out.WriteLine(prefix + "\t\t" + ((ICurveNumberController)fanController).GetCurve().ToString().Replace("}, {", "}\r\n" + prefix + "\t\t{"));
                     }
                 }
                 else
@@ -72,7 +70,7 @@ namespace CorsairLinkPlusPlus.CLI
 
         static void Main(string[] args)
         {
-            PrintSensorsAndSubDevices(CorsairLinkPlusPlus.Driver.USB.RootDevice.GetInstance(), "");
+            PrintSensorsAndSubDevices(CorsairLinkPlusPlus.Driver.CorsairLink.USB.RootDevice.GetInstance(), "");
 
             Console.Out.WriteLine();
             Console.Out.WriteLine("---DONE---");

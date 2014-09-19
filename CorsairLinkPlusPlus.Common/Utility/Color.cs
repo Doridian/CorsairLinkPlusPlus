@@ -1,5 +1,5 @@
 ﻿
-namespace CorsairLinkPlusPlus.Driver.Utility
+namespace CorsairLinkPlusPlus.Common.Utility
 {
     public struct Color
     {

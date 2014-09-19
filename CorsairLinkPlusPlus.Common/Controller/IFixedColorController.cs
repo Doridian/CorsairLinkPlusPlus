@@ -1,9 +1,4 @@
-﻿using CorsairLinkPlusPlus.Driver.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CorsairLinkPlusPlus.Common.Utility;
 
 namespace CorsairLinkPlusPlus.Common.Controller
 {

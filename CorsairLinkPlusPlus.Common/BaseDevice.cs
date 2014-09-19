@@ -20,6 +20,35 @@ namespace CorsairLinkPlusPlus.Common
             return true;
         }
 
+        public IDevice FindBySubPath(string subPath)
+        {
+            int slashIdx = subPath.IndexOf('/');
+            string nextPath;
+            if (slashIdx < 0)
+            {
+                nextPath = subPath;
+                subPath = null;
+            }
+            else
+            {
+                nextPath = subPath.Substring(0, slashIdx);
+                subPath = subPath.Substring(slashIdx + 1);
+            }
+
+            foreach(IDevice device in GetSubDevices())
+            {
+                if(device.GetLocalDeviceID() == nextPath)
+                {
+                    if(subPath == null)
+                        return device;
+                    else
+                        return device.FindBySubPath(subPath);
+                }
+            }
+
+            return null;
+        }
+
         protected void DisabledCheck()
         {
             if (disabled)
