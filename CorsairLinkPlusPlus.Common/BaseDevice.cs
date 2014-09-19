@@ -39,7 +39,7 @@ namespace CorsairLinkPlusPlus.Common
             {
                 if(device.GetLocalDeviceID() == nextPath)
                 {
-                    if(subPath == null)
+                    if(string.IsNullOrEmpty(subPath))
                         return device;
                     else
                         return device.FindBySubPath(subPath);

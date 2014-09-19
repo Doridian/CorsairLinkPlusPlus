@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorsairLinkPlusPlus.Common"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorsairLinkPlusPlus.Driver.CorsairLink", "CorsairLinkPlusPlus.Driver.CorsairLink\CorsairLinkPlusPlus.Driver.CorsairLink.csproj", "{32629BC9-7F51-45D7-B756-379E626A5180}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorsairLinkPlusPlus.RESTAPI", "CorsairLinkPlusPlus.RESTAPI\CorsairLinkPlusPlus.RESTAPI.csproj", "{F659D845-36C0-4CB0-9F57-4D84C55A261F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{32629BC9-7F51-45D7-B756-379E626A5180}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32629BC9-7F51-45D7-B756-379E626A5180}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32629BC9-7F51-45D7-B756-379E626A5180}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F659D845-36C0-4CB0-9F57-4D84C55A261F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F659D845-36C0-4CB0-9F57-4D84C55A261F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F659D845-36C0-4CB0-9F57-4D84C55A261F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F659D845-36C0-4CB0-9F57-4D84C55A261F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
