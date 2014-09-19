@@ -1,8 +1,9 @@
-﻿using CorsairLinkPlusPlus.Driver.Utility;
+﻿using CorsairLinkPlusPlus.Common.Controller;
+using CorsairLinkPlusPlus.Driver.Utility;
 
 namespace CorsairLinkPlusPlus.Driver.Controller.LED
 {
-    public class LEDSingleColorController : LEDColorCycleController
+    public class LEDSingleColorController : LEDColorCycleController, IFixedColorController
     {
         public LEDSingleColorController()
         {
@@ -19,6 +20,16 @@ namespace CorsairLinkPlusPlus.Driver.Controller.LED
         public override byte GetLEDModernControllerID()
         {
             return 0x00;
+        }
+
+        public void SetValue(Color value)
+        {
+            SetColors(new Color[] { value });
+        }
+
+        public Color GetValue()
+        {
+            return GetColors()[0];
         }
     }
 }

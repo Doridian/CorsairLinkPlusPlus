@@ -1,24 +1,26 @@
-﻿using CorsairLinkPlusPlus.Driver.Sensor;
+﻿using CorsairLinkPlusPlus.Common.Controller;
+using CorsairLinkPlusPlus.Driver.Sensor;
 using System;
 
 namespace CorsairLinkPlusPlus.Driver.Controller.Fan
 {
-    public class FanFixedRPMController : ControllerBase, FanController
+    public class FanFixedRPMController : ControllerBase, FanController, IFixedNumberController
     {
-        private int rpm;
+        private double rpm;
 
         public FanFixedRPMController() { }
 
-        public FanFixedRPMController(int rpm)
+        public FanFixedRPMController(double rpm)
         {
-            SetRPM(rpm);
+            SetValue(rpm);
         }
 
-        public void SetRPM(int rpm)
+        public void SetValue(double rpm)
         {
             this.rpm = rpm;
         }
-        public int GetRPM()
+
+        public double GetValue()
         {
             return rpm;
         }
@@ -27,7 +29,7 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
         {
             if (!(sensor is Sensor.Fan))
                 throw new ArgumentException();
-            ((Sensor.Fan)sensor).SetFixedRPM(rpm);
+            ((Sensor.Fan)sensor).SetFixedRPM((int)rpm);
         }
 
         internal override void Refresh(Sensor.BaseSensorDevice sensor)
@@ -42,7 +44,7 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
 
         public void AssignFrom(Sensor.Fan fan)
         {
-            SetRPM(fan.GetFixedRPM());
+            SetValue(fan.GetFixedRPM());
         }
     }
 }

@@ -5,7 +5,7 @@ namespace CorsairLinkPlusPlus.Driver
 {
     public static class BitCodec
     {
-        public static double ToFloat(ushort input_val)
+        private static double ToFloat(ushort input_val)
         {
             int _exponent = input_val >> 11;
             int _fraction = (int)(input_val & 2047);

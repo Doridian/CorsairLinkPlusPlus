@@ -40,6 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\IController.cs" />
+    <Compile Include="Controller\IFixedColorController.cs" />
+    <Compile Include="Controller\IFixedNumberController.cs" />
+    <Compile Include="Controller\IFixedValueController.cs" />
     <Compile Include="IDevice.cs" />
     <Compile Include="BaseDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

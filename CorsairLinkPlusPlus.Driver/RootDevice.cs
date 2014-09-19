@@ -14,7 +14,7 @@ namespace CorsairLinkPlusPlus.Driver.USB
         const int PID_CORSAIR_BOOTLOADER = 0x0C01;
         const int PID_CORSAIR_MODERN = 0x0C04;
 
-        internal static readonly Mutex usbGlobalMutex = new Mutex(true, "Access_CorsairLink");
+        internal static readonly Mutex usbGlobalMutex = new Mutex(false, "Global\\Access_CorsairLink");
 
         private RootDevice() : base(null)
         {
