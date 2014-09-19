@@ -4,28 +4,23 @@ using System.Text;
 
 namespace CorsairLinkPlusPlus.Driver.Utility
 {
-    public class ControlCurve<T>
+    public class ControlCurve<K, V>
     {
-        protected List<CurvePoint<T>> points;
+        protected List<CurvePoint<K, V>> points;
 
-        public ControlCurve(params CurvePoint<T>[] points)
+        public ControlCurve(params CurvePoint<K, V>[] points)
         {
-            this.points = points.ToList<CurvePoint<T>>();
+            this.points = points.ToList<CurvePoint<K, V>>();
         }
 
-        public ControlCurve(List<CurvePoint<T>> points)
+        public ControlCurve(List<CurvePoint<K, V>> points)
         {
             this.points = points.ToList();
         }
 
-        public List<CurvePoint<T>> GetPoints()
+        public List<CurvePoint<K, V>> GetPoints()
         {
             return points.ToList();
-        }
-
-        protected bool BetweenPoints(CurvePoint<T> a, CurvePoint<T> b, int x)
-        {
-            return x >= a.x && x <= b.x;
         }
 
         protected float Map(float val, float min, float max, float newMin, float newMax)
@@ -33,15 +28,15 @@ namespace CorsairLinkPlusPlus.Driver.Utility
             return (val - min) / (max - min) * (newMax - newMin) + newMin;
         }
 
-        public ControlCurve<T> Copy()
+        public ControlCurve<K, V> Copy()
         {
-            return new ControlCurve<T>(points);
+            return new ControlCurve<K, V>(points);
         }
 
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            foreach (CurvePoint<T> point in points)
+            foreach (CurvePoint<K, V> point in points)
                 builder.Append(point).Append(", ");
             return builder.ToString();
         }

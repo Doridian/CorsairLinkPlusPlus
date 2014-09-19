@@ -24,12 +24,12 @@ namespace CorsairLinkPlusPlus.Driver.Controller.LED
 
         public void SetValue(Color value)
         {
-            SetColors(new Color[] { value });
+            SetCycle(new Color[] { value });
         }
 
         public Color GetValue()
         {
-            return GetColors()[0];
+            return GetCycle()[0];
         }
     }
 }

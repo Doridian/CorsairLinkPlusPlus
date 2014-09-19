@@ -31,9 +31,9 @@ namespace CorsairLinkPlusPlus.Driver.Sensor
 
         internal abstract void SetFixedRGBCycleColors(byte[] colors);
 
-        internal abstract ControlCurve<Color> GetControlCurve();
+        internal abstract ControlCurve<double, Color> GetControlCurve();
 
-        internal abstract void SetControlCurve(ControlCurve<Color> colors);
+        internal abstract void SetControlCurve(ControlCurve<double, Color> colors);
 
         public byte[] GetRGB()
         {

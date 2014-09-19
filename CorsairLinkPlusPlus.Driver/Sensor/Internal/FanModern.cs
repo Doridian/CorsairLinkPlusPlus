@@ -1,4 +1,5 @@
 ﻿using CorsairLinkPlusPlus.Common.Controller;
+using CorsairLinkPlusPlus.Common.Sensor;
 using CorsairLinkPlusPlus.Driver.Controller;
 using CorsairLinkPlusPlus.Driver.Controller.Fan;
 using CorsairLinkPlusPlus.Driver.Node;
@@ -79,7 +80,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             return FanDataBitSet(0);
         }
 
-        public void SetTemperatureSensor(Thermistor thermistor)
+        public void SetTemperatureSensor(IThermistor thermistor)
         {
             DisabledCheck();
 
@@ -141,7 +142,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             return controller;
         }
 
-        internal override void SetFixedRPM(int fixedRPM)
+        internal override void SetFixedRPM(double fixedRPM)
         {
             DisabledCheck();
 
@@ -151,7 +152,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             RootDevice.usbGlobalMutex.ReleaseMutex();
         }
 
-        internal override void SetFixedPercent(int percent)
+        internal override void SetFixedPercent(double percent)
         {
             DisabledCheck();
 
@@ -163,7 +164,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             RootDevice.usbGlobalMutex.ReleaseMutex();
         }
 
-        internal override int GetFixedPercent()
+        internal override double GetFixedPercent()
         {
             DisabledCheck();
 
@@ -177,7 +178,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             return (short)(percentB / 2.55);
         }
 
-        internal override int GetFixedRPM()
+        internal override double GetFixedRPM()
         {
             DisabledCheck();
 
@@ -191,7 +192,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             return BitConverter.ToInt16(rpmB, 0);
         }
 
-        internal override ControlCurve<int> GetControlCurve()
+        internal override ControlCurve<double, double> GetControlCurve()
         {
             DisabledCheck();
 
@@ -203,19 +204,19 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             rpmTable = modernDevice.ReadRegister(0x19, 10);
             RootDevice.usbGlobalMutex.ReleaseMutex();
 
-            List<CurvePoint<int>> points = new List<CurvePoint<int>>();
+            List<CurvePoint<double, double>> points = new List<CurvePoint<double, double>>();
 
             for (int i = 0; i < 10; i += 2)
-                points.Add(new CurvePoint<int>(BitConverter.ToInt16(tempTable, i) / 256, BitConverter.ToInt16(rpmTable, i)));
+                points.Add(new CurvePoint<double, double>(BitConverter.ToInt16(tempTable, i) / 256, BitConverter.ToInt16(rpmTable, i)));
 
-            return new ControlCurve<int>(points);
+            return new ControlCurve<double, double>(points);
         }
 
-        internal override void SetControlCurve(ControlCurve<int> curve)
+        internal override void SetControlCurve(ControlCurve<double, double> curve)
         {
             DisabledCheck();
 
-            List<CurvePoint<int>> points = curve.GetPoints();
+            List<CurvePoint<double, double>> points = curve.GetPoints();
             if (points.Count != 5)
                 throw new ArgumentException();
 
@@ -224,7 +225,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 
             for (int i = 0; i < 10; i += 2)
             {
-                CurvePoint<int> point = points[i / 2];
+                CurvePoint<double, double> point = points[i / 2];
                 Buffer.BlockCopy(BitConverter.GetBytes((short)(point.x * 256)), 0, tempTable, i, 2);
                 Buffer.BlockCopy(BitConverter.GetBytes((short)point.y), 0, rpmTable, i, 2);
             }
@@ -236,7 +237,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             RootDevice.usbGlobalMutex.ReleaseMutex();
         }
 
-        public Thermistor GetTemperatureSensor()
+        public IThermistor GetTemperatureSensor()
         {
             DisabledCheck();
 
@@ -246,7 +247,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             return modernDevice.GetThermistor(idx);
         }
 
-        internal override void SetMinimalRPM(int rpm)
+        internal override void SetMinimalRPM(double rpm)
         {
             DisabledCheck();
 
@@ -256,7 +257,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             RootDevice.usbGlobalMutex.ReleaseMutex();
         }
 
-        internal override int GetMinimalRPM()
+        internal override double GetMinimalRPM()
         {
             DisabledCheck();
 

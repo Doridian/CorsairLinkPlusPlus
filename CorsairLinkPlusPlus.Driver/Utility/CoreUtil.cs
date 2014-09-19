@@ -1,4 +1,5 @@
-﻿using CorsairLinkPlusPlus.Driver.Sensor;
+﻿using CorsairLinkPlusPlus.Common.Sensor;
+using CorsairLinkPlusPlus.Driver.Sensor;
 using System.Text;
 
 namespace CorsairLinkPlusPlus.Driver
@@ -13,16 +14,20 @@ namespace CorsairLinkPlusPlus.Driver
             return hex.ToString();
         }
 
-        internal static byte GetRelativeThermistorByte(Sensor.BaseSensorDevice sensor, Thermistor thermistor)
+        internal static byte GetRelativeThermistorByte(Sensor.BaseSensorDevice sensor, IThermistor thermistor)
         {
             if (thermistor == null)
                 return 0;
-            return (byte)((sensor.device == thermistor.device) ? thermistor.id : 7);
+            if (!(thermistor is Thermistor))
+                return 7;
+            Thermistor _thermistor = (Thermistor)thermistor;
+            return (byte)((sensor.device == _thermistor.device) ? _thermistor.id : 7);
         }
 
-        internal static bool DoesThermistorNeedManualPush(Sensor.BaseSensorDevice sensor, Thermistor thermistor)
+        internal static bool DoesThermistorNeedManualPush(Sensor.BaseSensorDevice sensor, IThermistor thermistor)
         {
             return GetRelativeThermistorByte(sensor, thermistor) == 7;
         }
     }
 }
+

@@ -40,9 +40,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\IController.cs" />
+    <Compile Include="Controller\ICurveColorController.cs" />
+    <Compile Include="Controller\ICurveNumberController.cs" />
     <Compile Include="Controller\IFixedColorController.cs" />
+    <Compile Include="Controller\IFixedColorCycleController.cs" />
+    <Compile Include="Controller\IFixedCycleController.cs" />
     <Compile Include="Controller\IFixedNumberController.cs" />
+    <Compile Include="Controller\ICurveController.cs" />
     <Compile Include="Controller\IFixedValueController.cs" />
+    <Compile Include="Controller\ITemperatureDependantController.cs" />
     <Compile Include="IDevice.cs" />
     <Compile Include="BaseDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,19 +3,20 @@ using CorsairLinkPlusPlus.Driver.Controller;
 using System;
 using System.IO;
 using CorsairLinkPlusPlus.Driver.Sensor;
+using CorsairLinkPlusPlus.Common.Controller;
 
 namespace CorsairLinkPlusPlus.Driver.Controller.LED
 {
-    public class LEDTemperatureController : TemperatureDependantControllerBase, LEDController
+    public class LEDTemperatureController : TemperatureDependantControllerBase, LEDController, ICurveColorController
     {
-        protected ControlCurve<Color> curve;
+        protected ControlCurve<double, Color> curve;
 
         public LEDTemperatureController()
         {
 
         }
 
-        public LEDTemperatureController(ControlCurve<Color> colors)
+        public LEDTemperatureController(ControlCurve<double, Color> colors)
         {
             SetCurve(colors);
         }
@@ -29,12 +30,12 @@ namespace CorsairLinkPlusPlus.Driver.Controller.LED
             ((Sensor.LED)sensor).SetControlCurve(curve);
         }
 
-        public void SetCurve(ControlCurve<Color> colors)
+        public void SetCurve(ControlCurve<double, Color> colors)
         {
             curve = colors;
         }
 
-        public ControlCurve<Color> GetCurve()
+        public ControlCurve<double, Color> GetCurve()
         {
             return curve.Copy();
         }

@@ -1,9 +1,11 @@
-﻿using CorsairLinkPlusPlus.Driver.Sensor;
+﻿using CorsairLinkPlusPlus.Common.Controller;
+using CorsairLinkPlusPlus.Driver.Sensor;
 using CorsairLinkPlusPlus.Driver.Utility;
+using System;
 
 namespace CorsairLinkPlusPlus.Driver.Controller.Fan
 {
-    public abstract class FanCurveController : TemperatureDependantControllerBase, FanController
+    public abstract class FanCurveController : TemperatureDependantControllerBase, FanController, ICurveNumberController
     {
         public FanCurveController()
         {
@@ -20,13 +22,18 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
             curve = GetDefaultPoints().Copy();
         }
 
-        public abstract ControlCurve<int> GetDefaultPoints();
+        public abstract ControlCurve<double, double> GetDefaultPoints();
 
-        protected ControlCurve<int> curve;
+        protected ControlCurve<double, double> curve;
 
-        public ControlCurve<int> GetCurve()
+        public ControlCurve<double, double> GetCurve()
         {
             return curve.Copy();
+        }
+
+        public virtual void SetCurve(ControlCurve<double, double> curve)
+        {
+            throw new InvalidOperationException();
         }
 
         public virtual void AssignFrom(Sensor.Fan fan)

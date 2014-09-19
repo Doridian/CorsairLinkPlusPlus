@@ -29,7 +29,7 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
         {
             if (!(sensor is Sensor.Fan))
                 throw new ArgumentException();
-            ((Sensor.Fan)sensor).SetFixedPercent((int)percent);
+            ((Sensor.Fan)sensor).SetFixedPercent(percent);
         }
 
         internal override void Refresh(Sensor.BaseSensorDevice sensor)

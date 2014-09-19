@@ -1,22 +1,29 @@
-﻿using CorsairLinkPlusPlus.Driver.Sensor;
+﻿using CorsairLinkPlusPlus.Common.Controller;
+using CorsairLinkPlusPlus.Common.Sensor;
+using CorsairLinkPlusPlus.Driver.Sensor;
 using System;
 
 namespace CorsairLinkPlusPlus.Driver.Controller
 {
-    public class TemperatureDependantControllerBase : ControllerBase
+    public class TemperatureDependantControllerBase : ControllerBase, ITemperatureDependantController
     {
-        private Thermistor thermistor;
+        private IThermistor thermistor;
 
         public TemperatureDependantControllerBase() { }
 
-        public TemperatureDependantControllerBase(Thermistor thermistor)
+        public TemperatureDependantControllerBase(IThermistor thermistor)
         {
             SetThermistor(thermistor);
         }
 
-        public void SetThermistor(Thermistor thermistor)
+        public void SetThermistor(IThermistor thermistor)
         {
             this.thermistor = thermistor;
+        }
+
+        public IThermistor GetThermistor()
+        {
+            return this.thermistor;
         }
 
         internal virtual double GetTemperature()

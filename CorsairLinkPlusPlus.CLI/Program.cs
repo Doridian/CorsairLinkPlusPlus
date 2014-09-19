@@ -31,7 +31,7 @@ namespace CorsairLinkPlusPlus.CLI
                         //ledController = new LEDFourColorController(new Color(255, 1, 1), new Color(1, 1, 255), new Color(255, 1, 255), new Color(255, 255, 1));
                         //ledController = new LEDSingleColorController(new Color(255, 1, 1));
                         //controllableLED.SetController(ledController);
-                        Console.Out.WriteLine(prefix + "\t\t" + ((LEDColorCycleController)ledController).GetColors()[0].ToString());
+                        Console.Out.WriteLine(prefix + "\t\t" + ((LEDColorCycleController)ledController).GetCycle()[0].ToString());
                     }
                 }
                 else if(device is IFan && device is IControllableSensor)

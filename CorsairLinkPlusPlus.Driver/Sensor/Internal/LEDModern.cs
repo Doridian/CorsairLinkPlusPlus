@@ -1,4 +1,5 @@
 ﻿using CorsairLinkPlusPlus.Common.Controller;
+using CorsairLinkPlusPlus.Common.Sensor;
 using CorsairLinkPlusPlus.Driver.Controller;
 using CorsairLinkPlusPlus.Driver.Controller.LED;
 using CorsairLinkPlusPlus.Driver.Node;
@@ -58,7 +59,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             Refresh(true);
         }
 
-        public void SetTemperatureSensor(Thermistor thermistor)
+        public void SetTemperatureSensor(IThermistor thermistor)
         {
             DisabledCheck();
 
@@ -153,7 +154,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             return (byte)cachedLEDData;
         }
 
-        public Thermistor GetTemperatureSensor()
+        public IThermistor GetTemperatureSensor()
         {
             DisabledCheck();
 
@@ -195,7 +196,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             RootDevice.usbGlobalMutex.ReleaseMutex();
         }
 
-        internal override ControlCurve<Color> GetControlCurve()
+        internal override ControlCurve<double, Color> GetControlCurve()
         {
             byte[] tempTable, colorTable;
 
@@ -205,20 +206,20 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             colorTable = modernDevice.ReadRegister(0x0A, 9);
             RootDevice.usbGlobalMutex.ReleaseMutex();
 
-            List<CurvePoint<Color>> points = new List<CurvePoint<Color>>();
+            List<CurvePoint<double, Color>> points = new List<CurvePoint<double, Color>>();
 
             for (int i = 0; i < 3; i++)
             {
                 int j = i * 3;
-                points.Add(new CurvePoint<Color>(BitConverter.ToInt16(tempTable, i * 2) / 256, new Color(colorTable[j], colorTable[j + 1], colorTable[j + 2])));
+                points.Add(new CurvePoint<double, Color>(BitConverter.ToInt16(tempTable, i * 2) / 256.0, new Color(colorTable[j], colorTable[j + 1], colorTable[j + 2])));
             }
 
-            return new ControlCurve<Color>(points);
+            return new ControlCurve<double, Color>(points);
         }
 
-        internal override void SetControlCurve(ControlCurve<Color> curve)
+        internal override void SetControlCurve(ControlCurve<double, Color> curve)
         {
-            List<CurvePoint<Color>> points = curve.GetPoints();
+            List<CurvePoint<double, Color>> points = curve.GetPoints();
             if (points.Count != 3)
                 throw new ArgumentException();
 
@@ -227,7 +228,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
 
             for(int i = 0; i < 3; i++)
             {
-                CurvePoint<Color> point = points[i];
+                CurvePoint<double, Color> point = points[i];
                 Buffer.BlockCopy(BitConverter.GetBytes((short)(point.x * 256)), 0, tempTable, i, 2);
                 Buffer.BlockCopy(point.y.ToArray(), 0, colorTable, i, 2);
             }

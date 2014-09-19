@@ -2,10 +2,12 @@
 using CorsairLinkPlusPlus.Driver.Controller;
 using System;
 using System.IO;
+using CorsairLinkPlusPlus.Common.Controller;
+using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.Controller.LED
 {
-    public abstract class LEDColorCycleController : ControllerBase, LEDController
+    public abstract class LEDColorCycleController : ControllerBase, LEDController, IFixedColorCycleController
     {
         private readonly Color[] colors;
 
@@ -22,7 +24,7 @@ namespace CorsairLinkPlusPlus.Driver.Controller.LED
             CopyNumColorArray(_colors, this.colors);
         }
 
-        public void SetColors(Color[] _colors)
+        public void SetCycle(Color[] _colors)
         {
             CopyNumColorArray(_colors, this.colors);
         }
@@ -41,7 +43,7 @@ namespace CorsairLinkPlusPlus.Driver.Controller.LED
             ((Sensor.LED)sensor).SetFixedRGBCycleColors(stream.ToArray());
         }
 
-        public Color[] GetColors()
+        public Color[] GetCycle()
         {
             Color[] ret = new Color[GetNumColors()];
             CopyNumColorArray(this.colors, ret);

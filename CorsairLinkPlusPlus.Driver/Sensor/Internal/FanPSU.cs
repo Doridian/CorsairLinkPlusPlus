@@ -25,7 +25,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             return BitCodec.ToFloat(device.ReadRegister(0x90, 2), 0);
         }
 
-        internal override void SetFixedPercent(int percent)
+        internal override void SetFixedPercent(double percent)
         {
             DisabledCheck();
 
@@ -34,7 +34,7 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             device.WriteSingleByteRegister(0x3B, (byte)percent);
         }
 
-        internal override int GetFixedPercent()
+        internal override double GetFixedPercent()
         {
             DisabledCheck();
 
@@ -82,32 +82,32 @@ namespace CorsairLinkPlusPlus.Driver.Sensor.Internal
             return controller;
         }
 
-        internal override int GetFixedRPM()
+        internal override double GetFixedRPM()
         {
             throw new NotImplementedException();
         }
 
-        internal override void SetFixedRPM(int rpm)
+        internal override void SetFixedRPM(double rpm)
         {
             throw new NotImplementedException();
         }
 
-        internal override ControlCurve<int> GetControlCurve()
+        internal override ControlCurve<double, double> GetControlCurve()
         {
             throw new NotImplementedException();
         }
 
-        internal override void SetControlCurve(ControlCurve<int> curve)
+        internal override void SetControlCurve(ControlCurve<double, double> curve)
         {
             throw new NotImplementedException();
         }
 
-        internal override void SetMinimalRPM(int rpm)
+        internal override void SetMinimalRPM(double rpm)
         {
             throw new NotImplementedException();
         }
 
-        internal override int GetMinimalRPM()
+        internal override double GetMinimalRPM()
         {
             DisabledCheck();
 

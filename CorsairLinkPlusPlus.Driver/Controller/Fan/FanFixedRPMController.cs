@@ -29,7 +29,7 @@ namespace CorsairLinkPlusPlus.Driver.Controller.Fan
         {
             if (!(sensor is Sensor.Fan))
                 throw new ArgumentException();
-            ((Sensor.Fan)sensor).SetFixedRPM((int)rpm);
+            ((Sensor.Fan)sensor).SetFixedRPM(rpm);
         }
 
         internal override void Refresh(Sensor.BaseSensorDevice sensor)
