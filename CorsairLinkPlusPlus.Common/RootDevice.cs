@@ -34,6 +34,21 @@ namespace CorsairLinkPlusPlus.Common
             return instance;
         }
 
+        public static IDevice FindDeviceByPath(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return GetInstance();
+
+            if (path[0] == '/')
+            {
+                if (path.Length == 1)
+                    return GetInstance();
+                path = path.Substring(1);
+            }
+
+            return GetInstance().FindBySubPath(path);
+        }
+
         private RootDevice()
             : base(null)
         {
