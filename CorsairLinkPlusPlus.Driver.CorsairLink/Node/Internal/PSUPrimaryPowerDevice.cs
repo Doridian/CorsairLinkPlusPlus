@@ -59,12 +59,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
         {
             byte[] retVoltage, retCurrent, retPower;
 
-            RootDevice.usbGlobalMutex.WaitOne();
+            CorsairRootDevice.usbGlobalMutex.WaitOne();
             SetPage();
             retVoltage = ReadRegister(0x8B, 2);
             retCurrent = ReadRegister(0x8C, 2);
             retPower = ReadRegister(0x96, 2);
-            RootDevice.usbGlobalMutex.ReleaseMutex();
+            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
 
             cachedVoltage = BitCodec.ToFloat(retVoltage);
             cachedCurrent = BitCodec.ToFloat(retCurrent);

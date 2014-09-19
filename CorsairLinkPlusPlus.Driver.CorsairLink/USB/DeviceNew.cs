@@ -5,7 +5,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 {
 	public abstract class DeviceNew : BaseUSBDevice
     {
-        internal DeviceNew(RootDevice root, HidDevice hidDevice) : base(root, hidDevice) { }
+        internal DeviceNew(CorsairRootDevice root, HidDevice hidDevice) : base(root, hidDevice) { }
 
         protected override byte[] ParseResponse(byte[] response)
         {

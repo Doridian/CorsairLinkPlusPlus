@@ -1,4 +1,5 @@
-﻿using CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan;
+﻿using CorsairLinkPlusPlus.Common.Registry;
+using CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Sensor;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Registry
     {
         private static Dictionary<byte, ConstructorInfo> fanControllers;
 
-        static FanControllerRegistry()
+        internal static void Initialize()
         {
             fanControllers = new Dictionary<byte, ConstructorInfo>();
-            foreach(Type type in GetSubtypesInNamespace("CorsairLinkPlusPlus.Driver.Controller.Fan"))
+            foreach(Type type in GetSubtypesInNamespace(Assembly.GetExecutingAssembly(), "CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan"))
             {
                 FanController tempInstance = ConstructObjectForInspection(type);
                 fanControllers.Add(tempInstance.GetFanModernControllerID(), type.GetConstructor(new Type[0]));
+                ControllerRegistry.Get("CorsairLink." + type.Name, type);
             }
         }
 
@@ -24,7 +26,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Registry
         {
             if (!fanControllers.ContainsKey(modernTypeID))
                 return null;
-            FanController fanController = (FanController)fanControllers[modernTypeID].Invoke(new object[0]);
+            FanController fanController = (FanController)fanControllers[modernTypeID].Invoke(null);
             fanController.AssignFrom(fan);
             return fanController;
         }

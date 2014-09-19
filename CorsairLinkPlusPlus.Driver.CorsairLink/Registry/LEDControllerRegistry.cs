@@ -1,4 +1,5 @@
-﻿using CorsairLinkPlusPlus.Driver.CorsairLink.Controller.LED;
+﻿using CorsairLinkPlusPlus.Common.Registry;
+using CorsairLinkPlusPlus.Driver.CorsairLink.Controller.LED;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Sensor;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Registry
     {
         private static Dictionary<byte, ConstructorInfo> ledControllers;
 
-        static LEDControllerRegistry()
+        internal static void Initialize()
         {
             ledControllers = new Dictionary<byte, ConstructorInfo>();
-            foreach(Type type in GetSubtypesInNamespace("CorsairLinkPlusPlus.Driver.Controller.LED"))
+            foreach (Type type in GetSubtypesInNamespace(Assembly.GetExecutingAssembly(), "CorsairLinkPlusPlus.Driver.CorsairLink.Controller.LED"))
             {
                 LEDController tempInstance = ConstructObjectForInspection(type);
                 ledControllers.Add(tempInstance.GetLEDModernControllerID(), type.GetConstructor(new Type[0]));
+                ControllerRegistry.Get("CorsairLink." + type.Name, type);
             }
         }
 

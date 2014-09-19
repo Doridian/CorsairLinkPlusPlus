@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace CorsairLinkPlusPlus.Driver.CorsairLink.Registry
+namespace CorsairLinkPlusPlus.Common.Registry
 {
     public class RegistryBase<T>
     {
@@ -13,11 +13,10 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Registry
             return (T)System.Runtime.Serialization.FormatterServices.GetUninitializedObject(type);
         }
 
-        protected static List<Type> GetSubtypesInNamespace(string namespaceName)
+        protected static List<Type> GetSubtypesInNamespace(Assembly asm, string namespaceName)
         {
             List<Type> types = new List<Type>();
-            Assembly asm = Assembly.GetCallingAssembly();
-            foreach(Type type in asm.GetExportedTypes())
+            foreach (Type type in asm.GetTypes())
                 if (!type.IsInterface && !type.IsAbstract && type.Namespace == namespaceName && typeof(T).IsAssignableFrom(type))
                     types.Add(type);
 

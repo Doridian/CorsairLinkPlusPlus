@@ -1,4 +1,5 @@
 ﻿using CorsairLinkPlusPlus.Common.Controller;
+using CorsairLinkPlusPlus.Common.Registry;
 using CorsairLinkPlusPlus.Common.Sensor;
 using CorsairLinkPlusPlus.Common.Utility;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Controller;
@@ -6,6 +7,7 @@ using CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Node;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Utility;
 using System;
+using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 {
@@ -113,6 +115,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             DisabledCheck();
 
             return 0;
+        }
+
+        public IEnumerable<RegisteredController> GetValidControllers()
+        {
+            return new RegisteredController[] {
+                ControllerRegistry.Get("CorsairLink.FanDefaultController"),
+                ControllerRegistry.Get("CorsairLink.FanFixedPercentController"),
+            };
         }
     }
 }

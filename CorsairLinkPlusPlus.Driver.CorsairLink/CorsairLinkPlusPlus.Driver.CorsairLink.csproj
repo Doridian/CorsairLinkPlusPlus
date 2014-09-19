@@ -87,7 +87,6 @@
     <Compile Include="Node\LinkDeviceModern.cs" />
     <Compile Include="Registry\LEDControllerRegistry.cs" />
     <Compile Include="Registry\FanControllerRegistry.cs" />
-    <Compile Include="Registry\RegistryBase.cs" />
     <Compile Include="Sensor\LED.cs" />
     <Compile Include="Sensor\PowerSensor.cs" />
     <Compile Include="Sensor\Cooler.cs" />

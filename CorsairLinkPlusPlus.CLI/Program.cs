@@ -1,5 +1,6 @@
 ﻿using CorsairLinkPlusPlus.Common;
 using CorsairLinkPlusPlus.Common.Controller;
+using CorsairLinkPlusPlus.Common.Registry;
 using CorsairLinkPlusPlus.Common.Sensor;
 using CorsairLinkPlusPlus.Common.Utility;
 using System;
@@ -40,7 +41,9 @@ namespace CorsairLinkPlusPlus.CLI
 
                     if (fan.GetParent().GetName().Contains("Commander Mini"))
                     {
-                        controllableFan.SetController(new CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan.FanFixedPercentController(40));
+                        IFixedNumberController _fanController = (IFixedNumberController)ControllerRegistry.Get("CorsairLink.FanFixedPercentController").New();
+                        _fanController.SetValue(40);
+                        controllableFan.SetController(_fanController);
                     }
 
                     IController fanController = controllableFan.GetController();
@@ -71,7 +74,7 @@ namespace CorsairLinkPlusPlus.CLI
 
         static void Main(string[] args)
         {
-            PrintSensorsAndSubDevices(CorsairLinkPlusPlus.Driver.CorsairLink.USB.RootDevice.GetInstance(), "");
+            PrintSensorsAndSubDevices(RootDevice.GetInstance(), "");
 
             Console.Out.WriteLine();
             Console.Out.WriteLine("---DONE---");

@@ -11,7 +11,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
         private readonly HidDevice hidDevice;
         protected int commandNo = 20;
 
-        internal BaseUSBDevice(RootDevice root, HidDevice hidDevice) : base(root)
+        internal BaseUSBDevice(CorsairRootDevice root, HidDevice hidDevice)
+            : base(root)
         {
             this.hidDevice = hidDevice;
         }
@@ -145,10 +146,10 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
             HidDeviceData response;
             command = MakeCommand(opcode, channel, command);
 
-            RootDevice.usbGlobalMutex.WaitOne();
+            CorsairRootDevice.usbGlobalMutex.WaitOne();
             hidDevice.Write(command, 500);
             response = hidDevice.Read(500);
-            RootDevice.usbGlobalMutex.ReleaseMutex();
+            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
 
             return ParseResponse(response.Data);
         }

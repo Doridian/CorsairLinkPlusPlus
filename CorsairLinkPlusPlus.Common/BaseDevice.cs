@@ -88,7 +88,7 @@ namespace CorsairLinkPlusPlus.Common
             }
         }
 
-        public IEnumerable<IDevice> GetSubDevices()
+        public virtual IEnumerable<IDevice> GetSubDevices()
         {
             lock (subDeviceLock)
             {

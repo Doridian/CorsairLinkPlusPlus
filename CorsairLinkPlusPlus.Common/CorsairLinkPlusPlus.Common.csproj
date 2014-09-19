@@ -51,7 +51,12 @@
     <Compile Include="Controller\ITemperatureDependantController.cs" />
     <Compile Include="IDevice.cs" />
     <Compile Include="BaseDevice.cs" />
+    <Compile Include="IRootDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Registry\ControllerRegistry.cs" />
+    <Compile Include="Registry\RegisteredController.cs" />
+    <Compile Include="Registry\RegistryBase.cs" />
+    <Compile Include="RootDevice.cs" />
     <Compile Include="Sensor\IControllableSensor.cs" />
     <Compile Include="Sensor\IPump.cs" />
     <Compile Include="Sensor\IFan.cs" />

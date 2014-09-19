@@ -1,11 +1,12 @@
 ﻿using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.Driver.CorsairLink.Registry;
 using HidLibrary;
 using System.Collections.Generic;
 using System.Threading;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 {
-    public class RootDevice : BaseDevice
+    public class CorsairRootDevice : BaseDevice, IRootDevice
     {
         const int VID_CORSAIR_LINK = 0x1B1C;
 
@@ -16,27 +17,16 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 
         internal static readonly Mutex usbGlobalMutex = new Mutex(false, "Global\\Access_CorsairLink");
 
-        private RootDevice() : base(null)
+        public CorsairRootDevice()
+            : base(RootDevice.GetInstance())
         {
-
-        }
-
-        private static readonly object instanceLock = new object();
-        private volatile static RootDevice instance = null;
-
-        public static RootDevice GetInstance()
-        {
-            lock (instanceLock)
-            {
-                if (instance == null)
-                    instance = new RootDevice();
-                return instance;
-            }
+            FanControllerRegistry.Initialize();
+            LEDControllerRegistry.Initialize();
         }
 
         public override string GetName()
         {
-            return "Corsair Root Device";
+            return "Corsair Link";
         }
 
         public override void Refresh(bool volatileOnly)
@@ -88,7 +78,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 
         public override string GetLocalDeviceID()
         {
-            return "Corsair";
+            return "CorsairLink";
         }
     }
 }

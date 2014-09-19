@@ -55,7 +55,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
         {
             byte[] retVoltage, retCurrent, retPower, retPowerIn;
 
-            RootDevice.usbGlobalMutex.WaitOne();
+            CorsairRootDevice.usbGlobalMutex.WaitOne();
             SetPage();
             retVoltage = ReadRegister(0x88, 2);
             if (psuDevice is LinkDevicePSUHX)
@@ -69,7 +69,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
                 retPowerIn = ReadRegister(0x97, 2);
             }
             retPower = ReadRegister(0xEE, 2);
-            RootDevice.usbGlobalMutex.ReleaseMutex();
+            CorsairRootDevice.usbGlobalMutex.ReleaseMutex();
 
             cachedVoltage = BitCodec.ToFloat(retVoltage);
             cachedPower = BitCodec.ToFloat(retPower);
