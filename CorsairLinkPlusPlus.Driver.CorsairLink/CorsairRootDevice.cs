@@ -1,12 +1,13 @@
 ﻿using CorsairLinkPlusPlus.Common;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Registry;
 using HidLibrary;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 {
-    public class CorsairRootDevice : BaseDevice, IRootDevice
+    public class CorsairRootDevice : BaseDevice, IRootDevice, IDisposable
     {
         const int VID_CORSAIR_LINK = 0x1B1C;
 
@@ -25,7 +26,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
             LEDControllerRegistry.Initialize();
         }
 
-        ~CorsairRootDevice()
+        public void Dispose()
         {
             usbGlobalMutex.ReleaseMutex();
         }
