@@ -67,7 +67,14 @@ namespace CorsairLinkPlusPlus.Common
                 {
                     if (!t.IsAbstract && !t.IsInterface && iRootDevice.IsAssignableFrom(t))
                     {
-                        rootDevices.Add((IDevice)t.GetConstructor(new Type[0]).Invoke(null));
+                        try
+                        {
+                            rootDevices.Add((IDevice)t.GetConstructor(new Type[0]).Invoke(null));
+                        }
+                        catch (Exception e)
+                        {
+                            Console.Error.WriteLine("Could not load driver " + driver.FullName + ": " + e.Message);
+                        }
                     }
                 }
             }
