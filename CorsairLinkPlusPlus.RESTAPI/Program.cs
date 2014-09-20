@@ -47,7 +47,7 @@ namespace CorsairLinkPlusPlus.RESTAPI
             }
         }
 
-        private static void RespondWith(ITcpChannel channel, HttpRequestBase request, object result, bool success = true)
+        private static void RespondWith(ITcpChannel channel, HttpRequestBase request, object result, bool success = true, int statusCode = 200)
         {
             IHttpResponse response = request.CreateResponse();
 
@@ -57,6 +57,7 @@ namespace CorsairLinkPlusPlus.RESTAPI
             output.Write(responseBytes, 0, responseBytes.Length);
             output.Position = 0;
             response.Body = output;
+            response.StatusCode = statusCode;
             response.ContentLength = responseBytes.Length;
 
             channel.Send(response);
@@ -70,7 +71,7 @@ namespace CorsairLinkPlusPlus.RESTAPI
 
             if(device == null)
             {
-                RespondWith(channel, request, "Not found", false);
+                RespondWith(channel, request, "Not found", false, 404);
                 return;
             }
 
