@@ -8,5 +8,6 @@ namespace CorsairLinkPlusPlus.Common.Controller
 {
     public interface IController
     {
+        string RegisteredName { get; }
     }
 }

@@ -14,5 +14,13 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller
         {
 
         }
+
+        public string RegisteredName
+        {
+            get
+            {
+                return "CorsairLink." + this.GetType().Name;
+            }
+        }
     }
 }
