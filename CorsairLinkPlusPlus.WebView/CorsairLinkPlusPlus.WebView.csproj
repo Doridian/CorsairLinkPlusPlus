@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask TaskFactory="PowershellTaskFactory" TaskName="AddBinPathToEnvironment" AssemblyFile="$(SolutionDir)\packages\MSBuild.Extension.Pack.1.4.0\tools\net40\MSBuild.ExtensionPack.TaskFactory.PowerShell.dll">
+    <Task><![CDATA[
+	$log.LogMessage([Microsoft.Build.Framework.MessageImportance]"High", "Adding .bin to Environment Path.")
+	Try
+	{
+		$bin_name = ".bin"
+		$path = [Environment]::GetEnvironmentVariable('Path', [EnvironmentVariableTarget]::User)
+
+		if ($path -notmatch ";$bin_name") {
+			[Environment]::SetEnvironmentVariable('Path', "$path;$bin_name", [EnvironmentVariableTarget]::User)
+		}
+	}
+	Catch
+	{
+		$log.LogError("Failed to add .bin to Environment Path.")
+	}
+]]></Task>
+  </UsingTask>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CF1B6833-04FA-4C3E-BBC1-B131AD48B17D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>CorsairLinkPlusPlus.WebView</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include=".bin\bower.cmd" />
+    <None Include=".bin\git.cmd" />
+    <None Include=".bin\grunt.cmd" />
+    <None Include=".bin\node.cmd" />
+    <None Include=".bin\npm.cmd" />
+    <None Include=".bowerrc" />
+    <None Include="bower.json" />
+    <None Include="Gruntfile.js" />
+    <None Include="package.json" />
+    <None Include="packages.config" />
+    <None Include="src\css\main.less" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="src\index.html" />
+    <Content Include="src\js\main.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Target Name="Build">
+    <!-- Ensure .bin exists in Environment Path -->
+    <AddBinPathToEnvironment />
+    <Exec Command=".bin\npm install" ContinueOnError="ErrorAndContinue" />
+    <Exec Command=".bin\bower install" ContinueOnError="ErrorAndContinue" />
+    <Exec Command=".bin\grunt" ContinueOnError="ErrorAndContinue" />
+    <!-- Remove node_modules folder after a Release build because it tends to cause path length issues -->
+    <Exec Command="rd /s /q  node_modules" Condition=" '$(Configuration)' == 'Release' And Exists('node_modules') " />
+  </Target>
+  <Target Name="Clean">
+    <Exec Command="rd /s /q $(OutputPath)" Condition="Exists($(OutputPath))" />
+  </Target>
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build">
+  </Target>
+</Project>
