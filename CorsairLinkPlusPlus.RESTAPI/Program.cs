@@ -67,15 +67,22 @@ namespace CorsairLinkPlusPlus.RESTAPI
         {
             HttpRequestBase request = (HttpRequestBase)message;
 
-            IDevice device = RootDevice.FindDeviceByPath(request.Uri.AbsolutePath);
-
-            if(device == null)
+            try
             {
-                RespondWith(channel, request, "Not found", false, 404);
-                return;
-            }
+                IDevice device = RootDevice.FindDeviceByPath(request.Uri.AbsolutePath);
 
-            RespondWithDevice(channel, request, device);
+                if (device == null)
+                {
+                    RespondWith(channel, request, "Not found", false, 404);
+                    return;
+                }
+
+                RespondWithDevice(channel, request, device);
+            }
+            catch (Exception e)
+            {
+                RespondWith(channel, request, e.Message, false, 500);
+            }
         }
     }
 }
