@@ -73,10 +73,10 @@
     <Exec Command=".bin\bower install" ContinueOnError="ErrorAndContinue" />
     <Exec Command=".bin\grunt" ContinueOnError="ErrorAndContinue" />
     <!-- Remove node_modules folder after a Release build because it tends to cause path length issues -->
-    <Exec Command="rd /s /q  node_modules" Condition=" '$(Configuration)' == 'Release' And Exists('node_modules') " />
   </Target>
   <Target Name="Clean">
     <Exec Command="rd /s /q $(OutputPath)" Condition="Exists($(OutputPath))" />
+	<Exec Command="rd /s /q  node_modules" Condition="Exists('node_modules')" />
   </Target>
   <Target Name="Rebuild" DependsOnTargets="Clean;Build">
   </Target>
