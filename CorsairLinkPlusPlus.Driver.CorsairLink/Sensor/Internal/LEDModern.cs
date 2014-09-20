@@ -58,7 +58,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             lock (CorsairRootDevice.usbGlobalMutex)
             {
-                modernDevice.SetCurrentLED(id);
+                modernDevice.SetCurrentLED(id, true);
                 modernDevice.WriteRegister(0x0B, reg);
             }
 
@@ -140,7 +140,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             lock (CorsairRootDevice.usbGlobalMutex)
             {
-                modernDevice.SetCurrentLED(id);
+                modernDevice.SetCurrentLED(id, true);
                 modernDevice.WriteSingleByteRegister(0x06, ledData);
                 cachedLEDData = null;
             }
@@ -202,8 +202,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             lock (CorsairRootDevice.usbGlobalMutex)
             {
-                modernDevice.SetCurrentLED(id);
-                modernDevice.WriteRegister(0x0B, colors);
+                modernDevice.SetCurrentLED(id, true);
+                modernDevice.WriteRegister(0x0B, colors, true);
             }
         }
 
@@ -247,9 +247,9 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             lock (CorsairRootDevice.usbGlobalMutex)
             {
-                modernDevice.SetCurrentLED(id);
-                modernDevice.WriteRegister(0x09, tempTable);
-                modernDevice.WriteRegister(0x0A, colorTable);
+                modernDevice.SetCurrentLED(id, true);
+                modernDevice.WriteRegister(0x09, tempTable, true);
+                modernDevice.WriteRegister(0x0A, colorTable, true);
             }
         }
 

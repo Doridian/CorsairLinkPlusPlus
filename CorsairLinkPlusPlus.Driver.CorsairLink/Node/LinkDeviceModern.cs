@@ -125,11 +125,11 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
             return new FanModern(this, id);
         }
 
-        internal void SetCurrentFan(int id)
+        internal void SetCurrentFan(int id, bool verify = false)
         {
             DisabledCheck();
 
-            WriteSingleByteRegister(0x10, (byte)id);
+            WriteSingleByteRegister(0x10, (byte)id, verify);
         }
 
         internal double GetCoolerRPM(int id)
@@ -152,11 +152,11 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
             WriteSingleByteRegister(0x0C, (byte)id);
         }
 
-        internal void SetCurrentLED(int id)
+        internal void SetCurrentLED(int id, bool verify = false)
         {
             DisabledCheck();
 
-            WriteSingleByteRegister(0x04, (byte)id);
+            WriteSingleByteRegister(0x04, (byte)id, verify);
         }
 
         public override void Refresh(bool volatileOnly)

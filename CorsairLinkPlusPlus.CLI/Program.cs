@@ -39,12 +39,12 @@ namespace CorsairLinkPlusPlus.CLI
                     IFan fan = (IFan)device;
                     IControllableSensor controllableFan = (IControllableSensor)device;
 
-                    if (fan.GetParent().Name.Contains("Commander Mini"))
+                    /*if (fan.GetParent().Name.Contains("Commander Mini"))
                     {
                         IFixedNumberController _fanController = (IFixedNumberController)ControllerRegistry.Get("CorsairLink.FanFixedPercentController").New();
                         _fanController.SetValue(40);
                         controllableFan.SetController(_fanController);
-                    }
+                    }*/
 
                     IController fanController = controllableFan.GetController();
                     Console.Out.WriteLine(prefix + "- " + fan.Name + " = " + fan.GetValue() + " " + fan.GetUnit().GetPostfix());

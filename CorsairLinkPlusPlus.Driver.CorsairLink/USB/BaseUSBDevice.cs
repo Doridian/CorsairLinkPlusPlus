@@ -2,7 +2,9 @@
 using CorsairLinkPlusPlus.Driver.CorsairLink.Node;
 using HidLibrary;
 using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 {
@@ -131,12 +133,21 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
             }
         }
 
-        internal virtual void WriteSingleByteRegister(byte register, byte channel, byte value)
+        private bool SleepAfterFailure()
         {
-            SendCommand(0x06, channel, new byte[] { register, value });
+            Thread.Sleep(100);
+            return true;
         }
 
-        internal virtual void WriteRegister(byte register, byte channel, byte[] bytes)
+        internal virtual void WriteSingleByteRegister(byte register, byte channel, byte value, bool verify = false)
+        {
+            do
+            {
+                SendCommand(0x06, channel, new byte[] { register, value });
+            } while (verify && ReadSingleByteRegister(register, channel) != value && SleepAfterFailure());
+        }
+
+        internal virtual void WriteRegister(byte register, byte channel, byte[] bytes, bool verify = false)
         {
             switch (bytes.Length)
             {
@@ -144,14 +155,21 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
                     WriteSingleByteRegister(register, channel, bytes[0]);
                     break;
                 case 2:
-                    SendCommand(0x08, channel, new byte[] { register, bytes[0], bytes[1] });
+                    byte[] twoBytes = new byte[] { register, bytes[0], bytes[1] };
+                    do
+                    {
+                        SendCommand(0x08, channel, twoBytes);
+                    } while (verify && ReadRegister(register, channel, 2).SequenceEqual(bytes) && SleepAfterFailure());
                     break;
                 default:
                     byte[] rawBytes = new byte[bytes.Length + 2];
                     rawBytes[0] = register;
                     rawBytes[1] = (byte)bytes.Length;
                     Buffer.BlockCopy(bytes, 0, rawBytes, 2, bytes.Length);
-                    SendCommand(0x0A, channel, rawBytes);
+                    do
+                    {
+                        SendCommand(0x0A, channel, rawBytes);
+                    } while (verify && ReadRegister(register, channel, rawBytes[1]).SequenceEqual(bytes) && SleepAfterFailure());
                     break;
             }
         }

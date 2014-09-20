@@ -31,6 +31,7 @@ namespace CorsairLinkPlusPlus.RESTAPI
 
         private static void RespondWithDevice(ITcpChannel channel, HttpRequestBase request, IDevice device)
         {
+            device.Refresh(true);
             RespondWith(channel, request, device, true);
         }
 

@@ -56,16 +56,16 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
             return usbDevice.ReadRegister(register, channel, bytes);
         }
 
-        internal void WriteSingleByteRegister(byte register, byte value)
+        internal void WriteSingleByteRegister(byte register, byte value, bool verify = false)
         {
             DisabledCheck();
-            usbDevice.WriteSingleByteRegister(register, channel, value);
+            usbDevice.WriteSingleByteRegister(register, channel, value, verify);
         }
 
-        internal void WriteRegister(byte register, byte[] bytes)
+        internal void WriteRegister(byte register, byte[] bytes, bool verify = false)
         {
             DisabledCheck();
-            usbDevice.WriteRegister(register, channel, bytes);
+            usbDevice.WriteRegister(register, channel, bytes, verify);
         }
     }
 }

@@ -47,8 +47,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             lock (CorsairRootDevice.usbGlobalMutex)
             {
-                modernDevice.SetCurrentFan(id);
-                modernDevice.WriteSingleByteRegister(0x12, fanData);
+                modernDevice.SetCurrentFan(id, true);
+                modernDevice.WriteSingleByteRegister(0x12, fanData, true);
                 cachedFanData = null;
             }
         }
@@ -101,8 +101,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             lock (CorsairRootDevice.usbGlobalMutex)
             {
-                modernDevice.SetCurrentFan(id);
-                modernDevice.WriteRegister(0x15, BitConverter.GetBytes((short)(temperature * 256.0)));
+                modernDevice.SetCurrentFan(id, true);
+                modernDevice.WriteRegister(0x15, BitConverter.GetBytes((short)(temperature * 256.0)), true);
             }
         }
 
@@ -153,8 +153,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             lock (CorsairRootDevice.usbGlobalMutex)
             {
-                modernDevice.SetCurrentFan(id);
-                modernDevice.WriteRegister(0x14, BitConverter.GetBytes((short)fixedRPM));
+                modernDevice.SetCurrentFan(id, true);
+                modernDevice.WriteRegister(0x14, BitConverter.GetBytes((short)fixedRPM), true);
             }
         }
 
@@ -166,8 +166,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             lock (CorsairRootDevice.usbGlobalMutex)
             {
-                modernDevice.SetCurrentFan(id);
-                modernDevice.WriteSingleByteRegister(0x13, percentB);
+                modernDevice.SetCurrentFan(id, true);
+                modernDevice.WriteSingleByteRegister(0x13, percentB, true);
             }
         }
 
@@ -242,9 +242,9 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             lock (CorsairRootDevice.usbGlobalMutex)
             {
-                modernDevice.SetCurrentFan(id);
-                modernDevice.WriteRegister(0x1A, tempTable);
-                modernDevice.WriteRegister(0x19, rpmTable);
+                modernDevice.SetCurrentFan(id, true);
+                modernDevice.WriteRegister(0x1A, tempTable, true);
+                modernDevice.WriteRegister(0x19, rpmTable, true);
             }
         }
 
@@ -264,7 +264,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             lock (CorsairRootDevice.usbGlobalMutex)
             {
-                modernDevice.SetCurrentFan(id);
+                modernDevice.SetCurrentFan(id, true);
                 modernDevice.WriteRegister(0x18, BitConverter.GetBytes((short)rpm));
             }
         }
