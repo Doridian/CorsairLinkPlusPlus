@@ -1,0 +1,8 @@
+{
+	"name": "CorsairLinkPlusPlus.WebView",
+	"version": "",
+	"devDependencies": {
+		"grunt": "~0.4.0"
+	},
+	"dependencies": {}
+}
