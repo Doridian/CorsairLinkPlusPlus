@@ -3,18 +3,23 @@ namespace CorsairLinkPlusPlus.Common.Utility
 {
     public class CurvePoint<K, V>
     {
-        public CurvePoint(K x, V y)
+        public CurvePoint()
         {
-            this.x = x;
-            this.y = y;
+
         }
 
-        public K x;
-        public V y;
+        public CurvePoint(K x, V y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
+
+        public K X;
+        public V Y;
 
         public override string ToString()
         {
-            return "{x=" + x + ",y=" + y + "}";
+            return "{x=" + X + ",y=" + Y + "}";
         }
     }
 }

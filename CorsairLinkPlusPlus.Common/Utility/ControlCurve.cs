@@ -8,6 +8,11 @@ namespace CorsairLinkPlusPlus.Common.Utility
     {
         protected List<CurvePoint<K, V>> points;
 
+        public ControlCurve()
+        {
+
+        }
+
         public ControlCurve(params CurvePoint<K, V>[] points)
         {
             this.points = points.ToList<CurvePoint<K, V>>();
@@ -18,9 +23,16 @@ namespace CorsairLinkPlusPlus.Common.Utility
             this.points = points.ToList();
         }
 
-        public List<CurvePoint<K, V>> GetPoints()
+        public List<CurvePoint<K, V>> Points
         {
-            return points.ToList();
+            get
+            {
+                return points.ToList();
+            }
+            set
+            {
+                this.points = value.ToList();
+            }
         }
 
         public ControlCurve<K, V> Copy()

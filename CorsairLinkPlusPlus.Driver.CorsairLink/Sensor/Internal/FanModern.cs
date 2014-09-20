@@ -231,7 +231,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
         {
             DisabledCheck();
 
-            List<CurvePoint<double, double>> points = curve.GetPoints();
+            List<CurvePoint<double, double>> points = curve.Points;
             if (points.Count != 5)
                 throw new ArgumentException();
 
@@ -241,8 +241,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             for (int i = 0; i < 10; i += 2)
             {
                 CurvePoint<double, double> point = points[i / 2];
-                Buffer.BlockCopy(BitConverter.GetBytes((short)(point.x * 256)), 0, tempTable, i, 2);
-                Buffer.BlockCopy(BitConverter.GetBytes((short)point.y), 0, rpmTable, i, 2);
+                Buffer.BlockCopy(BitConverter.GetBytes((short)(point.X * 256)), 0, tempTable, i, 2);
+                Buffer.BlockCopy(BitConverter.GetBytes((short)point.Y), 0, rpmTable, i, 2);
             }
 
             lock (CorsairRootDevice.usbGlobalMutex)

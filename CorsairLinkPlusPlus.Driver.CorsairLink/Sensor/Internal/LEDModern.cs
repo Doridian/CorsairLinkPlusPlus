@@ -234,7 +234,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
         internal override void SetControlCurve(ControlCurve<double, Color> curve)
         {
-            List<CurvePoint<double, Color>> points = curve.GetPoints();
+            List<CurvePoint<double, Color>> points = curve.Points;
             if (points.Count != 3)
                 throw new ArgumentException();
 
@@ -244,8 +244,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             for(int i = 0; i < 3; i++)
             {
                 CurvePoint<double, Color> point = points[i];
-                Buffer.BlockCopy(BitConverter.GetBytes((short)(point.x * 256)), 0, tempTable, i, 2);
-                Buffer.BlockCopy(point.y.ToArray(), 0, colorTable, i, 2);
+                Buffer.BlockCopy(BitConverter.GetBytes((short)(point.X * 256)), 0, tempTable, i, 2);
+                Buffer.BlockCopy(point.Y.ToArray(), 0, colorTable, i, 2);
             }
 
             lock (CorsairRootDevice.usbGlobalMutex)
