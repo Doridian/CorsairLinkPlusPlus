@@ -126,5 +126,16 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
                 ControllerRegistry.Get("CorsairLink.FanFixedPercentController"),
             };
         }
+
+        public IEnumerable<string> ValidControllerNames
+        {
+            get
+            {
+                return new string[] {
+                    "CorsairLink.FanDefaultController",
+                    "CorsairLink.FanFixedPercentController",
+                };
+            }
+        }
     }
 }

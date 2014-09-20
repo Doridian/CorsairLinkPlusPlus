@@ -19,7 +19,7 @@ namespace CorsairLinkPlusPlus.RESTAPI
             httpServer.ClientConnected += httpServer_ClientConnected;
             httpServer.MessageReceived = OnMessage;
             httpServer.BodyDecoder = new CompositeIMessageSerializer();
-            httpServer.Start(IPAddress.Loopback, 38012);
+            httpServer.Start(IPAddress.Any, 38012);
 
             Console.ReadLine();
         }
