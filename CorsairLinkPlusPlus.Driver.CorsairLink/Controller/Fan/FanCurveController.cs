@@ -28,7 +28,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
         protected ControlCurve<double, double> curve;
 
 
-        public ControlCurve<double, double> Curve
+        public ControlCurve<double, double> Value
         {
             get
             {

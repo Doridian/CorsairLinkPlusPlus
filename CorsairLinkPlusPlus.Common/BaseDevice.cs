@@ -96,12 +96,16 @@ namespace CorsairLinkPlusPlus.Common
 
         public virtual IEnumerable<IDevice> GetSubDevices()
         {
+            List<IDevice> ret = new List<IDevice>();
             lock (subDeviceLock)
             {
                 if (subDevices == null)
                     subDevices = GetSubDevicesInternal();
-                return subDevices;
             }
+            foreach (IDevice device in subDevices)
+                if (device.Present && device.Valid)
+                    ret.Add(device);
+            return ret;
         }
 
         protected virtual List<IDevice> GetSubDevicesInternal()

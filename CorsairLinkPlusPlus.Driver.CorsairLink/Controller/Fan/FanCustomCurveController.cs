@@ -39,7 +39,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
         internal override void Apply(Sensor.BaseSensorDevice sensor)
         {
             base.Apply(sensor);
-            ((Sensor.Fan)sensor).SetControlCurve(Curve);
+            ((Sensor.Fan)sensor).SetControlCurve(Value);
         }
 
         public override byte GetFanModernControllerID()

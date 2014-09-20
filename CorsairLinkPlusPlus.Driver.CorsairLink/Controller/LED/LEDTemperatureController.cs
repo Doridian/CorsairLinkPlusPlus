@@ -16,7 +16,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.LED
 
         public LEDTemperatureController(ControlCurve<double, Color> colors)
         {
-            Curve = colors;
+            Value = colors;
         }
 
         internal override void Apply(Sensor.BaseSensorDevice sensor)
@@ -28,7 +28,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.LED
             ((Sensor.LED)sensor).SetControlCurve(curve);
         }
 
-        public ControlCurve<double, Color> Curve
+        public ControlCurve<double, Color> Value
         {
             get
             {

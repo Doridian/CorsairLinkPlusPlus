@@ -52,7 +52,7 @@ namespace CorsairLinkPlusPlus.CLI
                         Console.Out.WriteLine(prefix + "\t" + ((fanController == null) ? "N/A" : fanController.GetType().Name));
                     if(fanController is ICurveNumberController)
                     {
-                        Console.Out.WriteLine(prefix + "\t\t" + ((ICurveNumberController)fanController).Curve.ToString().Replace("}, {", "}\r\n" + prefix + "\t\t{"));
+                        Console.Out.WriteLine(prefix + "\t\t" + ((ICurveNumberController)fanController).Value.ToString().Replace("}, {", "}\r\n" + prefix + "\t\t{"));
                     }
                 }
                 else
