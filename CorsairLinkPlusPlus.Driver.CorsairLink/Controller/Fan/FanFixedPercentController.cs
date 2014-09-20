@@ -12,17 +12,19 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
 
         public FanFixedPercentController(double percent)
         {
-            SetValue(percent);
+            Value = percent;
         }
 
-        public void SetValue(double percent)
+        public double Value
         {
-            this.percent = percent;
-        }
-
-        public double GetValue()
-        {
-            return percent;
+            get
+            {
+                return percent;
+            }
+            set
+            {
+                this.percent = value;
+            }
         }
 
         internal override void Apply(Sensor.BaseSensorDevice sensor)
@@ -44,7 +46,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
 
         public void AssignFrom(Sensor.Fan fan)
         {
-            SetValue(fan.GetFixedPercent());
+            Value = fan.GetFixedPercent();
         }
     }
 }

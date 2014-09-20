@@ -13,7 +13,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 {
     class FanPSU : Fan, IControllableSensor
     {
-        private ControllerBase controller = null;
+        private ControllerBase m_controller = null;
 
         internal FanPSU(LinkDevicePSU device, int id)
             : base(device, id)
@@ -44,18 +44,45 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             return device.ReadSingleByteRegister(0x3B);
         }
 
-        public void SetController(IController controller)
+        public IController Controller
         {
-            DisabledCheck();
+            get
+            {
+                DisabledCheck();
 
-            if (controller is FanDefaultController)
-                device.WriteSingleByteRegister(0xF0, 0, true);
-            else if (controller is FanFixedPercentController)
-                device.WriteSingleByteRegister(0xF0, 1, true);
-            else
-                throw new ArgumentException();
+                if (m_controller == null)
+                {
+                    switch (device.ReadSingleByteRegister(0xF0))
+                    {
+                        case 0:
+                            m_controller = new FanDefaultController();
+                            break;
+                        case 1:
+                            FanFixedPercentController newController = new FanFixedPercentController();
+                            newController.AssignFrom(this);
+                            m_controller = newController;
+                            break;
+                    }
+                }
 
-            SaveControllerData(controller);
+                return m_controller;
+            }
+
+            set
+            {
+                DisabledCheck();
+
+                if (value is FanDefaultController)
+                    device.WriteSingleByteRegister(0xF0, 0, true);
+                else if (value is FanFixedPercentController)
+                    device.WriteSingleByteRegister(0xF0, 1, true);
+                else
+                    throw new ArgumentException();
+
+                m_controller = (ControllerBase)value;
+
+                SaveControllerData(value);
+            }
         }
 
         public void SaveControllerData(IController controller)
@@ -63,28 +90,6 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             DisabledCheck();
 
             ((ControllerBase)controller).Apply(this);
-        }
-
-        public IController GetController()
-        {
-            DisabledCheck();
-
-            if (controller == null)
-            {
-                switch (device.ReadSingleByteRegister(0xF0))
-                {
-                    case 0:
-                        controller = new FanDefaultController();
-                        break;
-                    case 1:
-                        FanFixedPercentController newController = new FanFixedPercentController();
-                        newController.AssignFrom(this);
-                        controller = newController;
-                        break;
-                }
-            }
-
-            return controller;
         }
 
         internal override double GetFixedRPM()

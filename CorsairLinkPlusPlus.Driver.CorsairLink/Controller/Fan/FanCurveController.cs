@@ -27,9 +27,17 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
 
         protected ControlCurve<double, double> curve;
 
-        public ControlCurve<double, double> GetCurve()
+
+        public ControlCurve<double, double> Curve
         {
-            return curve.Copy();
+            get
+            {
+                return curve.Copy();
+            }
+            set
+            {
+                throw new InvalidOperationException();
+            }
         }
 
         public virtual void SetCurve(ControlCurve<double, double> curve)

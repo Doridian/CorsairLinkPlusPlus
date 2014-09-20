@@ -7,9 +7,8 @@ namespace CorsairLinkPlusPlus.Common.Sensor
 {
     public interface IControllableSensor : ISensor
     {
-        void SetController(IController controller);
         void SaveControllerData(IController controller);
-        IController GetController();
+        IController Controller { get; set; }
         IEnumerable<RegisteredController> GetValidControllers();
         IEnumerable<string> ValidControllerNames { get; }
     }

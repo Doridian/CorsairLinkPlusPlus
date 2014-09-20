@@ -17,7 +17,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
     {
         private readonly LinkDeviceModern modernDevice;
         private byte? cachedLEDData;
-        private LEDController controller;
+        private LEDController m_controller;
 
         internal LEDModern(LinkDeviceModern device, int id)
             : base(device, id)
@@ -31,7 +31,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             if (!volatileOnly)
                 cachedLEDData = null;
 
-            ((ControllerBase)GetController()).Refresh(this);
+            ((ControllerBase)Controller).Refresh(this);
         }
 
         internal override byte[] GetRGBInternal()
@@ -87,41 +87,44 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             }
         }
 
-        public void SetController(IController controller)
+        public IController Controller
         {
-            DisabledCheck();
-
-            if (!(controller is LEDController))
-                throw new ArgumentException();
-
-            LEDController ledController = (LEDController)controller;
-
-            byte ledControllerID = ledController.GetLEDModernControllerID();
-
-            if ((ledControllerID & 0x3F /* 00111111 */) != 0)
-                throw new ArgumentException();
-
-            if (ledController is TemperatureDependantControllerBase)
+            set
             {
-                byte ledData = GetLEDData();
-                ledData &= 0x3F; //00111111
-                ledData |= (byte)ledControllerID;
-                SetLEDData(ledData);
+                DisabledCheck();
+
+                if (!(value is LEDController))
+                    throw new ArgumentException();
+
+                LEDController ledController = (LEDController)value;
+
+                byte ledControllerID = ledController.GetLEDModernControllerID();
+
+                if ((ledControllerID & 0x3F /* 00111111 */) != 0)
+                    throw new ArgumentException();
+
+                if (ledController is TemperatureDependantControllerBase)
+                {
+                    byte ledData = GetLEDData();
+                    ledData &= 0x3F; //00111111
+                    ledData |= (byte)ledControllerID;
+                    SetLEDData(ledData);
+                }
+                else
+                    SetLEDData((byte)(ledControllerID | 0x0B));
+
+                SaveControllerData(value);
             }
-            else
-                SetLEDData((byte)(ledControllerID | 0x0B));
 
-            SaveControllerData(controller);
-        }
+            get
+            {
+                DisabledCheck();
 
-        public IController GetController()
-        {
-            DisabledCheck();
+                if (m_controller == null)
+                    m_controller = LEDControllerRegistry.Get(this, (byte)(GetLEDData() & 0xC0 /* 11000000 */));
 
-            if (controller == null)
-                controller = LEDControllerRegistry.Get(this, (byte)(GetLEDData() & 0xC0 /* 11000000 */));
-
-            return controller;
+                return m_controller;
+            }
         }
 
         public void SaveControllerData(IController controller)
@@ -131,7 +134,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             if (!(controller is LEDController))
                 throw new ArgumentException();
 
-            ((ControllerBase)GetController()).Apply(this);
+            ((ControllerBase)Controller).Apply(this);
         }
 
         private void SetLEDData(byte ledData)

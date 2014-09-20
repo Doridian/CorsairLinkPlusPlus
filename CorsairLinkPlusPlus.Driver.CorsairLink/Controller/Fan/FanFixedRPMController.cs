@@ -12,17 +12,19 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
 
         public FanFixedRPMController(double rpm)
         {
-            SetValue(rpm);
+            Value = rpm;
         }
 
-        public void SetValue(double rpm)
+        public double Value
         {
-            this.rpm = rpm;
-        }
-
-        public double GetValue()
-        {
-            return rpm;
+            get
+            {
+                return rpm;
+            }
+            set
+            {
+                this.rpm = value;
+            }
         }
 
         internal override void Apply(Sensor.BaseSensorDevice sensor)
@@ -44,7 +46,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
 
         public void AssignFrom(Sensor.Fan fan)
         {
-            SetValue(fan.GetFixedRPM());
+            Value = fan.GetFixedRPM();
         }
     }
 }

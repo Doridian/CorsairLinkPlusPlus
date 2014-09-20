@@ -17,7 +17,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
     {
         private readonly LinkDeviceModern modernDevice;
         protected byte? cachedFanData = null;
-        private FanController controller = null;
+        private FanController m_controller = null;
 
         internal FanModern(LinkDeviceModern device, int id)
             : base(device, id)
@@ -58,7 +58,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             base.Refresh(volatileOnly);
             if (!volatileOnly)
                 cachedFanData = null;
-            ((ControllerBase)GetController()).Refresh(this);
+            ((ControllerBase)Controller).Refresh(this);
         }
 
         protected override double GetValueInternal()
@@ -106,25 +106,41 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             }
         }
 
-        public void SetController(IController controller)
+        public IController Controller 
         {
-            DisabledCheck();
+            set
+            {
+                DisabledCheck();
 
-            if (!(controller is FanController))
-                throw new ArgumentException();
+                if (!(value is FanController))
+                    throw new ArgumentException();
 
-            FanController fanController = (FanController)controller;
+                FanController fanController = (FanController)value;
 
-            byte fanControllerID = fanController.GetFanModernControllerID();
-            if ((fanControllerID & 0xF1) != 0)
-                throw new ArgumentException();
+                byte fanControllerID = fanController.GetFanModernControllerID();
+                if ((fanControllerID & 0xF1) != 0)
+                    throw new ArgumentException();
 
-            byte fanData = GetFanData();
-            fanData &= 0xF1; //11110001
-            fanData |= (byte)fanControllerID;
-            SetFanData(fanData);
+                m_controller = fanController;
 
-            SaveControllerData(controller);
+                byte fanData = GetFanData();
+                fanData &= 0xF1; //11110001
+                fanData |= (byte)fanControllerID;
+                SetFanData(fanData);
+
+                SaveControllerData(value);
+            }
+
+            get
+            {
+                DisabledCheck();
+
+                if (m_controller == null)
+                {
+                    m_controller = FanControllerRegistry.Get(this, (byte)(GetFanData() & 0x0E /*00001110*/));
+                }
+                return m_controller;
+            }
         }
 
         public void SaveControllerData(IController controller)
@@ -133,18 +149,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             if (!(controller is FanController))
                 throw new ArgumentException();
-            ((ControllerBase)GetController()).Apply(this);
-        }
-
-        public IController GetController()
-        {
-            DisabledCheck();
-
-            if (controller == null)
-            {
-                controller = FanControllerRegistry.Get(this, (byte)(GetFanData() & 0x0E /*00001110*/));
-            }
-            return controller;
+            ((ControllerBase)Controller).Apply(this);
         }
 
         internal override void SetFixedRPM(double fixedRPM)

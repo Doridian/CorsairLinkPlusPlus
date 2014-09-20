@@ -22,7 +22,7 @@ namespace CorsairLinkPlusPlus.CLI
                     ILED led = (ILED)device;
                     IControllableSensor controllableLED = (IControllableSensor)device;
 
-                    IController ledController = controllableLED.GetController();
+                    IController ledController = controllableLED.Controller;
                     Console.Out.WriteLine(prefix + "- " + led.Name + " = " + led.Value + " " + led.Unit.GetPostfix());
                     if (ledController != null)
                         Console.Out.WriteLine(prefix + "\t" + ((ledController == null) ? "N/A" : ledController.GetType().Name));
@@ -46,13 +46,13 @@ namespace CorsairLinkPlusPlus.CLI
                         controllableFan.SetController(_fanController);
                     }*/
 
-                    IController fanController = controllableFan.GetController();
+                    IController fanController = controllableFan.Controller;
                     Console.Out.WriteLine(prefix + "- " + fan.Name + " = " + fan.Value + " " + fan.Unit.GetPostfix());
                     if (fanController != null)
                         Console.Out.WriteLine(prefix + "\t" + ((fanController == null) ? "N/A" : fanController.GetType().Name));
                     if(fanController is ICurveNumberController)
                     {
-                        Console.Out.WriteLine(prefix + "\t\t" + ((ICurveNumberController)fanController).GetCurve().ToString().Replace("}, {", "}\r\n" + prefix + "\t\t{"));
+                        Console.Out.WriteLine(prefix + "\t\t" + ((ICurveNumberController)fanController).Curve.ToString().Replace("}, {", "}\r\n" + prefix + "\t\t{"));
                     }
                 }
                 else
