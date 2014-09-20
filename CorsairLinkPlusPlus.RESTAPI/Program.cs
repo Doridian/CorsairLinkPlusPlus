@@ -63,6 +63,8 @@ namespace CorsairLinkPlusPlus.RESTAPI
             response.ContentLength = (int)body.Length;
             response.StatusCode = statusCode;
             response.ContentType = mimeType;
+            response.AddHeader("Access-Control-Allow-Origin", "*");
+            response.AddHeader("Access-Control-Allow-Methods", "POST, HEAD, PUT, DELETE, GET, OPTIONS");
             body.Position = 0;
             response.Body = body;
 
@@ -74,6 +76,12 @@ namespace CorsairLinkPlusPlus.RESTAPI
         private static void OnMessage(ITcpChannel channel, object message)
         {
             HttpRequestBase request = (HttpRequestBase)message;
+
+            if(request.HttpMethod == "OPTIONS" || request.HttpMethod == "HEAD")
+            {
+                RespondWithJSON(channel, request, "Yep yep, no need for these", true, 200);
+                return;
+            }
 
             string absoluteUri = request.Uri.AbsolutePath;
             while (absoluteUri.IndexOf("//") >= 0)
