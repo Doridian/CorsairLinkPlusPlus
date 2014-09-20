@@ -48,7 +48,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
 
         internal void SetColor(Color color)
         {
-            SetRGB(new byte[] { color.r, color.g, color.b });
+            SetRGB(new byte[] { color.R, color.G, color.B });
         }
 
         internal abstract void SetRGB(byte[] rgb);
