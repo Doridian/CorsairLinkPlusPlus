@@ -121,7 +121,7 @@ namespace CorsairLinkPlusPlus.RESTAPI
                     return;
                 }
 
-                string mineType = Sasa.FileExtensions.MediaType(fileInfo.Name);
+                string mineType = MIMEAssistant.GetMIMEType(fileInfo.Extension);
 
                 RespondWithRaw(channel, request, fileInfo.OpenRead(), 200, mineType);
             }
