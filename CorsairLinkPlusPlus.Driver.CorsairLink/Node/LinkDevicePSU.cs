@@ -89,16 +89,16 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
             }
         }
 
-        internal void SetMainPage(int page)
+        internal void SetMainPage(int page, bool verify = false)
         {
             DisabledCheck();
 
-            WriteSingleByteRegister(0x00, (byte)page);
+            WriteSingleByteRegister(0x00, (byte)page, verify);
         }
 
-        private void SetSecondary12VPage(int page)
+        private void SetSecondary12VPage(int page, bool verify = false)
         {
-            WriteSingleByteRegister(0xE7, (byte)page);
+            WriteSingleByteRegister(0xE7, (byte)page, verify);
         }
 
         internal double GetSecondary12VCurrent(int page)

@@ -34,7 +34,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             if (percent < 0 || percent > 100)
                 throw new ArgumentException();
-            device.WriteSingleByteRegister(0x3B, (byte)percent);
+            device.WriteSingleByteRegister(0x3B, (byte)percent, true);
         }
 
         internal override double GetFixedPercent()
@@ -49,9 +49,11 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             DisabledCheck();
 
             if (controller is FanDefaultController)
-                device.WriteSingleByteRegister(0xF0, 0);
+                device.WriteSingleByteRegister(0xF0, 0, true);
             else if (controller is FanFixedPercentController)
-                device.WriteSingleByteRegister(0xF0, 1);
+                device.WriteSingleByteRegister(0xF0, 1, true);
+            else
+                throw new ArgumentException();
 
             SaveControllerData(controller);
         }
