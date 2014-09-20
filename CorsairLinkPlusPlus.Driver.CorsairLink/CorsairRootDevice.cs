@@ -2,7 +2,9 @@
 using CorsairLinkPlusPlus.Driver.CorsairLink.Registry;
 using HidLibrary;
 using System;
+using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
@@ -18,9 +20,22 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 
         internal static readonly Mutex usbGlobalMutex = new Mutex(false, "Global\\Access_CorsairLink");
 
+        private void AssertConflicts()
+        {
+            Process[] linkProcesses = Process.GetProcessesByName("CorsairLINK");
+            foreach (Process process in linkProcesses)
+            {
+                FileVersionInfo fileVersion = FileVersionInfo.GetVersionInfo(process.Modules[0].FileName);
+                if (fileVersion.ProductName == "CorsairLINK")
+                    throw new LinkAccessException("CorsairLINK is already running");
+                 
+            }
+        }
+
         public CorsairRootDevice()
             : base(RootDevice.GetInstance())
         {
+            AssertConflicts();
             usbGlobalMutex.WaitOne();
             FanControllerRegistry.Initialize();
             LEDControllerRegistry.Initialize();
