@@ -54,7 +54,6 @@
     <None Include=".bin\node.cmd" />
     <None Include=".bin\npm.cmd" />
     <None Include=".bowerrc" />
-    <None Include=".gitignore" />
     <None Include="bower.json" />
     <None Include="Gruntfile.js" />
     <None Include="package.json" />
