@@ -16,10 +16,13 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
 
         }
 
-        public Color GetColor()
+        public Color Color
         {
-            byte[] rgb = GetRGB();
-            return new Color(rgb[0], rgb[1], rgb[2]);
+            get
+            {
+                byte[] rgb = GetRGB();
+                return new Color(rgb[0], rgb[1], rgb[2]);
+            }
         }
 
         protected override double GetValueInternal()
@@ -58,14 +61,20 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
 
         internal abstract byte[] GetRGBInternal();
 
-        public override SensorType GetSensorType()
+        public override SensorType SensorType
         {
-            return SensorType.LED;
+            get
+            {
+                return SensorType.LED;
+            }
         }
 
-        public override Unit GetUnit()
+        public override Unit Unit
         {
-            return Unit.Color;
+            get
+            {
+                return Unit.Color;
+            }
         }
     }
 }

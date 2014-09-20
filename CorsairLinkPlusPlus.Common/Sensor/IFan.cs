@@ -3,6 +3,6 @@ namespace CorsairLinkPlusPlus.Common.Sensor
 {
     public interface IFan : ICooler
     {
-        bool IsPWM();
+        bool PWM { get; }
     }
 }

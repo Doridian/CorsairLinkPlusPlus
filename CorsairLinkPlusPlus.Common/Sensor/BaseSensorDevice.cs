@@ -34,17 +34,20 @@ namespace CorsairLinkPlusPlus.Common.Sensor
                 cachedPresence = null;
         }
 
-        public double GetValue()
+        public double Value
         {
-            if (double.IsNaN(cachedValue))
-                cachedValue = GetValueInternal();
-            return cachedValue;
+            get
+            {
+                if (double.IsNaN(cachedValue))
+                    cachedValue = GetValueInternal();
+                return cachedValue;
+            }
         }
 
-        public abstract SensorType GetSensorType();
+        public abstract SensorType SensorType { get; }
 
         protected abstract double GetValueInternal();
 
-        public abstract Unit GetUnit();
+        public abstract Unit Unit { get; }
     }
 }

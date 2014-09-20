@@ -26,9 +26,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             return powerDevice.ReadPowerIn();
         }
 
-        public override SensorType GetSensorType()
+        public override SensorType SensorType
         {
-            return SensorType.Power;
+            get
+            {
+                return SensorType.Power;
+            }
         }
     }
 }

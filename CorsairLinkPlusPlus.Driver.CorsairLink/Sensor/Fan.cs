@@ -15,11 +15,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
 
         }
 
-        public bool IsPWM()
+        public bool PWM
         {
-            if (cachedPWM == null)
-                cachedPWM = IsPWMInternal();
-            return (bool)cachedPWM;
+            get
+            {
+                if (cachedPWM == null)
+                    cachedPWM = IsPWMInternal();
+                return (bool)cachedPWM;
+            }
         }
 
         public override void Refresh(bool volatileOnly)
@@ -43,9 +46,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
             return false;
         }
 
-        public override SensorType GetSensorType()
+        public override SensorType SensorType
         {
-            return SensorType.Fan;
+            get
+            {
+                return SensorType.Fan;
+            }
         }
     }
 }

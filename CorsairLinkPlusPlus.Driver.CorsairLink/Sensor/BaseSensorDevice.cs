@@ -20,14 +20,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
 
         public override string GetLocalDeviceID()
         {
-            return "Sensor" + GetSensorType().GetName() + id;
+            return "Sensor" + SensorType.GetName() + id;
         }
 
         public override string Name
         {
             get
             {
-                return GetSensorType().GetName() + " " + id;
+                return SensorType.GetName() + " " + id;
             }
         }
     }

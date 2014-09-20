@@ -12,14 +12,20 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
 
         }
 
-        public override SensorType GetSensorType()
+        public override SensorType SensorType
         {
-            return SensorType.Usage;
+            get
+            {
+                return SensorType.Usage;
+            }
         }
 
-        public override Unit GetUnit()
+        public override Unit Unit
         {
-            return Unit.Percent;
+            get
+            {
+                return Unit.Percent;
+            }
         }
     }
 }

@@ -12,9 +12,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor
 
         }
 
-        public override Unit GetUnit()
+        public override Unit Unit
         {
-            return Unit.RPM;
+            get
+            {
+                return Unit.RPM;
+            }
         }
     }
 }

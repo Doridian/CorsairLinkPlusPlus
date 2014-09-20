@@ -97,9 +97,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
                 return afpDevice.GetReadings()[2];
             }
 
-            public override SensorType GetSensorType()
+            public override SensorType SensorType
             {
-                return SensorType.Usage;
+                get
+                {
+                    return SensorType.Usage;
+                }
             }
 
             public override bool Present

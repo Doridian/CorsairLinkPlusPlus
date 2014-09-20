@@ -4,7 +4,7 @@ namespace CorsairLinkPlusPlus.Common.Sensor
 {
     public interface ILED : ISensor
     {
-        Color GetColor();
+        Color Color { get; }
         byte[] GetRGB();
     }
 }

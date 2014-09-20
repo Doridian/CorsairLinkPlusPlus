@@ -29,7 +29,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller
         internal virtual double GetTemperature()
         {
             thermistor.Refresh(true);
-            return thermistor.GetValue();
+            return thermistor.Value;
         }
 
         internal override void Apply(Sensor.BaseSensorDevice sensor)
