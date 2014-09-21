@@ -37,6 +37,11 @@ namespace CorsairLinkPlusPlus.RESTAPI
             this.request = request;
         }
 
+        public void Start()
+        {
+            new Thread(new ThreadStart(_Start)).Start();
+        }
+
         private class ResponseResult
         {
             public bool success;
@@ -82,7 +87,14 @@ namespace CorsairLinkPlusPlus.RESTAPI
             body.Position = 0;
             response.Body = body;
 
-            channel.Send(response);
+            try
+            {
+                channel.Send(response);
+            }
+            catch (Exception e)
+            {
+                Console.Out.WriteLine(e);
+            }
 
             request = null;
             channel = null;
@@ -105,7 +117,7 @@ namespace CorsairLinkPlusPlus.RESTAPI
             return Program.validUsers[username] == auth.Substring(authColon + 1);
         }
 
-        public void Start()
+        private void _Start()
         {
             string absoluteUri = request.Uri.AbsolutePath;
             while (absoluteUri.IndexOf("//") >= 0)
