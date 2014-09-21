@@ -83,10 +83,6 @@ namespace CorsairLinkPlusPlus.CLI
                 PrintSensorsAndSubDevices(RootDevice.GetInstance(), "");
                 Thread.Sleep(1000);
             }
-
-            Console.Out.WriteLine();
-            Console.Out.WriteLine("---DONE---");
-            Console.In.ReadLine();
         }
     }
 }

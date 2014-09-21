@@ -3,6 +3,7 @@ using Griffin.Net.Channels;
 using Griffin.Net.Protocols.Http;
 using Griffin.Net.Protocols.Serializers;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.IO;
 using System.Net;
@@ -15,6 +16,13 @@ namespace CorsairLinkPlusPlus.RESTAPI
     {
         static void Main(string[] args)
         {
+            JsonConvert.DefaultSettings = (() =>
+            {
+                var settings = new JsonSerializerSettings();
+                settings.Converters.Add(new StringEnumConverter { CamelCaseText = true });
+                return settings;
+            });
+
             HttpListener httpServer = new HttpListener();
             httpServer.ClientConnected += httpServer_ClientConnected;
             httpServer.MessageReceived = OnMessage;
