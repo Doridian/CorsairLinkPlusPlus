@@ -55,15 +55,21 @@
     <None Include=".bin\npm.cmd" />
     <None Include=".bowerrc" />
     <None Include="bower.json" />
+    <None Include="CorsairLinkPlusPlus.WebView.licenseheader" />
     <None Include="Gruntfile.js" />
     <None Include="package.json" />
     <None Include="packages.config" />
     <None Include="src\css\main.less" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="src\index.html" />
     <Content Include="src\js\main.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build">
