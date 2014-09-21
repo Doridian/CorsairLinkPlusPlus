@@ -44,7 +44,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
         {
             get
             {
-                return DeviceType.PSU;
+                return DeviceType.Virtual;
             }
         }
 

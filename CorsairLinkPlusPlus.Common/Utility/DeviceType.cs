@@ -24,7 +24,8 @@ namespace CorsairLinkPlusPlus.Common.Utility
         Hub,
         Sensor,
         PSU,
-        Cooler
+        Cooler,
+        Virtual
     }
 
     public static class DeviceTypeExtensions
@@ -43,6 +44,8 @@ namespace CorsairLinkPlusPlus.Common.Utility
                     return "PSU";
                 case DeviceType.Cooler:
                     return "Cooler";
+                case DeviceType.Virtual:
+                    return "Virtual";
             }
             return "N/A";
         }
