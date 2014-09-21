@@ -28,8 +28,8 @@ namespace CorsairLinkPlusPlus.RESTAPI
 {
     public class RequestHandler
     {
-        private readonly ITcpChannel channel;
-        private readonly HttpRequestBase request;
+        private ITcpChannel channel;
+        private HttpRequestBase request;
 
         public RequestHandler(ITcpChannel channel, HttpRequestBase request)
         {
@@ -88,6 +88,9 @@ namespace CorsairLinkPlusPlus.RESTAPI
             response.Body = body;
 
             channel.Send(response);
+
+            request = null;
+            channel = null;
         }
 
         private static bool AuthorizationValid(string auth)
@@ -138,10 +141,12 @@ namespace CorsairLinkPlusPlus.RESTAPI
                     }
 
                     RespondWithDevice(device);
+                    return;
                 }
                 catch (Exception e)
                 {
                     RespondWithJSON(e.Message, false, 500);
+                    return;
                 }
             }
             else
