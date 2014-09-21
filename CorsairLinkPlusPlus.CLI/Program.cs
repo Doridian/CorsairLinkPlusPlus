@@ -45,8 +45,8 @@ namespace CorsairLinkPlusPlus.CLI
                     /*if (fan.GetParent().Name.Contains("Commander Mini"))
                     {
                         IFixedNumberController _fanController = (IFixedNumberController)ControllerRegistry.Get("CorsairLink.FanFixedPercentController").New();
-                        _fanController.SetValue(40);
-                        controllableFan.SetController(_fanController);
+                        _fanController.Value = 40;
+                        controllableFan.Controller = _fanController;
                     }*/
 
                     IController fanController = controllableFan.Controller;
