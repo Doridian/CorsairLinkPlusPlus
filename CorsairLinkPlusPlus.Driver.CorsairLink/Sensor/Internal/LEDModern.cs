@@ -40,7 +40,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             byte[] rgbInt;
 
-            lock (CorsairRootDevice.usbGlobalMutex)
+            using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
             {
                 modernDevice.SetCurrentLED(id);
                 rgbInt = modernDevice.ReadRegister(0x07, 3);
@@ -56,7 +56,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             byte[] reg = new byte[12];
             Buffer.BlockCopy(rgb, 0, reg, 0, rgb.Length);
 
-            lock (CorsairRootDevice.usbGlobalMutex)
+            using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
             {
                 modernDevice.SetCurrentLED(id, true);
                 modernDevice.WriteRegister(0x0B, reg);
@@ -80,7 +80,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
         {
             DisabledCheck();
 
-            lock (CorsairRootDevice.usbGlobalMutex)
+            using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
             {
                 modernDevice.SetCurrentLED(id);
                 modernDevice.WriteRegister(0x08, BitConverter.GetBytes((short)(temperature * 256.0)));
@@ -141,7 +141,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
         {
             DisabledCheck();
 
-            lock (CorsairRootDevice.usbGlobalMutex)
+            using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
             {
                 modernDevice.SetCurrentLED(id, true);
                 modernDevice.WriteSingleByteRegister(0x06, ledData);
@@ -155,7 +155,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             if (cachedLEDData == null)
             {
-                lock (CorsairRootDevice.usbGlobalMutex)
+                using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
                 {
                     modernDevice.SetCurrentLED(id);
                     cachedLEDData = modernDevice.ReadSingleByteRegister(0x06);
@@ -180,7 +180,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             byte[] colors;
 
-            lock (CorsairRootDevice.usbGlobalMutex)
+            using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
             {
                 modernDevice.SetCurrentLED(id);
                 colors = modernDevice.ReadRegister(0x0B, 12);
@@ -203,7 +203,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
                 colors = newColors;
             }
 
-            lock (CorsairRootDevice.usbGlobalMutex)
+            using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
             {
                 modernDevice.SetCurrentLED(id, true);
                 modernDevice.WriteRegister(0x0B, colors, true);
@@ -214,7 +214,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
         {
             byte[] tempTable, colorTable;
 
-            lock (CorsairRootDevice.usbGlobalMutex)
+            using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
             {
                 modernDevice.SetCurrentLED(id);
                 tempTable = modernDevice.ReadRegister(0x09, 6);
@@ -248,7 +248,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
                 Buffer.BlockCopy(point.Y.ToArray(), 0, colorTable, i, 2);
             }
 
-            lock (CorsairRootDevice.usbGlobalMutex)
+            using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
             {
                 modernDevice.SetCurrentLED(id, true);
                 modernDevice.WriteRegister(0x09, tempTable, true);

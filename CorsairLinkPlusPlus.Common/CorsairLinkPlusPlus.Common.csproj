@@ -53,6 +53,7 @@
     <Compile Include="Controller\ICurveController.cs" />
     <Compile Include="Controller\IFixedValueController.cs" />
     <Compile Include="Controller\ITemperatureDependantController.cs" />
+    <Compile Include="Utility\DisposableMutex.cs" />
     <Compile Include="IDevice.cs" />
     <Compile Include="BaseDevice.cs" />
     <Compile Include="IRootDevice.cs" />

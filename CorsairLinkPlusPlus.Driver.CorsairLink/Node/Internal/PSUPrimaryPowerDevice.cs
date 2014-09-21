@@ -62,7 +62,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
         {
             byte[] retVoltage, retCurrent, retPower;
 
-            lock (CorsairRootDevice.usbGlobalMutex)
+            using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
             {
                 SetPage();
                 retVoltage = ReadRegister(0x8B, 2);

@@ -187,7 +187,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 
             try
             {
-                lock (CorsairRootDevice.usbGlobalMutex)
+                using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
                 {
                     hidDevice.Write(command, 500);
                     response = hidDevice.Read(500);

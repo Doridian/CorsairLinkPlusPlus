@@ -137,7 +137,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
             DisabledCheck();
 
             byte[] ret;
-            lock (CorsairRootDevice.usbGlobalMutex)
+            using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
             {
                 SetCurrentFan(id);
                 ret = ReadRegister(0x16, 2);

@@ -19,7 +19,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             DisabledCheck();
 
             byte[] ret;
-            lock (CorsairRootDevice.usbGlobalMutex)
+            using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
             {
                 modernDevice.SetCurrentTemp(id);
                 ret = modernDevice.ReadRegister(0x0E, 2);

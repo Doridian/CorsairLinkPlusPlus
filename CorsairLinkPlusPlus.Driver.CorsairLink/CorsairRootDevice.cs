@@ -6,10 +6,11 @@ using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using CorsairLinkPlusPlus.Common.Utility;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 {
-    public class CorsairRootDevice : BaseDevice, IRootDevice, IDisposable
+    public class CorsairRootDevice : BaseDevice, IRootDevice
     {
         const int VID_CORSAIR_LINK = 0x1B1C;
 
@@ -18,7 +19,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
         const int PID_CORSAIR_BOOTLOADER = 0x0C01;
         const int PID_CORSAIR_MODERN = 0x0C04;
 
-        internal static readonly Mutex usbGlobalMutex = new Mutex(false, "Global\\Access_CorsairLink");
+        internal static readonly DisposableMutex usbGlobalMutex = new DisposableMutex("Global\\Access_CorsairLink");
 
         private void AssertConflicts()
         {
@@ -36,14 +37,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
             : base(RootDevice.GetInstance())
         {
             AssertConflicts();
-            usbGlobalMutex.WaitOne();
             FanControllerRegistry.Initialize();
             LEDControllerRegistry.Initialize();
-        }
-
-        public void Dispose()
-        {
-            usbGlobalMutex.ReleaseMutex();
         }
 
         public override string Name
