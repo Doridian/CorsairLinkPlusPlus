@@ -141,14 +141,6 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             return 0;
         }
 
-        public IEnumerable<RegisteredController> GetValidControllers()
-        {
-            return new RegisteredController[] {
-                ControllerRegistry.Get("CorsairLink.FanDefaultController"),
-                ControllerRegistry.Get("CorsairLink.FanFixedPercentController"),
-            };
-        }
-
         public IEnumerable<string> ValidControllerNames
         {
             get

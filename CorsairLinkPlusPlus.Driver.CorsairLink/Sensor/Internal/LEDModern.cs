@@ -273,16 +273,6 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             }
         }
 
-        public IEnumerable<RegisteredController> GetValidControllers()
-        {
-            return new RegisteredController[] {
-                ControllerRegistry.Get("CorsairLink.LEDSingleColorController"),
-                ControllerRegistry.Get("CorsairLink.LEDTwoColorController"),
-                ControllerRegistry.Get("CorsairLink.LEDFourColorController"),
-                ControllerRegistry.Get("CorsairLink.LEDTemperatureController"),
-            };
-        }
-
         public IEnumerable<string> ValidControllerNames
         {
             get

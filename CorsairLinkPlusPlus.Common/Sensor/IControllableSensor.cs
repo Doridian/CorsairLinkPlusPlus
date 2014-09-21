@@ -26,7 +26,6 @@ namespace CorsairLinkPlusPlus.Common.Sensor
     {
         void SaveControllerData(IController controller);
         IController Controller { get; set; }
-        IEnumerable<RegisteredController> GetValidControllers();
         IEnumerable<string> ValidControllerNames { get; }
     }
 }

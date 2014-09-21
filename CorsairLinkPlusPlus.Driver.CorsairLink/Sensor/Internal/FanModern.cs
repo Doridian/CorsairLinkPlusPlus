@@ -306,20 +306,6 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             return minRPM;
         }
 
-        public IEnumerable<RegisteredController> GetValidControllers()
-        {
-            return new RegisteredController[] {
-                ControllerRegistry.Get("CorsairLink.FanDefaultController"),
-                ControllerRegistry.Get("CorsairLink.FanBalancedModeController"),
-                ControllerRegistry.Get("CorsairLink.FanQuiteModeController"),
-                ControllerRegistry.Get("CorsairLink.FanPerformanceModeController"),
-                ControllerRegistry.Get("CorsairLink.FanCustomCurveController"),
-                ControllerRegistry.Get("CorsairLink.FanFixedRPMController"),
-                ControllerRegistry.Get("CorsairLink.FanFixedPercentController"),
-            };
-        }
-
-
         public IEnumerable<string> ValidControllerNames
         {
             get
