@@ -16,6 +16,7 @@
  * License along with CorsairLinkPlusPlus.
  */
 using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.Common.Utility;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Sensor;
 using CorsairLinkPlusPlus.Driver.CorsairLink.USB;
 using System;
@@ -37,6 +38,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
                     return LinkDevicePSU.CreateNew(usbDevice, channel);
                 default:
                     return null;
+            }
+        }
+
+        public override DeviceType Type
+        {
+            get
+            {
+                return DeviceType.Hub;
             }
         }
 

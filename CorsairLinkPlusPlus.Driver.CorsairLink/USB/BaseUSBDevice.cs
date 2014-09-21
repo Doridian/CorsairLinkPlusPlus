@@ -22,6 +22,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
+using CorsairLinkPlusPlus.Common.Utility;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 {
@@ -220,6 +221,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
             }
 
             return ParseResponse(responseBytes);
+        }
+
+        public override DeviceType Type
+        {
+            get
+            {
+                return DeviceType.Hub;
+            }
         }
     }
 }

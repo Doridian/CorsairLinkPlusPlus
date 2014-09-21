@@ -16,6 +16,7 @@
  * License along with CorsairLinkPlusPlus.
  */
 using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.Common.Utility;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Controller;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal;
@@ -96,6 +97,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
             }
 
             return internalNameCache;
+        }
+
+        public override DeviceType Type
+        {
+            get
+            {
+                return DeviceType.PSU;
+            }
         }
 
         public override string Name

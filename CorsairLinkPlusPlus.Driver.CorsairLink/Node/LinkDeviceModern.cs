@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Utility;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal;
 using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.Common.Utility;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
 {
@@ -40,40 +41,77 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
         private volatile int coolerCount = -1;
         private volatile int ledCount = -1;
         private volatile byte deviceID = 0xFF;
+        private volatile DeviceType actualType = DeviceType.Hub;
+        private volatile string name = null;
 
-        internal LinkDeviceModern(USB.BaseUSBDevice usbDevice, byte channel) : base(usbDevice, channel) { }
+        internal LinkDeviceModern(USB.BaseUSBDevice usbDevice, byte channel)
+            : base(usbDevice, channel)
+        {
+            RefreshCoreValues();
+        }
+
+        private void RefreshCoreValues()
+        {
+            int devID = GetDeviceID();
+            if (devID == 0x37 || devID == 0x3A || devID == 0x3B || devID == 0x3C || devID == 0x3E || devID == 0x40 || devID == 0x41)
+                actualType = DeviceType.Cooler;
+            else
+                actualType = DeviceType.Hub;
+
+            switch (GetDeviceID())
+            {
+                case 0x37:
+                    name = "Corsair H80";
+                    break;
+                case 0x38:
+                    name = "Corsair Cooling Node";
+                    break;
+                case 0x39:
+                    name = "Corsair Lighting Node";
+                    break;
+                case 0x3A:
+                    name = "Corsair H100";
+                    break;
+                case 0x3B:
+                    name = "Corsair H80i";
+                    break;
+                case 0x3C:
+                    name = "Corsair H100i";
+                    break;
+                case 0x3D:
+                    name = "Corsair Commander Mini";
+                    break;
+                case 0x3E:
+                    name = "Corsair H110i";
+                    break;
+                case 0x3F:
+                    name = "Corsair Hub";
+                    break;
+                case 0x40:
+                    name = "Corsair H100iGT";
+                    break;
+                case 0x41:
+                    name = "Corsair H110iGT";
+                    break;
+                default:
+                    name = "Unknown Modern Device (0x" + string.Format("{0:x2}", GetDeviceID()) + ")";
+                    break;
+            }
+        }
+
+        public override DeviceType Type
+        {
+            get
+            {
+                return actualType;
+            }
+        }
 
         public override string Name
         {
             get
             {
-                switch (GetDeviceID())
-                {
-                    case 0x37:
-                        return "Corsair H80";
-                    case 0x38:
-                        return "Corsair Cooling Node";
-                    case 0x39:
-                        return "Corsair Lighting Node";
-                    case 0x3A:
-                        return "Corsair H100";
-                    case 0x3B:
-                        return "Corsair H80i";
-                    case 0x3C:
-                        return "Corsair H100i";
-                    case 0x3D:
-                        return "Corsair Commander Mini";
-                    case 0x3E:
-                        return "Corsair H110i";
-                    case 0x3F:
-                        return "Corsair Hub";
-                    case 0x40:
-                        return "Corsair H100iGT";
-                    case 0x41:
-                        return "Corsair H110iGT";
-                }
-
-                return "Unknown Modern Device (0x" + string.Format("{0:x2}", GetDeviceID()) + ")";
+                return name;
             }
         }
 
@@ -190,6 +228,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
                     ledSensors = null;
                     coolerSensors = null;
                     deviceID = 0xFF;
+                    RefreshCoreValues();
                 }
             }
         }

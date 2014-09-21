@@ -66,6 +66,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
             }
         }
 
+        public override DeviceType Type
+        {
+            get
+            {
+                return DeviceType.Root;
+            }
+        }
+
         public override void Refresh(bool volatileOnly)
         {
             base.Refresh(volatileOnly);

@@ -35,7 +35,7 @@ namespace CorsairLinkPlusPlus.RESTAPI
             JsonConvert.DefaultSettings = (() =>
             {
                 var settings = new JsonSerializerSettings();
-                settings.Converters.Add(new StringEnumConverter { CamelCaseText = true });
+                settings.Converters.Add(new StringEnumConverter());
                 return settings;
             });
 
