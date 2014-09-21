@@ -47,7 +47,10 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
         internal LinkDeviceModern(USB.BaseUSBDevice usbDevice, byte channel)
             : base(usbDevice, channel)
         {
-            RefreshCoreValues();
+            lock (subDeviceLock)
+            {
+                RefreshCoreValues();
+            }
         }
 
         private void RefreshCoreValues()
