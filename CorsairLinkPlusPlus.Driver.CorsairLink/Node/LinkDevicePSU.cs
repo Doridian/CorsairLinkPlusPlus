@@ -107,7 +107,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node
 
             byte[] ret;
 
-            lock (CorsairRootDevice.usbGlobalMutex)
+            using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
             {
                 SetMainPage(0);
                 SetSecondary12VPage(page);

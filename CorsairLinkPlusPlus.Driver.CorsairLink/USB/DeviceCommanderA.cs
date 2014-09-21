@@ -1,4 +1,4 @@
-using HidLibrary;
+using HidSharp;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 {

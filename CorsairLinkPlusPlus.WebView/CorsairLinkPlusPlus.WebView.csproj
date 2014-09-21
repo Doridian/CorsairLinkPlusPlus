@@ -76,7 +76,7 @@
   </Target>
   <Target Name="Clean">
     <Exec Command="rd /s /q $(OutputPath)" Condition="Exists($(OutputPath))" />
-	<Exec Command="rd /s /q  node_modules" Condition="Exists('node_modules')" />
+    <Exec Command="rd /s /q  node_modules" Condition="Exists('node_modules')" />
   </Target>
   <Target Name="Rebuild" DependsOnTargets="Clean;Build">
   </Target>

@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -53,6 +50,7 @@
     <Compile Include="Controller\ICurveController.cs" />
     <Compile Include="Controller\IFixedValueController.cs" />
     <Compile Include="Controller\ITemperatureDependantController.cs" />
+    <Compile Include="Utility\DisposableMutex.cs" />
     <Compile Include="IDevice.cs" />
     <Compile Include="BaseDevice.cs" />
     <Compile Include="IRootDevice.cs" />
@@ -74,9 +72,6 @@
     <Compile Include="Utility\CurvePoint.cs" />
     <Compile Include="Utility\SensorType.cs" />
     <Compile Include="Utility\Units.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

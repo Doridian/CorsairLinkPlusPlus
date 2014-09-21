@@ -1,15 +1,16 @@
 ﻿using CorsairLinkPlusPlus.Common;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Registry;
-using HidLibrary;
+using HidSharp;
 using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using CorsairLinkPlusPlus.Common.Utility;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 {
-    public class CorsairRootDevice : BaseDevice, IRootDevice, IDisposable
+    public class CorsairRootDevice : BaseDevice, IRootDevice
     {
         const int VID_CORSAIR_LINK = 0x1B1C;
 
@@ -18,7 +19,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
         const int PID_CORSAIR_BOOTLOADER = 0x0C01;
         const int PID_CORSAIR_MODERN = 0x0C04;
 
-        internal static readonly Mutex usbGlobalMutex = new Mutex(false, "Global\\Access_CorsairLink");
+        internal static readonly DisposableMutex usbGlobalMutex = new DisposableMutex("Global\\Access_CorsairLink");
 
         private void AssertConflicts()
         {
@@ -36,14 +37,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
             : base(RootDevice.GetInstance())
         {
             AssertConflicts();
-            usbGlobalMutex.WaitOne();
             FanControllerRegistry.Initialize();
             LEDControllerRegistry.Initialize();
-        }
-
-        public void Dispose()
-        {
-            usbGlobalMutex.ReleaseMutex();
         }
 
         public override string Name
@@ -66,17 +61,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
         {
             List<IDevice> ret = base.GetSubDevicesInternal();
 
-            IEnumerable<HidDevice> hidDevices = HidDevices.Enumerate(VID_CORSAIR_LINK, new int[] {
-                PID_CORSAIR_COMMANDER_LINK_A,
-                PID_CORSAIR_COMMANDER_LINK_B,
-                PID_CORSAIR_BOOTLOADER,
-                PID_CORSAIR_MODERN
-            });
+            IEnumerable<HidDevice> hidDevices = new HidDeviceLoader().GetDevices(VID_CORSAIR_LINK);
 
             foreach (HidDevice hidDevice in hidDevices)
             {
                 USB.BaseUSBDevice device;
-                switch (hidDevice.Attributes.ProductId)
+                switch (hidDevice.ProductID)
                 {
                     case PID_CORSAIR_COMMANDER_LINK_A:
                         device = new DeviceCommanderA(this, hidDevice);

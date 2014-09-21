@@ -1,6 +1,6 @@
 ﻿using CorsairLinkPlusPlus.Common;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Node;
-using HidLibrary;
+using HidSharp;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -182,15 +182,18 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
         {
             DisabledCheck();
 
-            HidDeviceData response;
+            byte[] responseBytes;
+
             command = MakeCommand(opcode, channel, command);
 
             try
             {
-                lock (CorsairRootDevice.usbGlobalMutex)
+                using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
                 {
-                    hidDevice.Write(command, 500);
-                    response = hidDevice.Read(500);
+                    HidStream stream = hidDevice.Open();
+                    stream.Write(command);
+                    responseBytes = stream.Read();
+                    stream.Close();
                 }
             }
             catch (Exception e)
@@ -199,7 +202,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
                 throw e;
             }
 
-            return ParseResponse(response.Data);
+            return ParseResponse(responseBytes);
         }
     }
 }
