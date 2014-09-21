@@ -1,6 +1,6 @@
 ﻿using CorsairLinkPlusPlus.Common;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Registry;
-using HidLibrary;
+using HidSharp;
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -61,17 +61,12 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
         {
             List<IDevice> ret = base.GetSubDevicesInternal();
 
-            IEnumerable<HidDevice> hidDevices = HidDevices.Enumerate(VID_CORSAIR_LINK, new int[] {
-                PID_CORSAIR_COMMANDER_LINK_A,
-                PID_CORSAIR_COMMANDER_LINK_B,
-                PID_CORSAIR_BOOTLOADER,
-                PID_CORSAIR_MODERN
-            });
+            IEnumerable<HidDevice> hidDevices = new HidDeviceLoader().GetDevices(VID_CORSAIR_LINK);
 
             foreach (HidDevice hidDevice in hidDevices)
             {
                 USB.BaseUSBDevice device;
-                switch (hidDevice.Attributes.ProductId)
+                switch (hidDevice.ProductID)
                 {
                     case PID_CORSAIR_COMMANDER_LINK_A:
                         device = new DeviceCommanderA(this, hidDevice);
