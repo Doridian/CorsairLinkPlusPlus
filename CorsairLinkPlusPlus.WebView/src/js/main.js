@@ -18,61 +18,101 @@
 "use strict";
 
 function xmlHTTPPromise(url) {
-	return new Promise(function(resolve, reject) {
-		var req = new XMLHttpRequest();
-		req.open("GET", url);
-		req.responseType = "json";
-		req.addEventListener("readystatechange", function(event) {
-			if(this.readyState === XMLHttpRequest.DONE && this.status === 200 && this.response.success === true) {
-				resolve(this.response);
-			} else if(this.status !== 200) {
-			    var err = new Error("Request failed");
-			    err.code = this.status;
-				reject(err);
-			}
-		});
-		req.timeout = 2000;
-		req.addEventListener("timeout", function() {
-		    reject(new Error("Request timed out"));
-		})
-		req.send();
-	})
+    return new Promise(function (resolve, reject) {
+        var req = new XMLHttpRequest();
+        req.open("GET", url, true, "root", "root");
+        req.responseType = "json";
+        req.addEventListener("readystatechange", function (event) {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200 && this.response.success === true)
+                resolve(this.response);
+            else if (this.status !== 200) {
+                var err = new Error("Request failed");
+                err.code = this.status;
+                reject(err);
+            }
+        });
+        req.timeout = 2000;
+        req.addEventListener("timeout", function () {
+            reject(new Error("Request timed out"));
+        })
+        req.send();
+    })
 }
- 
-function recurseDeviceRequest(path, obj) {
-	return xmlHTTPPromise(path).then(function(data) {
-		var childPaths = data.result.ChildrenPaths;
 
-		if (childPaths.length > 0) {
+var api = (function () {
+    var api = {};
+
+    api.path = "/api";
+
+    function recurseDeviceRequest(path) {
+        return xmlHTTPPromise(api.path).then(function (data) {
+            var childPaths = data.result.ChildrenPaths;
+
+            if (childPaths.length > 0) {
+                delete data.result.ChildrenPaths;
+                return Promise.all(childPaths.map(function (val) {
+                    return recurseDeviceRequest(val);
+                })).then(function (objects) {
+                    data.result.Children = objects;
+                    return data.result;
+                }, function (rejectValue) {
+                    if (rejectValue instanceof Error)
+                        throw rejectValue;
+                    var err = new Error("Failed to promise all");
+                    err.value = rejectValue;
+                    throw err;
+                })
+            }
             delete data.result.ChildrenPaths;
-            return Promise.all(childPaths.map(function(val) {
-                return recurseDeviceRequest(val);
-            })).then(function(objects) {
-                data.result.Children = objects;
-                return data.result;
-            }, function(rejectValue) {
-                if(rejectValue instanceof Error)
-                    throw rejectValue;
-                var err = new Error("Failed to promise all");
-                err.value = rejectValue;
-                throw err;
-            })
-        }
-        delete data.result.ChildrenPaths;
-        return data.result;
-	}, function(code) {
-		throw new Error("failed with code " + code);
-	});
+            return data.result;
+        }, function (code) {
+            throw new Error("failed with code " + code);
+        });
+    }
+
+    api.fetchAllDevices = function () {
+        return recurseDeviceRequest(this.path);
+    }
+
+    api.fetchDevice = function (devicePath) {
+        return xmlHTTPPromise(apiPath + "/" + devicePath);
+    }
+
+    return api;
+})();
+
+var ui = (function () {
+
+    var ui = {};
+
+    ui.populateFromDeviceTree = function () {
+    }
+
+    return ui;
+
+})();
+
+function DeviceTree(rawTree) {
+    if (rawTree)
+        this.buildDevices(rawTree);
 }
 
-console.time("loadInit");
-console.time("load");
-recurseDeviceRequest("http://192.168.88.221:38012").then(function(tree) {
-    console.timeEnd("load");
-    console.log(tree);
-    console.log("done");
-    console.log(JSON.stringify(tree, null, "\t"));
-}, function(err) {
+DeviceTree.prototype.buildDevice = function (rawDevice) {
+    console.log(rawDevice);
+}
+
+DeviceTree.prototype.buildDevices = function (treeNode) {
+    for (var idx in treeNode) {
+        if (idx == "Children")
+            this.buildDevices(treeNode[idx]);
+        else
+            return this.buildDevice(treeNode)
+    }
+}
+
+var rawDeviceTree = api.fetchAllDevices().then(function (rawTree) {
+    console.log("Got tree")
+    var deviceTree = new DeviceTree(rawTree);
+}, function (err) {
     console.log(err);
-});
-console.timeEnd("loadInit");
+})
