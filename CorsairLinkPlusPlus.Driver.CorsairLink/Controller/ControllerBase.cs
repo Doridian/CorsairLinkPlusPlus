@@ -32,7 +32,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller
 
         }
 
-        public string RegisteredName
+        public string Name
         {
             get
             {

@@ -35,7 +35,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Registry
             {
                 FanController tempInstance = ConstructObjectForInspection(type);
                 fanControllers.Add(tempInstance.GetFanModernControllerID(), type.GetConstructor(new Type[0]));
-                ControllerRegistry.Get(tempInstance.RegisteredName, type);
+                ControllerRegistry.Get(tempInstance.Name, type);
             }
         }
 

@@ -35,7 +35,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Registry
             {
                 LEDController tempInstance = ConstructObjectForInspection(type);
                 ledControllers.Add(tempInstance.GetLEDModernControllerID(), type.GetConstructor(new Type[0]));
-                ControllerRegistry.Get(tempInstance.RegisteredName, type);
+                ControllerRegistry.Get(tempInstance.Name, type);
             }
         }
 
