@@ -55,6 +55,7 @@
     <None Include=".bin\npm.cmd" />
     <None Include=".bowerrc" />
     <None Include="bower.json" />
+    <None Include="CorsairLinkPlusPlus.WebView.licenseheader" />
     <None Include="Gruntfile.js" />
     <None Include="package.json" />
     <None Include="packages.config" />

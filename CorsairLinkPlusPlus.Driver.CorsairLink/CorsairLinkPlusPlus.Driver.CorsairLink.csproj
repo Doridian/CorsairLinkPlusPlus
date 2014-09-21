@@ -112,6 +112,7 @@
     <Compile Include="Utility\PowerCurves.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CorsairLinkPlusPlus.Driver.CorsairLink.licenseheader" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
