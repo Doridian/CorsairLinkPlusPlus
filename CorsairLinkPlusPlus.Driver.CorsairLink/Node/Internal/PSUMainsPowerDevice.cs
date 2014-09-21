@@ -16,6 +16,7 @@
  * License along with CorsairLinkPlusPlus.
  */
 using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.Common.Utility;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal;
 using CorsairLinkPlusPlus.Driver.CorsairLink.USB;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Utility;
@@ -36,6 +37,14 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
             : base(psuDevice, channel, 0, name)
         {
 
+        }
+
+        public override DeviceType Type
+        {
+            get
+            {
+                return DeviceType.PSU;
+            }
         }
 
         public override void Refresh(bool volatileOnly)
