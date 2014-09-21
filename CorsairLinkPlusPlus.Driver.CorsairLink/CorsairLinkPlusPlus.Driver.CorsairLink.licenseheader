@@ -1,5 +1,6 @@
 extensions: designer.cs generated.cs
-extensions: .cs .cpp .h .js
+extensions: .cs
+#region LICENSE
 /**
  * CorsairLinkPlusPlus
  * Copyright (c) 2014, Mark Dietzer & Simon Schick, All rights reserved.
@@ -17,6 +18,7 @@ extensions: .cs .cpp .h .js
  * You should have received a copy of the GNU Lesser General Public
  * License along with CorsairLinkPlusPlus.
  */
+ #endregion
 extensions: .aspx .ascx
 <%-- 
 CorsairLinkPlusPlus

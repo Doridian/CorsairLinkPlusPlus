@@ -1,3 +1,4 @@
+#region LICENSE
 /**
  * CorsairLinkPlusPlus
  * Copyright (c) 2014, Mark Dietzer & Simon Schick, All rights reserved.
@@ -15,6 +16,8 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with CorsairLinkPlusPlus.
  */
+ #endregion
+
 using HidSharp;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
