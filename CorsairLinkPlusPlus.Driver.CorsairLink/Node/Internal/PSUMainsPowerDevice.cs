@@ -43,7 +43,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
         {
             get
             {
-                return DeviceType.Virtual;
+                return DeviceType.VirtualHub;
             }
         }
 
