@@ -147,7 +147,7 @@ namespace CorsairLinkPlusPlus.RESTAPI
             else
             {
                 if (absoluteUri == "/" || absoluteUri == "")
-                    absoluteUri = "index.htm";
+                    absoluteUri = "index.html";
                 else
                     absoluteUri = absoluteUri.Substring(1);
 
