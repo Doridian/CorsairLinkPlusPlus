@@ -64,7 +64,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller
         {
             if (!(sensor is TemperatureControllableSensor))
                 throw new ArgumentException();
-            if (Core.DoesThermistorNeedManualPush(sensor, thermistor))
+            if (CoreUtil.DoesThermistorNeedManualPush(sensor, thermistor))
                 ((TemperatureControllableSensor)sensor).SetTemperature(GetTemperature());
         }
     }

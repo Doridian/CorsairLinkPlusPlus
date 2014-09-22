@@ -39,12 +39,5 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
                 Buffer.BlockCopy(payload, 0, command, 3, payload.Length);
             return command;
         }
-
-        protected override byte[] ParseResponse(byte[] response)
-        {
-            byte[] newResponse = new byte[60];
-            Buffer.BlockCopy(response, 2, newResponse, 0, newResponse.Length);
-            return newResponse;
-        }
     }
 }

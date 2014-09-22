@@ -89,7 +89,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
         {
             DisabledCheck();
 
-            int idx = Core.GetRelativeThermistorByte(this, thermistor);
+            int idx = CoreUtil.GetRelativeThermistorByte(this, thermistor);
             byte ledData = GetLEDData();
             ledData &= 0xF8; //11111000
             ledData |= (byte)idx;

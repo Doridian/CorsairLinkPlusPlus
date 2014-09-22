@@ -108,7 +108,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
         {
             DisabledCheck();
 
-            int idx = Core.GetRelativeThermistorByte(this, thermistor);
+            int idx = CoreUtil.GetRelativeThermistorByte(this, thermistor);
             byte fanData = GetFanData();
             fanData &= 0x8F; //10001111
             fanData |= (byte)(idx << 4);

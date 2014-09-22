@@ -24,7 +24,7 @@ using System.Text;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink
 {
-    public static class Core
+    public static class CoreUtil
     {
         public static string ByteArrayToHexString(byte[] ba)
         {

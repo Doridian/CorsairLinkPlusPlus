@@ -154,6 +154,13 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
             }
         }
 
+        protected virtual byte[] ParseResponse(byte[] response)
+        {
+            byte[] newResponse = new byte[60];
+            Buffer.BlockCopy(response, 3, newResponse, 0, newResponse.Length);
+            return newResponse;
+        }
+
         private bool SleepAfterFailure()
         {
             Thread.Sleep(100);
@@ -194,8 +201,6 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
                     break;
             }
         }
-
-        protected abstract byte[] ParseResponse(byte[] response);
 
         protected abstract byte[] MakeCommand(byte opcode, byte channel, byte[] response);
 

@@ -21,6 +21,7 @@
 using CorsairLinkPlusPlus.Common;
 using CorsairLinkPlusPlus.Common.Utility;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Sensor;
+using System;
 using System.Collections.Generic;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
@@ -66,7 +67,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
         {
             get
             {
-                return GetReadings()[0] != 0;
+                byte[] readings = GetReadings();
+                return readings.Length > 0 && readings[0] != 0;
             }
         }
 
