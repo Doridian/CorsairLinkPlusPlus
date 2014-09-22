@@ -17,7 +17,6 @@
  * License along with CorsairLinkPlusPlus.
  */
  #endregion
-
 using CorsairLinkPlusPlus.Common.Controller;
 using CorsairLinkPlusPlus.Common.Registry;
 using System.Collections;

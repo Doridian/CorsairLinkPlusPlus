@@ -17,7 +17,6 @@
  * License along with CorsairLinkPlusPlus.
  */
  #endregion
-
 namespace CorsairLinkPlusPlus.Common.Utility
 {
     public enum DeviceType
