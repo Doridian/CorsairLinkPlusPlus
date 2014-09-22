@@ -17,11 +17,17 @@
  * License along with CorsairLinkPlusPlus.
  */
  #endregion
+using System.Collections.Generic;
 namespace CorsairLinkPlusPlus.Common.Utility
 {
-    public struct Color
+    public class Color
     {
         public byte R, G, B;
+        
+        public Color()
+        {
+
+        }
 
         public Color(Color color)
         {
@@ -45,6 +51,11 @@ namespace CorsairLinkPlusPlus.Common.Utility
         public byte[] ToArray()
         {
             return new byte[] { R, G, B };
+        }
+
+        public static implicit operator Color(Dictionary<string, object> value)
+        {
+            return new Color((byte)value["R"], (byte)value["G"], (byte)value["B"]);
         }
     }
 }

@@ -17,6 +17,7 @@
  * License along with CorsairLinkPlusPlus.
  */
  #endregion
+using System.Collections.Generic;
 namespace CorsairLinkPlusPlus.Common.Utility
 {
     public class CurvePoint<K, V>
@@ -38,6 +39,11 @@ namespace CorsairLinkPlusPlus.Common.Utility
         public override string ToString()
         {
             return "{x=" + X + ",y=" + Y + "}";
+        }
+
+        public static implicit operator CurvePoint<K, V>(Dictionary<string, object> value)
+        {
+            return new CurvePoint<K, V>((K)value["X"], (V)value["Y"]);
         }
     }
 }

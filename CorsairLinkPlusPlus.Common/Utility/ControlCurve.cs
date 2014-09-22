@@ -66,5 +66,14 @@ namespace CorsairLinkPlusPlus.Common.Utility
                 builder.Append(point).Append(", ");
             return builder.ToString();
         }
+
+        public static implicit operator ControlCurve<K, V>(Dictionary<string, object> value)
+        {
+            IEnumerable<object> pointsRaw = (IEnumerable<object>)value["Points"];
+            List<CurvePoint<K, V>> points = new List<CurvePoint<K,V>>();
+            foreach (object pointRaw in pointsRaw)
+                points.Add((CurvePoint<K, V>)pointRaw);
+            return new ControlCurve<K, V>(points);
+        }
     }
 }
