@@ -40,7 +40,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             psuDevice.Refresh(true);
         }
 
-        protected override double GetValueInternal()
+        protected override object GetValueInternal()
         {
             DisabledCheck();
             return psuDevice.GetSecondary12VCurrent(id);

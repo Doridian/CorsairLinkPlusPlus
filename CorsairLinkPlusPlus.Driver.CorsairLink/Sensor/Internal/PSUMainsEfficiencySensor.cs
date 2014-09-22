@@ -47,7 +47,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             }
         }
 
-        protected override double GetValueInternal()
+        protected override object GetValueInternal()
         {
             return powerDevice.ReadEfficiency();
         }

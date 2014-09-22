@@ -39,10 +39,9 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             powerDevice.Refresh(true);
         }
 
-        protected override double GetValueInternal()
+        protected override object GetValueInternal()
         {
             DisabledCheck();
-
             return powerDevice.ReadPowerIn();
         }
 

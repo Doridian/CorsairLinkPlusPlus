@@ -25,7 +25,7 @@ namespace CorsairLinkPlusPlus.Common.Sensor
 {
     public interface ISensor : IDevice
     {
-        double Value { get; }
+        object Value { get; }
         SensorType SensorType { get; }
         Unit Unit { get; }
     }

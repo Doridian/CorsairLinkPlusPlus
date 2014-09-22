@@ -25,7 +25,7 @@ namespace CorsairLinkPlusPlus.Common.Sensor
 {
     public abstract class BaseSensorDevice : BaseDevice, ISensor
     {
-        protected double cachedValue = double.NaN;
+        protected object cachedValue = null;
         protected bool? cachedPresence = null;
 
         protected BaseSensorDevice(IDevice parent) : base(parent) { }
@@ -48,16 +48,16 @@ namespace CorsairLinkPlusPlus.Common.Sensor
         public override void Refresh(bool volatileOnly)
         {
             base.Refresh(volatileOnly);
-            cachedValue = double.NaN;
+            cachedValue = null;
             if (!volatileOnly)
                 cachedPresence = null;
         }
 
-        public double Value
+        public object Value
         {
             get
             {
-                if (double.IsNaN(cachedValue))
+                if (cachedValue == null)
                     cachedValue = GetValueInternal();
                 return cachedValue;
             }
@@ -65,7 +65,7 @@ namespace CorsairLinkPlusPlus.Common.Sensor
 
         public abstract SensorType SensorType { get; }
 
-        protected abstract double GetValueInternal();
+        protected abstract object GetValueInternal();
 
         public abstract Unit Unit { get; }
     }

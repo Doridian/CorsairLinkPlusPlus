@@ -81,10 +81,9 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             ((ControllerBase)Controller).Refresh(this);
         }
 
-        protected override double GetValueInternal()
+        protected override object GetValueInternal()
         {
             DisabledCheck();
-
             return modernDevice.GetCoolerRPM(id);
         }
 

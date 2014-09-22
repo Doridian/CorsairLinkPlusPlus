@@ -41,10 +41,9 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
         }
 
-        protected override double GetValueInternal()
+        protected override object GetValueInternal()
         {
             DisabledCheck();
-
             return BitCodec.ToFloat(device.ReadRegister(0x90, 2), 0);
         }
 
