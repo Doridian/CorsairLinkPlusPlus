@@ -11,7 +11,28 @@ namespace CorsairLinkPlusPlus.RESTAPI.Methods
     public abstract class BaseMethod
     {
         public IDevice Device;
-        public Dictionary<string,object> Arguments;
+        public Dictionary<string, object> Arguments;
+
+        public static void Execute(string name, IDevice device, Dictionary<string, object> arguments)
+        {
+            Methods.BaseMethod method;
+            switch (name)
+            {
+                case "Refresh":
+                    method = new Methods.Refresh();
+                    break;
+                case "SetController":
+                    method = new Methods.SetController();
+                    break;
+                default:
+                    throw new ArgumentException("Invalid method");
+            }
+            method.Arguments = arguments;
+            method.Device = device;
+            if (!method.IsDeviceValid())
+                throw new ArgumentException("Invalid method for device");
+            method.Call();
+        }
 
         public abstract void Call();
 
