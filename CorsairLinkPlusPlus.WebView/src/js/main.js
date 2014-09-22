@@ -77,6 +77,9 @@ var preload = [
 	"classes/Controller",
 	"classes/Device",
 	"classes/DeviceTree",
+	"classes/Color",
+	"classes/NotImplementedError",
+	"classes/InvalidArgumentError",
 	"classes/Controllers/FanBalancedModeController",
 	"classes/Controllers/FanController",
 	"classes/Controllers/FanCurveController",
@@ -132,6 +135,8 @@ Promise.all(preload.map(function(val) {
 	
 	
 	api.fetchAllDevices().then(function(rawTree) {
+	
+		console.log("RAW TREE:", rawTree);
 	
 		var deviceTree = new DeviceTree(rawTree);
 		console.log(deviceTree.getDevices());

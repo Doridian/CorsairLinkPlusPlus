@@ -22,17 +22,16 @@ var ControlCurve = require("classes/ControlCurve");
 
 function FanCurveController(rawData) {
 	FanController.apply(this, arguments);
-	var points = rawData.Value.Points;
+	var points = this.value.Points;
 	var curve = new ControlCurve();
 	points.forEach(function(point) {
-		curve.add(point);
+		curve.add({
+			x: point.X,
+			y: point.Y
+		});
 	});
-	this.curve = curve;
+	this.value = curve;
 }
 inherit(FanCurveController, FanController);
-
-FanCurveController.prototype.getCurve = function() {
-	return this.curve;
-}
 
 return FanCurveController;

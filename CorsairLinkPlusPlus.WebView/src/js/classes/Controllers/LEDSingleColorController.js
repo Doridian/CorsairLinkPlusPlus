@@ -18,20 +18,17 @@
 "use strict";
 
 var LEDController = require("classes/Controllers/LEDController");
+var Color = require("classes/Color");
 
 function LEDSingleColorController(rawData) {
 	LEDController.apply(this, arguments);
-	var color = rawData.Value;
-	this.color = new Color(color.r, color.g, color.b);
+	var rawColor = this.value;
+	this.value = new Color(rawColor.R, rawColor.G, rawColor.B);
 }
 inherit(LEDSingleColorController, LEDController);
 
-LEDSingleColorController.prototype.setColor = function(color)	{
-	this.color = color;
-}
-
-LEDSingleColorController.prototype.getColor = function() {
-	return this.color;
+LEDSingleColorController.prototype.setValue = function(value) {
+	this.value = value;
 }
 
 return LEDSingleColorController;

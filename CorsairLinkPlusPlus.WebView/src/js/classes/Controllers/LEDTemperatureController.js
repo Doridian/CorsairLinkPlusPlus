@@ -18,9 +18,19 @@
 "use strict";
 
 var LEDController = require("classes/Controllers/LEDController");
+var ControlCurve = require("classes/ControlCurve");
 
 function LEDTemperatureController(rawData) {
 	LEDController.apply(this, arguments);
+	var points = this.value.Points;
+	var curve = new ControlCurve();
+	points.forEach(function(point) {
+		curve.add({
+			x: point.X,
+			y: new Color(point.Y.R, point.Y.G, point.Y.B)
+		});
+	});
+	this.value = curve;
 }
 inherit(LEDTemperatureController, LEDController);
 

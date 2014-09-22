@@ -18,6 +18,11 @@
 "use strict";
 
 function Controller(rawData) {
+	this.value = rawData.Value;
+}
+
+Controller.prototype.getValue = function() {
+	return this.value;
 }
 
 return Controller;

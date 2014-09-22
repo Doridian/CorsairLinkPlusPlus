@@ -24,4 +24,12 @@ function FanFixedPercentController(rawData) {
 }
 inherit(FanFixedPercentController, FanController);
 
+
+FanFixedPercentController.prototype.setValue = function(val) {
+	if(val < 0 || val > 1)
+		throw new InvalidArgumentError("value must be in unit interval");
+	this.value = val;
+	this.update();
+}
+
 return FanFixedPercentController;

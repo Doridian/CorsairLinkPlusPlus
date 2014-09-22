@@ -24,15 +24,19 @@ util.arrayCopy = function(arr) {
 	return arr.slice(0);
 }
 
-util.xmlHTTPPromise = function(url) {
+util.fetchResource = function(url, type, data) {
 	return new Promise(function (resolve, reject) {
 		var req = new XMLHttpRequest();
-		req.open("GET", url, true, "root", "root");
-		req.responseType = "json";
+		req.open(data ? "POST" || "GET", url, true, "root", "root");
+		if(type)
+			req.responseType = type;
 		req.addEventListener("readystatechange", function (event) {
-			if (this.readyState === XMLHttpRequest.DONE && this.status === 200 && this.response.success === true)
-				resolve(this.response);
-			else if (this.status !== 200) {
+			if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+				if(type)
+					resolve(this.response);
+				else
+					resolve(this.responseText);
+			} else if (this.status !== 200) {
 				var err = new Error("Request failed");
 				err.code = this.status;
 				reject(err);
@@ -42,8 +46,12 @@ util.xmlHTTPPromise = function(url) {
 		req.addEventListener("timeout", function () {
 			reject(new Error("Request timed out"));
 		})
-		req.send();
-	})
+		req.send(data);
+	});
+}
+
+util.fetchJSON = function(url, data) {
+	return this.fetchResource(url, "json", data);
 }
 
 return util;

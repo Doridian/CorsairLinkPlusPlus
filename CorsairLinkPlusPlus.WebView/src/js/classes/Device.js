@@ -17,9 +17,9 @@
  */
 "use strict";
 
-function Device(rawDevice) {
-	this.name = rawDevice.Name;
-	this.path = rawDevice.AbsolutePath;
+function Device(rawData) {
+	this.name = rawData.Name;
+	this.path = rawData.AbsolutePath;
 }
 
 Device.prototype.getPath = function() {

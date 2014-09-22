@@ -19,7 +19,7 @@
 
 var Sensor = require("classes/Devices/Sensor");
 
-function Pump(rawDevice) {
+function Pump(rawData) {
 	Sensor.apply(this, arguments);
 }
 inherit(Pump, Sensor);

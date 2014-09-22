@@ -21,7 +21,7 @@ var Device = require("classes/Device");
 
 var util = require("libraries/util")
 
-function Hub(rawDevice) {
+function Hub(rawData) {
 	Device.apply(this, arguments);
 	this.children = [];
 }

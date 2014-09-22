@@ -17,31 +17,9 @@
  */
 "use strict";
 
-var Device = require("classes/Device");
-
-function Sensor(rawData) {
-	Device.apply(this, arguments);
-	this.type = rawData.SensorType;
-	this.unit = rawData.Unit;
-	this.value = rawData.Value;
-	this.validControllerNames = rawData.ValidControllerNames;
+function InvalidArgumentError(message) {
+	Error.apply(this, arguments);
 }
-inherit(Sensor, Device);
+inherit(InvalidArgumentError, Error);
 
-Sensor.prototype.getValue = function() {
-	return this.value;
-}
-
-Sensor.prototype.getUnit = function() {
-	return this.unit;
-}
-
-Sensor.prototype.setController = function(controller) {
-	this.controller = controller;
-}
-
-Sensor.prototype.update = function(controller) {
-	return api.sendDeviceUpdate(this);
-}
-
-return Sensor;
+return InvalidArgumentError;

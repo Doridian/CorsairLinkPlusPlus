@@ -19,7 +19,7 @@
 
 var Sensor = require("classes/Devices/Sensor");
 
-function Thermistor(rawDevice) {
+function Thermistor(rawData) {
 	Sensor.apply(this, arguments);
 }
 inherit(Thermistor, Sensor);

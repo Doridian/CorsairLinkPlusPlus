@@ -18,10 +18,16 @@
 "use strict";
 
 var FanCurveController = require("classes/Controllers/FanCurveController");
+var ControlCurve = require("classes/ControlCurve");
 
 function FanCustomCurveController(rawData) {
 	FanCurveController.apply(this, arguments);
 }
 inherit(FanCustomCurveController, FanCurveController);
+
+FanCustomCurveController.prototype.setValue = function(newCurve) {
+	this.value = newCurve;
+	return this.update();
+}
 
 return FanCustomCurveController;

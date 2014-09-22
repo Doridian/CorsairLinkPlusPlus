@@ -27,7 +27,7 @@ var util = require("libraries/util");
 api.path = "/api";
 
 function recurseDeviceRequest(path) {
-	return util.xmlHTTPPromise(path).then(function (data) {
+	return util.fetchJSON(path).then(function (data) {
 		var childPaths = data.result.ChildrenPaths;
 
 		if (childPaths.length > 0) {
@@ -53,14 +53,18 @@ function recurseDeviceRequest(path) {
 	});
 }
 
-api.fetchAllDevices = function () {
+api.sendDeviceUpdate = function(device) {
+	util.fetchJSON(this.path + device.getPath(), device.fetchData());
+}
+
+api.fetchAllDevices = function() {
 	return recurseDeviceRequest(this.path).then(function(rawTree) {
 		return rawTree;
 	});
 }
 
-api.fetchDevice = function (devicePath) {
-	return util.xmlHTTPPromise(this.path + "/" + devicePath);
+api.fetchDevice = function(devicePath) {
+	return util.fetchJSON(this.path + "/" + devicePath);
 }
 
 return api;

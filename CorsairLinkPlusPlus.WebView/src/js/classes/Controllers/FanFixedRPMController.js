@@ -24,4 +24,11 @@ function FanFixedRPMController(rawData) {
 }
 inherit(FanFixedRPMController, FanController);
 
+FanFixedRPMController.prototype.setValue = function(val) {
+	if(val < 0 || val > 4000)
+		throw new InvalidArgumentError("value must be within [0,4000] interval");
+	this.value = val;
+	return this.update();
+}
+
 return FanFixedRPMController;

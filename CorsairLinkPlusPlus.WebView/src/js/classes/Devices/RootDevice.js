@@ -19,7 +19,7 @@
 
 var Hub = require("classes/Devices/Hub");
 
-function RootDevice(rawDevice) {
+function RootDevice(rawData) {
 	Hub.apply(this, arguments);
 }
 

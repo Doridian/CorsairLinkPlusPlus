@@ -19,7 +19,7 @@
 
 var Fan = require("classes/Devices/Sensors/Fan");
 
-function PWMFan(rawDevice) {
+function PWMFan(rawData) {
 	Fan.apply(this, arguments);
 }
 inherit(PWMFan, Fan);

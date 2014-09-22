@@ -42,25 +42,25 @@ DeviceTree.prototype.buildController = function(rawData) {
 	return ControllerFactory.create(rawData);
 }
 
-DeviceTree.prototype.buildDevice = function (rawDevice) {
-	switch(rawDevice.Type) {
+DeviceTree.prototype.buildDevice = function (rawData) {
+	switch(rawData.Type) {
 		case "Root":
-			return new RootDevice(rawDevice);
+			return new RootDevice(rawData);
 		case "Hub":
-			return new Hub(rawDevice);
+			return new Hub(rawData);
 		case "VirtualHub":
-			return new VirtualHub(rawDevice);
+			return new VirtualHub(rawData);
 		case "PSU":
-			return new PSU(rawDevice);
+			return new PSU(rawData);
 		case "Sensor":
-			var sensor = this.buildSensor(rawDevice);
-			if("Controller" in rawDevice)
-				sensor.setController(this.buildController(rawDevice.Controller));
+			var sensor = this.buildSensor(rawData);
+			if("Controller" in rawData)
+				sensor.setController(this.buildController(rawData.Controller));
 			return sensor;
 		case "Cooler":
-			return new Cooler(rawDevice);
+			return new Cooler(rawData);
 		default:
-			console.warn("Unhandled device type " + rawDevice.Type);
+			console.warn("Unhandled device type " + rawData.Type);
 			break;
 	}
 }

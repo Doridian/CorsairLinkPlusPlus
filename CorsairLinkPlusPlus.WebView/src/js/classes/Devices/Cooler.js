@@ -19,7 +19,7 @@
 
 var Hub = require("classes/Devices/Hub");
 
-function Cooler(rawDevice) {
+function Cooler(rawData) {
 	Hub.apply(this, arguments);
 }
 inherit(Cooler, Hub);

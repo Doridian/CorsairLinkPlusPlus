@@ -19,9 +19,10 @@
 
 var Sensor = require("classes/Devices/Sensor");
 
-function Fan(rawDevice) {
+function Fan(rawData) {
 	Sensor.apply(this, arguments);
 }
 inherit(Fan, Sensor);
+
 
 return Fan;

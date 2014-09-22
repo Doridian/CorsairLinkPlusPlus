@@ -33,9 +33,9 @@ function SensorFactory() {
 SensorFactory.create = function(rawData) {
 	switch(rawData.SensorType) {
 		case "Fan":
+			if(rawData.PWM)
+				return new PWMFan(rawData);
 			return new Fan(rawData);
-		case "PWMFan":
-			return new PWMFan(rawData);
 		case "Temperature":
 			return new Thermistor(rawData);
 		case "LED":
