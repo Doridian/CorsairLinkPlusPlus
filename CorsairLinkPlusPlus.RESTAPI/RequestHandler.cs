@@ -155,12 +155,13 @@ namespace CorsairLinkPlusPlus.RESTAPI
 
                     if(request.HttpMethod == "POST")
                     {
+                        Dictionary<string, object> methodCall;
                         using (StreamReader bodyReader = new StreamReader(request.Body))
                         {
-                            Dictionary<string, object> methodCall = JsonConvert.DeserializeObject<Dictionary<string, object>>(bodyReader.ReadToEnd());
-                            BaseMethod.Execute((string)methodCall["Name"], device, (Dictionary<string, object>)methodCall["Params"]);
-                            RespondWithJSON("OK");
+                            methodCall = JsonConvert.DeserializeObject<Dictionary<string, object>>(bodyReader.ReadToEnd());
                         }
+                        BaseMethod.Execute((string)methodCall["Name"], device, (Dictionary<string, object>)methodCall["Params"]);
+                        RespondWithJSON("OK");
                         return;
                     }
 
