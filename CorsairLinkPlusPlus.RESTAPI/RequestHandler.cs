@@ -31,8 +31,9 @@ namespace CorsairLinkPlusPlus.RESTAPI
 {
     public class RequestHandler
     {
-        private ITcpChannel channel;
+        private volatile ITcpChannel channel;
         private HttpRequestBase request;
+        private readonly object lockObject = new object();
 
         public RequestHandler(ITcpChannel channel, HttpRequestBase request)
         {
@@ -57,24 +58,34 @@ namespace CorsairLinkPlusPlus.RESTAPI
             }
         }
 
-        private void RespondWithDevice(IDevice device)
+        private bool RespondWithDevice(IDevice device)
         {
             device.Refresh(true);
-            RespondWithJSON(device, true);
+            return RespondWithJSON(device, true);
         }
 
-        private void RespondWithJSON(object result, bool success = true, int statusCode = 200, Dictionary<string, string> headers = null)
+        private bool RespondWithJSON(object result, bool success = true, int statusCode = 200, Dictionary<string, string> headers = null)
         {
             string responseStr = JsonConvert.SerializeObject(new ResponseResult(result, success));
             byte[] responseBytes = System.Text.Encoding.UTF8.GetBytes(responseStr);
             MemoryStream output = new MemoryStream();
             output.Write(responseBytes, 0, responseBytes.Length);
-            RespondWithRaw(output, statusCode, "application/json", headers);
+            return RespondWithRaw(output, statusCode, "application/json", headers);
         }
 
-        private void RespondWithRaw(Stream body, int statusCode, string mimeType, Dictionary<string, string> headers = null)
+        private bool RespondWithRaw(Stream body, int statusCode, string mimeType, Dictionary<string, string> headers = null)
         {
+            ITcpChannel _channel;
+            lock (lockObject)
+            {
+                if (channel == null)
+                    return false;
+                _channel = channel;
+                channel = null;
+            }
+
             IHttpResponse response = request.CreateResponse();
+            request = null;
 
             response.ContentLength = (int)body.Length;
             response.StatusCode = statusCode;
@@ -90,17 +101,8 @@ namespace CorsairLinkPlusPlus.RESTAPI
             body.Position = 0;
             response.Body = body;
 
-            try
-            {
-                channel.Send(response);
-            }
-            catch (Exception e)
-            {
-                Console.Out.WriteLine(e);
-            }
-
-            request = null;
-            channel = null;
+            _channel.Send(response);
+            return true;
         }
 
         private static bool AuthorizationValid(string auth)
@@ -136,7 +138,7 @@ namespace CorsairLinkPlusPlus.RESTAPI
 
                 if (request.HttpMethod == "OPTIONS" || request.HttpMethod == "HEAD")
                 {
-                    RespondWithJSON("Yep yep, no need for these", true, 200);
+                    RespondWithJSON("Yep yep, no need for these");
                     return;
                 }
 
@@ -150,12 +152,41 @@ namespace CorsairLinkPlusPlus.RESTAPI
                         return;
                     }
 
+                    if(request.HttpMethod == "POST")
+                    {
+                        using (StreamReader bodyReader = new StreamReader(request.Body))
+                        {
+                            MethodCall methodCall = JsonConvert.DeserializeObject<MethodCall>(bodyReader.ReadToEnd());
+                            methodCall.Device = device;
+                            methodCall.Execute();
+                            RespondWithJSON("OK");
+                        }
+                        return;
+                    }
+
                     RespondWithDevice(device);
                     return;
                 }
                 catch (Exception e)
                 {
-                    RespondWithJSON(e.Message, false, 500);
+                    try
+                    {
+                        RespondWithJSON(e.Message, false, 500);
+
+                        Console.Error.WriteLine("------------------");
+                        Console.Error.WriteLine("Error in HTTP");
+                        Console.Error.WriteLine(e);
+                        Console.Error.WriteLine("------------------");
+                    }
+                    catch (Exception se)
+                    {
+                        Console.Error.WriteLine("------------------");
+                        Console.Error.WriteLine("Error in HTTP error handler");
+                        Console.Error.WriteLine(se);
+                        Console.Error.WriteLine("Caused by");
+                        Console.Error.WriteLine(e);
+                        Console.Error.WriteLine("------------------");
+                    }
                     return;
                 }
             }
