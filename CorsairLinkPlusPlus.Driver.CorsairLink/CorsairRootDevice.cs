@@ -56,9 +56,22 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
         public CorsairRootDevice()
             : base(RootDevice.GetInstance())
         {
-            AssertConflicts();
-            FanControllerRegistry.Initialize();
-            LEDControllerRegistry.Initialize();
+
+        }
+
+        private volatile bool initialized = false;
+
+        public void Initialize()
+        {
+            lock (subDeviceLock)
+            {
+                if (initialized)
+                    return;
+                initialized = true;
+                AssertConflicts();
+                FanControllerRegistry.Initialize();
+                LEDControllerRegistry.Initialize();
+            }
         }
 
         public override string Name

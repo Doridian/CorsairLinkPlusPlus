@@ -22,5 +22,6 @@ namespace CorsairLinkPlusPlus.Common
 {
     public interface IRootDevice : IDevice
     {
+        void Initialize();
     }
 }

@@ -32,21 +32,21 @@ namespace CorsairLinkPlusPlus.Common
 
         private List<IDevice> rootDevices = new List<IDevice>();
 
+        private volatile bool initialized = false;
+
+        private RootDevice()
+            : base(null)
+        {
+
+        }
+
         public static RootDevice GetInstance()
         {
-            bool needsInit = false;
-
             lock (instanceLock)
             {
                 if (instance == null)
-                {
                     instance = new RootDevice();
-                    needsInit = true;
-                }
             }
-
-            if(needsInit)
-                instance.Initialize();
 
             return instance;
         }
@@ -66,14 +66,15 @@ namespace CorsairLinkPlusPlus.Common
             return GetInstance().FindBySubPath(path);
         }
 
-        private RootDevice()
-            : base(null)
+        public void Initialize()
         {
+            lock (subDeviceLock)
+            {
+                if (initialized)
+                    return;
+                initialized = true;
+            }
 
-        }
-
-        private void Initialize()
-        {
             string path = Assembly.GetExecutingAssembly().Location;
             path = path.Substring(0, path.LastIndexOfAny(new char[] { Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar }));
             foreach (string file in Directory.EnumerateFiles(path, "CorsairLinkPlusPlus.Driver.*.dll"))
@@ -86,7 +87,9 @@ namespace CorsairLinkPlusPlus.Common
                     {
                         try
                         {
-                            rootDevices.Add((IDevice)t.GetConstructor(new Type[0]).Invoke(null));
+                            IRootDevice rootDevice = (IRootDevice)t.GetConstructor(new Type[0]).Invoke(null);
+                            rootDevice.Initialize();
+                            rootDevices.Add(rootDevice);
                         }
                         catch (Exception e)
                         {
@@ -120,6 +123,7 @@ namespace CorsairLinkPlusPlus.Common
 
         public override IEnumerable<IDevice> GetSubDevices()
         {
+            Initialize();
             return rootDevices;
         }
     }
