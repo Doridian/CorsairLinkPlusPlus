@@ -22,7 +22,7 @@ var api = {};
 
 var util = require("libraries/util");
 
-
+var DeviceTree = require("classes/DeviceTree");
 
 api.path = "/api";
 
@@ -53,13 +53,29 @@ function recurseDeviceRequest(path) {
 	});
 }
 
-api.sendDeviceUpdate = function(device) {
-	util.fetchJSON(this.path + device.getPath(), device.fetchData());
+api.executeOnDevice = function(path, method, params) {
+	return util.fetchJSON(this.path + path, {
+		Name: method,
+		Params: params
+	});
 }
 
-api.fetchAllDevices = function() {
+api.refreshDevice = function(path) {
+	return this.executeOnDevice(path, "Refresh", {
+		Volatile: true
+	});
+}
+
+api.sendControllerUpdate = function(path, controller) {
+	return this.executeOnDevice(path, "SetController", {
+		Controller: controller.constructor.getFullClassName(),
+		Params: controller.getData()
+	});
+}
+
+api.fetchDeviceTree = function() {
 	return recurseDeviceRequest(this.path).then(function(rawTree) {
-		return rawTree;
+		return new DeviceTree(rawTree);
 	});
 }
 

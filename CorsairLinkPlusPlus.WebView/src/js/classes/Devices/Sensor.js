@@ -40,8 +40,8 @@ Sensor.prototype.setController = function(controller) {
 	this.controller = controller;
 }
 
-Sensor.prototype.update = function(controller) {
-	return api.sendDeviceUpdate(this);
+Sensor.prototype.sendControllerUpdate = function(controller) {
+	return api.sendControllerUpdate(this.getPath(), controller.fetchData());
 }
 
 return Sensor;

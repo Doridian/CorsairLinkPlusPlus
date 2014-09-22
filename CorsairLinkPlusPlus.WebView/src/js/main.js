@@ -35,6 +35,14 @@ function require(what) {
 	var ret;
 	try {
 		ret = donePreload[what]();
+		var className = donePreload[what].path;
+		if(className) {
+			ret.className = className;
+			console.log(ret.className);
+			ret.getFullClassName = function() {
+				return className;
+			}
+		}
 	} catch(e) {
 		throw new Error("Failed to execute file:\n " + what + " " + e.message);
 	}
@@ -120,7 +128,11 @@ Promise.all(preload.map(function(val) {
 })).then(function(responseDataSets) {
 	responseDataSets.forEach(function(responseData) {
 		try {
-			donePreload[responseData.url.replace("js/", "").replace(".js", "")] = new Function(responseData.contents);
+			var loadFunc = new Function(responseData.contents);
+			var trimmedPath = responseData.url.replace("js/", "").replace(".js", "");
+			if(responseData.url.indexOf("classes") > -1)
+				loadFunc.path = trimmedPath.replace(/\//g, ".").replace("classes.", "");
+			donePreload[trimmedPath] = loadFunc;
 		} catch(e) {
 			throw Error("Could not compile file:\n " + responseData.url + ": " + e.message);
 		}
@@ -131,14 +143,9 @@ Promise.all(preload.map(function(val) {
 	
 	
 	var api = require("libraries/api");
-	var DeviceTree = require("classes/DeviceTree");
 	
 	
-	api.fetchAllDevices().then(function(rawTree) {
-	
-		console.log("RAW TREE:", rawTree);
-	
-		var deviceTree = new DeviceTree(rawTree);
+	api.fetchDeviceTree().then(function(deviceTree) {
 		console.log(deviceTree.getDevices());
 
 	}, function(e) {
