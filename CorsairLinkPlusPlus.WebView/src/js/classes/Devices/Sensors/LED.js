@@ -23,7 +23,7 @@ var Color = require("classes/Color");
 
 function LED(rawData) {
 	Sensor.apply(this, arguments);
-	this.value = new Color(rawData.Color.R, rawData.Color.G, rawData.Color.B);
+	this.value = new Color(rawData.Value.R, rawData.Value.G, rawData.Value.B);
 }
 inherit(LED, Sensor);
 

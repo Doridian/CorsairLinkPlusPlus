@@ -17,11 +17,17 @@
  */
 "use strict";
 
-var FanCurve = require("classes/Controllers/FanCurve");
+var FanCurveController = require("classes/Controllers/Fan/CorsairLink/Curve");
+var ControlCurve = require("classes/ControlCurve");
 
-function FanPerformanceMode(rawData) {
-	FanCurve.apply(this, arguments);
+function FanCustomCurve(rawData) {
+	FanCurveController.apply(this, arguments);
 }
-inherit(FanPerformanceMode, FanCurve);
+inherit(FanCustomCurve, FanCurveController);
 
-return FanPerformanceMode;
+FanCustomCurve.prototype.setValue = function(newCurve) {
+	this.value = newCurve;
+	return this.update();
+}
+
+return FanCustomCurve;

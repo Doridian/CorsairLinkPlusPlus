@@ -17,17 +17,19 @@
  */
 "use strict";
 
-var FanCurve = require("classes/Controllers/FanCurve");
-var ControlCurve = require("classes/ControlCurve");
+var FanController = require("classes/Controllers/Fan");
 
-function FanCustomCurve(rawData) {
-	FanCurve.apply(this, arguments);
+function FanFixedPercent(rawData) {
+	FanController.apply(this, arguments);
 }
-inherit(FanCustomCurve, FanCurve);
+inherit(FanFixedPercent, FanController);
 
-FanCustomCurve.prototype.setValue = function(newCurve) {
-	this.value = newCurve;
-	return this.update();
+
+FanFixedPercent.prototype.setValue = function(val) {
+	if(val < 0 || val > 1)
+		throw new InvalidArgumentError("value must be in unit interval");
+	this.value = val;
+	this.update();
 }
 
-return FanCustomCurve;
+return FanFixedPercent;

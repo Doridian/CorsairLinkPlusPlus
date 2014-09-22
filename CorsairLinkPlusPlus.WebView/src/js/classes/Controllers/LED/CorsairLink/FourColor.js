@@ -17,11 +17,30 @@
  */
 "use strict";
 
-var Fan = require("classes/Controllers/Fan");
+var util = require("libraries/util");
 
-function FanDefault(rawData) {
-	Fan.apply(this, arguments);
+var LED = require("classes/Controllers/LED");
+var InvalidArgumentError = require("classes/InvalidArgumentError");
+var Color = require("classes/Color");
+
+function FourColor(rawData) {
+	if(rawData.length != 4)
+		throw new InvalidArgumentError("List must contain exactly 4 values");
+	LED.apply(this, arguments);
+	var old = this.value;
+	this.value = [];
+	old.forEach(function(rawColor) {
+		this.value.push(new Color(rawColor.R, rawColor.G, rawColor.B));
+	});
 }
-inherit(FanDefault, Fan);
+inherit(FourColor, LED);
 
-return FanDefault;
+FourColor.prototype.getValue = function() {
+	return util.arrayCopy(this.value);
+}
+
+FourColor.prototype.setValue = function(value) {
+	this.value = util.arrayCopy(value);
+}
+
+return FourColor;

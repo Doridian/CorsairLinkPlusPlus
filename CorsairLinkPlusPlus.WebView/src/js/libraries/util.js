@@ -27,7 +27,7 @@ util.arrayCopy = function(arr) {
 util.fetchResource = function(url, type, data) {
 	return new Promise(function (resolve, reject) {
 		var req = new XMLHttpRequest();
-		req.open(data ? "POST" || "GET", url, true, "root", "root");
+		req.open(data ? "POST" : "GET", url, true, "root", "root");
 		if(type)
 			req.responseType = type;
 		req.addEventListener("readystatechange", function (event) {

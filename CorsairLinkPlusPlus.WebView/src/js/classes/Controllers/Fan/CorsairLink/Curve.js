@@ -17,15 +17,21 @@
  */
 "use strict";
 
-function ControllerFactory() {
-}
+var FanController = require("classes/Controllers/Fan");
+var ControlCurve = require("classes/ControlCurve");
 
-ControllerFactory.create = function(rawData) {
-	try {
-		return require("classes/Controllers/" + rawData.Name.replace(/\./g, "/"));
-	} catch(e) {
-		throw new Error("Unhandled controller type " + rawData.Name + " " + e.message);
-	}
+function FanCurve(rawData) {
+	FanController.apply(this, arguments);
+	var points = this.value.Points;
+	var curve = new ControlCurve();
+	points.forEach(function(point) {
+		curve.add({
+			x: point.X,
+			y: point.Y
+		});
+	});
+	this.value = curve;
 }
+inherit(FanCurve, FanController);
 
-return ControllerFactory
+return FanCurve;

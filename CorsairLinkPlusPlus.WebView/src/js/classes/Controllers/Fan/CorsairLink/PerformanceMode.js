@@ -17,18 +17,11 @@
  */
 "use strict";
 
-var Fan = require("classes/Controllers/Fan");
+var FanCurveController = require("classes/Controllers/Fan/CorsairLink/Curve");
 
-function FanFixedRPM(rawData) {
-	Fan.apply(this, arguments);
+function FanPerformanceMode(rawData) {
+	FanCurveController.apply(this, arguments);
 }
-inherit(FanFixedRPM, Fan);
+inherit(FanPerformanceMode, FanCurveController);
 
-FanFixedRPM.prototype.setValue = function(val) {
-	if(val < 0 || val > 4000)
-		throw new InvalidArgumentError("value must be within [0,4000] interval");
-	this.value = val;
-	return this.update();
-}
-
-return FanFixedRPM;
+return FanPerformanceMode;

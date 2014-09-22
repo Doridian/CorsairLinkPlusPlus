@@ -17,21 +17,11 @@
  */
 "use strict";
 
-var Fan = require("classes/Controllers/Fan");
-var ControlCurve = require("classes/ControlCurve");
+var FanCurveController = require("classes/Controllers/Fan/CorsairLink/Curve");
 
-function FanCurve(rawData) {
-	Fan.apply(this, arguments);
-	var points = this.value.Points;
-	var curve = new ControlCurve();
-	points.forEach(function(point) {
-		curve.add({
-			x: point.X,
-			y: point.Y
-		});
-	});
-	this.value = curve;
+function FanQuiteMode(rawData) {
+	FanCurve.apply(this, arguments);
 }
-inherit(FanCurve, Fan);
+inherit(FanQuiteMode, FanCurve);
 
-return FanCurve;
+return FanQuiteMode;

@@ -17,19 +17,11 @@
  */
 "use strict";
 
-var Fan = require("classes/Controllers/Fan");
+var FanController = require("classes/Controllers/Fan");
 
-function FanFixedPercent(rawData) {
-	Fan.apply(this, arguments);
+function FanDefault(rawData) {
+	FanController.apply(this, arguments);
 }
-inherit(FanFixedPercent, Fan);
+inherit(FanDefault, FanController);
 
-
-FanFixedPercent.prototype.setValue = function(val) {
-	if(val < 0 || val > 1)
-		throw new InvalidArgumentError("value must be in unit interval");
-	this.value = val;
-	this.update();
-}
-
-return FanFixedPercent;
+return FanDefault;
