@@ -25,16 +25,16 @@ using System;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.LED
 {
-    public class LEDTemperatureController : TemperatureDependantControllerBase, LEDController, ICurveColorController
+    public class CustomCurve : TemperatureDependantControllerBase, ILEDController, ICurveColorController
     {
         protected ControlCurve<double, Color> curve;
 
-        public LEDTemperatureController()
+        public CustomCurve()
         {
 
         }
 
-        public LEDTemperatureController(ControlCurve<double, Color> colors)
+        public CustomCurve(ControlCurve<double, Color> colors)
         {
             Value = colors;
         }

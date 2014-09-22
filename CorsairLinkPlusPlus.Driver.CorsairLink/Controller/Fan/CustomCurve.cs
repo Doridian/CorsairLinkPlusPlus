@@ -24,29 +24,48 @@ using CorsairLinkPlusPlus.Driver.CorsairLink.Utility;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
 {
-    public class FanPerformanceModeController : FanCurveController
+    public class CustomCurve : BaseCurve
     {
-        public FanPerformanceModeController() { }
+        public CustomCurve() { }
 
-        public FanPerformanceModeController(Thermistor thermistor)
+        public CustomCurve(Thermistor thermistor)
             : base(thermistor)
         {
 
         }
 
+        public override void SetCurve(ControlCurve<double, double> curve)
+        {
+            this.curve = curve;
+        }
+
         public override ControlCurve<double, double> GetDefaultPoints()
         {
             return new ControlCurve<double, double>(
-                new CurvePoint<double, double>(25, 1600),
-                new CurvePoint<double, double>(28, 1700),
-                new CurvePoint<double, double>(31, 2200),
-                new CurvePoint<double, double>(34, 2400),
-                new CurvePoint<double, double>(40, 2700)
+                new CurvePoint<double, double>(0, 0),
+                new CurvePoint<double, double>(0, 0),
+                new CurvePoint<double, double>(0, 0),
+                new CurvePoint<double, double>(0, 0),
+                new CurvePoint<double, double>(0, 0)
             );
         }
+
+        public override void AssignFrom(Sensor.Fan fan)
+        {
+            base.AssignFrom(fan);
+            SetCurve(fan.GetControlCurve());
+        }
+
+        internal override void Apply(Sensor.BaseSensorDevice sensor)
+        {
+            base.Apply(sensor);
+            ((Sensor.Fan)sensor).SetControlCurve(Value);
+        }
+
         public override byte GetFanModernControllerID()
         {
-            return 0x0C;
+            return 0x0E;
         }
     }
+
 }

@@ -27,7 +27,7 @@ using System.Reflection;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Registry
 {
-    public class LEDControllerRegistry : RegistryBase<LEDController>
+    public class LEDControllerRegistry : RegistryBase<ILEDController>
     {
         private static Dictionary<byte, ConstructorInfo> ledControllers;
 
@@ -36,17 +36,17 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Registry
             ledControllers = new Dictionary<byte, ConstructorInfo>();
             foreach (Type type in GetSubtypesInNamespace(Assembly.GetExecutingAssembly(), "CorsairLinkPlusPlus.Driver.CorsairLink.Controller.LED"))
             {
-                LEDController tempInstance = ConstructObjectForInspection(type);
+                ILEDController tempInstance = ConstructObjectForInspection(type);
                 ledControllers.Add(tempInstance.GetLEDModernControllerID(), type.GetConstructor(new Type[0]));
                 ControllerRegistry.Get(tempInstance.Name, type);
             }
         }
 
-        public static LEDController Get(LED led, byte modernTypeID)
+        public static ILEDController Get(LED led, byte modernTypeID)
         {
             if (!ledControllers.ContainsKey(modernTypeID))
                 return null;
-            LEDController ledController = (LEDController)ledControllers[modernTypeID].Invoke(new object[0]);
+            ILEDController ledController = (ILEDController)ledControllers[modernTypeID].Invoke(new object[0]);
             ledController.AssignFrom(led);
             return ledController;
         }

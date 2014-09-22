@@ -22,11 +22,11 @@ using CorsairLinkPlusPlus.Driver.CorsairLink.Sensor;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
 {
-    public class FanDefaultController : TemperatureDependantControllerBase, FanController
+    public class Default : TemperatureDependantControllerBase, IFanController
     {
-        public FanDefaultController() { }
+        public Default() { }
 
-        public FanDefaultController(Thermistor thermistor)
+        public Default(Thermistor thermistor)
             : base(thermistor)
         {
 

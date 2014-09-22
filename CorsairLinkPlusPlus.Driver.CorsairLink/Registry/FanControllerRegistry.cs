@@ -27,7 +27,7 @@ using System.Reflection;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Registry
 {
-    public class FanControllerRegistry : RegistryBase<FanController>
+    public class FanControllerRegistry : RegistryBase<IFanController>
     {
         private static Dictionary<byte, ConstructorInfo> fanControllers;
 
@@ -36,17 +36,17 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Registry
             fanControllers = new Dictionary<byte, ConstructorInfo>();
             foreach(Type type in GetSubtypesInNamespace(Assembly.GetExecutingAssembly(), "CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan"))
             {
-                FanController tempInstance = ConstructObjectForInspection(type);
+                IFanController tempInstance = ConstructObjectForInspection(type);
                 fanControllers.Add(tempInstance.GetFanModernControllerID(), type.GetConstructor(new Type[0]));
                 ControllerRegistry.Get(tempInstance.Name, type);
             }
         }
 
-        public static FanController Get(Fan fan, byte modernTypeID)
+        public static IFanController Get(Fan fan, byte modernTypeID)
         {
             if (!fanControllers.ContainsKey(modernTypeID))
                 return null;
-            FanController fanController = (FanController)fanControllers[modernTypeID].Invoke(null);
+            IFanController fanController = (IFanController)fanControllers[modernTypeID].Invoke(null);
             fanController.AssignFrom(fan);
             return fanController;
         }

@@ -18,54 +18,58 @@
  */
  #endregion
 
+using CorsairLinkPlusPlus.Common.Controller;
 using CorsairLinkPlusPlus.Common.Utility;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Sensor;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Utility;
+using System;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
 {
-    public class FanCustomCurveController : FanCurveController
+    public abstract class BaseCurve : TemperatureDependantControllerBase, IFanController, ICurveNumberController
     {
-        public FanCustomCurveController() { }
-
-        public FanCustomCurveController(Thermistor thermistor)
-            : base(thermistor)
+        public BaseCurve()
         {
-
+            LoadDefaultCurve();
         }
 
-        public override void SetCurve(ControlCurve<double, double> curve)
+        public BaseCurve(Thermistor thermistor) : base(thermistor)
         {
-            this.curve = curve;
+            LoadDefaultCurve();
         }
 
-        public override ControlCurve<double, double> GetDefaultPoints()
+        public void LoadDefaultCurve()
         {
-            return new ControlCurve<double, double>(
-                new CurvePoint<double, double>(0, 0),
-                new CurvePoint<double, double>(0, 0),
-                new CurvePoint<double, double>(0, 0),
-                new CurvePoint<double, double>(0, 0),
-                new CurvePoint<double, double>(0, 0)
-            );
+            curve = GetDefaultPoints().Copy();
         }
 
-        public override void AssignFrom(Sensor.Fan fan)
+        public abstract ControlCurve<double, double> GetDefaultPoints();
+
+        protected ControlCurve<double, double> curve;
+
+
+        public ControlCurve<double, double> Value
         {
-            base.AssignFrom(fan);
-            SetCurve(fan.GetControlCurve());
+            get
+            {
+                return curve.Copy();
+            }
+            set
+            {
+                throw new InvalidOperationException();
+            }
         }
 
-        internal override void Apply(Sensor.BaseSensorDevice sensor)
+        public virtual void SetCurve(ControlCurve<double, double> curve)
         {
-            base.Apply(sensor);
-            ((Sensor.Fan)sensor).SetControlCurve(Value);
+            throw new InvalidOperationException();
         }
 
-        public override byte GetFanModernControllerID()
+        public virtual void AssignFrom(Sensor.Fan fan)
         {
-            return 0x0E;
+            SetThermistor(((TemperatureControllableSensor)fan).GetTemperatureSensor());
         }
+
+        public abstract byte GetFanModernControllerID();
     }
-
 }

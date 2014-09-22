@@ -20,35 +20,12 @@
 
 using CorsairLinkPlusPlus.Common.Controller;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Sensor;
-using CorsairLinkPlusPlus.Driver.CorsairLink.USB;
 
-namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller
+namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.LED
 {
-    public abstract class ControllerBase : IController
+    public interface ILEDController : IController
     {
-        private string registryName = null;
-
-        internal virtual void Apply(Sensor.BaseSensorDevice sensor)
-        {
-
-        }
-
-        internal virtual void Refresh(Sensor.BaseSensorDevice sensor)
-        {
-
-        }
-
-        public string Name
-        {
-            get
-            {
-                if (registryName == null)
-                {
-                    //CorsairLinkPlusPlus.Driver. = 27
-                    registryName = this.GetType().FullName.Substring(27);
-                }
-                return registryName;
-            }
-        }
+        void AssignFrom(Sensor.LED led);
+        byte GetLEDModernControllerID();
     }
 }

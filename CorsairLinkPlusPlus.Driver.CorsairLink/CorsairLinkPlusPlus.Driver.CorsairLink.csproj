@@ -44,22 +44,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\ControllerBase.cs" />
-    <Compile Include="Controller\Fan\FanBalancedModeController.cs" />
-    <Compile Include="Controller\Fan\FanCustomCurveController.cs" />
-    <Compile Include="Controller\Fan\FanPerformanceModeController.cs" />
-    <Compile Include="Controller\Fan\FanQuiteModeController.cs" />
-    <Compile Include="Controller\LED\LEDTemperatureController.cs" />
-    <Compile Include="Controller\LED\LEDFourColorController.cs" />
-    <Compile Include="Controller\LED\LEDTwoColorController.cs" />
-    <Compile Include="Controller\LED\LEDSingleColorController.cs" />
-    <Compile Include="Controller\LED\LEDColorCycleController.cs" />
+    <Compile Include="Controller\Fan\BalancedMode.cs" />
+    <Compile Include="Controller\Fan\CustomCurve.cs" />
+    <Compile Include="Controller\Fan\PerformanceMode.cs" />
+    <Compile Include="Controller\Fan\QuiteMode.cs" />
+    <Compile Include="Controller\LED\CustomCurve.cs" />
+    <Compile Include="Controller\LED\FourColor.cs" />
+    <Compile Include="Controller\LED\TwoColor.cs" />
+    <Compile Include="Controller\LED\SingleColor.cs" />
+    <Compile Include="Controller\LED\ColorCycle.cs" />
     <Compile Include="Controller\TemperatureDependantControllerBase.cs" />
-    <Compile Include="Controller\Fan\FanController.cs" />
-    <Compile Include="Controller\Fan\FanCurveController.cs" />
-    <Compile Include="Controller\Fan\FanFixedPercentController.cs" />
-    <Compile Include="Controller\Fan\FanDefaultController.cs" />
-    <Compile Include="Controller\Fan\FanFixedRPMController.cs" />
-    <Compile Include="Controller\LED\LEDController.cs" />
+    <Compile Include="Controller\Fan\IFanController.cs" />
+    <Compile Include="Controller\Fan\BaseCurve.cs" />
+    <Compile Include="Controller\Fan\FixedPercent.cs" />
+    <Compile Include="Controller\Fan\Default.cs" />
+    <Compile Include="Controller\Fan\FixedRPM.cs" />
+    <Compile Include="Controller\LED\ILEDController.cs" />
     <Compile Include="LinkAccessException.cs" />
     <Compile Include="Node\Internal\LinkDevicePSUHX.cs" />
     <Compile Include="Node\Internal\PSUPrimaryPowerDevice.cs" />

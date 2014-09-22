@@ -37,7 +37,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
     {
         private readonly LinkDeviceModern modernDevice;
         private byte? cachedLEDData;
-        private LEDController m_controller;
+        private ILEDController m_controller;
 
         internal LEDModern(LinkDeviceModern device, int id)
             : base(device, id)
@@ -113,10 +113,10 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             {
                 DisabledCheck();
 
-                if (!(value is LEDController))
+                if (!(value is ILEDController))
                     throw new ArgumentException();
 
-                LEDController ledController = (LEDController)value;
+                ILEDController ledController = (ILEDController)value;
 
                 byte ledControllerID = ledController.GetLEDModernControllerID();
 
@@ -151,7 +151,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
         {
             DisabledCheck();
 
-            if (!(controller is LEDController))
+            if (!(controller is ILEDController))
                 throw new ArgumentException();
 
             ((ControllerBase)Controller).Apply(this);
@@ -281,10 +281,10 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             get
             {
                 return new string[] {
-                    "CorsairLink.LEDSingleColorController",
-                    "CorsairLink.LEDTwoColorController",
-                    "CorsairLink.LEDFourColorController",
-                    "CorsairLink.LEDTemperatureController",
+                    "CorsairLink.Controller.LED.SingleColor",
+                    "CorsairLink.Controller.LED.TwoColor",
+                    "CorsairLink.Controller.LED.FourColor",
+                    "CorsairLink.Controller.LED.CustomCurve",
                 };
             }
         }

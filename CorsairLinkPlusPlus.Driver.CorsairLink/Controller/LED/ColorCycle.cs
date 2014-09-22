@@ -28,11 +28,11 @@ using CorsairLinkPlusPlus.Common.Utility;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.LED
 {
-    public abstract class LEDColorCycleController : ControllerBase, LEDController, IFixedColorCycleController
+    public abstract class ColorCycle : ControllerBase, ILEDController, IFixedColorCycleController
     {
         private readonly Color[] colors;
 
-        public LEDColorCycleController()
+        public ColorCycle()
         {
             int numColors = GetNumColors();
             this.colors = new Color[numColors];
@@ -40,7 +40,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.LED
                 this.colors[i] = new Color();
         }
 
-        public LEDColorCycleController(Color[] colors) : this()
+        public ColorCycle(Color[] colors) : this()
         {
             CopyNumColorArray(colors, this.colors);
         }

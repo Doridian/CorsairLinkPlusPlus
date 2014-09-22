@@ -24,11 +24,11 @@ using CorsairLinkPlusPlus.Driver.CorsairLink.Utility;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
 {
-    public class FanBalancedModeController : FanCurveController
+    public class PerformanceMode : BaseCurve
     {
-        public FanBalancedModeController() { }
+        public PerformanceMode() { }
 
-        public FanBalancedModeController(Thermistor thermistor)
+        public PerformanceMode(Thermistor thermistor)
             : base(thermistor)
         {
 
@@ -37,16 +37,16 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
         public override ControlCurve<double, double> GetDefaultPoints()
         {
             return new ControlCurve<double, double>(
-                new CurvePoint<double, double>(25, 1300),
-                new CurvePoint<double, double>(28, 1500),
-                new CurvePoint<double, double>(31, 1800),
-                new CurvePoint<double, double>(37, 1900),
-                new CurvePoint<double, double>(40, 2000)
+                new CurvePoint<double, double>(25, 1600),
+                new CurvePoint<double, double>(28, 1700),
+                new CurvePoint<double, double>(31, 2200),
+                new CurvePoint<double, double>(34, 2400),
+                new CurvePoint<double, double>(40, 2700)
             );
         }
         public override byte GetFanModernControllerID()
         {
-            return 0x0A;
+            return 0x0C;
         }
     }
 }

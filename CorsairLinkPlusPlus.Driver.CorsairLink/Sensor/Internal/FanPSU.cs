@@ -74,10 +74,10 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
                     switch (device.ReadSingleByteRegister(0xF0))
                     {
                         case 0:
-                            m_controller = new FanDefaultController();
+                            m_controller = new Default();
                             break;
                         case 1:
-                            FanFixedPercentController newController = new FanFixedPercentController();
+                            FixedPercent newController = new FixedPercent();
                             newController.AssignFrom(this);
                             m_controller = newController;
                             break;
@@ -91,9 +91,9 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             {
                 DisabledCheck();
 
-                if (value is FanDefaultController)
+                if (value is Default)
                     device.WriteSingleByteRegister(0xF0, 0, true);
-                else if (value is FanFixedPercentController)
+                else if (value is FixedPercent)
                     device.WriteSingleByteRegister(0xF0, 1, true);
                 else
                     throw new ArgumentException();
@@ -148,8 +148,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             get
             {
                 return new string[] {
-                    "CorsairLink.FanDefaultController",
-                    "CorsairLink.FanFixedPercentController",
+                    "CorsairLink.Controller.Fan.Default",
+                    "CorsairLink.Controller.Fan.FixedRPM",
                 };
             }
         }

@@ -46,12 +46,9 @@ namespace CorsairLinkPlusPlus.CLI
                     IController ledController = controllableLED.Controller;
                     Console.Out.WriteLine(prefix + "- " + led.Name + " = " + led.Value + " " + led.Unit.GetPostfix());
                     if (ledController != null)
-                        Console.Out.WriteLine(prefix + "\t" + ((ledController == null) ? "N/A" : ledController.GetType().Name));
+                        Console.Out.WriteLine(prefix + "\t" + ((ledController == null) ? "N/A" : ledController.Name));
                     if (ledController is IFixedColorCycleController)
                     {
-                        //ledController = new LEDFourColorController(new Color(255, 1, 1), new Color(1, 1, 255), new Color(255, 1, 255), new Color(255, 255, 1));
-                        //ledController = new LEDSingleColorController(new Color(255, 1, 1));
-                        //controllableLED.SetController(ledController);
                         Console.Out.WriteLine(prefix + "\t\t" + ((IFixedColorCycleController)ledController).Value[0].ToString());
                     }
                 }
@@ -70,7 +67,7 @@ namespace CorsairLinkPlusPlus.CLI
                     IController fanController = controllableFan.Controller;
                     Console.Out.WriteLine(prefix + "- " + fan.Name + " = " + fan.Value + " " + fan.Unit.GetPostfix());
                     if (fanController != null)
-                        Console.Out.WriteLine(prefix + "\t" + ((fanController == null) ? "N/A" : fanController.GetType().Name));
+                        Console.Out.WriteLine(prefix + "\t" + ((fanController == null) ? "N/A" : fanController.Name));
                     if(fanController is ICurveNumberController)
                     {
                         Console.Out.WriteLine(prefix + "\t\t" + ((ICurveNumberController)fanController).Value.ToString().Replace("}, {", "}\r\n" + prefix + "\t\t{"));

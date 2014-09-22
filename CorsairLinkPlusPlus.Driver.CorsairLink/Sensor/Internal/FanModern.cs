@@ -37,7 +37,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
     {
         private readonly LinkDeviceModern modernDevice;
         protected byte? cachedFanData = null;
-        private FanController m_controller = null;
+        private IFanController m_controller = null;
 
         internal FanModern(LinkDeviceModern device, int id)
             : base(device, id)
@@ -131,10 +131,10 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             {
                 DisabledCheck();
 
-                if (!(value is FanController))
+                if (!(value is IFanController))
                     throw new ArgumentException();
 
-                FanController fanController = (FanController)value;
+                IFanController fanController = (IFanController)value;
 
                 byte fanControllerID = fanController.GetFanModernControllerID();
                 if ((fanControllerID & 0xF1) != 0)
@@ -166,7 +166,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
         {
             DisabledCheck();
 
-            if (!(controller is FanController))
+            if (!(controller is IFanController))
                 throw new ArgumentException();
             ((ControllerBase)Controller).Apply(this);
         }
@@ -313,13 +313,13 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             get
             {
                 return new string[] {
-                    "CorsairLink.FanDefaultController",
-                    "CorsairLink.FanBalancedModeController",
-                    "CorsairLink.FanQuiteModeController",
-                    "CorsairLink.FanPerformanceModeController",
-                    "CorsairLink.FanCustomCurveController",
-                    "CorsairLink.FanFixedRPMController",
-                    "CorsairLink.FanFixedPercentController",
+                    "CorsairLink.Controller.Fan.Default",
+                    "CorsairLink.Controller.Fan.BalancedMode",
+                    "CorsairLink.Controller.Fan.QuiteMode",
+                    "CorsairLink.Controller.Fan.PerformanceMode",
+                    "CorsairLink.Controller.Fan.CustomCurve",
+                    "CorsairLink.Controller.Fan.FixedRPM",
+                    "CorsairLink.Controller.Fan.FixedPercent",
                 };
             }
         }

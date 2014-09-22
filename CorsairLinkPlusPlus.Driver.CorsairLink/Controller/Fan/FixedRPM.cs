@@ -24,13 +24,13 @@ using System;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
 {
-    public class FanFixedRPMController : ControllerBase, FanController, IFixedNumberController
+    public class FixedRPM : ControllerBase, IFanController, IFixedNumberController
     {
         private double rpm;
 
-        public FanFixedRPMController() { }
+        public FixedRPM() { }
 
-        public FanFixedRPMController(double rpm)
+        public FixedRPM(double rpm)
         {
             Value = rpm;
         }

@@ -20,56 +20,55 @@
 
 using CorsairLinkPlusPlus.Common.Controller;
 using CorsairLinkPlusPlus.Common.Utility;
-using CorsairLinkPlusPlus.Driver.CorsairLink.Sensor;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Utility;
 using System;
 
-namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
+namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.LED
 {
-    public abstract class FanCurveController : TemperatureDependantControllerBase, FanController, ICurveNumberController
+    public class SingleColor : ControllerBase, ILEDController, IFixedColorController
     {
-        public FanCurveController()
+        private Color m_color;
+
+        public SingleColor()
         {
-            LoadDefaultCurve();
+            
         }
 
-        public FanCurveController(Thermistor thermistor) : base(thermistor)
+        public SingleColor(Color color)
         {
-            LoadDefaultCurve();
+            m_color = color;
         }
 
-        public void LoadDefaultCurve()
+        public byte GetLEDModernControllerID()
         {
-            curve = GetDefaultPoints().Copy();
+            return 0x00;
         }
 
-        public abstract ControlCurve<double, double> GetDefaultPoints();
-
-        protected ControlCurve<double, double> curve;
-
-
-        public ControlCurve<double, double> Value
+        public Color Value
         {
             get
             {
-                return curve.Copy();
+                return m_color;
             }
             set
             {
-                throw new InvalidOperationException();
+                m_color = value;
             }
         }
 
-        public virtual void SetCurve(ControlCurve<double, double> curve)
+        internal override void Apply(Sensor.BaseSensorDevice sensor)
         {
-            throw new InvalidOperationException();
+            if (!(sensor is Sensor.LED))
+                throw new ArgumentException();
+            base.Apply(sensor);
+
+            ((Sensor.LED)sensor).SetFixedRGBCycleColors(m_color.ToArray());
         }
 
-        public virtual void AssignFrom(Sensor.Fan fan)
+        public void AssignFrom(Sensor.LED led)
         {
-            SetThermistor(((TemperatureControllableSensor)fan).GetTemperatureSensor());
+            byte[] colorData = led.GetFixedRGBCycleColors();
+            m_color = new Color(colorData[0], colorData[1], colorData[2]);
         }
-
-        public abstract byte GetFanModernControllerID();
     }
 }

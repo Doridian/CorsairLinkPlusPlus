@@ -24,13 +24,13 @@ using System;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
 {
-    public class FanFixedPercentController : ControllerBase, FanController, IFixedNumberController
+    public class FixedPercent : ControllerBase, IFanController, IFixedNumberController
     {
         private double percent;
 
-        public FanFixedPercentController() { }
+        public FixedPercent() { }
 
-        public FanFixedPercentController(double percent)
+        public FixedPercent(double percent)
         {
             Value = percent;
         }

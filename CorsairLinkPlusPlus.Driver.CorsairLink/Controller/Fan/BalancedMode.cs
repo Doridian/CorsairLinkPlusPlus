@@ -19,25 +19,34 @@
  #endregion
 
 using CorsairLinkPlusPlus.Common.Utility;
+using CorsairLinkPlusPlus.Driver.CorsairLink.Sensor;
+using CorsairLinkPlusPlus.Driver.CorsairLink.Utility;
 
-namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.LED
+namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.Fan
 {
-    public class LEDTwoColorController : LEDColorCycleController
+    public class BalancedMode : BaseCurve
     {
-        public LEDTwoColorController() { }
+        public BalancedMode() { }
 
-        public LEDTwoColorController(Color[] colors) : base(colors) { }
-
-        public LEDTwoColorController(Color color1, Color color2) : base(new Color[] { color1, color2 }) { }
-
-        protected override int GetNumColors()
+        public BalancedMode(Thermistor thermistor)
+            : base(thermistor)
         {
-            return 2;
+
         }
 
-        public override byte GetLEDModernControllerID()
+        public override ControlCurve<double, double> GetDefaultPoints()
         {
-            return 0x40;
+            return new ControlCurve<double, double>(
+                new CurvePoint<double, double>(25, 1300),
+                new CurvePoint<double, double>(28, 1500),
+                new CurvePoint<double, double>(31, 1800),
+                new CurvePoint<double, double>(37, 1900),
+                new CurvePoint<double, double>(40, 2000)
+            );
+        }
+        public override byte GetFanModernControllerID()
+        {
+            return 0x0A;
         }
     }
 }

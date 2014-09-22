@@ -18,14 +18,27 @@
  */
  #endregion
 
-using CorsairLinkPlusPlus.Common.Controller;
-using CorsairLinkPlusPlus.Driver.CorsairLink.Sensor;
+using CorsairLinkPlusPlus.Common.Utility;
+using CorsairLinkPlusPlus.Driver.CorsairLink.Utility;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.LED
 {
-    public interface LEDController : IController
+    public class FourColor : ColorCycle
     {
-        void AssignFrom(Sensor.LED led);
-        byte GetLEDModernControllerID();
+        public FourColor() { }
+
+        public FourColor(Color[] colors) : base(colors) { }
+
+        public FourColor(Color color1, Color color2, Color color3, Color color4) : base(new Color[] { color1, color2, color3, color4 }) { }
+
+        protected override int GetNumColors()
+        {
+            return 4;
+        }
+
+        public override byte GetLEDModernControllerID()
+        {
+            return 0x80;
+        }
     }
 }
