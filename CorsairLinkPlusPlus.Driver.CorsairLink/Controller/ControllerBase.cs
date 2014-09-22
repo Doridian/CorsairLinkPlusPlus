@@ -21,6 +21,7 @@
 using CorsairLinkPlusPlus.Common.Controller;
 using CorsairLinkPlusPlus.Driver.CorsairLink.Sensor;
 using CorsairLinkPlusPlus.Driver.CorsairLink.USB;
+using System;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller
 {
@@ -44,8 +45,9 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller
             {
                 if (registryName == null)
                 {
-                    //CorsairLinkPlusPlus.Driver. = 27
-                    registryName = this.GetType().FullName.Substring(27);
+                    //CorsairLinkPlusPlus.Driver.CorsairLink.Controller. = 50
+                    Type type = this.GetType();
+                    registryName = type.Namespace.Substring(50) + ".CorsairLink." + type.Name;
                 }
                 return registryName;
             }

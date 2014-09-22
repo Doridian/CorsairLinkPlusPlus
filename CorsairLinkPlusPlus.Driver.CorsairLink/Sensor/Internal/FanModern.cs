@@ -313,13 +313,13 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             get
             {
                 return new string[] {
-                    "CorsairLink.Controller.Fan.Default",
-                    "CorsairLink.Controller.Fan.BalancedMode",
-                    "CorsairLink.Controller.Fan.QuiteMode",
-                    "CorsairLink.Controller.Fan.PerformanceMode",
-                    "CorsairLink.Controller.Fan.CustomCurve",
-                    "CorsairLink.Controller.Fan.FixedRPM",
-                    "CorsairLink.Controller.Fan.FixedPercent",
+                    "CorsairLink.Fan.Default",
+                    "CorsairLink.Fan.BalancedMode",
+                    "CorsairLink.Fan.QuiteMode",
+                    "CorsairLink.Fan.PerformanceMode",
+                    "CorsairLink.Fan.CustomCurve",
+                    "CorsairLink.Fan.FixedRPM",
+                    "CorsairLink.Fan.FixedPercent",
                 };
             }
         }
