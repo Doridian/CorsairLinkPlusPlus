@@ -23,18 +23,18 @@ function ControllerFactory() {
 var controllerMap = {};
 
 [
-	"FanDefaultController",
-	"FanBalancedModeController",
-	"FanQuiteModeController",
-	"FanPerformanceModeController",
-	"FanCustomCurveController",
-	"FanFixedRPMController",
-	"FanFixedPercentController",
+	"FanDefault",
+	"FanBalancedMode",
+	"FanQuiteMode",
+	"FanPerformanceMode",
+	"FanCustomCurve",
+	"FanFixedRPM",
+	"FanFixedPercent",
 
-	"LEDSingleColorController",
-	"LEDTwoColorController",
-	"LEDFourColorController",
-	"LEDTemperatureController"
+	"LEDSingleColor",
+	"LEDTwoColor",
+	"LEDFourColor",
+	"LEDTemperature"
 ].forEach(function(val) {
 	controllerMap["CorsairLink." + val] = require("classes/Controllers/" + val);
 });

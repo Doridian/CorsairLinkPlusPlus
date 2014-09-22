@@ -17,11 +17,11 @@
  */
 "use strict";
 
-var Controller = require("classes/Controller");
+var FanCurve = require("classes/Controllers/FanCurve");
 
-function LEDController(rawData) {
-	Controller.apply(this, arguments);
+function FanPerformanceMode(rawData) {
+	FanCurve.apply(this, arguments);
 }
-inherit(LEDController, Controller);
+inherit(FanPerformanceMode, FanCurve);
 
-return LEDController;
+return FanPerformanceMode;

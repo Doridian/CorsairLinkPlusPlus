@@ -17,11 +17,11 @@
  */
 "use strict";
 
-var FanCurveController = require("classes/Controllers/FanCurveController");
+var FanCurve = require("classes/Controllers/FanCurve");
 
-function FanBalancedModeController(rawData) {
-	FanCurveController.apply(this, arguments);
+function FanQuiteMode(rawData) {
+	FanCurve.apply(this, arguments);
 }
-inherit(FanBalancedModeController, FanCurveController);
+inherit(FanQuiteMode, FanCurve);
 
-return FanBalancedModeController;
+return FanQuiteMode;

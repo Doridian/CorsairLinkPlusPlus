@@ -17,31 +17,18 @@
  */
 "use strict";
 
-var util = require("libraries/util");
-
-var LEDController = require("classes/Controllers/LEDController");
-var InvalidArgumentError = require("classes/InvalidArgumentError");
-
+var LED = require("classes/Controllers/LED");
 var Color = require("classes/Color");
 
-function LEDTwoColorController(rawData) {
-	if(rawData.length != 4)
-		throw new InvalidArgumentError("List must contain exactly 4 values");
-	LEDController.apply(this, arguments);
-	var old = this.value;
-	this.value = [];
-	old.forEach(function(rawColor) {
-		this.value.push(new Color(rawColor.R, rawColor.G, rawColor.B));
-	});
+function LEDSingleColor(rawData) {
+	LED.apply(this, arguments);
+	var rawColor = this.value;
+	this.value = new Color(rawColor.R, rawColor.G, rawColor.B);
 }
-inherit(LEDTwoColorController, LEDController);
+inherit(LEDSingleColor, LED);
 
-LEDTwoColorController.prototype.getValue = function() {
-	return util.arrayCopy(this.value);
+LEDSingleColor.prototype.setValue = function(value) {
+	this.value = value;
 }
 
-LEDTwoColorController.prototype.setValue = function(value) {
-	this.value = util.arrayCopy(value);
-}
-
-return LEDTwoColorController;
+return LEDSingleColor;

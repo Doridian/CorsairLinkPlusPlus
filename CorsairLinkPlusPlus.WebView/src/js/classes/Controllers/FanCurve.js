@@ -17,21 +17,21 @@
  */
 "use strict";
 
-var LEDController = require("classes/Controllers/LEDController");
+var Fan = require("classes/Controllers/Fan");
 var ControlCurve = require("classes/ControlCurve");
 
-function LEDTemperatureController(rawData) {
-	LEDController.apply(this, arguments);
+function FanCurve(rawData) {
+	Fan.apply(this, arguments);
 	var points = this.value.Points;
 	var curve = new ControlCurve();
 	points.forEach(function(point) {
 		curve.add({
 			x: point.X,
-			y: new Color(point.Y.R, point.Y.G, point.Y.B)
+			y: point.Y
 		});
 	});
 	this.value = curve;
 }
-inherit(LEDTemperatureController, LEDController);
+inherit(FanCurve, Fan);
 
-return LEDTemperatureController;
+return FanCurve;

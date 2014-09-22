@@ -17,11 +17,30 @@
  */
 "use strict";
 
-var FanCurveController = require("classes/Controllers/FanCurveController");
+var util = require("libraries/util");
 
-function FanQuiteModeController(rawData) {
-	FanCurveController.apply(this, arguments);
+var LED = require("classes/Controllers/LED");
+var InvalidArgumentError = require("classes/InvalidArgumentError");
+var Color = require("classes/Color");
+
+function LEDFourColor(rawData) {
+	if(rawData.length != 4)
+		throw new InvalidArgumentError("List must contain exactly 4 values");
+	LED.apply(this, arguments);
+	var old = this.value;
+	this.value = [];
+	old.forEach(function(rawColor) {
+		this.value.push(new Color(rawColor.R, rawColor.G, rawColor.B));
+	});
 }
-inherit(FanQuiteModeController, FanCurveController);
+inherit(LEDFourColor, LED);
 
-return FanQuiteModeController;
+LEDFourColor.prototype.getValue = function() {
+	return util.arrayCopy(this.value);
+}
+
+LEDFourColor.prototype.setValue = function(value) {
+	this.value = util.arrayCopy(value);
+}
+
+return LEDFourColor;

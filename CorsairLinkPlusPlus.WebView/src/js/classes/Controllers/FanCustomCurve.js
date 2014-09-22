@@ -17,18 +17,17 @@
  */
 "use strict";
 
-var FanController = require("classes/Controllers/FanController");
+var FanCurve = require("classes/Controllers/FanCurve");
+var ControlCurve = require("classes/ControlCurve");
 
-function FanFixedRPMController(rawData) {
-	FanController.apply(this, arguments);
+function FanCustomCurve(rawData) {
+	FanCurve.apply(this, arguments);
 }
-inherit(FanFixedRPMController, FanController);
+inherit(FanCustomCurve, FanCurve);
 
-FanFixedRPMController.prototype.setValue = function(val) {
-	if(val < 0 || val > 4000)
-		throw new InvalidArgumentError("value must be within [0,4000] interval");
-	this.value = val;
+FanCustomCurve.prototype.setValue = function(newCurve) {
+	this.value = newCurve;
 	return this.update();
 }
 
-return FanFixedRPMController;
+return FanCustomCurve;

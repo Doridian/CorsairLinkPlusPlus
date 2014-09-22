@@ -17,21 +17,11 @@
  */
 "use strict";
 
-var FanController = require("classes/Controllers/FanController");
-var ControlCurve = require("classes/ControlCurve");
+var Fan = require("classes/Controllers/Fan");
 
-function FanCurveController(rawData) {
-	FanController.apply(this, arguments);
-	var points = this.value.Points;
-	var curve = new ControlCurve();
-	points.forEach(function(point) {
-		curve.add({
-			x: point.X,
-			y: point.Y
-		});
-	});
-	this.value = curve;
+function FanDefault(rawData) {
+	Fan.apply(this, arguments);
 }
-inherit(FanCurveController, FanController);
+inherit(FanDefault, Fan);
 
-return FanCurveController;
+return FanDefault;
