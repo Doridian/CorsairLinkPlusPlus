@@ -48,7 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MethodCall.cs" />
     <Compile Include="Methods\BaseMethod.cs" />
     <Compile Include="Methods\SetController.cs" />
     <Compile Include="Methods\Refresh.cs" />

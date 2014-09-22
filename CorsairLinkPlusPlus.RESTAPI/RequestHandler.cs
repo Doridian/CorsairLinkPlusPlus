@@ -19,6 +19,7 @@
  #endregion
 
 using CorsairLinkPlusPlus.Common;
+using CorsairLinkPlusPlus.RESTAPI.Methods;
 using Griffin.Net.Channels;
 using Griffin.Net.Protocols.Http;
 using Newtonsoft.Json;
@@ -156,9 +157,8 @@ namespace CorsairLinkPlusPlus.RESTAPI
                     {
                         using (StreamReader bodyReader = new StreamReader(request.Body))
                         {
-                            MethodCall methodCall = JsonConvert.DeserializeObject<MethodCall>(bodyReader.ReadToEnd());
-                            methodCall.Device = device;
-                            methodCall.Execute();
+                            Dictionary<string, object> methodCall = JsonConvert.DeserializeObject<Dictionary<string, object>>(bodyReader.ReadToEnd());
+                            BaseMethod.Execute((string)methodCall["Name"], device, (Dictionary<string, object>)methodCall["Params"]);
                             RespondWithJSON("OK");
                         }
                         return;
