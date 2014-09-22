@@ -20,7 +20,7 @@
 var FanController = require("classes/Controllers/Fan");
 var ControlCurve = require("classes/ControlCurve");
 
-function FanCurve(rawData) {
+function Curve(rawData) {
 	FanController.apply(this, arguments);
 	var points = this.value.Points;
 	var curve = new ControlCurve();
@@ -32,6 +32,6 @@ function FanCurve(rawData) {
 	});
 	this.value = curve;
 }
-inherit(FanCurve, FanController);
+inherit(Curve, FanController);
 
-return FanCurve;
+return Curve;

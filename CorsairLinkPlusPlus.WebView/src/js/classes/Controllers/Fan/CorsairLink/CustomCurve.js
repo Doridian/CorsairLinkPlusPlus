@@ -20,14 +20,14 @@
 var FanCurveController = require("classes/Controllers/Fan/CorsairLink/Curve");
 var ControlCurve = require("classes/ControlCurve");
 
-function FanCustomCurve(rawData) {
+function CustomCurve(rawData) {
 	FanCurveController.apply(this, arguments);
 }
-inherit(FanCustomCurve, FanCurveController);
+inherit(CustomCurve, FanCurveController);
 
-FanCustomCurve.prototype.setValue = function(newCurve) {
+CustomCurve.prototype.setValue = function(newCurve) {
 	this.value = newCurve;
-	return this.update();
+	return this.sendUpdate();
 }
 
-return FanCustomCurve;
+return CustomCurve;

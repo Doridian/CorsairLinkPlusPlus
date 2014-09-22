@@ -19,9 +19,9 @@
 
 var FanCurveController = require("classes/Controllers/Fan/CorsairLink/Curve");
 
-function FanPerformanceMode(rawData) {
+function PerformanceMode(rawData) {
 	FanCurveController.apply(this, arguments);
 }
-inherit(FanPerformanceMode, FanCurveController);
+inherit(PerformanceMode, FanCurveController);
 
-return FanPerformanceMode;
+return PerformanceMode;

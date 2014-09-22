@@ -19,16 +19,16 @@
 
 var FanController = require("classes/Controllers/Fan");
 
-function FanFixedRPM(rawData) {
+function FixedRPM(rawData) {
 	FanController.apply(this, arguments);
 }
-inherit(FanFixedRPM, FanController);
+inherit(FixedRPM, FanController);
 
-FanFixedRPM.prototype.setValue = function(val) {
+FixedRPM.prototype.setValue = function(val) {
 	if(val < 0 || val > 4000)
 		throw new InvalidArgumentError("value must be within [0,4000] interval");
 	this.value = val;
-	return this.update();
+	return this.sendUpdate();
 }
 
-return FanFixedRPM;
+return FixedRPM;
