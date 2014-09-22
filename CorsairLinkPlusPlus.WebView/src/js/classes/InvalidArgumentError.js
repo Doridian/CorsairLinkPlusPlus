@@ -20,6 +20,6 @@
 function InvalidArgumentError(message) {
 	Error.apply(this, arguments);
 }
-inherit(InvalidArgumentError, Error);
+var p = inherit(InvalidArgumentError, Error);
 
 return InvalidArgumentError;

@@ -22,6 +22,6 @@ var Hub = require("classes/Devices/Hub");
 function VirtualHub(rawData) {
 	Hub.apply(this, arguments);
 }
-inherit(VirtualHub, Hub);
+var p = inherit(VirtualHub, Hub);
 
 return VirtualHub;

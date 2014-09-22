@@ -34,15 +34,17 @@ function DeviceTree(rawTree) {
 		this.buildDevices(rawTree, null);
 }
 
-DeviceTree.prototype.buildSensor = function(rawData) {
+var p = DeviceTree.prototype;
+
+p.buildSensor = function(rawData) {
 	return SensorFactory.create(rawData);
 }
 
-DeviceTree.prototype.buildController = function(rawData) {
+p.buildController = function(rawData) {
 	return ControllerFactory.create(rawData);
 }
 
-DeviceTree.prototype.buildDevice = function (rawData) {
+p.buildDevice = function (rawData) {
 	switch(rawData.Type) {
 		case "Root":
 			return new RootDevice(rawData);
@@ -65,7 +67,7 @@ DeviceTree.prototype.buildDevice = function (rawData) {
 	}
 }
 
-DeviceTree.prototype.buildDevices = function(rawTree, parent) {
+p.buildDevices = function(rawTree, parent) {
 	var newDevice = this.buildDevice(rawTree);
 	if(parent) {
 		newDevice.setParent(parent);
@@ -91,7 +93,7 @@ function flattenTree(treeNode, out) {
 	return out;
 }	
 
-DeviceTree.prototype.getDevices = function() {
+p.getDevices = function() {
 	return flattenTree(this.root);
 }
 

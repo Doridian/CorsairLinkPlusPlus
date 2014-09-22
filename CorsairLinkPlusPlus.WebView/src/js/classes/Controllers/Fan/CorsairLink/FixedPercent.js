@@ -22,10 +22,10 @@ var FanController = require("classes/Controllers/Fan");
 function FixedPercent(rawData) {
 	FanController.apply(this, arguments);
 }
-inherit(FixedPercent, FanController);
+var p = inherit(FixedPercent, FanController);
 
 
-FixedPercent.prototype.setValue = function(val) {
+p.setValue = function(val) {
 	if(val < 0 || val > 1)
 		throw new InvalidArgumentError("value must be in unit interval");
 	this.value = val;

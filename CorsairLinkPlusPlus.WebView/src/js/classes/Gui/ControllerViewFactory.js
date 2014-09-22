@@ -20,6 +20,8 @@
 function ControllerViewFactory() {
 }
 
-ControllerViewFactory.prototype.getByController = function(controller) {
+var p = ControllerViewFactory.prototype;
+
+p.getByController = function(controller) {
 	return require("classes/Gui/Views/Controllers/" + typeof controller);
 }

@@ -22,6 +22,6 @@ var Sensor = require("classes/Devices/Sensor");
 function VoltageSensor(rawData) {
 	Sensor.apply(this, arguments);
 }
-inherit(VoltageSensor, Sensor);
+var p = inherit(VoltageSensor, Sensor);
 
 return VoltageSensor;

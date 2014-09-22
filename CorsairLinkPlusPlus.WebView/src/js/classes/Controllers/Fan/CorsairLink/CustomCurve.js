@@ -23,9 +23,9 @@ var ControlCurve = require("classes/ControlCurve");
 function CustomCurve(rawData) {
 	FanCurveController.apply(this, arguments);
 }
-inherit(CustomCurve, FanCurveController);
+var p = inherit(CustomCurve, FanCurveController);
 
-CustomCurve.prototype.setValue = function(newCurve) {
+p.setValue = function(newCurve) {
 	this.value = newCurve;
 	return this.sendUpdate();
 }

@@ -22,6 +22,6 @@ var FanCurveController = require("classes/Controllers/Fan/CorsairLink/Curve");
 function QuiteMode(rawData) {
 	FanCurveController.apply(this, arguments);
 }
-inherit(QuiteMode, FanCurveController);
+var p = inherit(QuiteMode, FanCurveController);
 
 return QuiteMode;

@@ -25,17 +25,17 @@ function Hub(rawData) {
 	Device.apply(this, arguments);
 	this.children = [];
 }
-inherit(Hub, Device);
+var p = inherit(Hub, Device);
 
-Hub.prototype.getChildren = function() {
+p.getChildren = function() {
 	return util.arrayCopy(this.children);
 }
 
-Hub.prototype.addChild = function(device) {
+p.addChild = function(device) {
 	this.children.push(device);
 }
 
-Hub.prototype.getName = function() {
+p.getName = function() {
 	return this.name;
 }
 

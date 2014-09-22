@@ -23,4 +23,6 @@ function Color(r, g, b) {
 	this.b = b;
 }
 
+var p = Color.prototype;
+
 return Color;

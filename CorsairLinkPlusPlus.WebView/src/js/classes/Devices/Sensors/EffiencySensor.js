@@ -22,6 +22,6 @@ var Sensor = require("classes/Devices/Sensor");
 function EffiencySensor(rawData) {
 	Sensor.apply(this, arguments);
 }
-inherit(EffiencySensor, Sensor);
+var p = inherit(EffiencySensor, Sensor);
 
 return EffiencySensor;

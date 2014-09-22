@@ -22,6 +22,6 @@ var Controller = require("classes/Controller");
 function LED(rawData) {
 	Controller.apply(this, arguments);
 }
-inherit(LED, Controller);
+var p = inherit(LED, Controller);
 
 return LED;

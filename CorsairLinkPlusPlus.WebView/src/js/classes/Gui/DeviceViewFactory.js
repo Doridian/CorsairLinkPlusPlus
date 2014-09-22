@@ -20,6 +20,8 @@
 function DeviceViewFactory() {
 }
 
-DeviceViewFactory.prototype.getByController = function(controller) {
+var p = DeviceViewFactory.prototype;
+
+p.getByController = function(controller) {
 	return require("classes/Gui/Views/Devices/" + typeof controller);
 }
