@@ -148,8 +148,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             get
             {
                 return new string[] {
-                    "CorsairLink.Fan.Default",
-                    "CorsairLink.Fan.FixedRPM",
+                    "Fan.CorsairLink.Default",
+                    "Fan.CorsairLink.FixedRPM",
                 };
             }
         }

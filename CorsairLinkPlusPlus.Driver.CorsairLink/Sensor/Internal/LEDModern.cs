@@ -281,10 +281,10 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             get
             {
                 return new string[] {
-                    "CorsairLink.LED.SingleColor",
-                    "CorsairLink.LED.TwoColor",
-                    "CorsairLink.LED.FourColor",
-                    "CorsairLink.LED.CustomCurve",
+                    "LED.CorsairLink.SingleColor",
+                    "LED.CorsairLink.TwoColor",
+                    "LED.CorsairLink.FourColor",
+                    "LED.CorsairLink.CustomCurve",
                 };
             }
         }
