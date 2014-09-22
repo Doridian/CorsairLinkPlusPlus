@@ -31,7 +31,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 {
     public abstract class BaseUSBDevice : BaseDevice
     {
-        private readonly HidDevice hidDevice;
+        protected readonly HidDevice hidDevice;
         protected int commandNo = 20;
 
         internal BaseUSBDevice(CorsairRootDevice root, HidDevice hidDevice)
@@ -210,6 +210,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 
             byte[] responseBytes;
 
+            if (command == null)
+                command = new byte[0];
             command = MakeCommand(opcode, channel, command);
 
             try

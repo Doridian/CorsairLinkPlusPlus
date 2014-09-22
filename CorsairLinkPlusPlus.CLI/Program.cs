@@ -20,11 +20,9 @@
 
 using CorsairLinkPlusPlus.Common;
 using CorsairLinkPlusPlus.Common.Controller;
-using CorsairLinkPlusPlus.Common.Registry;
 using CorsairLinkPlusPlus.Common.Sensor;
 using CorsairLinkPlusPlus.Common.Utility;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 
 namespace CorsairLinkPlusPlus.CLI

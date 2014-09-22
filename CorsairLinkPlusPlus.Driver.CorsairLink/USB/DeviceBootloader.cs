@@ -19,6 +19,7 @@
  #endregion
 
 using HidSharp;
+using System;
 
 namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
 {
