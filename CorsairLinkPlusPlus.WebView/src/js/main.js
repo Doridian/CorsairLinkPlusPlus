@@ -25,6 +25,7 @@ var loadCache = {};
 function inherit(childClass, parentClass) {
 	childClass.prototype = Object.create(parentClass.prototype);
 	childClass.prototype.constructor = childClass;
+	return childClass.prototype;
 }
 
 function require(what) {
