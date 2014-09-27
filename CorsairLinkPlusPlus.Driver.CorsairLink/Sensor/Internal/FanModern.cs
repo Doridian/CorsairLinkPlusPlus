@@ -168,7 +168,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
             if (!(controller is IFanController))
                 throw new ArgumentException();
-            ((ControllerBase)Controller).Apply(this);
+            ((ControllerBase)controller).Apply(this);
         }
 
         internal override void SetFixedRPM(double fixedRPM)

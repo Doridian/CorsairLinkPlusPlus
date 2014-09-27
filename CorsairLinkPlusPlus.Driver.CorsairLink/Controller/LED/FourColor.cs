@@ -38,7 +38,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Controller.LED
 
         public override byte GetLEDModernControllerID()
         {
-            return 0x80;
+            return 0x80 | 0x0B;
         }
     }
 }

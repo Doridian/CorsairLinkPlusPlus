@@ -120,18 +120,17 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
 
                 byte ledControllerID = ledController.GetLEDModernControllerID();
 
-                if ((ledControllerID & 0x3F /* 00111111 */) != 0)
-                    throw new ArgumentException();
-
                 if (ledController is TemperatureDependantControllerBase)
                 {
+                    if ((ledControllerID & 0x3F /* 00111111 */) != 0)
+                        throw new ArgumentException();
                     byte ledData = GetLEDData();
                     ledData &= 0x3F; //00111111
                     ledData |= (byte)ledControllerID;
                     SetLEDData(ledData);
                 }
                 else
-                    SetLEDData((byte)(ledControllerID | 0x0B));
+                    SetLEDData(ledControllerID);
 
                 SaveControllerData(value);
             }
@@ -154,7 +153,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             if (!(controller is ILEDController))
                 throw new ArgumentException();
 
-            ((ControllerBase)Controller).Apply(this);
+            ((ControllerBase)controller).Apply(this);
         }
 
         private void SetLEDData(byte ledData)
@@ -226,7 +225,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Sensor.Internal
             using(var localMutexLock = CorsairRootDevice.usbGlobalMutex.GetLock())
             {
                 modernDevice.SetCurrentLED(id, true);
-                modernDevice.WriteRegister(0x0B, colors, true);
+                modernDevice.WriteRegister(0x0B, colors, false);
             }
         }
 
