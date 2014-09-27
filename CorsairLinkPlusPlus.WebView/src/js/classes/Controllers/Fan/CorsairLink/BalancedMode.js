@@ -22,6 +22,6 @@ var FanCurveController = require("classes/Controllers/Fan/CorsairLink/Curve");
 function BalancedMode(rawData) {
 	FanCurveController.apply(this, arguments);
 }
-inherit(BalancedMode, FanCurveController);
+var p = inherit(BalancedMode, FanCurveController);
 
 return BalancedMode;

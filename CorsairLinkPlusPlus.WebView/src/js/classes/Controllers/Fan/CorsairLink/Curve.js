@@ -32,6 +32,6 @@ function Curve(rawData) {
 	});
 	this.value = curve;
 }
-inherit(Curve, FanController);
+var p = inherit(Curve, FanController);
 
 return Curve;

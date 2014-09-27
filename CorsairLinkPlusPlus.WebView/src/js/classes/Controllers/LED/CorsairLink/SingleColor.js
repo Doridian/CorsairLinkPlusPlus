@@ -25,9 +25,9 @@ function LEDSingleColor(rawData) {
 	var rawColor = this.value;
 	this.value = new Color(rawColor.R, rawColor.G, rawColor.B);
 }
-inherit(LEDSingleColor, LED);
+var p = inherit(LEDSingleColor, LED);
 
-LEDSingleColor.prototype.setValue = function(value) {
+p.setValue = function(value) {
 	this.value = value;
 }
 

@@ -20,6 +20,6 @@
 function NotImplementedError(message) {
 	Error.apply(this, arguments);
 }
-inherit(NotImplementedError, Error);
+var p = inherit(NotImplementedError, Error);
 
 return NotImplementedError;

@@ -34,13 +34,13 @@ function LEDTwoColor(rawData) {
 		this.value.push(new Color(rawColor.R, rawColor.G, rawColor.B));
 	});
 }
-inherit(LEDTwoColor, LED);
+var p = inherit(LEDTwoColor, LED);
 
-LEDTwoColor.prototype.getValue = function() {
+p.getValue = function() {
 	return util.arrayCopy(this.value);
 }
 
-LEDTwoColor.prototype.setValue = function(value) {
+p.setValue = function(value) {
 	this.value = util.arrayCopy(value);
 }
 

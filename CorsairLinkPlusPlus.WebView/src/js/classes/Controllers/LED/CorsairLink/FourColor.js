@@ -33,13 +33,13 @@ function FourColor(rawData) {
 		this.value.push(new Color(rawColor.R, rawColor.G, rawColor.B));
 	});
 }
-inherit(FourColor, LED);
+var p = inherit(FourColor, LED);
 
-FourColor.prototype.getValue = function() {
+p.getValue = function() {
 	return util.arrayCopy(this.value);
 }
 
-FourColor.prototype.setValue = function(value) {
+p.setValue = function(value) {
 	this.value = util.arrayCopy(value);
 }
 

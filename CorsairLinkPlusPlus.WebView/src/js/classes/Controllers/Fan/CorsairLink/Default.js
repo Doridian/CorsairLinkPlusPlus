@@ -22,6 +22,6 @@ var FanController = require("classes/Controllers/Fan");
 function Default(rawData) {
 	FanController.apply(this, arguments);
 }
-inherit(Default, FanController);
+var p = inherit(Default, FanController);
 
 return Default;

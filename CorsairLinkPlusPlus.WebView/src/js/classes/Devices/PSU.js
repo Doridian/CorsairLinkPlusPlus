@@ -22,6 +22,6 @@ var Hub = require("classes/Devices/Hub");
 function PSU(rawData) {
 	Hub.apply(this, arguments);
 }
-inherit(PSU, Hub);
+var p = inherit(PSU, Hub);
 
 return PSU;

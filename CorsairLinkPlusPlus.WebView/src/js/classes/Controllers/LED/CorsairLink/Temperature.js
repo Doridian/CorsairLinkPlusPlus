@@ -32,6 +32,6 @@ function LEDTemperature(rawData) {
 	});
 	this.value = curve;
 }
-inherit(LEDTemperature, LED);
+var p = inherit(LEDTemperature, LED);
 
 return LEDTemperature;

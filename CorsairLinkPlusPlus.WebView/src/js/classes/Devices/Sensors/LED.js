@@ -25,6 +25,6 @@ function LED(rawData) {
 	Sensor.apply(this, arguments);
 	this.value = new Color(rawData.Value.R, rawData.Value.G, rawData.Value.B);
 }
-inherit(LED, Sensor);
+var p = inherit(LED, Sensor);
 
 return LED;

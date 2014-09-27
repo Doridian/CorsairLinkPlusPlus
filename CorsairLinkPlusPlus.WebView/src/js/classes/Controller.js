@@ -21,7 +21,9 @@ function Controller(rawData) {
 	this.value = rawData.Value;
 }
 
-Controller.prototype.getValue = function() {
+var p = Controller.prototype;
+
+p.getValue = function() {
 	return this.value;
 }
 

@@ -26,21 +26,21 @@ function Sensor(rawData) {
 	this.value = rawData.Value;
 	this.validControllerNames = rawData.ValidControllerNames;
 }
-inherit(Sensor, Device);
+var p = inherit(Sensor, Device);
 
-Sensor.prototype.getValue = function() {
+p.getValue = function() {
 	return this.value;
 }
 
-Sensor.prototype.getUnit = function() {
+p.getUnit = function() {
 	return this.unit;
 }
 
-Sensor.prototype.setController = function(controller) {
+p.setController = function(controller) {
 	this.controller = controller;
 }
 
-Sensor.prototype.sendControllerUpdate = function(controller) {
+p.sendControllerUpdate = function(controller) {
 	return api.sendControllerUpdate(this.getPath(), controller.fetchData());
 }
 

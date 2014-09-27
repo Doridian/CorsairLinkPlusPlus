@@ -22,6 +22,6 @@ var Controller = require("classes/Controller");
 function Fan(rawData) {
 	Controller.apply(this, arguments);
 }
-inherit(Fan, Controller);
+var p = inherit(Fan, Controller);
 
 return Fan;

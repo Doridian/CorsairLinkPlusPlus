@@ -23,11 +23,13 @@ function ControlCurve() {
 	this.points = [];
 }
 
-ControlCurve.prototype.add = function(point) {
+var p = ControlCurve.prototype;
+
+p.add = function(point) {
 	this.points.push(point);
 }
 
-ControlCurve.prototype.getPoints = function(point) {
+p.getPoints = function(point) {
 	return util.arrayCopy(this.points);
 }
 

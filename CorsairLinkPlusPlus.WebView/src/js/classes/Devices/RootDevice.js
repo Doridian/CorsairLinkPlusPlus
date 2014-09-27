@@ -23,6 +23,6 @@ function RootDevice(rawData) {
 	Hub.apply(this, arguments);
 }
 
-inherit(RootDevice, Hub);
+var p = inherit(RootDevice, Hub);
 
 return RootDevice;

@@ -22,11 +22,13 @@ function Device(rawData) {
 	this.path = rawData.AbsolutePath;
 }
 
-Device.prototype.getPath = function() {
+var p = Device.prototype;
+
+p.getPath = function() {
 	return this.path;
 }
 
-Device.prototype.setParent = function(parent) {
+p.setParent = function(parent) {
 	this.parent = parent;
 }
 

@@ -29,7 +29,6 @@ api.path = "/api";
 function recurseDeviceRequest(path) {
 	return util.fetchJSON(path).then(function (data) {
 		var childPaths = data.result.ChildrenPaths;
-
 		if (childPaths.length > 0) {
 			delete data.result.ChildrenPaths;
 			return Promise.all(childPaths.map(function (val) {
@@ -68,7 +67,7 @@ api.refreshDevice = function(path) {
 
 api.sendControllerUpdate = function(path, controller) {
 	return this.executeOnDevice(path, "SetController", {
-		Controller: controller.constructor.getFullClassName(),
+		Controller: controller.constructor.getFullClassName().replace("Controllers."),
 		Params: controller.getData()
 	});
 }
