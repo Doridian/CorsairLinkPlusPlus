@@ -32,4 +32,12 @@ p.setParent = function(parent) {
 	this.parent = parent;
 }
 
+p.getParent = function() {
+	return this.parent;
+}
+
+p.getName = function() {
+	return this.name;
+}
+
 return Device;
