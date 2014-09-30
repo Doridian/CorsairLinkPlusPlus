@@ -38,12 +38,6 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.Node.Internal
             this.afpDevice = device;
         }
 
-        public override void Refresh(bool volatileOnly)
-        {
-            base.Refresh(volatileOnly);
-            this.afpDevice.Refresh(volatileOnly);
-        }
-
         public override string GetLocalDeviceID()
         {
             return "DIMM" + id;

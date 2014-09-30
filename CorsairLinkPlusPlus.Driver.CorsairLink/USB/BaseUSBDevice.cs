@@ -113,6 +113,8 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink.USB
         public override void Refresh(bool volatileOnly)
         {
             base.Refresh(volatileOnly);
+            if (volatileOnly)
+                return;
 
             lock (subDeviceLock)
             {
