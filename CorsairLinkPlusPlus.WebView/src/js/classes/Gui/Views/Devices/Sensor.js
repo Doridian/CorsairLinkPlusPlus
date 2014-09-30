@@ -1,0 +1,74 @@
+/**
+ * CorsairLinkPlusPlus
+ * Copyright (c) 2014, Mark Dietzer & Simon Schick, All rights reserved.
+ *
+ * CorsairLinkPlusPlus is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or at your option any later version.
+ *
+ * CorsairLinkPlusPlus is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with CorsairLinkPlusPlus.
+ */
+"use strict";
+
+var util = require("libraries/util");
+
+var DeviceView = require("classes/Gui/Views/DeviceView");
+
+var api = require("libraries/api");
+
+function Sensor(device) {
+	DeviceView.apply(this, arguments);
+}
+var p = inherit(Sensor, DeviceView);
+
+p.buildInternalElement = function() {
+	var self = this;
+	return [
+		util.makeElement("br"),
+		{
+			tag: "span",
+			children: [
+				util.makeText("Value: "),
+				{
+					tag: "span",
+					attributes: {
+						className: "value"
+					},
+					id: "value",
+					children: [
+						util.makeText()
+					]
+				}
+			]
+		},
+		util.makeElement("br"),
+		{
+			tag: "input",
+			attributes: {
+				type: "button",
+				value: "update"
+			},
+			events: {
+				click: function(event) {
+					api.updateDevice(self.device).then(function() {
+						console.log("success");
+					});
+				}
+			}
+		}
+	];
+}
+
+p.update = function() {
+	DeviceView.prototype.update.apply(this);
+	this.setDataFieldText("value", this.device.getValue());
+};
+
+return Sensor;

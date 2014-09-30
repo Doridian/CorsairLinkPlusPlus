@@ -23,6 +23,10 @@ var Sensor = require("classes/Devices/Sensor");
 
 function DeviceView(device) {
 	this.device = device;
+	var self = this;
+	device.addListener(function() {
+		self.update();
+	});
 }
 
 var p = DeviceView.prototype;
@@ -34,6 +38,7 @@ p.getDevice = function() {
 p.getElement = function() {
 	if(!this.element) {
 		this.buildElement();
+		this.update();
 		return this.element;
 	}
 	return this.element;
@@ -61,48 +66,24 @@ p.buildElement = function() {
 					}
 				]
 			},
-			{
-				tag: "br"
-			},
-			(this.device instanceof Sensor) && {
-				tag: "span",
-				children: [
-					hildren: [
-						util.makeText("Value: "),
-						{
-							tag: "span",
-							attributes: {
-								className: "value"
-							},
-							id: "name",
-							children: [
-								util.makeText()
-							]
-						}
-					]
-				]
-			},
-			{
-				tag: "br"
-			},
-			(this.device instanceof Sensor) && {
-				tag: "input",
-				attributes: {
-					type: "button",
-					value: "update"
-				},
-				events: {
-					click: function(event) {
-					}
-				},
-				children: [
-					util.makeText("Value: " + this.device.getValue() + " " + this.device.getUnit())
-				]
-			},
-		]
+		].concat(this.buildInternalElement())
 	});
 	this.element = treeData.node;
 	this.dataFields = treeData.idMap;
+};
+
+p.buildInternalElement = function() {
+	return [];
+}
+
+p.setDataFieldText = function(field, data) {
+	if(!this.dataFields[field])
+		throw new Error("View has no data field " + field);
+	this.dataFields[field].firstChild.textContent = data;
+};
+
+p.update = function() {
+	this.setDataFieldText("name", this.device.getName());
 };
 
 return DeviceView;

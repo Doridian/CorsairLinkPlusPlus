@@ -82,4 +82,16 @@ api.fetchDevice = function(devicePath) {
 	return util.fetchJSON(this.path + "/" + devicePath);
 }
 
+function cleanupData(data) {
+	data = data.result;
+	delete data.ChildrenPaths;
+	return data;
+}
+
+api.updateDevice = function(device) {
+	return this.fetchDevice(device.getPath()).then(function(rawData) {
+		device.setRawData(cleanupData(rawData));
+	});
+}
+
 return api;

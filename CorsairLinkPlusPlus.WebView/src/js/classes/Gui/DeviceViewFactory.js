@@ -19,6 +19,8 @@
 
 var util = require("libraries/util");
 
+var Sensor = require("classes/Devices/Sensor");
+
 function DeviceViewFactory() {
 	this.deviceMap = new Map();
 }
@@ -30,7 +32,6 @@ var p = DeviceViewFactory.prototype;
 p.getByDevice = function(device) {
 	var ret;
 	try {
-		console.log(this);
 		ret = this.deviceMap.get(device);
 		if(!ret) {
 			var constructor = require("classes/Gui/Views/Devices/" + typeof controller);
@@ -40,7 +41,11 @@ p.getByDevice = function(device) {
 	} catch(e) {
 		console.error("Could not find view for device " + device.getName());
 		console.log(e);
-		var constructor = require("classes/Gui/Views/DeviceView");
+		var constructor
+		if(device instanceof Sensor)
+			constructor = require("classes/Gui/Views/Devices/Sensor");
+		else
+			constructor = require("classes/Gui/Views/DeviceView");
 		ret = new constructor(device);
 	}
 	this.deviceMap.set(device, ret);

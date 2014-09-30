@@ -281,6 +281,8 @@ util.makeElement = function(name, attributes, childs, events) {
 };
 
 util.makeElementTree = function(object, idMap) {
+	if(object instanceof Node)
+		return {node: object};
 	idMap = idMap || {};
 	var elem = document.createElement(object.tag);
 	if(object.attributes)
@@ -290,10 +292,6 @@ util.makeElementTree = function(object, idMap) {
 		
 	if(object.children)
 		object.children.forEach(function(childData) {
-			if(childData instanceof Node) {
-				elem.appendChild(childData);
-				return;
-			}
 			var ret = util.makeElementTree(childData, idMap);
 			elem.appendChild(ret.node);
 		});

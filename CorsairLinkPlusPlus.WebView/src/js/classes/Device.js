@@ -18,11 +18,26 @@
 "use strict";
 
 function Device(rawData) {
-	this.name = rawData.Name;
-	this.path = rawData.AbsolutePath;
+	this.setRawData(rawData);
+	this.listeners = [];
 }
 
 var p = Device.prototype;
+
+p.setRawData = function(rawData) {
+	this.name = rawData.Name;
+	this.path = rawData.AbsolutePath;
+	try {
+		for(var idx in this.listeners)
+			this.listeners[idx]();
+	} catch(e) {
+		console.log(e);
+	}
+}
+
+p.addListener = function(listener) {
+	this.listeners.push(listener);
+}
 
 p.getPath = function() {
 	return this.path;

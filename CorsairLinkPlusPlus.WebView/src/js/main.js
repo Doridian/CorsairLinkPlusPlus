@@ -120,6 +120,7 @@ var preload = [
 	"classes/Gui/ControllerViewFactory",
 	"classes/Gui/DeviceViewFactory",
 	"classes/Gui/Views/DeviceView",
+	"classes/Gui/Views/Devices/Sensor",
 	"classes/ControllerFactory",
 	"classes/SensorFactory",
 	"libraries/api",
@@ -149,16 +150,17 @@ Promise.all(preload.map(function(val) {
 	
 	api.fetchDeviceTree().then(function(deviceTree) {
 		try {
+			console.log(deviceTree.getDevices());
 			var body = document.body;
 			var factory = DeviceViewFactory.getInstance();
 			deviceTree.getDevices().forEach(function(device) {
 				var parentDevice = device.getParent();
 				var parent;
-				if(parentDevice) {
+				if(parentDevice)
 					parent = factory.getByDevice(parentDevice).getElement();
-				} else {
+				else
 					parent = body;
-				}
+				
 				parent.appendChild(
 					factory.getByDevice(device).getElement()
 				);

@@ -21,12 +21,17 @@ var Device = require("classes/Device");
 
 function Sensor(rawData) {
 	Device.apply(this, arguments);
+}
+
+var p = inherit(Sensor, Device);
+
+p.setRawData = function(rawData) {
 	this.type = rawData.SensorType;
 	this.unit = rawData.Unit;
 	this.value = rawData.Value;
 	this.validControllerNames = rawData.ValidControllerNames;
+	Device.prototype.setRawData.apply(this, arguments);
 }
-var p = inherit(Sensor, Device);
 
 p.getValue = function() {
 	return this.value;
