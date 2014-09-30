@@ -25,4 +25,8 @@ function Color(r, g, b) {
 
 var p = Color.prototype;
 
+p.toString = function() {
+	return this.r + ", " + this.g + ", " + this.b;
+}
+
 return Color;
