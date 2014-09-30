@@ -39,7 +39,6 @@ function require(what) {
 		var className = donePreload[what].path;
 		if(className) {
 			ret.className = className;
-			console.log(ret.className);
 			ret.getFullClassName = function() {
 				return className;
 			}
@@ -118,6 +117,9 @@ var preload = [
 	"classes/Devices/Sensors/PWMFan",
 	"classes/Devices/Sensors/Thermistor",
 	"classes/Devices/Sensors/VoltageSensor",
+	"classes/Gui/ControllerViewFactory",
+	"classes/Gui/DeviceViewFactory",
+	"classes/Gui/Views/DeviceView",
 	"classes/ControllerFactory",
 	"classes/SensorFactory",
 	"libraries/api",
@@ -140,22 +142,35 @@ Promise.all(preload.map(function(val) {
 	});
 }).then(function() {
 	//main file
-	
-	
-	
+
 	var api = require("libraries/api");
+	var DeviceViewFactory = require("classes/Gui/DeviceViewFactory");
 	
 	
 	api.fetchDeviceTree().then(function(deviceTree) {
-		console.log(deviceTree.getDevices());
-
+		try {
+			var body = document.body;
+			var factory = DeviceViewFactory.getInstance();
+			deviceTree.getDevices().forEach(function(device) {
+				var parentDevice = device.getParent();
+				var parent;
+				if(parentDevice) {
+					parent = factory.getByDevice(parentDevice).getElement();
+				} else {
+					parent = body;
+				}
+				parent.appendChild(
+					factory.getByDevice(device).getElement()
+				);
+			});
+		} catch(e) {
+			console.error(e);
+		}
 	}, function(e) {
-		console.log("Error while fetching devices", e);
-	}).catch(function(e) {
-		console.log("Error while building device tree", e);
+		console.error("Error while fetching devices", e);
 	});
 }, function(e) {
-	console.warn(e);
+	console.error(e);
 }).catch(function(e) {
-	console.log(e);
+	console.error(e);
 });
