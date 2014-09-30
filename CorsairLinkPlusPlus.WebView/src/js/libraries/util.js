@@ -116,6 +116,15 @@ util.formatSizeMB = function(size) {
 	return this.roundToDigit((size / (Math.pow(1024, Math.floor(log)))), 3) + this.sizePostFixes[Math.ceil(log)-1];
 };
 
+util.makeSingletonGetter = function(object) {
+	object.getInstance = function() {
+		if(this.instance)
+			return this.instance;
+		else
+			return this.instance = new this();
+	};
+};
+
 util.makeAccessor = function(object, name, member, getter, setter) {
 	if(getter !== true)
 		object["set" + name] = getter ? getter : function(val) {
@@ -155,7 +164,7 @@ util.makeGetByer = function(object, container, name, member) {
 };
 
 util.makeText = function(text) {
-	return document.createTextNode(text);
+	return document.createTextNode(text || "");
 };
 
 util.isElement = function(obj) {
@@ -227,7 +236,7 @@ util.getFormValues = function(form) {
 
 util.deepCopyTo = function(dest, source) {
 	for(var idx in source) {
-		if(source[idx] !== undefined)
+		if(source[idx] === undefined)
 			continue;
 		if(source[idx] instanceof Object) {
 			if(!dest[idx])
@@ -271,19 +280,30 @@ util.makeElement = function(name, attributes, childs, events) {
 	return elem;
 };
 
-util.makeElementTree = function(object) {
+util.makeElementTree = function(object, idMap) {
+	idMap = idMap || {};
 	var elem = document.createElement(object.tag);
 	if(object.attributes)
-		this.deepCopyTo(elem, attributes);
+		this.deepCopyTo(elem, object.attributes);
+	if(object.id)
+		idMap[object.id] = elem;
 		
-	if(object.childs)
-		object.childs.forEach(function(childData) {
-			elem.appendChild(util.makeElementTree(childData));
+	if(object.children)
+		object.children.forEach(function(childData) {
+			if(childData instanceof Node) {
+				elem.appendChild(childData);
+				return;
+			}
+			var ret = util.makeElementTree(childData, idMap);
+			elem.appendChild(ret.node);
 		});
 		
-	if(events)
-		this.addEventListeners(elem, events);
-	return elem;
+	if(object.events)
+		this.addEventListeners(elem, object.events);
+	return {
+		node: elem,
+		idMap: idMap
+	};
 }
 
 util.makeSelect = function(attributes, options) {
@@ -356,6 +376,12 @@ util.makeInstanceDescriptorGetter = function(proto) {
 util.arrayCopy = function(arr) {
 	return arr.slice(0);
 };
+
+util.arrayFind = function(arr, func) {
+	for(var idx in arr)
+		if(func(arr[idx], idx))
+			return arr[idx];
+}
 
 util.fetchResource = function(url, type, data) {
 	return new Promise(function (resolve, reject) {
