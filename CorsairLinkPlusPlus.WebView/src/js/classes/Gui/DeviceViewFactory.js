@@ -17,11 +17,34 @@
  */
 "use strict";
 
+var util = require("libraries/util");
+
 function DeviceViewFactory() {
+	this.deviceMap = new Map();
 }
+
+util.makeSingletonGetter(DeviceViewFactory);
 
 var p = DeviceViewFactory.prototype;
 
-p.getByController = function(controller) {
-	return require("classes/Gui/Views/Devices/" + typeof controller);
-}
+p.getByDevice = function(device) {
+	var ret;
+	try {
+		console.log(this);
+		ret = this.deviceMap.get(device);
+		if(!ret) {
+			var constructor = require("classes/Gui/Views/Devices/" + typeof controller);
+			ret = new constructor(device);
+		}
+		return ret;
+	} catch(e) {
+		console.error("Could not find view for device " + device.getName());
+		console.log(e);
+		var constructor = require("classes/Gui/Views/DeviceView");
+		ret = new constructor(device);
+	}
+	this.deviceMap.set(device, ret);
+	return ret;
+};
+
+return DeviceViewFactory;
