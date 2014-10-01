@@ -28,8 +28,8 @@ p.setRawData = function(rawData) {
 	this.name = rawData.Name;
 	this.path = rawData.AbsolutePath;
 	try {
-		for(var idx in this.listeners)
-			this.listeners[idx]();
+		for(var listener of this.listeners)
+			listener();
 	} catch(e) {
 		console.log(e);
 	}

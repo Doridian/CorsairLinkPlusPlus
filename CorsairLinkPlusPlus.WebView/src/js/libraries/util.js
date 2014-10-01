@@ -68,9 +68,9 @@ util.getOccurencesInString = function(str, what) {
 util.arrayToList = function(arr, sorted) {
 	sorted = sorted || false;
 	var ul = document.createElement(sorted ? "ol" : "ul");
-	for(var idx in arr) {
+	for(var textNode of arr) {
 		var li = document.createElement("li");
-		li.appendTextNode(arr[idx]);
+		li.appendTextNode(textNode);
 		ul.appendChild(li);
 	}
 	return ul;
@@ -80,12 +80,12 @@ util.objectToSortedList = function(obj, attribs) {
 	var keys = this.getKeysFromObject(obj);
 	keys.sort();
 	var ul = this.makeElement("ul", attribs);
-	for(var idx in keys) {
+	for(var key of keys) {
 		var li = document.createElement("li");
 		var label = document.createElement("span");
-		label.appendChild(document.createTextNode(keys[idx] + ":"));
+		label.appendChild(document.createTextNode(key + ":"));
 		li.appendChild(label);
-		li.appendChild(document.createTextNode(obj[keys[idx]]));
+		li.appendChild(document.createTextNode(obj[key]));
 		ul.appendChild(li);
 	}
 	return ul;
@@ -157,9 +157,9 @@ util.makeArrayGetter = function(object, name, member) {
 
 util.makeGetByer = function(object, container, name, member) {
 	object["getBy" + name] = function(value) {
-		for(var idx in this[container])
-			if(this[container][idx][member] == value)
-				return this[container][idx];
+		for(var containerMember of this[container])
+			if(containerMember[member] == value)
+				return containerMember;
 	};
 };
 
@@ -218,18 +218,18 @@ var inputNames = [
 util.getFormValues = function(form) {
 	var inputs = this.domTraverseGet(form, function(elem) { return util.inputNames.indexOf(elem.tagName.toLowerCase()) != -1; });
 	var ret = {};
-	for(var idx in inputs) {
-		if(!inputs[idx].name)
+	for(var input of inputs) {
+		if(!input.name)
 			continue;
 			
-		switch(inputs[idx].type) {
+		switch(input.type) {
 			case "radio":
 			case "checkbox":
-				if(!inputs[idx].checked)
+				if(!input.checked)
 					continue;
 		}
 		
-		ret[inputs[idx].name] = inputs[idx].value;
+		ret[input.name] = input.value;
 	}
 	return ret;
 };
@@ -248,8 +248,8 @@ util.deepCopyTo = function(dest, source) {
 };
 
 util.appendChilds = function(elem, childs) {
-	for(var idx in childs)
-		elem.appendChild(childs[idx]);
+	for(var child of childs)
+		elem.appendChild(child);
 };
 
 util.addEventListeners = function(elem, listeners) {
@@ -306,12 +306,12 @@ util.makeElementTree = function(object, idMap) {
 
 util.makeSelect = function(attributes, options) {
 	var select = this.makeElement("select", attributes);
-	for(var idx in options)
+	for(var option of options)
 		select.appendChild(this.makeElement("option", {
-				value: options[idx].value,
-				selected: options[idx].selected,
+				value: option.value,
+				selected: option.selected,
 			}, 
-			[this.makeText(options[idx].text)]
+			[this.makeText(option.text)]
 		));
 	return select;
 };
@@ -324,9 +324,9 @@ util.makeRecurseList = function(object, depthAttribs, depthPrefixes, depth) {
 		return ulElem;
 	
 	if(object instanceof Array)
-		for(var idx in object)
+		for(var subObject of object)
 			ulElem.appendChild(this.makeElement("li", {}, [
-				this.makeText(object[idx])
+				this.makeText(subObject)
 			]));
 	else
 		for(var idx in object)
