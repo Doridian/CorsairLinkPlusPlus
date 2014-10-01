@@ -1,4 +1,9 @@
 .device {
 	border: 1px solid black;
 	margin: 1px;
+	display: inline-block;
+}
+
+.device.hub {
+	display: block !important;
 }

@@ -20,6 +20,7 @@
 var util = require("libraries/util");
 
 var Sensor = require("classes/Devices/Sensor");
+var Hub = require("classes/Devices/Hub");
 
 function DeviceView(device) {
 	this.device = device;
@@ -48,7 +49,7 @@ p.buildElement = function() {
 	var treeData = util.makeElementTree({
 		tag: "div",
 		attributes: {
-			className: "device"
+			className: ("device" + (this.device instanceof Hub ? " hub" : ""))
 		}, children: [
 			{
 				tag: "span",
