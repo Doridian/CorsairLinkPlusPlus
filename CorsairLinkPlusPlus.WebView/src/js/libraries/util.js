@@ -362,15 +362,6 @@ util.copyToRestricted = function(dest, source, what) {
 	return dest;
 };
 
-util.makeInstanceDescriptorGetter = function(proto) {
-	proto.getDescriptor = function() {
-		var ret = [];
-		for(idx in this.instances)
-			ret.push(this.instances[idx].getDescriptor());
-		return ret;
-	};
-};
-
 util.arrayCopy = function(arr) {
 	return arr.slice(0);
 };
