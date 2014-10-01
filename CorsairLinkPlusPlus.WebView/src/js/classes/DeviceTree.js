@@ -80,21 +80,39 @@ p.buildDevices = function(rawTree, parent) {
 	rawTree.Children.forEach(function(val) {
 		this.buildDevices(val, newDevice);
 	}, this);
-	
 }
 
-function flattenTree(treeNode, out) {
-	out = out || [];
-	out.push(treeNode);
+function traverseTree(treeNode, callback) {
+	callback(treeNode);
 	if(treeNode instanceof Hub)
 		treeNode.getChildren().forEach(function(subNode) {
-			flattenTree(subNode, out);
+			traverseTree(subNode, callback);
 		});
+}
+
+function flattenTree(treeNode) {
+	var out = [];
+	traverseTree(treeNode, function(device) {
+		out.push(device);
+	});
 	return out;
-}	
+}
 
 p.getDevices = function() {
 	return flattenTree(this.root);
+}
+
+p.forEach = function(callback) {
+	traverseTree(this.root, callback);
+}
+
+p.getDevicesByName = function(name) {
+	var out = [];
+	this.forEach(function(device) {
+		if(device.getName() == name)
+			out.push(device);
+	});
+	return out;
 }
 
 return DeviceTree;
