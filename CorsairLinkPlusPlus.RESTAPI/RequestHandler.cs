@@ -85,24 +85,33 @@ namespace CorsairLinkPlusPlus.RESTAPI
                 channel = null;
             }
 
-            IHttpResponse response = request.CreateResponse();
-            request = null;
+            try
+            {
+                IHttpResponse response = request.CreateResponse();
+                request = null;
 
-            response.ContentLength = (int)body.Length;
-            response.StatusCode = statusCode;
-            response.ContentType = mimeType;
+                response.ContentLength = (int)body.Length;
+                response.StatusCode = statusCode;
+                response.ContentType = mimeType;
 
-            response.AddHeader("Access-Control-Allow-Origin", "*");
-            response.AddHeader("Access-Control-Allow-Headers", "Authorization");
-            response.AddHeader("Access-Control-Allow-Methods", "POST, HEAD, PUT, DELETE, GET, OPTIONS");
-            if (headers != null)
-                foreach (KeyValuePair<string, string> kvp in headers)
-                    response.AddHeader(kvp.Key, kvp.Value);
+                response.AddHeader("Access-Control-Allow-Origin", "*");
+                response.AddHeader("Access-Control-Allow-Headers", "Authorization");
+                response.AddHeader("Access-Control-Allow-Methods", "POST, HEAD, PUT, DELETE, GET, OPTIONS");
+                if (headers != null)
+                    foreach (KeyValuePair<string, string> kvp in headers)
+                        response.AddHeader(kvp.Key, kvp.Value);
 
-            body.Position = 0;
-            response.Body = body;
+                body.Position = 0;
+                response.Body = body;
 
-            _channel.Send(response);
+                _channel.Send(response);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e);
+                return false;
+            }
+
             return true;
         }
 
