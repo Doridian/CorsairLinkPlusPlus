@@ -20,6 +20,13 @@
 var util = require("libraries/util");
 
 var Sensor = require("classes/Devices/Sensor");
+var SensorView = require("classes/Gui/Views/Devices/Sensor");
+
+var Fan = require("classes/Devices/Sensors/Fan");
+var FanView = require("classes/Gui/Views/Devices/Sensors/Fan");
+
+var LED = require("classes/Devices/Sensors/LED");
+var LEDView = require("classes/Gui/Views/Devices/Sensors/LED");
 
 function DeviceViewFactory() {
 	this.deviceMap = new Map();
@@ -34,7 +41,7 @@ p.getByDevice = function(device) {
 	try {
 		ret = this.deviceMap.get(device);
 		if(!ret) {
-			var constructor = require("classes/Gui/Views/Devices/" + typeof controller);
+			var constructor = require("classes/Gui/Views/Devices/" + device.constructor.name);
 			ret = new constructor(device);
 		}
 		return ret;
@@ -42,8 +49,12 @@ p.getByDevice = function(device) {
 		console.error("Could not find view for device " + device.getName());
 		console.log(e);
 		var constructor
-		if(device instanceof Sensor)
-			constructor = require("classes/Gui/Views/Devices/Sensor");
+		if(device instanceof Fan)
+			constructor = FanView;
+		else if(device instanceof LED)
+			constructor = LEDView;
+		else if(device instanceof Sensor)
+			constructor = SensorView;
 		else
 			constructor = require("classes/Gui/Views/DeviceView");
 		ret = new constructor(device);

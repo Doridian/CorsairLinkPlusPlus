@@ -22,6 +22,8 @@ var util = require("libraries/util");
 var Sensor = require("classes/Devices/Sensor");
 var Hub = require("classes/Devices/Hub");
 
+var api = require("libraries/api");
+
 function DeviceView(device) {
 	this.device = device;
 	var self = this;
@@ -46,6 +48,7 @@ p.getElement = function() {
 };
 
 p.buildElement = function() {
+	var self = this;
 	var treeData = util.makeElementTree({
 		tag: "div",
 		attributes: {
@@ -67,7 +70,24 @@ p.buildElement = function() {
 					}
 				]
 			},
-		].concat(this.buildInternalElement())
+			util.makeElement("br")
+		].concat(this.buildInternalElement()).concat([
+			util.makeElement("br"),
+			{
+				tag: "input",
+				attributes: {
+					type: "button",
+					value: "update"
+				},
+				events: {
+					click: function(event) {
+						api.updateDevice(self.device, true).then(function() {
+							console.log("success");
+						});
+					}
+				}
+			}
+		])
 	});
 	this.element = treeData.node;
 	this.dataFields = treeData.idMap;

@@ -108,6 +108,7 @@ var preload = [
 	"classes/Devices/RootDevice",
 	"classes/Devices/Sensor",
 	"classes/Devices/VirtualHub",
+	"classes/Devices/Sensors/ScalarSensor",
 	"classes/Devices/Sensors/CurrentSensor",
 	"classes/Devices/Sensors/EffiencySensor",
 	"classes/Devices/Sensors/Fan",
@@ -117,10 +118,13 @@ var preload = [
 	"classes/Devices/Sensors/PWMFan",
 	"classes/Devices/Sensors/Thermistor",
 	"classes/Devices/Sensors/VoltageSensor",
+	"classes/Gui/Views/Main/Plain",
 	"classes/Gui/ControllerViewFactory",
 	"classes/Gui/DeviceViewFactory",
 	"classes/Gui/Views/DeviceView",
 	"classes/Gui/Views/Devices/Sensor",
+	"classes/Gui/Views/Devices/Sensors/Fan",
+	"classes/Gui/Views/Devices/Sensors/LED",
 	"classes/ControllerFactory",
 	"classes/SensorFactory",
 	"libraries/api",
@@ -145,26 +149,14 @@ Promise.all(preload.map(function(val) {
 	//main file
 
 	var api = require("libraries/api");
-	var DeviceViewFactory = require("classes/Gui/DeviceViewFactory");
 	
+	var PlainView = require("classes/Gui/Views/Main/Plain")
 	
 	api.fetchDeviceTree().then(function(deviceTree) {
 		try {
-			console.log(deviceTree.getDevices());
 			var body = document.body;
-			var factory = DeviceViewFactory.getInstance();
-			deviceTree.getDevices().forEach(function(device) {
-				var parentDevice = device.getParent();
-				var parent;
-				if(parentDevice)
-					parent = factory.getByDevice(parentDevice).getElement();
-				else
-					parent = body;
-				
-				parent.appendChild(
-					factory.getByDevice(device).getElement()
-				);
-			});
+			var mainView = new PlainView(deviceTree);
+			body.appendChild(mainView.getElement());
 		} catch(e) {
 			console.error(e);
 		}

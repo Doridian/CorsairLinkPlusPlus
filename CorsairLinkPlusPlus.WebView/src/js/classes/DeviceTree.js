@@ -102,6 +102,10 @@ p.getDevices = function() {
 	return flattenTree(this.root);
 }
 
+p.getRoot = function() {
+	return this.root;
+}
+
 p.forEach = function(callback) {
 	traverseTree(this.root, callback);
 }

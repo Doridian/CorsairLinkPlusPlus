@@ -28,7 +28,6 @@ var p = inherit(Sensor, Device);
 p.setRawData = function(rawData) {
 	this.type = rawData.SensorType;
 	this.unit = rawData.Unit;
-	this.value = rawData.Value;
 	this.validControllerNames = rawData.ValidControllerNames;
 	Device.prototype.setRawData.apply(this, arguments);
 }

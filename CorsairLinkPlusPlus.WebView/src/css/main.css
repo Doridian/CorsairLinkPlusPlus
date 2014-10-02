@@ -1,9 +1,69 @@
+html, body {
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	color: white;
+	font-family: Arial, Helvetica;
+}
+
 .device {
-	border: 1px solid black;
+	border: 1px solid white;
 	margin: 1px;
+	padding: 4px;
 	display: inline-block;
+	border-radius: 4px;
+	background-color: rgba(150, 150, 150, 0.6);
 }
 
 .device.hub {
 	display: block !important;
+}
+
+div.sensor {
+	vertical-align: bottom;
+}
+
+div.sensor > .color {
+	width: 100px;
+	height: 100px;
+}
+
+div.sensor_text {
+	display: table-cell;
+	vertical-align: middle;
+	padding-left: 15px;
+}
+
+div.sensor_pic, div.fan_pic > div {
+	width: 64px;
+	height: 64px;
+}
+
+div.sensor_pic, div.sensor_pic > * {
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	display: table-cell;
+}
+
+div.fan_pic {
+	background-image: url(images/fan_outer.svg);
+}
+
+div.fan_pic > div {
+	background-image: url(images/fan_inner.svg);
+}
+
+div.temp_pic {
+	background-image: url(images/thermistor_outer.svg);
+}
+
+div.temp_pic > div {
+	width: 8px;
+	height: 40px;
+	position: relative;
+	left: 28px;
+	top: 5px;
+	display: block;
+	background-color: #333f4f;
+	border-radius: 4px;
 }

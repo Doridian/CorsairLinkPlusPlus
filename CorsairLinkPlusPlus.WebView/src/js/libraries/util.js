@@ -304,14 +304,14 @@ util.makeElementTree = function(object, idMap) {
 	};
 }
 
-util.makeSelect = function(attributes, options) {
-	var select = this.makeElement("select", attributes);
+util.makeSelect = function(attributes, options, events) {
+	var select = this.makeElement("select", attributes, undefined, events);
 	for(var option of options)
 		select.appendChild(this.makeElement("option", {
 				value: option.value,
 				selected: option.selected,
 			}, 
-			[this.makeText(option.text)]
+			[this.makeText(option.text || option.value)]
 		));
 	return select;
 };

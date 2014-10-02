@@ -18,8 +18,8 @@
 "use strict";
 
 function Device(rawData) {
-	this.setRawData(rawData);
 	this.listeners = [];
+	this.setRawData(rawData);
 }
 
 var p = Device.prototype;

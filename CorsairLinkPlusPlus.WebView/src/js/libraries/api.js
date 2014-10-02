@@ -24,6 +24,8 @@ var util = require("libraries/util");
 
 var DeviceTree = require("classes/DeviceTree");
 
+var Hub = require("classes/Devices/Hub");
+
 api.path = "/api";
 
 function recurseDeviceRequest(path) {
@@ -88,10 +90,16 @@ function cleanupData(data) {
 	return data;
 }
 
-api.updateDevice = function(device) {
-	return this.fetchDevice(device.getPath()).then(function(rawData) {
+api.updateDevice = function(device, recursive) {
+	var promises = [];
+	if(recursive && device instanceof Hub)
+		for(var childDevice of device.getChildren())
+			promises.push(api.updateDevice(childDevice, recursive));
+	
+	promises.push(this.fetchDevice(device.getPath()).then(function(rawData) {
 		device.setRawData(cleanupData(rawData));
-	});
+	}));
+	return Promise.all(promises);
 }
 
 return api;

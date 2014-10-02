@@ -21,8 +21,6 @@ var util = require("libraries/util");
 
 var DeviceView = require("classes/Gui/Views/DeviceView");
 
-var api = require("libraries/api");
-
 function Sensor(device) {
 	DeviceView.apply(this, arguments);
 }
@@ -47,21 +45,6 @@ p.buildInternalElement = function() {
 					]
 				}
 			]
-		},
-		util.makeElement("br"),
-		{
-			tag: "input",
-			attributes: {
-				type: "button",
-				value: "update"
-			},
-			events: {
-				click: function(event) {
-					api.updateDevice(self.device).then(function() {
-						console.log("success");
-					});
-				}
-			}
 		}
 	];
 }

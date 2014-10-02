@@ -17,11 +17,36 @@
  */
 "use strict";
 
-var ScalarSensor = require("classes/Devices/Sensors/ScalarSensor");
+var SensorView = require("classes/Gui/Views/Devices/Sensor");
 
-function PowerSensor(rawData) {
-	ScalarSensor.apply(this, arguments);
+function LED(device) {
+	SensorView.apply(this, arguments);
 }
-var p = inherit(PowerSensor, ScalarSensor);
+var p = inherit(LED, SensorView);
 
-return PowerSensor;
+p.buildInternalElement = function() {
+	return SensorView.prototype.buildInternalElement.apply(this, arguments).concat({
+		tag: "div",
+		attributes: {
+			className: "sensor"
+		},
+		children: [
+			{
+				tag: "div",
+				id: "indicator",
+				attributes: {
+					className: "color"
+				}
+			}
+		]
+	});
+}
+
+p.update = function() {
+	SensorView.prototype.update.apply(this);
+	var indicator = this.dataFields.indicator;
+	var color = this.device.getValue();
+	indicator.style.backgroundColor = "rgb(" + color.r + ", " + color.g + ", " + color.b + ")";
+};
+
+return LED;

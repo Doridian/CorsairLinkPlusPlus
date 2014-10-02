@@ -17,11 +17,11 @@
  */
 "use strict";
 
-var Sensor = require("classes/Devices/Sensor");
+var ScalarSensor = require("classes/Devices/Sensors/ScalarSensor");
 
 function VoltageSensor(rawData) {
-	Sensor.apply(this, arguments);
+	ScalarSensor.apply(this, arguments);
 }
-var p = inherit(VoltageSensor, Sensor);
+var p = inherit(VoltageSensor, ScalarSensor);
 
 return VoltageSensor;
