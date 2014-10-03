@@ -123,6 +123,7 @@ var preload = [
 	"classes/Gui/DeviceViewFactory",
 	"classes/Gui/Views/DeviceView",
 	"classes/Gui/Views/Devices/Sensor",
+	"classes/Gui/Views/Devices/Sensors/ScalarSensor",
 	"classes/Gui/Views/Devices/Sensors/Fan",
 	"classes/Gui/Views/Devices/Sensors/LED",
 	"classes/ControllerFactory",

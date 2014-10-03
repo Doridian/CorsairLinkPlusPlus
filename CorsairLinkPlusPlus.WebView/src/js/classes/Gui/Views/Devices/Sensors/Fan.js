@@ -17,15 +17,16 @@
  */
 "use strict";
 
-var SensorView = require("classes/Gui/Views/Devices/Sensor");
+var ScalarSensorView = require("classes/Gui/Views/Devices/Sensors/ScalarSensor");
+var DeviceView = require("classes/Gui/Views/DeviceView");
 
 function Fan(device) {
-	SensorView.apply(this, arguments);
+	ScalarSensorView.apply(this, arguments);
 }
-var p = inherit(Fan, SensorView);
+var p = inherit(Fan, ScalarSensorView);
 
 p.buildInternalElement = function() {
-	return SensorView.prototype.buildInternalElement.apply(this, arguments).concat({
+	return ScalarSensorView.prototype.buildInternalElement.apply(this, arguments).concat({
 		tag: "div",
 		attributes: {
 			className: "sensor"
@@ -48,7 +49,7 @@ p.buildInternalElement = function() {
 }
 
 p.update = function() {
-	SensorView.prototype.update.apply(this);
+	ScalarSensorView.prototype.update.apply(this);
 	var spinner = this.dataFields.spinner;
 	var rpm = this.device.getValue();
 	if(this.interval)
@@ -59,6 +60,11 @@ p.update = function() {
 		spinner.rotation += ((rpm / 60) / updateRate) * 0.05;
 		spinner.style.transform = "rotate(" + spinner.rotation + "turn)";
 	}, 1000 / updateRate);
+};
+
+p.update = function() {
+	DeviceView.prototype.update.apply(this);
+	this.setDataFieldText("value", this.device.getValue() + this.device.getUnit());
 };
 
 return Fan;

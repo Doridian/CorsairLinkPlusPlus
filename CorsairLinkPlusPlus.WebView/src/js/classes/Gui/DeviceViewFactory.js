@@ -22,6 +22,8 @@ var util = require("libraries/util");
 var Sensor = require("classes/Devices/Sensor");
 var SensorView = require("classes/Gui/Views/Devices/Sensor");
 
+var ScalarSensorView = require("classes/Gui/Views/Devices/Sensors/ScalarSensor");
+
 var Fan = require("classes/Devices/Sensors/Fan");
 var FanView = require("classes/Gui/Views/Devices/Sensors/Fan");
 
@@ -54,7 +56,7 @@ p.getByDevice = function(device) {
 		else if(device instanceof LED)
 			constructor = LEDView;
 		else if(device instanceof Sensor)
-			constructor = SensorView;
+			constructor = ScalarSensorView;
 		else
 			constructor = require("classes/Gui/Views/DeviceView");
 		ret = new constructor(device);
