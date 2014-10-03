@@ -42,20 +42,67 @@ namespace CorsairLinkPlusPlus.RESTAPI
                 return settings;
             });
 
+            AddUser(new UserData("root", "root", false));
+
             HttpListener httpServer = new HttpListener();
             httpServer.ClientConnected += httpServer_ClientConnected;
             httpServer.MessageReceived = OnMessage;
             httpServer.BodyDecoder = new CompositeIMessageSerializer();
             httpServer.Start(IPAddress.Any, 38012);
 
-            Console.ReadLine();
+            //CLI MENU
+            while (true)
+            {
+                Console.Out.WriteLine("========================================");
+                Console.Out.WriteLine("Menu:");
+                Console.Out.WriteLine("1) List users");
+                Console.Out.WriteLine("2) Add/Edit user");
+                Console.Out.WriteLine("3) Delete user");
+                Console.Out.WriteLine("9) Exit program");
+                Console.Out.Write("Choice: ");
+                string picked = Console.In.ReadLine();
+                Console.Out.WriteLine("----------------------------------------");
+                switch(picked)
+                {
+                    case "1":
+                        foreach(UserData userData in validUsers.Values)
+                            Console.Out.WriteLine("Name: " + userData.name + ", ReadOnly: " + (userData.readOnly ? "Yes" : "No"));
+                        break;
+                    case "2":
+                        UserData user = ConsoleReadUser();
+                        validUsers[user.name] = user;
+                        break;
+                    case "3":
+                        Console.Out.Write("Username: ");
+                        string username = Console.In.ReadLine();
+                        validUsers.Remove(username);
+                        break;
+                    case "9":
+                        httpServer.Stop();
+                        return;
+                }
+            }
+        }
+
+        private static UserData ConsoleReadUser()
+        {
+            Console.Out.Write("Username: ");
+            string username = Console.In.ReadLine();
+            Console.Out.Write("Password: ");
+            string password = Console.In.ReadLine();
+            Console.Out.Write("Read only (yes/no): ");
+            bool readOnly = Console.In.ReadLine().StartsWith("y");
+            return new UserData(username, password, readOnly);
         }
 
         internal static string WEB_ROOT_ABSOLUTE = new DirectoryInfo("./web").FullName;
 
-        internal static Dictionary<string, string> validUsers = new Dictionary<string, string> {
-            { "root", "root" }
-        };
+        internal static Dictionary<string, UserData> validUsers = new Dictionary<string, UserData>();
+
+        private static void AddUser(UserData user)
+        {
+            validUsers[user.name] = user;
+        }
 
         private static void httpServer_ClientConnected(object sender, Griffin.Net.Protocols.ClientConnectedEventArgs e)
         {

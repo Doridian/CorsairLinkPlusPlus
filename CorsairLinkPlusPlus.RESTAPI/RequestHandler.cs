@@ -35,6 +35,7 @@ namespace CorsairLinkPlusPlus.RESTAPI
         private volatile ITcpChannel channel;
         private HttpRequestBase request;
         private readonly object lockObject = new object();
+        private UserData? currentUser = null;
 
         public RequestHandler(ITcpChannel channel, HttpRequestBase request)
         {
@@ -94,6 +95,12 @@ namespace CorsairLinkPlusPlus.RESTAPI
                 response.StatusCode = statusCode;
                 response.ContentType = mimeType;
 
+                if (currentUser != null)
+                {
+                    response.AddHeader("X-User-Name", currentUser.Value.name);
+                    response.AddHeader("X-User-Readonly", currentUser.Value.readOnly ? "Yes" : "No");
+                }
+
                 response.AddHeader("Access-Control-Allow-Origin", "*");
                 response.AddHeader("Access-Control-Allow-Headers", "Authorization");
                 response.AddHeader("Access-Control-Allow-Methods", "POST, HEAD, PUT, DELETE, GET, OPTIONS");
@@ -115,21 +122,24 @@ namespace CorsairLinkPlusPlus.RESTAPI
             return true;
         }
 
-        private static bool AuthorizationValid(string auth)
+        private static UserData? GetCurrentUser(string auth)
         {
             if (!auth.StartsWith("Basic "))
-                return false;
+                return null;
 
             auth = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(auth.Substring(6)));
             int authColon = auth.IndexOf(':');
             if (authColon <= 0)
-                return false;
+                return null;
 
             string username = auth.Substring(0, authColon);
             if (!Program.validUsers.ContainsKey(username))
-                return false;
+                return null;
 
-            return Program.validUsers[username] == auth.Substring(authColon + 1);
+            UserData ret = Program.validUsers[username];
+            if (ret.password != auth.Substring(authColon + 1))
+                return null;
+            return ret;
         }
 
         private void _Start()
@@ -140,9 +150,16 @@ namespace CorsairLinkPlusPlus.RESTAPI
 
             if (absoluteUri.StartsWith("/api"))
             {
-                if (!request.Headers.Contains("Authorization") || !AuthorizationValid(request.Headers["Authorization"]))
+                if (!request.Headers.Contains("Authorization"))
                 {
                     RespondWithJSON("Please authenticate", false, 401, new Dictionary<string, string> { { "WWW-Authenticate", "Basic realm=\"CorsairLinkPlusPlus API\"" } });
+                    return;
+                }
+
+                currentUser = GetCurrentUser(request.Headers["Authorization"]);
+                if (currentUser == null)
+                {
+                    RespondWithJSON("Invalid login", false, 401, new Dictionary<string, string> { { "WWW-Authenticate", "Basic realm=\"CorsairLinkPlusPlus API\"" } });
                     return;
                 }
 
@@ -164,6 +181,12 @@ namespace CorsairLinkPlusPlus.RESTAPI
 
                     if(request.HttpMethod == "POST")
                     {
+                        if(currentUser.Value.readOnly)
+                        {
+                            RespondWithJSON("Your user is read-only", false, 403);
+                            return;
+                        }
+
                         Dictionary<string, object> methodCall;
                         using (StreamReader bodyReader = new StreamReader(request.Body))
                         {
