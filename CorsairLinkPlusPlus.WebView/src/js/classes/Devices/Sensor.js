@@ -18,7 +18,7 @@
 
 "use strict";
 
-var Device = require("classes/Device");
+var Device = require("Device");
 
 function Sensor(rawData) {
 	Device.apply(this, arguments);

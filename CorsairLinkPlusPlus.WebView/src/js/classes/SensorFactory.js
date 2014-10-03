@@ -18,15 +18,15 @@
 
 "use strict";
 
-var Fan = require("classes/Devices/Sensors/Fan");
-var PWMFan = require("classes/Devices/Sensors/PWMFan");
-var Thermistor = require("classes/Devices/Sensors/Thermistor");
-var LED = require("classes/Devices/Sensors/LED");
-var CurrentSensor = require("classes/Devices/Sensors/CurrentSensor");
-var VoltageSensor = require("classes/Devices/Sensors/VoltageSensor");
-var PowerSensor = require("classes/Devices/Sensors/PowerSensor");
-var EffiencySensor = require("classes/Devices/Sensors/EffiencySensor");
-var Pump = require("classes/Devices/Sensors/Pump");
+var Fan = require("Devices/Sensors/Fan");
+var PWMFan = require("Devices/Sensors/PWMFan");
+var Thermistor = require("Devices/Sensors/Thermistor");
+var LED = require("Devices/Sensors/LED");
+var CurrentSensor = require("Devices/Sensors/CurrentSensor");
+var VoltageSensor = require("Devices/Sensors/VoltageSensor");
+var PowerSensor = require("Devices/Sensors/PowerSensor");
+var EffiencySensor = require("Devices/Sensors/EffiencySensor");
+var Pump = require("Devices/Sensors/Pump");
 
 function SensorFactory() {
 }

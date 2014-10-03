@@ -18,8 +18,8 @@
 
 "use strict";
 
-var ScalarSensorView = require("classes/Gui/Views/Devices/Sensors/ScalarSensor");
-var DeviceView = require("classes/Gui/Views/DeviceView");
+var ScalarSensorView = require("Gui/Views/Devices/Sensors/ScalarSensor");
+var DeviceView = require("Gui/Views/DeviceView");
 
 function Fan(device) {
 	ScalarSensorView.apply(this, arguments);

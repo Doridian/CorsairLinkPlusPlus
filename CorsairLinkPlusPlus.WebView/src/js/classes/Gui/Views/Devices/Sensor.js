@@ -18,9 +18,9 @@
 
 "use strict";
 
-var util = require("libraries/util");
+var util = require("Util");
 
-var DeviceView = require("classes/Gui/Views/DeviceView");
+var DeviceView = require("Gui/Views/DeviceView");
 
 function Sensor(device) {
 	DeviceView.apply(this, arguments);

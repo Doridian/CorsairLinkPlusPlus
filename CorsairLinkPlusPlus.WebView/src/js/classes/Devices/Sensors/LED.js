@@ -18,9 +18,9 @@
 
 "use strict";
 
-var Sensor = require("classes/Devices/Sensor");
+var Sensor = require("Devices/Sensor");
 
-var Color = require("classes/Color");
+var Color = require("Color");
 
 function LED(rawData) {
 	Sensor.apply(this, arguments);

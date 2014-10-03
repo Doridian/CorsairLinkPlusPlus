@@ -17,11 +17,11 @@
  */
 "use strict";
 
-var DeviceViewFactory = require("classes/Gui/DeviceViewFactory");
+var DeviceViewFactory = require("Gui/DeviceViewFactory");
 var factory = DeviceViewFactory.getInstance();
 
-var util = require("libraries/util");
-var api = require("libraries/api");
+var util = require("Util");
+var api = require("Api").getInstance();
 
 function Plain(deviceTree) {
 	this.deviceTree = deviceTree;

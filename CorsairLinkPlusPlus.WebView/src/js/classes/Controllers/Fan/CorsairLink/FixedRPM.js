@@ -18,7 +18,7 @@
 
 "use strict";
 
-var FanController = require("classes/Controllers/Fan");
+var FanController = require("Controllers/Fan");
 
 function FixedRPM(rawData) {
 	FanController.apply(this, arguments);

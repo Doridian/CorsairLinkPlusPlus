@@ -18,8 +18,8 @@
 
 "use strict";
 
-var FanCurveController = require("classes/Controllers/Fan/CorsairLink/Curve");
-var ControlCurve = require("classes/ControlCurve");
+var FanCurveController = require("Controllers/Fan/CorsairLink/Curve");
+var ControlCurve = require("ControlCurve");
 
 function CustomCurve(rawData) {
 	FanCurveController.apply(this, arguments);

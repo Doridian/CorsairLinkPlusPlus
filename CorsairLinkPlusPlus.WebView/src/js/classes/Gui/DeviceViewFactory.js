@@ -18,18 +18,18 @@
 
 "use strict";
 
-var util = require("libraries/util");
+var util = require("Util");
 
-var Sensor = require("classes/Devices/Sensor");
-var SensorView = require("classes/Gui/Views/Devices/Sensor");
+var Sensor = require("Devices/Sensor");
+var SensorView = require("Gui/Views/Devices/Sensor");
 
-var ScalarSensorView = require("classes/Gui/Views/Devices/Sensors/ScalarSensor");
+var ScalarSensorView = require("Gui/Views/Devices/Sensors/ScalarSensor");
 
-var Fan = require("classes/Devices/Sensors/Fan");
-var FanView = require("classes/Gui/Views/Devices/Sensors/Fan");
+var Fan = require("Devices/Sensors/Fan");
+var FanView = require("Gui/Views/Devices/Sensors/Fan");
 
-var LED = require("classes/Devices/Sensors/LED");
-var LEDView = require("classes/Gui/Views/Devices/Sensors/LED");
+var LED = require("Devices/Sensors/LED");
+var LEDView = require("Gui/Views/Devices/Sensors/LED");
 
 function DeviceViewFactory() {
 	this.deviceMap = new Map();
@@ -44,7 +44,7 @@ p.getByDevice = function(device) {
 	try {
 		ret = this.deviceMap.get(device);
 		if(!ret) {
-			var constructor = require("classes/Gui/Views/Devices/" + device.constructor.name);
+			var constructor = require("Gui/Views/Devices/" + device.constructor.name);
 			ret = new constructor(device);
 		}
 		return ret;
@@ -59,7 +59,7 @@ p.getByDevice = function(device) {
 		else if(device instanceof Sensor)
 			constructor = ScalarSensorView;
 		else
-			constructor = require("classes/Gui/Views/DeviceView");
+			constructor = require("Gui/Views/DeviceView");
 		ret = new constructor(device);
 	}
 	this.deviceMap.set(device, ret);

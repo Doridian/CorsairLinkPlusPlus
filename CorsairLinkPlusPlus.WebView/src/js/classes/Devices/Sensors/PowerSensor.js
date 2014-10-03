@@ -18,7 +18,7 @@
 
 "use strict";
 
-var ScalarSensor = require("classes/Devices/Sensors/ScalarSensor");
+var ScalarSensor = require("Devices/Sensors/ScalarSensor");
 
 function PowerSensor(rawData) {
 	ScalarSensor.apply(this, arguments);

@@ -18,12 +18,12 @@
 
 "use strict";
 
-var util = require("libraries/util");
+var util = require("Util");
 
-var LED = require("classes/Controllers/LED");
-var InvalidArgumentError = require("classes/InvalidArgumentError");
+var LED = require("Controllers/LED");
+var InvalidArgumentError = require("InvalidArgumentError");
 
-var Color = require("classes/Color");
+var Color = require("Color");
 
 function LEDTwoColor(rawData) {
 	if(rawData.length != 4)

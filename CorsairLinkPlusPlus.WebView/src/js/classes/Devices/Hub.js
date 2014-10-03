@@ -18,9 +18,9 @@
 
 "use strict";
 
-var Device = require("classes/Device");
+var Device = require("Device");
 
-var util = require("libraries/util")
+var util = require("Util")
 
 function Hub(rawData) {
 	Device.apply(this, arguments);

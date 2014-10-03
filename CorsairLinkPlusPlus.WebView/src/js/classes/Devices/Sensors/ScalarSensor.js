@@ -18,7 +18,7 @@
 
 "use strict";
 
-var Sensor = require("classes/Devices/Sensor");
+var Sensor = require("Devices/Sensor");
 
 function ScalarSensor(rawData) {
 	Sensor.apply(this, arguments);

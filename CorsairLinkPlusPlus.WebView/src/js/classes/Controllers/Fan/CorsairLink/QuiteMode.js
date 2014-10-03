@@ -18,7 +18,7 @@
 
 "use strict";
 
-var FanCurveController = require("classes/Controllers/Fan/CorsairLink/Curve");
+var FanCurveController = require("Controllers/Fan/CorsairLink/Curve");
 
 function QuiteMode(rawData) {
 	FanCurveController.apply(this, arguments);

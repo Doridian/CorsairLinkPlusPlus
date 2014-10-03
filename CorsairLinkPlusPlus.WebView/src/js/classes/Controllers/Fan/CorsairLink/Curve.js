@@ -18,8 +18,8 @@
 
 "use strict";
 
-var FanController = require("classes/Controllers/Fan");
-var ControlCurve = require("classes/ControlCurve");
+var FanController = require("Controllers/Fan");
+var ControlCurve = require("ControlCurve");
 
 function Curve(rawData) {
 	FanController.apply(this, arguments);

@@ -18,7 +18,7 @@
 
 "use strict";
 
-var SensorView = require("classes/Gui/Views/Devices/Sensor");
+var SensorView = require("Gui/Views/Devices/Sensor");
 
 function LED(device) {
 	SensorView.apply(this, arguments);

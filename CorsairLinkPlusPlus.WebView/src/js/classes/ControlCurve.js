@@ -18,7 +18,7 @@
 
 "use strict";
 
-var util = require("libraries/util");
+var util = require("Util");
 
 function ControlCurve() {
 	this.points = [];

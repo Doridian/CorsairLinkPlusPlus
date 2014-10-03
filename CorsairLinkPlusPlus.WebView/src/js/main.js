@@ -81,59 +81,59 @@ function xmlHttpPromise(url) {
 }
 
 var preload = [
-	"classes/ControlCurve",
-	"classes/Controller",
-	"classes/Device",
-	"classes/DeviceTree",
-	"classes/Color",
-	"classes/NotImplementedError",
-	"classes/InvalidArgumentError",
-	"classes/Controllers/Fan",
-	"classes/Controllers/Fan/CorsairLink/BalancedMode",
-	"classes/Controllers/Fan/CorsairLink/Curve",
-	"classes/Controllers/Fan/CorsairLink/CustomCurve",
-	"classes/Controllers/Fan/CorsairLink/Default",
-	"classes/Controllers/Fan/CorsairLink/FixedPercent",
-	"classes/Controllers/Fan/CorsairLink/FixedRPM",
-	"classes/Controllers/Fan/CorsairLink/PerformanceMode",
-	"classes/Controllers/Fan/CorsairLink/QuiteMode",
-	"classes/Controllers/LED",
-	"classes/Controllers/LED/CorsairLink/FourColor",
-	"classes/Controllers/LED/CorsairLink/SingleColor",
-	"classes/Controllers/LED/CorsairLink/Temperature",
-	"classes/Controllers/LED/CorsairLink/TwoColor",
-	"classes/Devices/Cooler",
-	"classes/Devices/Hub",
-	"classes/Devices/PSU",
-	"classes/Devices/RootDevice",
-	"classes/Devices/Sensor",
-	"classes/Devices/VirtualHub",
-	"classes/Devices/Sensors/ScalarSensor",
-	"classes/Devices/Sensors/CurrentSensor",
-	"classes/Devices/Sensors/EffiencySensor",
-	"classes/Devices/Sensors/Fan",
-	"classes/Devices/Sensors/LED",
-	"classes/Devices/Sensors/PowerSensor",
-	"classes/Devices/Sensors/Pump",
-	"classes/Devices/Sensors/PWMFan",
-	"classes/Devices/Sensors/Thermistor",
-	"classes/Devices/Sensors/VoltageSensor",
-	"classes/Gui/Views/Main/Plain",
-	"classes/Gui/ControllerViewFactory",
-	"classes/Gui/DeviceViewFactory",
-	"classes/Gui/Views/DeviceView",
-	"classes/Gui/Views/Devices/Sensor",
-	"classes/Gui/Views/Devices/Sensors/ScalarSensor",
-	"classes/Gui/Views/Devices/Sensors/Fan",
-	"classes/Gui/Views/Devices/Sensors/LED",
-	"classes/ControllerFactory",
-	"classes/SensorFactory",
-	"libraries/api",
-	"libraries/util"
+	"ControlCurve",
+	"Controller",
+	"Device",
+	"DeviceTree",
+	"Color",
+	"NotImplementedError",
+	"InvalidArgumentError",
+	"Controllers/Fan",
+	"Controllers/Fan/CorsairLink/BalancedMode",
+	"Controllers/Fan/CorsairLink/Curve",
+	"Controllers/Fan/CorsairLink/CustomCurve",
+	"Controllers/Fan/CorsairLink/Default",
+	"Controllers/Fan/CorsairLink/FixedPercent",
+	"Controllers/Fan/CorsairLink/FixedRPM",
+	"Controllers/Fan/CorsairLink/PerformanceMode",
+	"Controllers/Fan/CorsairLink/QuiteMode",
+	"Controllers/LED",
+	"Controllers/LED/CorsairLink/FourColor",
+	"Controllers/LED/CorsairLink/SingleColor",
+	"Controllers/LED/CorsairLink/Temperature",
+	"Controllers/LED/CorsairLink/TwoColor",
+	"Devices/Cooler",
+	"Devices/Hub",
+	"Devices/PSU",
+	"Devices/RootDevice",
+	"Devices/Sensor",
+	"Devices/VirtualHub",
+	"Devices/Sensors/ScalarSensor",
+	"Devices/Sensors/CurrentSensor",
+	"Devices/Sensors/EffiencySensor",
+	"Devices/Sensors/Fan",
+	"Devices/Sensors/LED",
+	"Devices/Sensors/PowerSensor",
+	"Devices/Sensors/Pump",
+	"Devices/Sensors/PWMFan",
+	"Devices/Sensors/Thermistor",
+	"Devices/Sensors/VoltageSensor",
+	"Gui/Views/Main/Plain",
+	"Gui/ControllerViewFactory",
+	"Gui/DeviceViewFactory",
+	"Gui/Views/DeviceView",
+	"Gui/Views/Devices/Sensor",
+	"Gui/Views/Devices/Sensors/ScalarSensor",
+	"Gui/Views/Devices/Sensors/Fan",
+	"Gui/Views/Devices/Sensors/LED",
+	"ControllerFactory",
+	"SensorFactory",
+	"api",
+	"util"
 ];
 
 Promise.all(preload.map(function(val) {
-	return xmlHttpPromise("js/" + val + ".js");
+	return xmlHttpPromise("js/classes/" + val + ".js");
 })).then(function(responseDataSets) {
 	responseDataSets.forEach(function(responseData) {
 		try {
@@ -149,9 +149,9 @@ Promise.all(preload.map(function(val) {
 }).then(function() {
 	//main file
 
-	var api = require("libraries/api");
+	var api = require("Api").getInstance();
 	
-	var PlainView = require("classes/Gui/Views/Main/Plain")
+	var PlainView = require("Gui/Views/Main/Plain")
 	
 	api.fetchDeviceTree().then(function(deviceTree) {
 		try {

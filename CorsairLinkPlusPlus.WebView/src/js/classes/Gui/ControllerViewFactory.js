@@ -24,7 +24,7 @@ function ControllerViewFactory() {
 var p = ControllerViewFactory.prototype;
 
 ControllerViewFactory.getByController = function(controller) {
-	return require("classes/Gui/Views/Controllers/" + typeof controller);
+	return require("Gui/Views/Controllers/" + typeof controller);
 }
 
 return ControllerViewFactory;

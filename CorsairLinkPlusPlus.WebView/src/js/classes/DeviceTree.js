@@ -18,17 +18,17 @@
 
 "use strict";
 
-var Controller = require("classes/Controller");
-var Sensor = require("classes/Devices/Sensor");
+var Controller = require("Controller");
+var Sensor = require("Devices/Sensor");
 
-var Cooler = require("classes/Devices/Cooler");
-var Hub = require("classes/Devices/Hub");
-var PSU = require("classes/Devices/PSU");
-var RootDevice = require("classes/Devices/RootDevice");
-var VirtualHub = require("classes/Devices/VirtualHub");
+var Cooler = require("Devices/Cooler");
+var Hub = require("Devices/Hub");
+var PSU = require("Devices/PSU");
+var RootDevice = require("Devices/RootDevice");
+var VirtualHub = require("Devices/VirtualHub");
 
-var ControllerFactory = require("classes/ControllerFactory");
-var SensorFactory = require("classes/SensorFactory");
+var ControllerFactory = require("ControllerFactory");
+var SensorFactory = require("SensorFactory");
 
 function DeviceTree(rawTree) {
 	if (rawTree)

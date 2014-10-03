@@ -18,7 +18,7 @@
 
 "use strict";
 
-var Fan = require("classes/Devices/Sensors/Fan");
+var Fan = require("Devices/Sensors/Fan");
 
 function PWMFan(rawData) {
 	Fan.apply(this, arguments);

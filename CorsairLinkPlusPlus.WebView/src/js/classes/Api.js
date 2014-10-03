@@ -18,18 +18,19 @@
 
 "use strict";
 
+var util = require("Util");
+var DeviceTree = require("DeviceTree");
+var Hub = require("Devices/Hub");
 
-var api = {};
+function Api() {
+	this.path = "/api";
+}
 
-var util = require("libraries/util");
+var p = Api.prototype;
 
-var DeviceTree = require("classes/DeviceTree");
+util.makeSingletonGetter(Api);
 
-var Hub = require("classes/Devices/Hub");
-
-api.path = "/api";
-
-function recurseDeviceRequest(path) {
+p.recurseDeviceRequest = function(path) {
 	return util.fetchJSON(path).then(function (data) {
 		var childPaths = data.result.ChildrenPaths;
 		if (childPaths.length > 0) {
@@ -55,33 +56,33 @@ function recurseDeviceRequest(path) {
 	});
 }
 
-api.executeOnDevice = function(path, method, params) {
+p.executeOnDevice = function(path, method, params) {
 	return util.fetchJSON(this.path + path, {
 		Name: method,
 		Params: params
 	});
 }
 
-api.refreshDevice = function(path) {
+p.refreshDevice = function(path) {
 	return this.executeOnDevice(path, "Refresh", {
 		Volatile: true
 	});
 }
 
-api.sendControllerUpdate = function(path, controller) {
+p.sendControllerUpdate = function(path, controller) {
 	return this.executeOnDevice(path, "SetController", {
 		Controller: controller.constructor.getFullClassName().replace("Controllers."),
 		Params: controller.getData()
 	});
 }
 
-api.fetchDeviceTree = function() {
+p.fetchDeviceTree = function() {
 	return recurseDeviceRequest(this.path).then(function(rawTree) {
 		return new DeviceTree(rawTree);
 	});
 }
 
-api.fetchDevice = function(devicePath) {
+p.fetchDevice = function(devicePath) {
 	return util.fetchJSON(this.path + "/" + devicePath);
 }
 
@@ -91,11 +92,11 @@ function cleanupData(data) {
 	return data;
 }
 
-api.updateDevice = function(device, recursive) {
+p.updateDevice = function(device, recursive) {
 	var promises = [];
 	if(recursive && device instanceof Hub)
 		for(var childDevice of device.getChildren())
-			promises.push(api.updateDevice(childDevice, recursive));
+			promises.push(this.updateDevice(childDevice, recursive));
 	
 	promises.push(this.fetchDevice(device.getPath()).then(function(rawData) {
 		device.setRawData(cleanupData(rawData));
@@ -103,4 +104,4 @@ api.updateDevice = function(device, recursive) {
 	return Promise.all(promises);
 }
 
-return api;
+return Api;

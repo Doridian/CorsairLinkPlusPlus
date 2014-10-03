@@ -18,8 +18,8 @@
 
 "use strict";
 
-var LED = require("classes/Controllers/LED");
-var Color = require("classes/Color");
+var LED = require("Controllers/LED");
+var Color = require("Color");
 
 function LEDSingleColor(rawData) {
 	LED.apply(this, arguments);

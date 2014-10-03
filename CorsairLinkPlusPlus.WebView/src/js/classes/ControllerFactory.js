@@ -23,7 +23,7 @@ function ControllerFactory() {
 
 ControllerFactory.create = function(rawData) {
 	try {
-		return require("classes/Controllers/" + rawData.Name.replace(/\./g, "/"));
+		return require("Controllers/" + rawData.Name.replace(/\./g, "/"));
 	} catch(e) {
 		throw new Error("Unhandled controller type " + rawData.Name + " " + e.message);
 	}

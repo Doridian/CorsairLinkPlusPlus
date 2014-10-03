@@ -18,8 +18,8 @@
 
 "use strict";
 
-var LED = require("classes/Controllers/LED");
-var ControlCurve = require("classes/ControlCurve");
+var LED = require("Controllers/LED");
+var ControlCurve = require("ControlCurve");
 
 function LEDTemperature(rawData) {
 	LED.apply(this, arguments);

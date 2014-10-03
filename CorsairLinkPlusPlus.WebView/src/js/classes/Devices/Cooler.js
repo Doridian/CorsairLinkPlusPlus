@@ -18,7 +18,7 @@
 
 "use strict";
 
-var Hub = require("classes/Devices/Hub");
+var Hub = require("Devices/Hub");
 
 function Cooler(rawData) {
 	Hub.apply(this, arguments);

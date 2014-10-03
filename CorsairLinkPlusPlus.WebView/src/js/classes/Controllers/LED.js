@@ -18,7 +18,7 @@
 
 "use strict";
 
-var Controller = require("classes/Controller");
+var Controller = require("Controller");
 
 function LED(rawData) {
 	Controller.apply(this, arguments);

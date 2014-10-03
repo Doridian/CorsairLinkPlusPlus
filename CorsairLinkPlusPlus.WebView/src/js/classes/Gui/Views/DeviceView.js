@@ -18,12 +18,12 @@
 
 "use strict";
 
-var util = require("libraries/util");
+var util = require("Util");
 
-var Sensor = require("classes/Devices/Sensor");
-var Hub = require("classes/Devices/Hub");
+var Sensor = require("Devices/Sensor");
+var Hub = require("Devices/Hub");
 
-var api = require("libraries/api");
+var api = require("Api").getInstance();
 
 function DeviceView(device) {
 	this.device = device;
