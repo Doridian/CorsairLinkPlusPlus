@@ -142,6 +142,12 @@ namespace CorsairLinkPlusPlus.RESTAPI
             return ret;
         }
 
+        class JSONMethodCall
+        {
+            public string Name;
+            public Dictionary<string, object> Params;
+        }
+
         private void _Start()
         {
             string absoluteUri = request.Uri.AbsolutePath;
@@ -187,12 +193,12 @@ namespace CorsairLinkPlusPlus.RESTAPI
                             return;
                         }
 
-                        Dictionary<string, object> methodCall;
+                        JSONMethodCall methodCall;
                         using (StreamReader bodyReader = new StreamReader(request.Body))
                         {
-                            methodCall = JsonConvert.DeserializeObject<Dictionary<string, object>>(bodyReader.ReadToEnd());
+                            methodCall = JsonConvert.DeserializeObject<JSONMethodCall>(bodyReader.ReadToEnd());
                         }
-                        BaseMethod.Execute((string)methodCall["Name"], device, (Dictionary<string, object>)methodCall["Params"]);
+                        BaseMethod.Execute(methodCall.Name, device, methodCall.Params);
                         RespondWithJSON("OK");
                         return;
                     }

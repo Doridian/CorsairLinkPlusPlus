@@ -18,12 +18,8 @@
  */
  #endregion
 using CorsairLinkPlusPlus.Common;
-using CorsairLinkPlusPlus.Common.Utility;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CorsairLinkPlusPlus.RESTAPI.Methods
 {
