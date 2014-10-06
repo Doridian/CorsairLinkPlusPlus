@@ -302,10 +302,14 @@ util.makeElement = function(name, attributes, childs, events) {
 };
 
 util.makeElementTree = function(object, idMap) {
+	if(!object == undefined) {
+		return;
+	}
 	if(object instanceof Node)
 		return {node: object};
 	if(this.isString(object))
 		return {node: this.makeText(object)};
+	
 	idMap = idMap || {};
 	var elem = document.createElement(object.tag);
 	if(object.attributes)
