@@ -77,7 +77,9 @@ p.buildInner = function() {
 		indicatorObject,
 		this.buildGraph(),
 		util.makeElement("br"),
-		this.buildUpdateButton()
+		this.buildUpdateButton(),
+		util.makeElement("br"),
+		this.buildControllerSelector()
 	]
 };
 
