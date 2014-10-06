@@ -26,6 +26,10 @@ var p = Controller.prototype;
 
 p.getValue = function() {
 	return this.value;
-}
+};
+
+p.getValueInternal = function() {
+	return this.value;
+};
 
 return Controller;
