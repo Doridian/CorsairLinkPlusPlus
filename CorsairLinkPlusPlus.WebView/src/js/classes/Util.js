@@ -262,7 +262,7 @@ util.deepCopyTo = function(dest, source) {
 		if(source[idx] instanceof Object) {
 			if(!dest[idx])
 				dest[idx] = {};
-			deepCopyTo(dest[idx], source[idx]);
+			this.deepCopyTo(dest[idx], source[idx]);
 		} else
 			dest[idx] = source[idx];
 	}
