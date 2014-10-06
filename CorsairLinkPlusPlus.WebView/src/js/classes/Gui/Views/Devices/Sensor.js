@@ -35,7 +35,7 @@ p.buildValueText = function() {
 	return {
 		tag: "span",
 		children: [
-			util.makeText("Value: "),
+			"Value: ",
 			{
 				tag: "span",
 				attributes: {
@@ -43,7 +43,7 @@ p.buildValueText = function() {
 				},
 				id: "value",
 				children: [
-					util.makeText()
+					""
 				]
 			}
 		]
@@ -58,6 +58,22 @@ p.buildIndicator = function() {
 		}
 	}
 };
+
+p.buildControllerSelector = function() {
+	var children = [];
+	for(var name of this.device.getValidControllerNames())
+		children.push({
+			tag: "option",
+			attributes: {
+				value: name
+			}
+		});
+		
+	return  {
+		tag: "select",
+		chidren: children
+	};
+}
 
 p.buildInner = function() {
 	var indicatorObject = this.buildIndicator();
@@ -76,7 +92,9 @@ p.buildInner = function() {
 		util.makeElement("br"),
 		indicatorObject,
 		util.makeElement("br"),
-		this.buildUpdateButton()
+		this.buildUpdateButton(),
+		util.makeElement("br"),
+		this.buildControllerSelector()
 	]
 };
 

@@ -52,7 +52,7 @@ p.buildNameText = function() {
 	return {
 		tag: "span",
 		children: [
-			util.makeText("Name: "),
+			"Name: ",
 			{
 				tag: "span",
 				attributes: {
@@ -60,7 +60,7 @@ p.buildNameText = function() {
 				},
 				id: "name",
 				children: [
-					util.makeText()
+					""
 				]
 			}
 		]

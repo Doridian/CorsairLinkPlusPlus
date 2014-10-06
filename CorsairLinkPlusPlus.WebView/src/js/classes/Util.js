@@ -154,6 +154,10 @@ util.makeAccessor = function(object, name, member, getter, setter) {
 		};
 };
 
+util.isString = function(val) {
+    return typeof val === "string" || val instanceof String;
+};
+
 util.makeListAccessor = function(object, name, member) {
 	object["add" + name] = function(val) {
 		this[member].push(val);
@@ -300,6 +304,8 @@ util.makeElement = function(name, attributes, childs, events) {
 util.makeElementTree = function(object, idMap) {
 	if(object instanceof Node)
 		return {node: object};
+	if(this.isString(object))
+		return {node: this.makeText(object)};
 	idMap = idMap || {};
 	var elem = document.createElement(object.tag);
 	if(object.attributes)
