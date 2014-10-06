@@ -419,4 +419,11 @@ util.fetchJSON = function(url, data) {
 	return this.fetchResource(url, "json", data);
 };
 
+util.arrayOf = function(size, value) {
+	var ret = [];
+	for(var i = 0;i<size;++i)
+		ret[i] = value;
+	return ret;
+}
+
 return util;
