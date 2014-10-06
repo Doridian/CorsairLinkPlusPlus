@@ -22,6 +22,9 @@ var util = require("Util");
 
 var DeviceView = require("Gui/Views/DeviceView");
 
+var FixedPercentController = require("Controllers/Fan/CorsairLink/FixedPercent");
+var Api = require("Api");
+
 function Sensor(device) {
 	DeviceView.apply(this, arguments);
 }
@@ -60,18 +63,38 @@ p.buildIndicator = function() {
 };
 
 p.buildControllerSelector = function() {
+	var names = this.device.getValidControllerNames();
+	if(names.length == 0)
+		return [];
 	var children = [];
-	for(var name of this.device.getValidControllerNames())
+
+	var currentControllerName = this.device.getController().constructor.name;
+
+	for(var name of names)
 		children.push({
 			tag: "option",
 			attributes: {
-				value: name
-			}
+				value: name,
+				selected: util.endsWith(name, currentControllerName)
+			},
+			children: [
+				name
+			]
 		});
-		
+	var self = this;
 	return  {
 		tag: "select",
-		chidren: children
+		children: children,
+		events: {
+			change: function(event) {
+				var currentController = self.device.getController();
+				if(this.value == "Fan.CorsairLink.FixedPercent") {
+					var controller = new FixedPercentController({Value: 1});
+					self.device.setController(controller);
+					Api.getInstance().sendControllerUpdate(self.device, controller);
+				}
+			}
+		}
 	};
 }
 
