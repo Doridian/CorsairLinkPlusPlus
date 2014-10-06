@@ -20,6 +20,8 @@
 
 var Device = require("Device");
 
+var util = require("Util");
+
 function Sensor(rawData) {
 	Device.apply(this, arguments);
 }
@@ -29,24 +31,28 @@ var p = inherit(Sensor, Device);
 p.setRawData = function(rawData) {
 	this.type = rawData.SensorType;
 	this.unit = rawData.Unit;
-	this.validControllerNames = rawData.ValidControllerNames;
+	this.validControllerNames = rawData.ValidControllerNames || [];
 	Device.prototype.setRawData.apply(this, arguments);
 }
 
+p.getValidControllerNames = function() {
+	return util.arrayCopy(this.validControllerNames);
+};
+
 p.getValue = function() {
 	return this.value;
-}
+};
 
 p.getUnit = function() {
 	return this.unit;
-}
+};
 
 p.setController = function(controller) {
 	this.controller = controller;
-}
+};
 
 p.sendControllerUpdate = function(controller) {
 	return api.sendControllerUpdate(this.getPath(), controller.fetchData());
-}
+};
 
 return Sensor;
