@@ -18,6 +18,7 @@
  */
  #endregion
 
+using Griffin.Net;
 using Griffin.Net.Channels;
 using Griffin.Net.Protocols.Http;
 using Griffin.Net.Protocols.Serializers;
@@ -44,10 +45,12 @@ namespace CorsairLinkPlusPlus.RESTAPI
 
             AddUser(new UserData("root", "root", false));
 
-            HttpListener httpServer = new HttpListener();
+            HttpListener httpServer = new HttpListener(new ChannelTcpListenerConfiguration(
+                () => new HttpMessageDecoder(),
+                () => new HttpMessageEncoder()
+            ));
             httpServer.ClientConnected += httpServer_ClientConnected;
             httpServer.MessageReceived = OnMessage;
-            httpServer.BodyDecoder = new CompositeIMessageSerializer();
             httpServer.Start(IPAddress.Any, 38012);
 
             //CLI MENU
