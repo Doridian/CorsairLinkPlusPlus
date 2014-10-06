@@ -35,9 +35,7 @@ p.setUpdateInterval = function(interval) {
 	if(this.interval)
 		clearInterval(this.interval);
 	this.interval = setInterval(function() {
-		console.time("interval")
 		api.updateDevice(self.deviceTree.getRoot(), true).then(function() {
-			console.timeEnd("interval");
 		});
 	}, interval);
 }
