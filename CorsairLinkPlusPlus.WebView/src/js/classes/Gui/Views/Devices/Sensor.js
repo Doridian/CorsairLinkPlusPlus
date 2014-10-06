@@ -27,28 +27,58 @@ function Sensor(device) {
 }
 var p = inherit(Sensor, DeviceView);
 
-p.buildInternalElement = function() {
-	var self = this;
-	return [
-		util.makeElement("br"),
-		{
-			tag: "span",
-			children: [
-				util.makeText("Value: "),
-				{
-					tag: "span",
-					attributes: {
-						className: "value"
-					},
-					id: "value",
-					children: [
-						util.makeText()
-					]
-				}
-			]
+p.injectClassName = function() {
+	return "sensor " + this.device.constructor.name.toLowerCase();
+};
+
+p.buildValueText = function() {
+	return {
+		tag: "span",
+		children: [
+			util.makeText("Value: "),
+			{
+				tag: "span",
+				attributes: {
+					className: "value"
+				},
+				id: "value",
+				children: [
+					util.makeText()
+				]
+			}
+		]
+	};
+};
+
+p.buildIndicator = function() {
+	return {
+		tag: "div", 
+		attributes: {
+			className: "indicator"
 		}
-	];
-}
+	}
+};
+
+p.buildInner = function() {
+	var indicatorObject = this.buildIndicator();
+	var attributes = indicatorObject.attributes;
+	if(!attributes) {
+		indicatorObject.attributes = {
+			className: "indicator"
+		};
+	} else
+		attributes.className = "indicator";
+	 
+	return [
+		this.buildNameText(),
+		util.makeElement("br"),
+		this.buildValueText(),
+		util.makeElement("br"),
+		indicatorObject,
+		util.makeElement("br"),
+		this.buildUpdateButton()
+	]
+};
 
 p.update = function() {
 	DeviceView.prototype.update.apply(this);

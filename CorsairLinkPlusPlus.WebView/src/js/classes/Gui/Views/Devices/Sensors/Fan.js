@@ -26,28 +26,17 @@ function Fan(device) {
 }
 var p = inherit(Fan, ScalarSensorView);
 
-p.buildInternalElement = function() {
-	return ScalarSensorView.prototype.buildInternalElement.apply(this, arguments).concat({
+p.buildIndicator = function() {
+	return {
 		tag: "div",
-		attributes: {
-			className: "sensor"
-		},
 		children: [
 			{
 				tag: "div",
-				attributes: {
-					className: "fan_pic sensor_pic"
-				},
-				children: [
-					{
-						tag: "div",
-						id: "spinner"
-					}
-				]
+				id: "spinner"
 			}
 		]
-	});
-}
+	}
+};
 
 p.update = function() {
 	ScalarSensorView.prototype.update.apply(this);

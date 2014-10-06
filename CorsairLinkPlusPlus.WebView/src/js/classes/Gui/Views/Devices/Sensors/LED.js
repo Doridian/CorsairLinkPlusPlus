@@ -25,22 +25,14 @@ function LED(device) {
 }
 var p = inherit(LED, SensorView);
 
-p.buildInternalElement = function() {
-	return SensorView.prototype.buildInternalElement.apply(this, arguments).concat({
+p.buildIndicator = function() {
+	return {
 		tag: "div",
+		id: "indicator",
 		attributes: {
-			className: "sensor"
-		},
-		children: [
-			{
-				tag: "div",
-				id: "indicator",
-				attributes: {
-					className: "color"
-				}
-			}
-		]
-	});
+			className: "color"
+		}
+	}
 }
 
 p.update = function() {

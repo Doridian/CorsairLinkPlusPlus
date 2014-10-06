@@ -37,7 +37,7 @@ var p = DeviceView.prototype;
 
 p.getDevice = function() {
 	return this.device;
-}
+};
 
 p.getElement = function() {
 	if(!this.element) {
@@ -48,55 +48,71 @@ p.getElement = function() {
 	return this.element;
 };
 
+p.buildNameText = function() {
+	return {
+		tag: "span",
+		children: [
+			util.makeText("Name: "),
+			{
+				tag: "span",
+				attributes: {
+					className: "name"
+				},
+				id: "name",
+				children: [
+					util.makeText()
+				]
+			}
+		]
+	}
+};
+
+p.buildUpdateButton = function() {
+	return {
+		tag: "input",
+		attributes: {
+			type: "button",
+			value: "update"
+		},
+		events: {
+			click: function(event) {
+				api.updateDevice(self.device, true).then(function() {
+					console.log("success");
+				});
+			}
+		}
+	}
+};
+
+p.injectClassName = function() {
+	return "";
+};
+
+p.postBuildElement = function() {
+};
+
 p.buildElement = function() {
-	var self = this;
+	var isHub = this.device instanceof Hub;
+	var isSensor
 	var treeData = util.makeElementTree({
 		tag: "div",
 		attributes: {
-			className: ("device" + (this.device instanceof Hub ? " hub" : ""))
-		}, children: [
-			{
-				tag: "span",
-				children: [
-					util.makeText("Name: "),
-					{
-						tag: "span",
-						attributes: {
-							className: "name"
-						},
-						id: "name",
-						children: [
-							util.makeText()
-						]
-					}
-				]
-			},
-			util.makeElement("br")
-		].concat(this.buildInternalElement()).concat([
-			util.makeElement("br"),
-			{
-				tag: "input",
-				attributes: {
-					type: "button",
-					value: "update"
-				},
-				events: {
-					click: function(event) {
-						api.updateDevice(self.device, true).then(function() {
-							console.log("success");
-						});
-					}
-				}
-			}
-		])
+			className: "device" + (isHub ? " hub " : " ") + this.injectClassName()
+		}, 
+		children: this.buildInner()
 	});
 	this.element = treeData.node;
 	this.dataFields = treeData.idMap;
+	this.postBuildElement();
 };
 
-p.buildInternalElement = function() {
-	return [];
-}
+p.buildInner = function() {
+	return [
+		this.buildNameText(),
+		util.makeElement("br"),
+		this.buildUpdateButton()
+	]
+};
 
 p.setDataFieldText = function(field, data) {
 	if(!this.dataFields[field])
