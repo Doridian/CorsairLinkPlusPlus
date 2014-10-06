@@ -421,7 +421,7 @@ util.fetchResource = function(url, type, data) {
 		req.addEventListener("timeout", function () {
 			reject(new Error("Request timed out"));
 		})
-		req.send(data);
+		req.send(JSON.stringify(data));
 	});
 };
 
@@ -434,6 +434,11 @@ util.arrayOf = function(size, value) {
 	for(var i = 0;i<size;++i)
 		ret[i] = value;
 	return ret;
-}
+};
+
+util.endsWith = function(subject, test) {
+	console.log(subject, test);
+	return subject.lastIndexOf(test) == (subject.length - test.length);
+};
 
 return util;
