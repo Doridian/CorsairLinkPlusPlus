@@ -61,9 +61,7 @@ p.update = function() {
 		spinner.rotation += ((rpm / 60) / updateRate) * 0.05;
 		spinner.style.transform = "rotate(" + spinner.rotation + "turn)";
 	}, 1000 / updateRate);
-};
-
-p.update = function() {
+	
 	DeviceView.prototype.update.apply(this);
 	this.setDataFieldText("value", this.device.getValue() + this.device.getUnit());
 };
