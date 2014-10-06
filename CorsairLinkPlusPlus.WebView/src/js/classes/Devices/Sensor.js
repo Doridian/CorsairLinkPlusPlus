@@ -55,8 +55,4 @@ p.getController = function() {
 	return this.controller;
 };
 
-p.sendControllerUpdate = function(controller) {
-	return api.sendControllerUpdate(this.getPath(), controller.fetchData());
-};
-
 return Sensor;
