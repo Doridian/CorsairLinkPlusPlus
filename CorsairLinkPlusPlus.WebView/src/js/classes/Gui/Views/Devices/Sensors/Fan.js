@@ -59,7 +59,7 @@ p.update = function() {
 	var updateRate = 30;
 	this.interval = setInterval(function() {
 		spinner.rotation += ((rpm / 60) / updateRate) * 0.05;
-		spinner.style.transform = "rotate(" + spinner.rotation + "turn)";
+		spinner.style.transform = "rotate(" + spinner.rotation.toFixed(4) + "turn)";
 	}, 1000 / updateRate);
 	
 	DeviceView.prototype.update.apply(this);
