@@ -51,6 +51,10 @@ p.setController = function(controller) {
 	this.controller = controller;
 };
 
+p.getController = function() {
+	return this.controller;
+};
+
 p.sendControllerUpdate = function(controller) {
 	return api.sendControllerUpdate(this.getPath(), controller.fetchData());
 };
