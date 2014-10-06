@@ -128,8 +128,8 @@ var preload = [
 	"Gui/Views/Devices/Sensors/LED",
 	"ControllerFactory",
 	"SensorFactory",
-	"api",
-	"util"
+	"Api",
+	"Util"
 ];
 
 Promise.all(preload.map(function(val) {
@@ -138,7 +138,7 @@ Promise.all(preload.map(function(val) {
 	responseDataSets.forEach(function(responseData) {
 		try {
 			var loadFunc = new Function(responseData.contents);
-			var trimmedPath = responseData.url.replace("js/", "").replace(".js", "");
+			var trimmedPath = responseData.url.replace("js/classes/", "").replace(".js", "");
 			if(responseData.url.indexOf("classes") > -1)
 				loadFunc.path = trimmedPath.replace(/\//g, ".").replace("classes.", "");
 			donePreload[trimmedPath] = loadFunc;
@@ -148,6 +148,8 @@ Promise.all(preload.map(function(val) {
 	});
 }).then(function() {
 	//main file
+	
+	console.log(donePreload);
 
 	var api = require("Api").getInstance();
 	
