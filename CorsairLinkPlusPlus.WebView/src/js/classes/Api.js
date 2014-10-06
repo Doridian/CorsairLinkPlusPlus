@@ -31,12 +31,13 @@ var p = Api.prototype;
 util.makeSingletonGetter(Api);
 
 p.recurseDeviceRequest = function(path) {
+	var self = this;
 	return util.fetchJSON(path).then(function (data) {
 		var childPaths = data.result.ChildrenPaths;
 		if (childPaths.length > 0) {
 			delete data.result.ChildrenPaths;
 			return Promise.all(childPaths.map(function (val) {
-				return recurseDeviceRequest(api.path + val);
+				return self.recurseDeviceRequest(self.path + val);
 			})).then(function (objects) {
 				data.result.Children = objects;
 				return data.result;
@@ -77,7 +78,7 @@ p.sendControllerUpdate = function(path, controller) {
 }
 
 p.fetchDeviceTree = function() {
-	return recurseDeviceRequest(this.path).then(function(rawTree) {
+	return this.recurseDeviceRequest(this.path).then(function(rawTree) {
 		return new DeviceTree(rawTree);
 	});
 }
