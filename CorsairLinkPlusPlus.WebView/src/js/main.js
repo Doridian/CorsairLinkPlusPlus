@@ -50,7 +50,6 @@ function require(what) {
 		throw new Error("File " + what + " did not return anything");
 	loadCache[what] = ret;
 	return ret;
-		
 }
 
 function xmlHttpPromise(url) {
@@ -129,9 +128,7 @@ var preload = [
 	"ControllerFactory",
 	"SensorFactory",
 	"Api",
-	"Util",
-	
-	"Chart"
+	"Util"
 ];
 
 Promise.all(preload.map(function(val) {
