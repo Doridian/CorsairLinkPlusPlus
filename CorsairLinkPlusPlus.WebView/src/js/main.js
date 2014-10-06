@@ -129,7 +129,9 @@ var preload = [
 	"ControllerFactory",
 	"SensorFactory",
 	"Api",
-	"Util"
+	"Util",
+	
+	"Chart"
 ];
 
 Promise.all(preload.map(function(val) {
