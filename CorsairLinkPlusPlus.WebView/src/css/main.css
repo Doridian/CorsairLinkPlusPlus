@@ -63,11 +63,11 @@ div.sensor_pic, div.sensor_pic > * {
 }
 
 div.fan_pic {
-	background-image: url(images/fan_outer.svg);
+	background-image: url(images/fan_outer_256.png);
 }
 
 div.fan_pic > div {
-	background-image: url(images/fan_inner.svg);
+	background-image: url(images/fan_inner_256.png);
 }
 
 div.temp_pic {
