@@ -42,7 +42,7 @@ p.buildSensor = function(rawData) {
 }
 
 p.buildController = function(rawData) {
-	return ControllerFactory.create(rawData);
+	return ControllerFactory.getInstance().create(rawData);
 }
 
 p.buildDevice = function (rawData) {
