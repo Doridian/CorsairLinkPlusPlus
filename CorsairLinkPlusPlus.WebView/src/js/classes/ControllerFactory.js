@@ -18,10 +18,16 @@
 
 "use strict";
 
+var util = require("Util");
+
 function ControllerFactory() {
 }
 
-ControllerFactory.create = function(rawData) {
+util.makeSingletonGetter(ControllerFactory);
+
+var p = ControllerFactory.prototype;
+
+p.create = function(rawData) {
 	try {
 		return require("Controllers/" + rawData.Name.replace(/\./g, "/"));
 	} catch(e) {
@@ -29,4 +35,4 @@ ControllerFactory.create = function(rawData) {
 	}
 }
 
-return ControllerFactory
+return ControllerFactory;
