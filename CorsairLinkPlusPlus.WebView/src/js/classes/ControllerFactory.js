@@ -28,11 +28,13 @@ util.makeSingletonGetter(ControllerFactory);
 var p = ControllerFactory.prototype;
 
 p.create = function(rawData) {
+	var constructor;
 	try {
-		return require("Controllers/" + rawData.Name.replace(/\./g, "/"));
+		constructor = require("Controllers/" + rawData.Name.replace(/\./g, "/"))
 	} catch(e) {
 		throw new Error("Unhandled controller type " + rawData.Name + " " + e.message);
 	}
+	return new constructor(rawData);
 }
 
 return ControllerFactory;
