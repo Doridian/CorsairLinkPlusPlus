@@ -18,6 +18,7 @@
  */
  #endregion
 using CorsairLinkPlusPlus.Common;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -75,7 +76,10 @@ namespace CorsairLinkPlusPlus.RESTAPI.Methods
                     throw new ArgumentNullException("Argument " + name + " is required");
                 return defaultValue;
             }
-            return (T)(dynamic)Arguments[name];
+            dynamic argValue = (dynamic)Arguments[name];
+            if (argValue is JObject)
+                argValue = JsonConvert.DeserializeObject<Dictionary<string, object>>(argValue);
+            return (T)argValue;
         }
     }
 }
