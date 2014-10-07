@@ -87,9 +87,10 @@ p.buildControllerSelector = function() {
 		children: children,
 		events: {
 			change: function(event) {
+				debugger;
 				var currentController = self.device.getController();
 				if(this.value == "Fan.CorsairLink.FixedPercent") {
-					var controller = new FixedPercentController({Value: 1});
+					var controller = new FixedPercentController({Value: 0});
 					self.device.setController(controller);
 					Api.getInstance().sendControllerUpdate(self.device, controller);
 				}

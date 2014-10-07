@@ -32,4 +32,8 @@ p.setValue = function(val) {
 	return this.sendUpdate();
 }
 
+p.getValueInternal = function() {
+	return this.value;
+}
+
 return FixedRPM;

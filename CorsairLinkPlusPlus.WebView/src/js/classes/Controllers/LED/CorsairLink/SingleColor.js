@@ -25,11 +25,19 @@ function LEDSingleColor(rawData) {
 	LED.apply(this, arguments);
 	var rawColor = this.value;
 	this.value = new Color(rawColor.R, rawColor.G, rawColor.B);
-}
+};
 var p = inherit(LEDSingleColor, LED);
 
 p.setValue = function(value) {
 	this.value = value;
-}
+};
+
+p.getValueInternal = function() {
+	return {
+		R: this.value.r,
+		G: this.value.g,
+		B: this.value.b
+	};
+};
 
 return LEDSingleColor;
