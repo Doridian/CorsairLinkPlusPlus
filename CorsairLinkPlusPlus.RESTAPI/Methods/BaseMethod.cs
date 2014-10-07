@@ -78,7 +78,7 @@ namespace CorsairLinkPlusPlus.RESTAPI.Methods
             }
             dynamic argValue = (dynamic)Arguments[name];
             if (argValue is JObject)
-                argValue = JsonConvert.DeserializeObject<Dictionary<string, object>>(((JObject)argValue).ToString());
+                argValue = ((JObject)argValue).ToObject<Dictionary<string, object>>();
             return (T)argValue;
         }
     }

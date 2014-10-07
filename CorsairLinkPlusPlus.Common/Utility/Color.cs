@@ -55,7 +55,7 @@ namespace CorsairLinkPlusPlus.Common.Utility
 
         public static implicit operator Color(Dictionary<string, object> value)
         {
-            return new Color((byte)value["R"], (byte)value["G"], (byte)value["B"]);
+            return new Color((byte)(dynamic)value["R"], (byte)(dynamic)value["G"], (byte)(dynamic)value["B"]);
         }
     }
 }
