@@ -34,6 +34,6 @@ p.setValue = function(val) {
 
 p.getValueInternal = function() {
 	return this.value;
-}
+};
 
 return FixedRPM;
