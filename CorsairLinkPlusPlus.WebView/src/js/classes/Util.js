@@ -441,4 +441,9 @@ util.endsWith = function(subject, test) {
 	return subject.lastIndexOf(test) == (subject.length - test.length);
 };
 
+util.removeChildren = function(element) {
+	while(element.firstChild)
+		element.removeChild(myNode.firstChild);
+}
+
 return util;
