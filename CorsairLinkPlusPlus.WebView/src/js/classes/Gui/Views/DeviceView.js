@@ -18,6 +18,8 @@
 
 "use strict";
 
+var View = require("Gui/View");
+
 var util = require("Util");
 
 var Sensor = require("Devices/Sensor");
@@ -33,19 +35,10 @@ function DeviceView(device) {
 	});
 }
 
-var p = DeviceView.prototype;
+var p = inherit(DeviceView, View);
 
 p.getDevice = function() {
 	return this.device;
-};
-
-p.getElement = function() {
-	if(!this.element) {
-		this.buildElement();
-		this.update();
-		return this.element;
-	}
-	return this.element;
 };
 
 p.buildNameText = function() {

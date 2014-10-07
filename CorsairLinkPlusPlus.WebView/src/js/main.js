@@ -117,6 +117,7 @@ var preload = [
 	"Devices/Sensors/PWMFan",
 	"Devices/Sensors/Thermistor",
 	"Devices/Sensors/VoltageSensor",
+	"Gui/View",
 	"Gui/Views/Main/Plain",
 	"Gui/ControllerViewFactory",
 	"Gui/DeviceViewFactory",

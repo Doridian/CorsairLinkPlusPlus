@@ -17,6 +17,8 @@
  */
 "use strict";
 
+var View = require("Gui/View");
+
 var DeviceViewFactory = require("Gui/DeviceViewFactory");
 var factory = DeviceViewFactory.getInstance();
 
@@ -28,7 +30,10 @@ function Plain(deviceTree) {
 	this.setUpdateInterval(2000);
 }
 
-var p = Plain.prototype;
+var p = inherit(Plain, View);
+
+p.update = function() {
+};
 
 p.setUpdateInterval = function(interval) {
 	var self = this;
@@ -40,26 +45,27 @@ p.setUpdateInterval = function(interval) {
 	}, interval);
 };
 
-p.getElement = function() {
-	var baseElement = document.createElement("div");
+p.buildElement = function() {
+	var baseElement = document.createElement("div", {}, [
+			util.makeSelect({}, [
+				{
+					value: 1000,
+				},
+				{
+					value: 1500,
+				},
+				{
+					value: 2000,
+					selected: true
+				}
+			],{
+				change: function(event) {
+					self.setUpdateInterval(parseInt(this.value));
+				}
+			})
+		]
+	);
 	var self = this;
-	
-	baseElement.appendChild(util.makeSelect(undefined, [
-		{
-			value: 1000,
-		},
-		{
-			value: 1500,
-		},
-		{
-			value: 2000,
-			selected: true
-		}
-	],{
-		change: function(event) {
-			self.setUpdateInterval(parseInt(this.value));
-		}
-	}));
 
 	this.deviceTree.forEach(function(device) {
 		var parentDevice = device.getParent();
@@ -74,7 +80,7 @@ p.getElement = function() {
 		);
 	});
 	
-	return baseElement;
+	this.element = baseElement;
 };
 
 return Plain;
