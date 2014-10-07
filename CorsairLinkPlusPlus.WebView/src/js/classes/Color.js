@@ -18,16 +18,36 @@
 
 "use strict";
 
+var InvalidArgumentError = require("InvalidArgumentError");
+
 function Color(r, g, b) {
 	this.r = r;
 	this.g = g;
 	this.b = b;
 }
 
+var regex = /^#?([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})$/;
+
+Color.fromHTMLHexString = function(str) {
+	var matches = regex.exec(str);
+	if(!matches)
+		throw new InvalidArgumentError("invalid string");
+	return new Color(parseInt(matches[1], 16), parseInt(matches[2], 16), parseInt(matches[3], 16));
+}
+
 var p = Color.prototype;
 
 p.toString = function() {
 	return this.r + ", " + this.g + ", " + this.b;
+};
+
+//TODO: get rid of me
+function dec2hex(i) {
+   return (i+0x10000).toString(16).substr(-2).toUpperCase();
+}
+
+p.toHTMLHexString = function(usePrefix) {
+	return (usePrefix ? "#" : "") + dec2hex(this.r) + dec2hex(this.g) + dec2hex(this.b);
 };
 
 return Color;
