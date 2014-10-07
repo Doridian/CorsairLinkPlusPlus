@@ -75,7 +75,7 @@ namespace CorsairLinkPlusPlus.RESTAPI.Methods
                     throw new ArgumentNullException("Argument " + name + " is required");
                 return defaultValue;
             }
-            return ((JToken)Arguments[name]).Value<T>();
+            return (T)(dynamic)Arguments[name];
         }
     }
 }
