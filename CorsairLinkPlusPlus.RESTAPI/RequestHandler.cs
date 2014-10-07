@@ -113,7 +113,7 @@ namespace CorsairLinkPlusPlus.RESTAPI
 
                 _channel.Send(response);
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
