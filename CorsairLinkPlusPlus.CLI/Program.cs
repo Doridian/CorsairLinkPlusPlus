@@ -93,19 +93,19 @@ namespace CorsairLinkPlusPlus.CLI
                     ILED led = (ILED)device;
                     IControllableSensor controllableLED = (IControllableSensor)device;
 
-                    {
+                    /*{
                         IFixedColorController _ledController = (IFixedColorController)ControllerRegistry.Get("LED.CorsairLink.SingleColor").New();
                         _ledController.Value = new Color(255, 1, 1);
                         controllableLED.Controller = _ledController;
-                    }
+                    }*/
 
                     IController ledController = controllableLED.Controller;
                     Console.Out.WriteLine(prefix + "- " + led.Name + " = " + led.Value + " " + led.Unit.GetPostfix());
                     if (ledController != null)
                         Console.Out.WriteLine(prefix + "\t" + ((ledController == null) ? "N/A" : ledController.Name));
-                    if (ledController is IFixedColorCycleController)
+                    if (ledController is IFixedColorController)
                     {
-                        Console.Out.WriteLine(prefix + "\t\t" + ((IFixedColorCycleController)ledController).Value[0].ToString());
+                        Console.Out.WriteLine(prefix + "\t\t" + ((IFixedColorController)ledController).Value.ToString());
                     }
                 }
                 else if(device is IFan && device is IControllableSensor)
