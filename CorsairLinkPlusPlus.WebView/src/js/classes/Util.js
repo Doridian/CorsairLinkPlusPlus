@@ -318,11 +318,11 @@ util.makeElementTree = function(object, idMap) {
 		idMap[object.id] = elem;
 		
 	if(object.children)
-		object.children.forEach(function(childData) {
+		for(var childData of object.children) {
 			var ret = util.makeElementTree(childData, idMap);
 			if(ret)
 				elem.appendChild(ret.node);
-		});
+		}
 		
 	if(object.events)
 		this.addEventListeners(elem, object.events);

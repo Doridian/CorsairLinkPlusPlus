@@ -30,9 +30,8 @@ function FourColor(rawData) {
 	LED.apply(this, arguments);
 	var old = this.value;
 	this.value = [];
-	old.forEach(function(rawColor) {
+	for(var rawColor of old)
 		this.value.push(new Color(rawColor.R, rawColor.G, rawColor.B));
-	});
 }
 var p = inherit(FourColor, LED);
 

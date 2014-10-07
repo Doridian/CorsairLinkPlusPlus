@@ -25,12 +25,11 @@ function LEDTemperature(rawData) {
 	LED.apply(this, arguments);
 	var points = this.value.Points;
 	var curve = new ControlCurve();
-	points.forEach(function(point) {
+	for(var point of points)
 		curve.add({
 			x: point.X,
 			y: new Color(point.Y.R, point.Y.G, point.Y.B)
 		});
-	});
 	this.value = curve;
 }
 var p = inherit(LEDTemperature, LED);
