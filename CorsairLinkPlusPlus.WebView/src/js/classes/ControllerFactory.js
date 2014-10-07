@@ -35,6 +35,6 @@ p.create = function(rawData) {
 		throw new Error("Unhandled controller type " + rawData.Name + " " + e.message);
 	}
 	return new constructor(rawData);
-}
+};
 
 return ControllerFactory;

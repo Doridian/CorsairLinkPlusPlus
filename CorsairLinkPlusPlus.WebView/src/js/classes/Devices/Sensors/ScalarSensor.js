@@ -28,7 +28,7 @@ var p = inherit(ScalarSensor, Sensor);
 p.setRawData = function(rawData) {
 	this.value = rawData.Value;
 	Sensor.prototype.setRawData.apply(this, arguments);
-}
+};
 
 
 return ScalarSensor;

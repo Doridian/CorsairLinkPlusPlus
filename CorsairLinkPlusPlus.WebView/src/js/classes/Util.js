@@ -228,7 +228,7 @@ util.domTraverseGet = function(elem, callback) {
 		ret = ret.concat(this.domTraverseGet(child, callback));
 	}
 	return ret;
-}
+};
 
 var inputNames = [
 	"input",
@@ -329,7 +329,7 @@ util.makeElementTree = function(object, idMap) {
 		node: elem,
 		idMap: idMap
 	};
-}
+};
 
 util.makeSelect = function(attributes, options, events) {
 	var select = this.makeElement("select", attributes, undefined, events);
@@ -362,7 +362,7 @@ util.makeRecurseList = function(object, depthAttribs, depthPrefixes, depth) {
 				this.makeRecurseList(object[idx], depthAttribs, depthPrefixes, depth + 1)
 			]));
 	return ulElem;
-}
+};
 
 util.makeToString = function(object, val) {
 	return function() { return val; }
@@ -397,7 +397,7 @@ util.arrayFind = function(arr, func) {
 	for(var idx in arr)
 		if(func(arr[idx], idx))
 			return arr[idx];
-}
+};
 
 util.fetchResource = function(url, type, data) {
 	return new Promise(function (resolve, reject) {

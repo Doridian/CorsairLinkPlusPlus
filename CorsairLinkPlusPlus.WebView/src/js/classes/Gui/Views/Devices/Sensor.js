@@ -97,7 +97,7 @@ p.buildControllerSelector = function() {
 			}
 		}
 	};
-}
+};
 
 p.buildInner = function() {
 	var indicatorObject = this.buildIndicator();

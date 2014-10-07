@@ -29,6 +29,6 @@ var p = inherit(CustomCurve, FanCurveController);
 p.setValue = function(newCurve) {
 	this.value = newCurve;
 	return this.sendUpdate();
-}
+};
 
 return CustomCurve;

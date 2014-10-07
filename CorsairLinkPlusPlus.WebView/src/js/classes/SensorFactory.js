@@ -55,6 +55,6 @@ SensorFactory.create = function(rawData) {
 			console.warn("Unhandled sensor type " + rawData.SensorType);
 			return new Sensor(rawData);
 	}
-}
+};
 
 return SensorFactory;

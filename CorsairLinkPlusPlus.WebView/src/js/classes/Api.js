@@ -55,43 +55,43 @@ p.recurseDeviceRequest = function(path) {
 	}, function (code) {
 		throw new Error("failed with code " + code);
 	});
-}
+};
 
 p.executeOnDevice = function(path, method, params) {
 	return util.fetchJSON(this.path + path, {
 		Name: method,
 		Params: params
 	});
-}
+};
 
 p.refreshDevice = function(path) {
 	return this.executeOnDevice(path, "Refresh", {
 		Volatile: true
 	});
-}
+};
 
 p.sendControllerUpdate = function(device, controller) {
 	return this.executeOnDevice(device.getPath(), "SetController", {
 		Controller: controller.constructor.getFullClassName().replace("Controllers.", ""),
 		Value: controller.getValueInternal()
 	});
-}
+};
 
 p.fetchDeviceTree = function() {
 	return this.recurseDeviceRequest(this.path).then(function(rawTree) {
 		return new DeviceTree(rawTree);
 	});
-}
+};
 
 p.fetchDevice = function(devicePath) {
 	return util.fetchJSON(this.path + "/" + devicePath);
-}
+};
 
 function cleanupData(data) {
 	data = data.result;
 	delete data.ChildrenPaths;
 	return data;
-}
+};
 
 p.updateDevice = function(device, recursive) {
 	var promises = [];
@@ -103,6 +103,6 @@ p.updateDevice = function(device, recursive) {
 		device.setRawData(cleanupData(rawData));
 	}));
 	return Promise.all(promises);
-}
+};
 
 return Api;

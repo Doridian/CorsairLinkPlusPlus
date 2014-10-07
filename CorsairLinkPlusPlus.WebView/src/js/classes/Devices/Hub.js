@@ -30,10 +30,10 @@ var p = inherit(Hub, Device);
 
 p.getChildren = function() {
 	return util.arrayCopy(this.children);
-}
+};
 
 p.addChild = function(device) {
 	this.children.push(device);
-}
+};
 
 return Hub;

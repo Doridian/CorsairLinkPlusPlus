@@ -33,7 +33,7 @@ p.buildIndicator = function() {
 			className: "color"
 		}
 	}
-}
+};
 
 p.update = function() {
 	SensorView.prototype.update.apply(this);

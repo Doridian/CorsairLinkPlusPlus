@@ -30,7 +30,7 @@ p.setValue = function(val) {
 		throw new InvalidArgumentError("value must be within [0,4000] interval");
 	this.value = val;
 	return this.sendUpdate();
-}
+};
 
 p.getValueInternal = function() {
 	return this.value;

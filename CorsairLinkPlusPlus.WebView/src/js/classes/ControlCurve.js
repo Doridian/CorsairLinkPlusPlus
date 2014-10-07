@@ -28,10 +28,10 @@ var p = ControlCurve.prototype;
 
 p.add = function(point) {
 	this.points.push(point);
-}
+};
 
 p.getPoints = function(point) {
 	return util.arrayCopy(this.points);
-}
+};
 
 return ControlCurve;

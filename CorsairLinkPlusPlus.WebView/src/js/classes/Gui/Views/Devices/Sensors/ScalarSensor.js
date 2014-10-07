@@ -37,7 +37,7 @@ p.buildGraph = function() {
 			height: 100
 		}
 	}
-}
+};
 
 p.postBuildElement = function() {
 	var canvas = this.dataFields.graph;

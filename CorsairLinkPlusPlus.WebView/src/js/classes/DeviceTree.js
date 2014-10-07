@@ -39,11 +39,11 @@ var p = DeviceTree.prototype;
 
 p.buildSensor = function(rawData) {
 	return SensorFactory.create(rawData);
-}
+};
 
 p.buildController = function(rawData) {
 	return ControllerFactory.getInstance().create(rawData);
-}
+};
 
 p.buildDevice = function (rawData) {
 	switch(rawData.Type) {
@@ -66,7 +66,7 @@ p.buildDevice = function (rawData) {
 			console.warn("Unhandled device type " + rawData.Type);
 			break;
 	}
-}
+};
 
 p.buildDevices = function(rawTree, parent) {
 	var newDevice = this.buildDevice(rawTree);
@@ -81,7 +81,7 @@ p.buildDevices = function(rawTree, parent) {
 	rawTree.Children.forEach(function(val) {
 		this.buildDevices(val, newDevice);
 	}, this);
-}
+};
 
 function traverseTree(treeNode, callback) {
 	callback(treeNode);
@@ -89,7 +89,7 @@ function traverseTree(treeNode, callback) {
 		treeNode.getChildren().forEach(function(subNode) {
 			traverseTree(subNode, callback);
 		});
-}
+};
 
 function flattenTree(treeNode) {
 	var out = [];
@@ -97,19 +97,19 @@ function flattenTree(treeNode) {
 		out.push(device);
 	});
 	return out;
-}
+};
 
 p.getDevices = function() {
 	return flattenTree(this.root);
-}
+};
 
 p.getRoot = function() {
 	return this.root;
-}
+};
 
 p.forEach = function(callback) {
 	traverseTree(this.root, callback);
-}
+};
 
 p.getDevicesByName = function(name) {
 	var out = [];
@@ -118,6 +118,6 @@ p.getDevicesByName = function(name) {
 			out.push(device);
 	});
 	return out;
-}
+};
 
 return DeviceTree;

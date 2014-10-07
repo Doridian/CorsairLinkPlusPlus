@@ -38,10 +38,10 @@ var p = inherit(FourColor, LED);
 
 p.getValue = function() {
 	return util.arrayCopy(this.value);
-}
+};
 
 p.setValue = function(value) {
 	this.value = util.arrayCopy(value);
-}
+};
 
 return FourColor;

@@ -39,10 +39,10 @@ var p = inherit(LEDTwoColor, LED);
 
 p.getValue = function() {
 	return util.arrayCopy(this.value);
-}
+};
 
 p.setValue = function(value) {
 	this.value = util.arrayCopy(value);
-}
+};
 
 return LEDTwoColor;

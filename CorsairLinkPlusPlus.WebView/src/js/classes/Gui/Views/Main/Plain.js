@@ -38,7 +38,7 @@ p.setUpdateInterval = function(interval) {
 		api.updateDevice(self.deviceTree.getRoot(), true).then(function() {
 		});
 	}, interval);
-}
+};
 
 p.getElement = function() {
 	var baseElement = document.createElement("div");
@@ -75,6 +75,6 @@ p.getElement = function() {
 	});
 	
 	return baseElement;
-}
+};
 
 return Plain;

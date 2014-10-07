@@ -33,7 +33,7 @@ p.setRawData = function(rawData) {
 	this.unit = rawData.Unit;
 	this.validControllerNames = rawData.ValidControllerNames || [];
 	Device.prototype.setRawData.apply(this, arguments);
-}
+};
 
 p.getValidControllerNames = function() {
 	return util.arrayCopy(this.validControllerNames);

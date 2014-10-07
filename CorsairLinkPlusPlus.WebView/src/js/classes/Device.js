@@ -34,26 +34,26 @@ p.setRawData = function(rawData) {
 	} catch(e) {
 		console.log(e);
 	}
-}
+};
 
 p.addListener = function(listener) {
 	this.listeners.push(listener);
-}
+};
 
 p.getPath = function() {
 	return this.path;
-}
+};
 
 p.setParent = function(parent) {
 	this.parent = parent;
-}
+};
 
 p.getParent = function() {
 	return this.parent;
-}
+};
 
 p.getName = function() {
 	return this.name;
-}
+};
 
 return Device;
