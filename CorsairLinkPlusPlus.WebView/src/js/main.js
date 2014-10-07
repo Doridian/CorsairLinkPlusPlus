@@ -147,8 +147,6 @@ Promise.all(preload.map(function(val) {
 	});
 }).then(function() {
 	//main file
-	
-	console.log(donePreload);
 
 	var api = require("Api").getInstance();
 	

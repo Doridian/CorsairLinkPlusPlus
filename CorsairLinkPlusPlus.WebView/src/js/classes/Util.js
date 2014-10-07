@@ -437,7 +437,6 @@ util.arrayOf = function(size, value) {
 };
 
 util.endsWith = function(subject, test) {
-	console.log(subject, test);
 	return subject.lastIndexOf(test) == (subject.length - test.length);
 };
 

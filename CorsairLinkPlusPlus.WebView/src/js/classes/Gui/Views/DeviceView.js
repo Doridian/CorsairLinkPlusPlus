@@ -76,9 +76,7 @@ p.buildUpdateButton = function() {
 		},
 		events: {
 			click: function(event) {
-				api.updateDevice(self.device, true).then(function() {
-					console.log("success");
-				});
+				api.updateDevice(self.device, true);
 			}
 		}
 	}
