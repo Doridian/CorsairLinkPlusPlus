@@ -50,24 +50,22 @@ p.buildElement = function() {
 	var baseElement = util.makeElementTree(
 		{
 			tag: "div",
-			children: [
-				util.makeSelect({}, [
-					{
-						value: 1000,
-					},
-					{
-						value: 1500,
-					},
-					{
-						value: 2000,
-						selected: true
-					}
-				],{
-					change: function(event) {
-						self.setUpdateInterval(parseInt(this.value));
-					}
-				})
-			]
+			children: util.makeSelect({}, [
+				{
+					value: 1000,
+				},
+				{
+					value: 1500,
+				},
+				{
+					value: 2000,
+					selected: true
+				}
+			],{
+				change: function(event) {
+					self.setUpdateInterval(parseInt(this.value));
+				}
+			})
 		}
 	);
 	

@@ -317,13 +317,16 @@ util.makeElementTree = function(object, idMap) {
 	if(object.id)
 		idMap[object.id] = elem;
 		
-	if(object.children)
-		for(var childData of object.children) {
-			var ret = util.makeElementTree(childData, idMap);
-			if(ret)
-				elem.appendChild(ret.node);
-		}
-		
+	if(object.children) {
+		if(object.children instanceof Array)
+			for(var childData of object.children) {
+				var ret = util.makeElementTree(childData, idMap);
+				if(ret)
+					elem.appendChild(ret.node);
+			}
+		else
+			util.makeElementTree(object.children, idMap)
+	}
 	if(object.events)
 		this.addEventListeners(elem, object.events);
 	return {
@@ -444,6 +447,6 @@ util.endsWith = function(subject, test) {
 util.removeChildren = function(element) {
 	while(element.firstChild)
 		element.removeChild(myNode.firstChild);
-}
+};
 
 return util;
