@@ -73,7 +73,7 @@ p.refreshDevice = function(path) {
 p.sendControllerUpdate = function(device, controller) {
 	return this.executeOnDevice(device.getPath(), "SetController", {
 		Controller: controller.constructor.getFullClassName().replace("Controllers.", ""),
-		Params: controller.getValueInternal()
+		Value: controller.getValueInternal()
 	});
 }
 
