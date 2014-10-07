@@ -38,9 +38,7 @@ namespace CorsairLinkPlusPlus.Driver.CorsairLink
             if ((fraction & 1) == 1)
                 fraction++;
 
-            double rawNumber = (double)fraction * Math.Pow(2.0, (double)exponent);
-
-            return (double)((int)(rawNumber * 10.0 + 0.5)) / 10.0;
+            return (double)fraction * Math.Pow(2.0, (double)exponent);
         }
 
         public static double ToFloat(byte[] data, int startIndex = 0)
