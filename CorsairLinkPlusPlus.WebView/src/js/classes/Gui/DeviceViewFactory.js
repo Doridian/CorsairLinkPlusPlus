@@ -31,6 +31,9 @@ var FanView = require("Gui/Views/Devices/Sensors/Fan");
 var LED = require("Devices/Sensors/LED");
 var LEDView = require("Gui/Views/Devices/Sensors/LED");
 
+var Pump = require("Devices/Sensors/Pump");
+var PumpView = require("Gui/Views/Devices/Sensors/Pump");
+
 function DeviceViewFactory() {
 	this.deviceMap = new Map();
 }
@@ -52,7 +55,9 @@ p.getByDevice = function(device) {
 		console.error("Could not find view for device " + device.getName());
 		console.log(e);
 		var constructor
-		if(device instanceof Fan)
+		if(device instanceof Pump)
+			constructor = PumpView;
+		else if(device instanceof Fan)
 			constructor = FanView;
 		else if(device instanceof LED)
 			constructor = LEDView;

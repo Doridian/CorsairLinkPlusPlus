@@ -125,6 +125,7 @@ var preload = [
 	"Gui/Views/Devices/Sensors/ScalarSensor",
 	"Gui/Views/Devices/Sensors/Fan",
 	"Gui/Views/Devices/Sensors/LED",
+	"Gui/Views/Devices/Sensors/Pump",
 	"ControllerFactory",
 	"SensorFactory",
 	"Api",

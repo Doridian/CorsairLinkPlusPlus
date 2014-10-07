@@ -46,13 +46,13 @@ div.sensor > div.indicator {
 	display: inline-block;
 }
 
-div.sensor.fan > div.indicator, div.sensor.pwmfan > div.indicator {
+div.sensor.fan > div.indicator, div.sensor.pwmfan > div.indicator, div.sensor.pump > div.indicator {
 	background-image: url(images/fan_outer_256.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
 
-div.sensor.fan > div.indicator > div, div.sensor.pwmfan > div.indicator > div {
+div.sensor.fan > div.indicator > div, div.sensor.pwmfan > div.indicator > div, div.sensor.pump > div.indicator > div {
 	width: 100%;
 	height: 100%;
 	background-image: url(images/fan_inner_256.png);
@@ -60,13 +60,8 @@ div.sensor.fan > div.indicator > div, div.sensor.pwmfan > div.indicator > div {
 	background-size: 100% 100%;
 }
 
-div.temp_pic > div {
-	width: 8px;
-	height: 40px;
-	position: relative;
-	left: 28px;
-	top: 5px;
-	display: block;
-	background-color: #333f4f;
-	border-radius: 4px;
+div.sensor.pump > div.indicator > div {
+	background-image: url(images/pump_inner_256.png);
+	background-size: 80% 80%;
+	background-position: center;
 }
