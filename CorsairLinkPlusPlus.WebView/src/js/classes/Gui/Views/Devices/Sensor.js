@@ -65,7 +65,7 @@ p.buildIndicator = function() {
 p.buildControllerSelector = function() {
 	var names = this.device.getValidControllerNames();
 	if(names.length == 0)
-		return [];
+		return;
 	var children = [];
 
 	var currentControllerName = this.device.getController().constructor.name;
@@ -115,6 +115,12 @@ p.buildInner = function() {
 		util.makeElement("br"),
 		indicatorObject,
 		util.makeElement("br"),
+		{
+			tag: "div",
+			attributes: {
+				className: "controller-container"
+			}
+		},
 		this.buildUpdateButton(),
 		util.makeElement("br"),
 		this.buildControllerSelector()
