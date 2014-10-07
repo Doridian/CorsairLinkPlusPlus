@@ -72,7 +72,7 @@ namespace CorsairLinkPlusPlus.Common.Utility
             IEnumerable<object> pointsRaw = (IEnumerable<object>)value["Points"];
             List<CurvePoint<K, V>> points = new List<CurvePoint<K,V>>();
             foreach (object pointRaw in pointsRaw)
-                points.Add((CurvePoint<K, V>)pointRaw);
+                points.Add((CurvePoint<K, V>)(dynamic)pointRaw);
             return new ControlCurve<K, V>(points);
         }
     }

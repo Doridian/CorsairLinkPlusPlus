@@ -43,7 +43,7 @@ namespace CorsairLinkPlusPlus.Common.Utility
 
         public static implicit operator CurvePoint<K, V>(Dictionary<string, object> value)
         {
-            return new CurvePoint<K, V>((K)value["X"], (V)value["Y"]);
+            return new CurvePoint<K, V>((K)(dynamic)value["X"], (V)(dynamic)value["Y"]);
         }
     }
 }

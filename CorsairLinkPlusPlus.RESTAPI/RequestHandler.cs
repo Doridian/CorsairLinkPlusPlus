@@ -141,7 +141,7 @@ namespace CorsairLinkPlusPlus.RESTAPI
             return ret;
         }
 
-        class JSONMethodCall
+        public class JSONMethodCall
         {
             public string Name;
             public Dictionary<string, object> Params;
