@@ -115,7 +115,6 @@ namespace CorsairLinkPlusPlus.RESTAPI
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine(e);
                 return false;
             }
 
