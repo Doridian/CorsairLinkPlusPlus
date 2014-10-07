@@ -302,7 +302,7 @@ util.makeElement = function(name, attributes, childs, events) {
 };
 
 util.makeElementTree = function(object, idMap) {
-	if(!object == undefined) {
+	if(object == undefined) {
 		return;
 	}
 	if(object instanceof Node)
@@ -320,7 +320,8 @@ util.makeElementTree = function(object, idMap) {
 	if(object.children)
 		object.children.forEach(function(childData) {
 			var ret = util.makeElementTree(childData, idMap);
-			elem.appendChild(ret.node);
+			if(ret)
+				elem.appendChild(ret.node);
 		});
 		
 	if(object.events)
@@ -431,7 +432,7 @@ util.fetchJSON = function(url, data) {
 
 util.arrayOf = function(size, value) {
 	var ret = [];
-	for(var i = 0;i<size;++i)
+	for(var i = 0;i < size;++i)
 		ret[i] = value;
 	return ret;
 };
