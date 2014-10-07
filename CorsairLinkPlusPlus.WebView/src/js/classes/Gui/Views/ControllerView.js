@@ -18,29 +18,23 @@
 
 "use strict";
 
+var View = require("Gui/View");
+
 var util = require("Util");
 
-function Controller(rawData) {
-	this.value = rawData.Value;
-	this.devices = [];
+var Api = require("Api");
+
+function ControllerView(controller) {
+	this.controller = controller;
 }
 
-var p = Controller.prototype;
+var p = inherit(ControllerView, View);
 
-p.getValue = function() {
-	return this.value;
-};
-
-p.getValueInternal = function() {
-	return this.value;
-};
-
-p.getDevices = function() {
-	return util.arrayCopy(this.devices);
-};
-
-p.addDevice = function(device) {
-	this.devices.push(device);
+p.sendUpdate = function() {
+	console.log("test");
+	var api = Api.getInstance();
+	for(var device of this.controller.getDevices())
+		api.sendControllerUpdate(device, this.controller);
 }
 
-return Controller;
+return ControllerView;

@@ -57,8 +57,11 @@ p.buildDevice = function (rawData) {
 			return new PSU(rawData);
 		case "Sensor":
 			var sensor = this.buildSensor(rawData);
-			if("Controller" in rawData)
-				sensor.setController(this.buildController(rawData.Controller));
+			if("Controller" in rawData) {
+				var controller = this.buildController(rawData.Controller);
+				sensor.setController(controller);
+				controller.addDevice(sensor);
+			}
 			return sensor;
 		case "Cooler":
 			return new Cooler(rawData);
@@ -77,7 +80,6 @@ p.buildDevices = function(rawTree, parent) {
 	
 	if(!this.root)
 		this.root = newDevice;
-	debugger;
 	for(var subTree of rawTree.Children)
 		this.buildDevices(subTree, newDevice);
 };

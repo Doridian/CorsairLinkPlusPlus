@@ -25,6 +25,8 @@ var DeviceView = require("Gui/Views/DeviceView");
 var FixedPercentController = require("Controllers/Fan/CorsairLink/FixedPercent");
 var Api = require("Api");
 
+var ControllerViewFactory = require("Gui/ControllerViewFactory");
+
 function Sensor(device) {
 	DeviceView.apply(this, arguments);
 }
@@ -62,14 +64,30 @@ p.buildIndicator = function() {
 	}
 };
 
+p.setController = function(controller, noUpdate) {
+	this.device.setController(controller);
+	if(!noUpdate)
+		Api.getInstance().sendControllerUpdate(this.device, controller);
+	util.removeChildren(this.dataFields.controllerContainer);
+	var controllerView = ControllerViewFactory.getInstance().getByController(controller);
+	
+	var element = controllerView.getElement();
+	this.dataFields.controllerContainer.appendChild(element);
+};
+
+p.postBuildElement = function() {
+	var currentController = this.device.getController();
+	this.setController(currentController, true);
+};
+
 p.buildControllerSelector = function() {
 	var names = this.device.getValidControllerNames();
 	if(names.length == 0)
 		return;
-	var children = [];
-
+	
 	var currentControllerName = this.device.getController().constructor.name;
 
+	var children = [];
 	for(var name of names)
 		children.push({
 			tag: "option",
@@ -87,16 +105,22 @@ p.buildControllerSelector = function() {
 		children: children,
 		events: {
 			change: function(event) {
-				var currentController = self.device.getController();
-				if(this.value == "Fan.CorsairLink.FixedPercent") {
-					var controller = new FixedPercentController({Value: 0});
-					self.device.setController(controller);
-					Api.getInstance().sendControllerUpdate(self.device, controller);
-				}
+				self.setController(ControllerFactory.getInstance().createByName(this.value));
 			}
 		}
 	};
 };
+
+p.buildControllerContainer = function() {
+	return {
+		tag: "div",
+		id: "controllerContainer",
+		attributes: {
+			className: "controller-container"
+		}
+	};
+};
+		
 
 p.buildInner = function() {
 	var indicatorObject = this.buildIndicator();
@@ -115,12 +139,7 @@ p.buildInner = function() {
 		util.makeElement("br"),
 		indicatorObject,
 		util.makeElement("br"),
-		{
-			tag: "div",
-			attributes: {
-				className: "controller-container"
-			}
-		},
+		this.buildControllerContainer(),
 		this.buildUpdateButton(),
 		util.makeElement("br"),
 		this.buildControllerSelector()

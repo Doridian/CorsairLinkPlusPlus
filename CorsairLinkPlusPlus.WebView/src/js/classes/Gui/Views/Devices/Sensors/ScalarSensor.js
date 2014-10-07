@@ -77,12 +77,7 @@ p.buildInner = function() {
 		indicatorObject,
 		this.buildGraph(),
 		util.makeElement("br"),
-		{
-			tag: "div",
-			attributes: {
-				className: "controller-container"
-			}
-		},
+		this.buildControllerContainer(),
 		this.buildUpdateButton(),
 		util.makeElement("br"),
 		this.buildControllerSelector()

@@ -79,22 +79,15 @@ p.injectClassName = function() {
 	return "";
 };
 
-p.postBuildElement = function() {
-};
-
 p.buildElement = function() {
 	var isHub = this.device instanceof Hub;
-	var isSensor
-	var treeData = util.makeElementTree({
+	return util.makeElementTree({
 		tag: "div",
 		attributes: {
 			className: "device" + (isHub ? " hub " : " ") + this.injectClassName()
 		}, 
 		children: this.buildInner()
 	});
-	this.element = treeData.node;
-	this.dataFields = treeData.idMap;
-	this.postBuildElement();
 };
 
 p.buildInner = function() {
@@ -103,12 +96,6 @@ p.buildInner = function() {
 		util.makeElement("br"),
 		this.buildUpdateButton()
 	]
-};
-
-p.setDataFieldText = function(field, data) {
-	if(!this.dataFields[field])
-		throw new Error("View has no data field " + field);
-	this.dataFields[field].firstChild.textContent = data;
 };
 
 p.update = function() {

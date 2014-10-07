@@ -30,11 +30,21 @@ var p = ControllerFactory.prototype;
 p.create = function(rawData) {
 	var constructor;
 	try {
-		constructor = require("Controllers/" + rawData.Name.replace(/\./g, "/"))
+		constructor = require("Controllers/" + rawData.Name.replace(/\./g, "/"));
 	} catch(e) {
 		throw new Error("Unhandled controller type " + rawData.Name + " " + e.message);
 	}
 	return new constructor(rawData);
 };
+
+p.createByName = function(name) {
+	var constructor;
+	try {
+		constructor = require("Controllers/" + name.replace(/\./g, "/"));
+	} catch(e) {
+		throw new Error("Unhandled controller type " + name + " " + e.message);
+	}
+	return new constructor();
+}
 
 return ControllerFactory;

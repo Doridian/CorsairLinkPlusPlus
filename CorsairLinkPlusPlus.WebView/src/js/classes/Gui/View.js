@@ -25,11 +25,23 @@ var p = View.prototype;
 
 p.getElement = function() {
 	if(!this.element) {
-		this.buildElement();
+		var buildNode = this.buildElement();
+		this.dataFields = buildNode.idMap;
+		this.element = buildNode.node;
+		this.postBuildElement();
 		this.update();
 		return this.element;
 	}
 	return this.element;
+};
+
+p.postBuildElement = function() {
+};
+
+p.setDataFieldText = function(field, data) {
+	if(!this.dataFields[field])
+		throw new Error("View has no data field " + field);
+	this.dataFields[field].firstChild.textContent = data;
 };
 
 return View;

@@ -46,41 +46,44 @@ p.setUpdateInterval = function(interval) {
 };
 
 p.buildElement = function() {
-	var baseElement = document.createElement("div", {}, [
-			util.makeSelect({}, [
-				{
-					value: 1000,
-				},
-				{
-					value: 1500,
-				},
-				{
-					value: 2000,
-					selected: true
-				}
-			],{
-				change: function(event) {
-					self.setUpdateInterval(parseInt(this.value));
-				}
-			})
-		]
-	);
 	var self = this;
-
+	var baseElement = util.makeElementTree(
+		{
+			tag: "div",
+			children: [
+				util.makeSelect({}, [
+					{
+						value: 1000,
+					},
+					{
+						value: 1500,
+					},
+					{
+						value: 2000,
+						selected: true
+					}
+				],{
+					change: function(event) {
+						self.setUpdateInterval(parseInt(this.value));
+					}
+				})
+			]
+		}
+	);
+	
 	this.deviceTree.forEach(function(device) {
 		var parentDevice = device.getParent();
 		var parent;
 		if(parentDevice)
 			parent = factory.getByDevice(parentDevice).getElement();
 		else
-			parent = baseElement;
+			parent = baseElement.node;
 		
 		parent.appendChild(
 			factory.getByDevice(device).getElement()
 		);
 	});
-	
-	this.element = baseElement;
+	return baseElement;
 };
 
 return Plain;

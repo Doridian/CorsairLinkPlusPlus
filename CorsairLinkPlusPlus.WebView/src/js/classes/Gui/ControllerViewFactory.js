@@ -18,13 +18,18 @@
 
 "use strict";
 
+var util = require("Util");
+
 function ControllerViewFactory() {
 }
 
+util.makeSingletonGetter(ControllerViewFactory);
+
 var p = ControllerViewFactory.prototype;
 
-ControllerViewFactory.getByController = function(controller) {
-	return require("Gui/Views/Controllers/" + typeof controller);
+p.getByController = function(controller) {
+	var constructor = require("Gui/Views/" + controller.constructor.getFullClassName().replace(/\./g, "/"));
+	return new constructor(controller);
 };
 
 return ControllerViewFactory;
