@@ -18,6 +18,7 @@
  */
  #endregion
 using CorsairLinkPlusPlus.Common;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 
@@ -74,7 +75,7 @@ namespace CorsairLinkPlusPlus.RESTAPI.Methods
                     throw new ArgumentNullException("Argument " + name + " is required");
                 return defaultValue;
             }
-            return (T)Arguments[name];
+            return ((JToken)Arguments[name]).Value<T>();
         }
     }
 }
