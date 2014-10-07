@@ -64,10 +64,10 @@ namespace CorsairLinkPlusPlus.RESTAPI.Methods
 
         protected T GetRequiredArgument<T>(string name)
         {
-            return GetArgument<T>(name);
+            return GetArgument<T>(name, false);
         }
 
-        protected T GetArgument<T>(string name, bool optional = true, T defaultValue = default(T))
+        protected T GetArgument<T>(string name, bool optional = false, T defaultValue = default(T))
         {
             if (!Arguments.ContainsKey(name))
             {
