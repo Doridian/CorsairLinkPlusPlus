@@ -23,7 +23,8 @@
 	background-size: 100% 100%;
 }
  
-html, body {
+html,
+body {
 	width: 100%;
 	height: 100%;
 	background-color: black;
@@ -54,12 +55,16 @@ html, body {
 	display: inline-block;
 }
 
-.sensor.fan > .indicator, .sensor.pwmfan > .indicator, .sensor.pump > .indicator {
+.sensor.fan > .indicator,
+.sensor.pwmfan > .indicator,
+.sensor.pump > .indicator {
 	background-image: url("@{imageurl}fan_outer_256.png");
 	.stretch-background;
 }
 
-.sensor.fan > .indicator > div, .sensor.pwmfan > .indicator > div, .sensor.pump > .indicator > div {
+.sensor.fan > .indicator > div,
+.sensor.pwmfan > .indicator > div,
+.sensor.pump > .indicator > div {
 	width: 100%;
 	height: 100%;
 	background-image: url("@{imageurl}fan_inner_256.png");
