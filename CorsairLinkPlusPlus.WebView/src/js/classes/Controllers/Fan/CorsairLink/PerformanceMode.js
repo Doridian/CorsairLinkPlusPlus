@@ -24,5 +24,3 @@ function PerformanceMode(rawData) {
 	FanCurveController.apply(this, arguments);
 }
 var p = inherit(PerformanceMode, FanCurveController);
-
-return PerformanceMode;

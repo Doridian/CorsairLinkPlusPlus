@@ -34,5 +34,3 @@ function LEDTemperature(rawData) {
 	this.value = curve;
 }
 var p = inherit(LEDTemperature, LED);
-
-return LEDTemperature;

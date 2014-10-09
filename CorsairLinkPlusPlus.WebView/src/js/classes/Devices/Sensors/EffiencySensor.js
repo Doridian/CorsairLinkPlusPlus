@@ -24,5 +24,3 @@ function EffiencySensor(rawData) {
 	ScalarSensor.apply(this, arguments);
 }
 var p = inherit(EffiencySensor, ScalarSensor);
-
-return EffiencySensor;

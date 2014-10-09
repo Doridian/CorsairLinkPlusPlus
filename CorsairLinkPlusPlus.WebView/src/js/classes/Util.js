@@ -16,9 +16,9 @@
  * License along with CorsairLinkPlusPlus.
  */
 "use strict";
-var util = {};
+var Util = {};
 
-util.makeSingletonGetter = function(classObject) {
+Util.makeSingletonGetter = function(classObject) {
 	classObject.getInstance = function() {
 		if(!classObject.instance)
 			return classObject.instance = new classObject();
@@ -26,7 +26,7 @@ util.makeSingletonGetter = function(classObject) {
 	};
 };
 
-util.checkInterface = function(implementation, wantedInterface) {
+Util.checkInterface = function(implementation, wantedInterface) {
 	for(var idx in wantedInterface.methods) {
 		if(!implementation.prototype[idx])
 			throw Error("Class " + implementation.name + " does not implement the method " + idx);
@@ -35,21 +35,21 @@ util.checkInterface = function(implementation, wantedInterface) {
 	}
 };
 
-util.simulateClick = function(element) {
+Util.simulateClick = function(element) {
 	var event = document.createEvent("MouseEvents"); 
 	event.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null); 
 	element.dispatchEvent(event);
 };
 
-util.simulateFormSubmit = function(form) {
-	var submitButton = util.makeElement("input", {type: "submit"});
+Util.simulateFormSubmit = function(form) {
+	var submitButton = Util.makeElement("input", {type: "submit"});
 	this.simulateClick(form.appendChild(submitButton));
 	form.removeChild(submitButton);
 };
 
-util.enableEnterToSubmit = function(form) {
+Util.enableEnterToSubmit = function(form) {
 	form.appendChild(
-		util.makeElement("input", {
+		Util.makeElement("input", {
 			type: "submit",
 			style: "height: 0px; width: 0px; border: none; padding: 0px;",
 			hidefocus: true
@@ -57,7 +57,7 @@ util.enableEnterToSubmit = function(form) {
 	);
 };
 
-util.preventFormSubmission = function(form) {
+Util.preventFormSubmission = function(form) {
 	form.addEventListener("submit", function(event) {
 		event.preventDefault();
 		event.stopPropagation();
@@ -65,7 +65,7 @@ util.preventFormSubmission = function(form) {
 	}, true);
 };
 
-util.checkAbstract = function(implementation, abstractParent) {
+Util.checkAbstract = function(implementation, abstractParent) {
 	for(var idx in abstractParent.abstracts) {
 		if(!implementation.prototype[idx])
 			throw Error("Class " + implementation.name + " does not implement the method " + idx);
@@ -74,15 +74,15 @@ util.checkAbstract = function(implementation, abstractParent) {
 	}
 };
 
-util.removeFromArray = function(arr, obj) {
+Util.removeFromArray = function(arr, obj) {
 	arr.splice(arr.indexOf(obj), 1);
 };
 
-util.getOccurencesInString = function(str, what) {
+Util.getOccurencesInString = function(str, what) {
 	return str.split(what).length - 1;
 };
 
-util.arrayToList = function(arr, sorted) {
+Util.arrayToList = function(arr, sorted) {
 	sorted = sorted || false;
 	var ul = document.createElement(sorted ? "ol" : "ul");
 	arr.forEach(function(textNode) {
@@ -93,7 +93,7 @@ util.arrayToList = function(arr, sorted) {
 	return ul;
 };
 
-util.objectToSortedList = function(obj, attribs) {
+Util.objectToSortedList = function(obj, attribs) {
 	var keys = this.getKeysFromObject(obj);
 	keys.sort();
 	var ul = this.makeElement("ul", attribs);
@@ -108,7 +108,7 @@ util.objectToSortedList = function(obj, attribs) {
 	return ul;
 };
 
-util.getKeysFromObject = function(obj) {
+Util.getKeysFromObject = function(obj) {
 	if(Object.keys)
 		return Object.keys(obj);
 	var ret = [];
@@ -118,14 +118,14 @@ util.getKeysFromObject = function(obj) {
 	return ret;
 };
 
-util.roundToDigit = function(val, decimals) {
+Util.roundToDigit = function(val, decimals) {
 	var b = Math.pow(10, decimals);
 	return Math.round(val * b) / b;
 };
 
 var sizePostFixes = [" MB", " GB", " TB", " PB", " EB", " ZB", " YB"];
 
-util.formatSizeMB = function(size) {
+Util.formatSizeMB = function(size) {
 	if(size === 0)
 		return "0 MB";
 		
@@ -133,7 +133,7 @@ util.formatSizeMB = function(size) {
 	return this.roundToDigit((size / (Math.pow(1024, Math.floor(log)))), 3) + this.sizePostFixes[Math.ceil(log)-1];
 };
 
-util.makeSingletonGetter = function(object) {
+Util.makeSingletonGetter = function(object) {
 	object.getInstance = function() {
 		if(this.instance)
 			return this.instance;
@@ -142,7 +142,7 @@ util.makeSingletonGetter = function(object) {
 	};
 };
 
-util.makeAccessor = function(object, name, member, getter, setter) {
+Util.makeAccessor = function(object, name, member, getter, setter) {
 	if(getter !== true)
 		object["set" + name] = getter ? getter : function(val) {
 			this[member] = val;
@@ -154,29 +154,29 @@ util.makeAccessor = function(object, name, member, getter, setter) {
 		};
 };
 
-util.isString = function(val) {
+Util.isString = function(val) {
     return typeof val === "string" || val instanceof String;
 };
 
-util.makeListAccessor = function(object, name, member) {
+Util.makeListAccessor = function(object, name, member) {
 	object["add" + name] = function(val) {
 		this[member].push(val);
 		return val;
 	};
 	
 	object["remove" + name] = function(val) {
-		util.removeFromArray(this[member], val);
+		Util.removeFromArray(this[member], val);
 		return val;
 	};
 };
 
-util.makeArrayGetter = function(object, name, member) {
+Util.makeArrayGetter = function(object, name, member) {
 	object["get" + name] = function() {
 		return this[member].slice(0);
 	};
 };
 
-util.makeGetByer = function(object, container, name, member) {
+Util.makeGetByer = function(object, container, name, member) {
 	object["getBy" + name] = function(value) {
 		this[container].forEach(function(containerMember) {
 			if(containerMember[member] == value)
@@ -185,11 +185,11 @@ util.makeGetByer = function(object, container, name, member) {
 	};
 };
 
-util.makeText = function(text) {
+Util.makeText = function(text) {
 	return document.createTextNode(text || "");
 };
 
-util.isElement = function(obj) {
+Util.isElement = function(obj) {
 	try {
 		return obj instanceof HTMLElement;
 	} catch(e) {
@@ -204,7 +204,7 @@ util.isElement = function(obj) {
 	Traverses the DOM sub-tree of the specified element or "document", calls the specified function for every element
 	If the function returns any value the evaluates to false, the traverse will be cancelled
 */
-util.domTraverse = function(elem, callback) {
+Util.domTraverse = function(elem, callback) {
 	elem = elem || document;
 	for(var child = elem.firstChild;child;child = child.nextSibling) {
 		if(!this.isElement(child))
@@ -219,7 +219,7 @@ util.domTraverse = function(elem, callback) {
 	If the function returns any value the evaluates to true, the element will be present in the list returned by this
 	function
 */
-util.domTraverseGet = function(elem, callback) {
+Util.domTraverseGet = function(elem, callback) {
 	var ret = [];
 	for(var child = elem.firstChild;child;child = child.nextSibling) {
 		if(!this.isElement(child))
@@ -237,8 +237,8 @@ var inputNames = [
 	"textarea"
 ];
 
-util.getFormValues = function(form) {
-	var inputs = this.domTraverseGet(form, function(elem) { return util.inputNames.indexOf(elem.tagName.toLowerCase()) != -1; });
+Util.getFormValues = function(form) {
+	var inputs = this.domTraverseGet(form, function(elem) { return Util.inputNames.indexOf(elem.tagName.toLowerCase()) != -1; });
 	var ret = {};
 	inputs.forEach(function(input) {
 		if(!input.name)
@@ -256,7 +256,7 @@ util.getFormValues = function(form) {
 	return ret;
 };
 
-util.deepCopyTo = function(dest, source) {
+Util.deepCopyTo = function(dest, source) {
 	for(var idx in source) {
 		if(source[idx] === undefined)
 			continue;
@@ -269,13 +269,13 @@ util.deepCopyTo = function(dest, source) {
 	}
 };
 
-util.appendChilds = function(elem, childs) {
+Util.appendChilds = function(elem, childs) {
 	childs.forEach(function(child) {
 		elem.appendChild(child);
 	});
 };
 
-util.addEventListeners = function(elem, listeners) {
+Util.addEventListeners = function(elem, listeners) {
 	for(var eventName in listeners) {
 		if(listeners[eventName] instanceof Function)
 			elem.addEventListener(eventName, listeners[eventName]);
@@ -284,12 +284,12 @@ util.addEventListeners = function(elem, listeners) {
 	}
 };
 
-util.addEventListenerObject = function(elem, events, listener) {
+Util.addEventListenerObject = function(elem, events, listener) {
 	for(var eventName in events)
 		elem.addEventListener(eventName, listener, listeners[eventName]);
 };
 
-util.makeElement = function(name, attributes, childs, events) {
+Util.makeElement = function(name, attributes, childs, events) {
 	var elem = document.createElement(name);
 	if(attributes)
 		this.deepCopyTo(elem, attributes);
@@ -303,7 +303,7 @@ util.makeElement = function(name, attributes, childs, events) {
 	return elem;
 };
 
-util.makeElementTree = function(object, idMap) {
+Util.makeElementTree = function(object, idMap) {
 	if(object == undefined) {
 		return;
 	}
@@ -322,12 +322,12 @@ util.makeElementTree = function(object, idMap) {
 	if(object.children) {
 		if(object.children instanceof Array)
 			object.children.forEach(function(childData) {
-				var ret = util.makeElementTree(childData, idMap);
+				var ret = Util.makeElementTree(childData, idMap);
 				if(ret)
 					elem.appendChild(ret.node);
 			});
 		else
-			util.makeElementTree(object.children, idMap)
+			Util.makeElementTree(object.children, idMap)
 	}
 	if(object.events)
 		this.addEventListeners(elem, object.events);
@@ -337,7 +337,7 @@ util.makeElementTree = function(object, idMap) {
 	};
 };
 
-util.makeSelect = function(attributes, options, events) {
+Util.makeSelect = function(attributes, options, events) {
 	var select = this.makeElement("select", attributes, undefined, events);
 	options.forEach(function(option) {
 		select.appendChild(this.makeElement("option", {
@@ -350,7 +350,7 @@ util.makeSelect = function(attributes, options, events) {
 	return select;
 };
 
-util.makeRecurseList = function(object, depthAttribs, depthPrefixes, depth) {
+Util.makeRecurseList = function(object, depthAttribs, depthPrefixes, depth) {
 	depth = depth || 0;
 	var ulElem = this.makeElement("ul", depthAttribs && depthAttribs[depth]);
 	ulElem.classList.add("recursive-list-depth-" + depth);
@@ -366,46 +366,46 @@ util.makeRecurseList = function(object, depthAttribs, depthPrefixes, depth) {
 	else
 		for(var idx in object)
 			ulElem.appendChild(this.makeElement("li", {}, [
-				util.makeText(((depthPrefixes && depthPrefixes[depth]) ? (depthPrefixes[depth] + ": " + idx) : idx + ":")),
+				Util.makeText(((depthPrefixes && depthPrefixes[depth]) ? (depthPrefixes[depth] + ": " + idx) : idx + ":")),
 				this.makeRecurseList(object[idx], depthAttribs, depthPrefixes, depth + 1)
 			]));
 	return ulElem;
 };
 
-util.makeToString = function(object, val) {
+Util.makeToString = function(object, val) {
 	return function() { return val; }
 };
 
-util.isNumber = function(val) {
+Util.isNumber = function(val) {
 	return isFinite(parseFloat(val));
 };
 
-util.copyTo = function(dest, source) {
+Util.copyTo = function(dest, source) {
 	for(var idx in source)
 		dest[idx] = source;
 };
 
-util.copyToNoOverride = function(dest, source) {
+Util.copyToNoOverride = function(dest, source) {
 	for(var idx in source)
 		if(!dest[idx])
 			dest[idx] = source;
 };
 
-util.copyToRestricted = function(dest, source, what) {
+Util.copyToRestricted = function(dest, source, what) {
 	for(var idx in what)
 		dest[what[idx]] = source[what[idx]];
 	return dest;
 };
 
-util.arrayCopy = function(arr) {
+Util.arrayCopy = function(arr) {
 	return arr.slice(0);
 };
 
-util.arrayFind = function(arr, func) {
+Util.arrayFind = function(arr, func) {
 	return arr.find(func);
 };
 
-util.fetchResource = function(url, type, data) {
+Util.fetchResource = function(url, type, data) {
 	return new Promise(function (resolve, reject) {
 		var req = new XMLHttpRequest();
 		req.open(data ? "POST" : "GET", url, true, "root", "root");
@@ -431,24 +431,22 @@ util.fetchResource = function(url, type, data) {
 	});
 };
 
-util.fetchJSON = function(url, data) {
+Util.fetchJSON = function(url, data) {
 	return this.fetchResource(url, "json", data);
 };
 
-util.arrayOf = function(size, value) {
+Util.arrayOf = function(size, value) {
 	var ret = [];
 	for(var i = 0;i < size;++i)
 		ret[i] = value;
 	return ret;
 };
 
-util.endsWith = function(subject, test) {
+Util.endsWith = function(subject, test) {
 	return subject.lastIndexOf(test) == (subject.length - test.length);
 };
 
-util.removeChildren = function(element) {
+Util.removeChildren = function(element) {
 	while(element.firstChild)
 		element.removeChild(myNode.firstChild);
 };
-
-return util;

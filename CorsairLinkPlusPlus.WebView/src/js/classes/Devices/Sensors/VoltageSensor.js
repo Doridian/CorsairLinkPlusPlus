@@ -24,5 +24,3 @@ function VoltageSensor(rawData) {
 	ScalarSensor.apply(this, arguments);
 }
 var p = inherit(VoltageSensor, ScalarSensor);
-
-return VoltageSensor;

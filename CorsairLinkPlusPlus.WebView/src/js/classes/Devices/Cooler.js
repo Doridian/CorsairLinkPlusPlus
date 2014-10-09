@@ -24,5 +24,3 @@ function Cooler(rawData) {
 	Hub.apply(this, arguments);
 }
 var p = inherit(Cooler, Hub);
-
-return Cooler;

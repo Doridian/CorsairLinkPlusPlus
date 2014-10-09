@@ -24,5 +24,3 @@ function VirtualHub(rawData) {
 	Hub.apply(this, arguments);
 }
 var p = inherit(VirtualHub, Hub);
-
-return VirtualHub;

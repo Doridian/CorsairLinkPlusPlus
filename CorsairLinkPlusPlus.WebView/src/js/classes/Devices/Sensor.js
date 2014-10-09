@@ -54,5 +54,3 @@ p.setController = function(controller) {
 p.getController = function() {
 	return this.controller;
 };
-
-return Sensor;

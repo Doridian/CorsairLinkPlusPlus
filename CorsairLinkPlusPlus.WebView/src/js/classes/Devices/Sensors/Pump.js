@@ -24,5 +24,3 @@ function Pump(rawData) {
 	ScalarSensor.apply(this, arguments);
 }
 var p = inherit(Pump, ScalarSensor);
-
-return Pump;

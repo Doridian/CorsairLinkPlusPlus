@@ -121,5 +121,3 @@ p.getDevicesByName = function(name) {
 	});
 	return out;
 };
-
-return DeviceTree;

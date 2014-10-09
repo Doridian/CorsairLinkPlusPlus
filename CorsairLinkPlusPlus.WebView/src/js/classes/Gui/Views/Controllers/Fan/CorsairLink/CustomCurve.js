@@ -24,5 +24,3 @@ function CustomCurve(rawData) {
 	CurveView.apply(this, arguments);
 }
 var p = inherit(CustomCurve, CurveView);
-
-return CustomCurve;

@@ -54,5 +54,3 @@ p.update = function() {
 	DeviceView.prototype.update.apply(this);
 	this.setDataFieldText("value", this.device.getValue() + this.device.getUnit());
 };
-
-return Fan;

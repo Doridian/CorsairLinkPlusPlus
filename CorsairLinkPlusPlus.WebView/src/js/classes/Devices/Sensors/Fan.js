@@ -24,5 +24,3 @@ function Fan(rawData) {
 	ScalarSensor.apply(this, arguments);
 }
 var p = inherit(Fan, ScalarSensor);
-
-return Fan;

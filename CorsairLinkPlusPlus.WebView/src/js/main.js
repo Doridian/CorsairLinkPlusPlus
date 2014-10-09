@@ -142,8 +142,10 @@ Promise.all(preload.map(function(val) {
 })).then(function(responseDataSets) {
 	responseDataSets.forEach(function(responseData) {
 		try {
-			var loadFunc = new Function(responseData.contents);
 			var trimmedPath = responseData.url.replace("js/classes/", "").replace(".js", "");
+			var className = trimmedPath.match(/[\w_]+$/)[0];
+			var loadFunc = new Function(responseData.contents + "\r\n\r\n return " + className + ";");
+			
 			if(responseData.url.indexOf("classes") > -1)
 				loadFunc.path = trimmedPath.replace(/\//g, ".").replace("classes.", "");
 			donePreload[trimmedPath] = loadFunc;

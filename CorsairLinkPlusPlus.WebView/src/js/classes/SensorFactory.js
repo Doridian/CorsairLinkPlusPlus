@@ -56,5 +56,3 @@ SensorFactory.create = function(rawData) {
 			return new Sensor(rawData);
 	}
 };
-
-return SensorFactory;

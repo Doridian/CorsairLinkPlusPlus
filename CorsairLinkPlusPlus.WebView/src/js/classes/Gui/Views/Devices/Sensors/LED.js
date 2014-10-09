@@ -41,5 +41,3 @@ p.update = function() {
 	var color = this.device.getValue();
 	indicator.style.backgroundColor = "rgb(" + color.r + ", " + color.g + ", " + color.b + ")";
 };
-
-return LED;

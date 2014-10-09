@@ -83,5 +83,3 @@ p.buildElement = function() {
 	});
 	return baseElement;
 };
-
-return Plain;

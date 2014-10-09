@@ -24,5 +24,3 @@ function Pump(device) {
 	FanView.apply(this, arguments);
 }
 var p = inherit(Pump, FanView);
-
-return Pump;

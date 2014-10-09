@@ -24,5 +24,3 @@ function LED(rawData) {
 	Controller.apply(this, arguments);
 }
 var p = inherit(LED, Controller);
-
-return LED;

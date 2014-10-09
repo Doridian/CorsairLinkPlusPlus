@@ -51,5 +51,3 @@ p.buildElement = function() {
 		}
 	});
 };
-
-return SingleColor;

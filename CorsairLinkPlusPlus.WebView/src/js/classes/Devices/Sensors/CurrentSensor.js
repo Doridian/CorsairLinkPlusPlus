@@ -24,5 +24,3 @@ function CurrentSensor(rawData) {
 	ScalarSensor.apply(this, arguments);
 }
 var p = inherit(CurrentSensor, ScalarSensor);
-
-return CurrentSensor;

@@ -22,5 +22,3 @@ function NotImplementedError(message) {
 	Error.apply(this, arguments);
 }
 var p = inherit(NotImplementedError, Error);
-
-return NotImplementedError;

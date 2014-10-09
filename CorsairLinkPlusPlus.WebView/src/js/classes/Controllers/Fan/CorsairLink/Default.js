@@ -24,5 +24,3 @@ function Default(rawData) {
 	FanController.apply(this, arguments);
 }
 var p = inherit(Default, FanController);
-
-return Default;

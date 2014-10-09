@@ -37,5 +37,3 @@ p.setValue = function(val) {
 p.getValueInternal = function() {
 	return this.value * 100;
 };
-
-return FixedPercent;

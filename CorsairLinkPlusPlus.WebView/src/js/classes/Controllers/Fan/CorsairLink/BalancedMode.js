@@ -24,5 +24,3 @@ function BalancedMode(rawData) {
 	FanCurveController.apply(this, arguments);
 }
 var p = inherit(BalancedMode, FanCurveController);
-
-return BalancedMode;

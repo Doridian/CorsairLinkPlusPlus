@@ -43,5 +43,3 @@ p.getValue = function() {
 p.setValue = function(value) {
 	this.value = util.arrayCopy(value);
 };
-
-return FourColor;

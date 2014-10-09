@@ -101,5 +101,3 @@ p.buildInner = function() {
 p.update = function() {
 	this.setDataFieldText("name", this.device.getName());
 };
-
-return DeviceView;

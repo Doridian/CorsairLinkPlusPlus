@@ -35,5 +35,3 @@ p.getChildren = function() {
 p.addChild = function(device) {
 	this.children.push(device);
 };
-
-return Hub;

@@ -93,5 +93,3 @@ p.update = function() {
 	this.graph.removeData();
 	this.graph.addData([value], "");
 };
-
-return ScalarSensor;

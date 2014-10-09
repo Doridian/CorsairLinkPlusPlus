@@ -37,5 +37,3 @@ p.sendUpdate = function() {
 		api.sendControllerUpdate(device, this.controller);
 	}, this);
 }
-
-return ControllerView;

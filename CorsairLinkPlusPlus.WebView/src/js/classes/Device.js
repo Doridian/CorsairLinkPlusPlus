@@ -56,5 +56,3 @@ p.getParent = function() {
 p.getName = function() {
 	return this.name;
 };
-
-return Device;

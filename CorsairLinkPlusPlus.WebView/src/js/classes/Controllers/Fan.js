@@ -24,5 +24,3 @@ function Fan(rawData) {
 	Controller.apply(this, arguments);
 }
 var p = inherit(Fan, Controller);
-
-return Fan;

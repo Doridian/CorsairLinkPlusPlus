@@ -25,5 +25,3 @@ function RootDevice(rawData) {
 }
 
 var p = inherit(RootDevice, Hub);
-
-return RootDevice;

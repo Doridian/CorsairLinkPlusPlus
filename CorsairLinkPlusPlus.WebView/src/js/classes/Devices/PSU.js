@@ -24,5 +24,3 @@ function PSU(rawData) {
 	Hub.apply(this, arguments);
 }
 var p = inherit(PSU, Hub);
-
-return PSU;

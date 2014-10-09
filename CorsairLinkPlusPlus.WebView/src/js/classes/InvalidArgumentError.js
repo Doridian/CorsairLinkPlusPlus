@@ -22,5 +22,3 @@ function InvalidArgumentError(message) {
 	Error.apply(this, arguments);
 }
 var p = inherit(InvalidArgumentError, Error);
-
-return InvalidArgumentError;

@@ -43,5 +43,3 @@ p.setDataFieldText = function(field, data) {
 		throw new Error("View has no data field " + field);
 	this.dataFields[field].firstChild.textContent = data;
 };
-
-return View;

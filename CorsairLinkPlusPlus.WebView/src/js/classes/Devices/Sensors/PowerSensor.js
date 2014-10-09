@@ -24,5 +24,3 @@ function PowerSensor(rawData) {
 	ScalarSensor.apply(this, arguments);
 }
 var p = inherit(PowerSensor, ScalarSensor);
-
-return PowerSensor;

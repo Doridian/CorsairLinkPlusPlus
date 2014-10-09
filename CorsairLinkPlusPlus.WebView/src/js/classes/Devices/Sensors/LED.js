@@ -32,5 +32,3 @@ p.setRawData = function(rawData) {
 	this.value = new Color(rawData.Value.R, rawData.Value.G, rawData.Value.B);
 	Sensor.prototype.setRawData.apply(this, arguments);
 };
-
-return LED;

@@ -21,12 +21,12 @@
 var LED = require("Controllers/LED");
 var Color = require("Color");
 
-function LEDSingleColor(rawData) {
+function SingleColor(rawData) {
 	LED.apply(this, arguments);
 	var rawColor = this.value;
 	this.value = new Color(rawColor.R, rawColor.G, rawColor.B);
 };
-var p = inherit(LEDSingleColor, LED);
+var p = inherit(SingleColor, LED);
 
 p.setValue = function(value) {
 	this.value = value;
@@ -39,5 +39,3 @@ p.getValueInternal = function() {
 		B: this.value.b
 	};
 };
-
-return LEDSingleColor;

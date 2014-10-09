@@ -49,5 +49,3 @@ function dec2hex(i) {
 p.toHTMLHexString = function(usePrefix) {
 	return (usePrefix ? "#" : "") + dec2hex(this.r) + dec2hex(this.g) + dec2hex(this.b);
 };
-
-return Color;

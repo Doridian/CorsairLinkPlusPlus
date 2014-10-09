@@ -70,5 +70,3 @@ p.getByDevice = function(device) {
 	this.deviceMap.set(device, ret);
 	return ret;
 };
-
-return DeviceViewFactory;

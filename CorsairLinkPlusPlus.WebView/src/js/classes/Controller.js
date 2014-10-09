@@ -42,5 +42,3 @@ p.getDevices = function() {
 p.addDevice = function(device) {
 	this.devices.push(device);
 }
-
-return Controller;

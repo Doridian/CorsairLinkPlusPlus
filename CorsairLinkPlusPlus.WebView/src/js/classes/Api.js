@@ -104,5 +104,3 @@ p.updateDevice = function(device, recursive) {
 	}));
 	return Promise.all(promises);
 };
-
-return Api;

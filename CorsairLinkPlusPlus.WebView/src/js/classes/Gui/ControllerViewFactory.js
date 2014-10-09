@@ -31,5 +31,3 @@ p.getByController = function(controller) {
 	var constructor = require("Gui/Views/" + controller.constructor.getFullClassName().replace(/\./g, "/"));
 	return new constructor(controller);
 };
-
-return ControllerViewFactory;

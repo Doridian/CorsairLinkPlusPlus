@@ -46,5 +46,3 @@ p.createByName = function(name) {
 	}
 	return new constructor();
 }
-
-return ControllerFactory;

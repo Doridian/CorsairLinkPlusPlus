@@ -24,5 +24,3 @@ function PWMFan(rawData) {
 	Fan.apply(this, arguments);
 }
 var p = inherit(PWMFan, Fan);
-
-return PWMFan;

@@ -45,5 +45,3 @@ p.buildElement = function() {
 
 p.postBuildElement = function() {
 };
-
-return Curve;
