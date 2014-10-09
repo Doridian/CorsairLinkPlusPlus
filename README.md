@@ -11,3 +11,6 @@ This project was created in dispair about Corsair's abyssmal software.
 
 ## Planned
 * Standalone desktop application
+
+## Notes
+* The driver and therefor no program using it can run at the same time as Corsair LINK.
