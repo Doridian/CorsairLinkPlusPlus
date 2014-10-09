@@ -1,0 +1,65 @@
+/**
+ * CorsairLinkPlusPlus
+ * Copyright (c) 2014, Mark Dietzer & Simon Schick, All rights reserved.
+ *
+ * CorsairLinkPlusPlus is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ *
+ * CorsairLinkPlusPlus is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with CorsairLinkPlusPlus.
+ */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  color: white;
+  font-family: Arial, Helvetica;
+}
+.device {
+  border: 1px solid white;
+  margin: 1px;
+  padding: 4px;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: rgba(150, 150, 150, 0.6);
+}
+.device.hub {
+  display: block !important;
+}
+.sensor {
+  vertical-align: bottom;
+}
+.sensor > .indicator {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+}
+.sensor.fan > .indicator,
+.sensor.pwmfan > .indicator,
+.sensor.pump > .indicator {
+  background-image: url("../images/fan_outer_256.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.sensor.fan > .indicator > div,
+.sensor.pwmfan > .indicator > div,
+.sensor.pump > .indicator > div {
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/fan_inner_256.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.sensor.pump > .indicator > div {
+  background-image: url("../images/pump_inner_256.png");
+  background-size: 80% 80%;
+  background-position: center;
+}
