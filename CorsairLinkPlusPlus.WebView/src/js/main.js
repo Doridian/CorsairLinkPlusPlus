@@ -129,6 +129,8 @@ var preload = [
 	"Gui/Views/Devices/Sensors/Pump",
 	"Gui/Views/ControllerView",
 	"Gui/Views/Controllers/LED/CorsairLink/SingleColor",
+	"Gui/Views/Controllers/Fan/CorsairLink/Curve",
+	"Gui/Views/Controllers/Fan/CorsairLink/CustomCurve",
 	"ControllerFactory",
 	"SensorFactory",
 	"Api",

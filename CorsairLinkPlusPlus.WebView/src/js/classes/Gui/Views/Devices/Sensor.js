@@ -69,10 +69,14 @@ p.setController = function(controller, noUpdate) {
 	if(!noUpdate)
 		Api.getInstance().sendControllerUpdate(this.device, controller);
 	util.removeChildren(this.dataFields.controllerContainer);
-	var controllerView = ControllerViewFactory.getInstance().getByController(controller);
-	
-	var element = controllerView.getElement();
-	this.dataFields.controllerContainer.appendChild(element);
+	try {
+		var controllerView = ControllerViewFactory.getInstance().getByController(controller);
+		
+		var element = controllerView.getElement();
+		this.dataFields.controllerContainer.appendChild(element);
+	} catch(e) {
+		console.log("missing controller view", e, controller);
+	}
 };
 
 p.postBuildElement = function() {
@@ -139,10 +143,10 @@ p.buildInner = function() {
 		util.makeElement("br"),
 		indicatorObject,
 		util.makeElement("br"),
-		this.buildControllerContainer(),
 		this.buildUpdateButton(),
 		util.makeElement("br"),
-		this.buildControllerSelector()
+		this.buildControllerSelector(),
+		this.buildControllerContainer()
 	]
 };
 

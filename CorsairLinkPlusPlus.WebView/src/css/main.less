@@ -15,20 +15,59 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with CorsairLinkPlusPlus.
  */
+ 
+@imageurl: "../images/";
 
-@base: #f938ab;
-
-.box-shadow(@style, @c) when (iscolor(@c)) {
-  -webkit-box-shadow: @style @c;
-  box-shadow:         @style @c;
+.stretch-background() {
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+ 
+html, body {
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	color: white;
+	font-family: Arial, Helvetica;
 }
 
-.box-shadow(@style, @alpha: 50%) when (isnumber(@alpha)) {
-  .box-shadow(@style, rgba(0, 0, 0, @alpha));
+.device {
+	border: 1px solid white;
+	margin: 1px;
+	padding: 4px;
+	display: inline-block;
+	border-radius: 4px;
+	background-color: rgba(150, 150, 150, 0.6);
 }
 
-.box {
-  color: saturate(@base, 5%);
-  border-color: lighten(@base, 30%);
-  div { .box-shadow(0 0 5px, 30%) }
+.device.hub {
+	display: block !important;
+}
+
+.sensor {
+	vertical-align: bottom;
+}
+
+.sensor > .indicator {
+	width: 100px;
+	height: 100px;
+	display: inline-block;
+}
+
+.sensor.fan > .indicator, .sensor.pwmfan > .indicator, .sensor.pump > .indicator {
+	background-image: url("@{imageurl}fan_outer_256.png");
+	.stretch-background;
+}
+
+.sensor.fan > .indicator > div, .sensor.pwmfan > .indicator > div, .sensor.pump > .indicator > div {
+	width: 100%;
+	height: 100%;
+	background-image: url("@{imageurl}fan_inner_256.png");
+	.stretch-background;
+}
+
+.sensor.pump > .indicator > div {
+	background-image: url("@{imageurl}pump_inner_256.png");
+	background-size: 80% 80%;
+	background-position: center;
 }

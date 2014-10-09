@@ -24,7 +24,7 @@ var DeviceView = require("Gui/Views/DeviceView");
 var util = require("Util");
 
 function ScalarSensor(device) {
-	DeviceView.apply(this, arguments);
+	SensorView.apply(this, arguments);
 }
 var p = inherit(ScalarSensor, SensorView);
 
@@ -57,6 +57,8 @@ p.postBuildElement = function() {
 		showTooltips: false,
 	});
 	this.graph = graph;
+	
+	SensorView.prototype.postBuildElement.apply(this);
 };
 
 p.buildInner = function() {
@@ -77,10 +79,10 @@ p.buildInner = function() {
 		indicatorObject,
 		this.buildGraph(),
 		util.makeElement("br"),
-		this.buildControllerContainer(),
 		this.buildUpdateButton(),
 		util.makeElement("br"),
-		this.buildControllerSelector()
+		this.buildControllerSelector(),
+		this.buildControllerContainer()
 	]
 };
 
