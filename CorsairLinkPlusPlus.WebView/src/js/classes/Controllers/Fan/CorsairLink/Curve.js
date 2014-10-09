@@ -25,11 +25,12 @@ function Curve(rawData) {
 	FanController.apply(this, arguments);
 	var points = this.value.Points;
 	var curve = new ControlCurve();
-	for(var point of points)
+	points.forEach(function(point) {
 		curve.add({
 			x: point.X,
 			y: point.Y
 		});
+	});
 	this.value = curve;
 }
 var p = inherit(Curve, FanController);

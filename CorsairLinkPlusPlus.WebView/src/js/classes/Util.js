@@ -85,11 +85,11 @@ util.getOccurencesInString = function(str, what) {
 util.arrayToList = function(arr, sorted) {
 	sorted = sorted || false;
 	var ul = document.createElement(sorted ? "ol" : "ul");
-	for(var textNode of arr) {
+	arr.forEach(function(textNode) {
 		var li = document.createElement("li");
 		li.appendTextNode(textNode);
 		ul.appendChild(li);
-	}
+	});
 	return ul;
 };
 
@@ -97,14 +97,14 @@ util.objectToSortedList = function(obj, attribs) {
 	var keys = this.getKeysFromObject(obj);
 	keys.sort();
 	var ul = this.makeElement("ul", attribs);
-	for(var key of keys) {
+	keys.forEach(function(key) {
 		var li = document.createElement("li");
 		var label = document.createElement("span");
 		label.appendChild(document.createTextNode(key + ":"));
 		li.appendChild(label);
 		li.appendChild(document.createTextNode(obj[key]));
 		ul.appendChild(li);
-	}
+	});
 	return ul;
 };
 
@@ -178,9 +178,10 @@ util.makeArrayGetter = function(object, name, member) {
 
 util.makeGetByer = function(object, container, name, member) {
 	object["getBy" + name] = function(value) {
-		for(var containerMember of this[container])
+		this[container].forEach(function(containerMember) {
 			if(containerMember[member] == value)
 				return containerMember;
+		});
 	};
 };
 
@@ -239,19 +240,19 @@ var inputNames = [
 util.getFormValues = function(form) {
 	var inputs = this.domTraverseGet(form, function(elem) { return util.inputNames.indexOf(elem.tagName.toLowerCase()) != -1; });
 	var ret = {};
-	for(var input of inputs) {
+	inputs.forEach(function(input) {
 		if(!input.name)
-			continue;
+			return;
 			
 		switch(input.type) {
 			case "radio":
 			case "checkbox":
 				if(!input.checked)
-					continue;
+					return;
 		}
 		
 		ret[input.name] = input.value;
-	}
+	});
 	return ret;
 };
 
@@ -269,8 +270,9 @@ util.deepCopyTo = function(dest, source) {
 };
 
 util.appendChilds = function(elem, childs) {
-	for(var child of childs)
+	childs.forEach(function(child) {
 		elem.appendChild(child);
+	});
 };
 
 util.addEventListeners = function(elem, listeners) {
@@ -319,11 +321,11 @@ util.makeElementTree = function(object, idMap) {
 		
 	if(object.children) {
 		if(object.children instanceof Array)
-			for(var childData of object.children) {
+			object.children.forEach(function(childData) {
 				var ret = util.makeElementTree(childData, idMap);
 				if(ret)
 					elem.appendChild(ret.node);
-			}
+			});
 		else
 			util.makeElementTree(object.children, idMap)
 	}
@@ -337,13 +339,14 @@ util.makeElementTree = function(object, idMap) {
 
 util.makeSelect = function(attributes, options, events) {
 	var select = this.makeElement("select", attributes, undefined, events);
-	for(var option of options)
+	options.forEach(function(option) {
 		select.appendChild(this.makeElement("option", {
 				value: option.value,
 				selected: option.selected,
 			}, 
 			[this.makeText(option.text || option.value)]
 		));
+	}, this);
 	return select;
 };
 
@@ -355,10 +358,11 @@ util.makeRecurseList = function(object, depthAttribs, depthPrefixes, depth) {
 		return ulElem;
 	
 	if(object instanceof Array)
-		for(var subObject of object)
+		object.forEach(function(subObject) {
 			ulElem.appendChild(this.makeElement("li", {}, [
 				this.makeText(subObject)
 			]));
+		}, this);
 	else
 		for(var idx in object)
 			ulElem.appendChild(this.makeElement("li", {}, [
@@ -398,9 +402,7 @@ util.arrayCopy = function(arr) {
 };
 
 util.arrayFind = function(arr, func) {
-	for(var idx in arr)
-		if(func(arr[idx], idx))
-			return arr[idx];
+	return arr.find(func);
 };
 
 util.fetchResource = function(url, type, data) {

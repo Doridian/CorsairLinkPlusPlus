@@ -33,8 +33,9 @@ var p = inherit(ControllerView, View);
 p.sendUpdate = function() {
 	console.log("test");
 	var api = Api.getInstance();
-	for(var device of this.controller.getDevices())
+	this.controller.getDevices().forEach(function(device) {
 		api.sendControllerUpdate(device, this.controller);
+	}, this);
 }
 
 return ControllerView;

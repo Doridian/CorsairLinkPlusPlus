@@ -29,8 +29,9 @@ p.setRawData = function(rawData) {
 	this.name = rawData.Name;
 	this.path = rawData.AbsolutePath;
 	try {
-		for(var listener of this.listeners)
+		this.listeners.forEach(function(listener) {
 			listener();
+		});
 	} catch(e) {
 		console.log(e);
 	}

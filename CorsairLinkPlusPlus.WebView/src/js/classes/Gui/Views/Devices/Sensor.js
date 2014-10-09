@@ -92,7 +92,7 @@ p.buildControllerSelector = function() {
 	var currentControllerName = this.device.getController().constructor.name;
 
 	var children = [];
-	for(var name of names)
+	names.forEach(function(name) {
 		children.push({
 			tag: "option",
 			attributes: {
@@ -103,6 +103,7 @@ p.buildControllerSelector = function() {
 				name
 			]
 		});
+	});
 	var self = this;
 	return  {
 		tag: "select",

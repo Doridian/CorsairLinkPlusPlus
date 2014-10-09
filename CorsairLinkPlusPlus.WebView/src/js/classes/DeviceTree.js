@@ -80,15 +80,17 @@ p.buildDevices = function(rawTree, parent) {
 	
 	if(!this.root)
 		this.root = newDevice;
-	for(var subTree of rawTree.Children)
+	rawTree.Children.forEach(function(subTree) {
 		this.buildDevices(subTree, newDevice);
+	}, this);
 };
 
 function traverseTree(treeNode, callback) {
 	callback(treeNode);
 	if(treeNode instanceof Hub)
-		for(var subNode of treeNode.getChildren())
+		treeNode.getChildren().forEach(function(subNode) {
 			traverseTree(subNode, callback);
+		});
 };
 
 function flattenTree(treeNode) {

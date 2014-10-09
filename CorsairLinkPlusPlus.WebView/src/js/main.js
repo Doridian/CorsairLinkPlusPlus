@@ -140,7 +140,7 @@ var preload = [
 Promise.all(preload.map(function(val) {
 	return xmlHttpPromise("js/classes/" + val + ".js");
 })).then(function(responseDataSets) {
-	for(var responseData of responseDataSets)
+	responseDataSets.forEach(function(responseData) {
 		try {
 			var loadFunc = new Function(responseData.contents);
 			var trimmedPath = responseData.url.replace("js/classes/", "").replace(".js", "");
@@ -150,6 +150,7 @@ Promise.all(preload.map(function(val) {
 		} catch(e) {
 			throw Error("Could not compile file:\n " + responseData.url + ": " + e.message);
 		}
+	});
 }).then(function() {
 	//main file
 

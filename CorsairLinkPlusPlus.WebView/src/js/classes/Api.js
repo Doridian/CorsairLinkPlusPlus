@@ -96,9 +96,9 @@ function cleanupData(data) {
 p.updateDevice = function(device, recursive) {
 	var promises = [];
 	if(recursive && device instanceof Hub)
-		for(var childDevice of device.getChildren())
+		device.getChildren().forEach(function(childDevice) {
 			promises.push(this.updateDevice(childDevice, recursive));
-	
+		}, this);
 	promises.push(this.fetchDevice(device.getPath()).then(function(rawData) {
 		device.setRawData(cleanupData(rawData));
 	}));

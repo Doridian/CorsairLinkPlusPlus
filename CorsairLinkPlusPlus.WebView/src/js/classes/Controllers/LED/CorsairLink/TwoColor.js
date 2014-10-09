@@ -31,8 +31,9 @@ function LEDTwoColor(rawData) {
 	LED.apply(this, arguments);
 	var old = this.value;
 	this.value = [];
-	for(var rawColor of old)
+	old.forEach(function(rawColor) {
 		this.value.push(new Color(rawColor.R, rawColor.G, rawColor.B));
+	}, this);
 }
 var p = inherit(LEDTwoColor, LED);
 
